@@ -1,1008 +1,113 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>PARACA!</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PARACA</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#000;
+  overflow:hidden;
+}
+
+/* ===== LOGIN ===== */
+#login{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+/* IMMAGINE PARACADUTISTI */
+#bg{
+  position:absolute;
+  inset:0;
+  background:url("bg.png") center/cover no-repeat;
+  z-index:0;
+}
+
+/* BOX LOGIN */
+#box{
+  position:relative;
+  z-index:1;
+  background:rgba(255,255,255,0.9);
+  padding:20px;
+  border-radius:10px;
+  width:250px;
+  text-align:center;
+}
+
+input{
+  width:100%;
+  margin:10px 0;
+  padding:10px;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  background:#7B1020;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+/* ===== MAPPA ===== */
+#game{
+  display:none;
+  position:fixed;
+  inset:0;
+}
+
+#map{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+</style>
 
-  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --amaranto: #7B1020;
-      --oro: #C9A84C;
-      --scuro: #080a06;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      background: #111;
-      font-family: "Rajdhani", sans-serif;
-    }
-
-    /* ================= LOGIN ================= */
-
-    #screen-login {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      padding-bottom: 30px;
-      overflow: hidden;
-    }
-
-    #bg-login {
-      position: absolute;
-      inset: 0;
-      background-image: url("bg.jpg");
-      background-size: cover;
-      background-position: center top;
-      z-index: 0;
-    }
-
-    #bg-login::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.05) 0%,
-        rgba(0,0,0,0.1) 55%,
-        rgba(0,0,0,0.45) 100%
-      );
-    }
-
-    #login-title {
-      position: absolute;
-      top: 18px;
-      left: 0;
-      right: 0;
-      z-index: 2;
-      text-align: center;
-      pointer-events: none;
-    }
-
-    #login-title h1 {
-      font-family: "Black Han Sans", sans-serif;
-      font-size: clamp(70px, 15vw, 130px);
-      color: var(--amaranto);
-      line-height: 1;
-      text-shadow:
-        4px 4px 0 #3d000a,
-        7px 7px 0 rgba(0,0,0,0.25);
-    }
-
-    #popup {
-      position: relative;
-      z-index: 2;
-      width: min(340px, 88vw);
-      padding: 16px 22px 20px;
-      background: rgba(238,230,210,0.86);
-      border: 2px solid rgba(123,16,32,0.35);
-      border-radius: 5px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    }
-
-    .p-head {
-      text-align: center;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(123,16,32,0.2);
-    }
-
-    .p-head .lbl {
-      font-size: 9px;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      color: rgba(123,16,32,0.55);
-    }
-
-    .p-head .rank {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 23px;
-      color: var(--amaranto);
-      letter-spacing: 5px;
-    }
-
-    .frow {
-      margin-bottom: 9px;
-    }
-
-    .flbl {
-      font-size: 9px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: rgba(80,30,30,0.55);
-      margin-bottom: 3px;
-    }
-
-    .finp {
-      width: 100%;
-      padding: 8px 11px;
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(123,16,32,0.28);
-      border-radius: 2px;
-      color: #2a0a0a;
-      font-family: "Rajdhani", sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      outline: none;
-    }
-
-    .finp:focus {
-      border-color: rgba(123,16,32,0.7);
-      background: rgba(255,255,255,0.8);
-    }
-
-    #err-msg {
-      height: 14px;
-      margin-top: 5px;
-      text-align: center;
-      font-size: 10px;
-      color: var(--amaranto);
-      letter-spacing: 1px;
-      opacity: 0;
-    }
-
-    #err-msg.show {
-      opacity: 1;
-    }
-
-    #btn-start {
-      width: 100%;
-      margin-top: 14px;
-      padding: 11px;
-      background: var(--amaranto);
-      border: none;
-      border-radius: 2px;
-      color: #fff;
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 20px;
-      letter-spacing: 6px;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(123,16,32,0.35);
-    }
-
-    #btn-start:disabled {
-      background: rgba(90,70,70,0.45);
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    /* ================= MAPPA ================= */
-
-    #screen-map {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      display: none;
-      background: #1a1a12;
-    }
-
-    #screen-map.show {
-      display: block;
-    }
-
-    #hud {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 46px;
-      z-index: 300;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 12px;
-      background: rgba(8,10,6,0.95);
-      border-bottom: 2px solid rgba(201,168,76,0.3);
-    }
-
-    .hud-title {
-      font-family: "Black Han Sans", sans-serif;
-      font-size: 20px;
-      color: var(--amaranto);
-      text-shadow: 2px 2px 0 #3d000a;
-    }
-
-    .hud-stat {
-      font-size: 11px;
-      font-weight: 700;
-      color: #c8b890;
-      letter-spacing: 1px;
-      white-space: nowrap;
-    }
-
-    .hud-stat b {
-      color: var(--oro);
-      font-size: 13px;
-    }
-
-    .hsep {
-      color: rgba(201,168,76,0.25);
-    }
-
-    #hud-name {
-      margin-left: auto;
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 13px;
-      color: rgba(201,168,76,0.8);
-      letter-spacing: 3px;
-      white-space: nowrap;
-    }
-
-    #map-vp {
-      position: absolute;
-      top: 46px;
-      left: 0;
-      right: 0;
-      bottom: 56px;
-      overflow: hidden;
-      touch-action: none;
-    }
-
-    #map-world {
-      position: absolute;
-      transform-origin: 0 0;
-    }
-
-    #map-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: block;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    #player {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      z-index: 50;
-      pointer-events: none;
-    }
-
-    #pspr {
-      width: 22px;
-      height: 22px;
-      background: var(--amaranto);
-      border: 2px solid var(--oro);
-      border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.75);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #pdot {
-      width: 6px;
-      height: 6px;
-      background: #fff;
-      border-radius: 50%;
-    }
-
-    .hs {
-      position: absolute;
-      cursor: pointer;
-      border-radius: 4px;
-      border: 2px solid transparent;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 4px;
-    }
-
-    .hs:hover {
-      border-color: rgba(201,168,76,0.75);
-      background: rgba(201,168,76,0.1);
-    }
-
-    .hs-lbl {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 10px;
-      letter-spacing: 1px;
-      color: transparent;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      pointer-events: none;
-    }
-
-    .hs:hover .hs-lbl {
-      color: #fff;
-    }
-
-    /* ================= CONTROLLI ================= */
-
-    #dpad {
-      position: absolute;
-      bottom: 64px;
-      left: 14px;
-      width: 110px;
-      height: 110px;
-      z-index: 200;
-    }
-
-    .db {
-      position: absolute;
-      width: 34px;
-      height: 34px;
-      background: rgba(8,10,6,0.85);
-      border: 2px solid rgba(201,168,76,0.4);
-      border-radius: 5px;
-      color: rgba(220,200,150,0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      user-select: none;
-      cursor: pointer;
-    }
-
-    .db.on,
-    .db:active {
-      background: rgba(123,16,32,0.9);
-      transform: scale(0.9);
-    }
-
-    #du { top: 0; left: 38px; }
-    #dd { bottom: 0; left: 38px; }
-    #dl { top: 38px; left: 0; }
-    #dr { top: 38px; right: 0; }
-
-    #dc {
-      position: absolute;
-      top: 38px;
-      left: 38px;
-      width: 34px;
-      height: 34px;
-      background: rgba(8,10,6,0.4);
-      border: 1px solid rgba(201,168,76,0.15);
-      border-radius: 4px;
-    }
-
-    #zoom-ctrl {
-      position: absolute;
-      right: 12px;
-      bottom: 64px;
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .zb {
-      width: 34px;
-      height: 34px;
-      background: rgba(8,10,6,0.85);
-      border: 2px solid rgba(201,168,76,0.4);
-      border-radius: 5px;
-      color: rgba(220,200,150,0.9);
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    #bottom-bar {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 56px;
-      z-index: 200;
-      background: rgba(8,10,6,0.94);
-      border-top: 1px solid rgba(201,168,76,0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-    }
-
-    .bb-item {
-      text-align: center;
-    }
-
-    .bb-lbl {
-      display: block;
-      font-size: 8px;
-      letter-spacing: 3px;
-      color: rgba(201,168,76,0.5);
-      text-transform: uppercase;
-    }
-
-    .bb-val {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 18px;
-      color: var(--oro);
-      letter-spacing: 2px;
-    }
-
-    /* ================= MODAL ================= */
-
-    #modal {
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.72);
-    }
-
-    #modal.show {
-      display: flex;
-    }
-
-    #mbox {
-      position: relative;
-      width: min(360px, 90vw);
-      padding: 20px 24px;
-      background: rgba(12,15,10,0.98);
-      border: 2px solid rgba(201,168,76,0.4);
-      border-radius: 4px;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.85);
-    }
-
-    #m-x {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      background: none;
-      border: none;
-      color: rgba(201,168,76,0.45);
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    #m-ico {
-      text-align: center;
-      font-size: 34px;
-      margin-bottom: 5px;
-    }
-
-    #m-tit {
-      text-align: center;
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 25px;
-      color: var(--oro);
-      letter-spacing: 4px;
-    }
-
-    #m-sub {
-      text-align: center;
-      font-size: 9px;
-      letter-spacing: 3px;
-      color: rgba(201,168,76,0.45);
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    #m-dsc {
-      text-align: center;
-      font-size: 13px;
-      color: rgba(230,220,200,0.85);
-      line-height: 1.55;
-      margin-bottom: 10px;
-    }
-
-    #m-quo {
-      text-align: center;
-      font-size: 13px;
-      color: #b52a38;
-      font-style: italic;
-      padding: 7px 10px;
-      border-left: 2px solid var(--amaranto);
-      background: rgba(123,16,32,0.08);
-      margin-bottom: 14px;
-    }
-
-    .mb {
-      width: 100%;
-      padding: 9px;
-      margin-bottom: 6px;
-      border-radius: 2px;
-      cursor: pointer;
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 15px;
-      letter-spacing: 4px;
-    }
-
-    .mb-p {
-      border: none;
-      background: var(--amaranto);
-      color: #fff;
-    }
-
-    .mb-s {
-      background: rgba(201,168,76,0.1);
-      color: var(--oro);
-      border: 1px solid rgba(201,168,76,0.25);
-    }
-
-    #toast {
-      position: fixed;
-      left: 50%;
-      bottom: 64px;
-      transform: translateX(-50%);
-      z-index: 600;
-      max-width: 80vw;
-      padding: 8px 16px;
-      background: rgba(8,10,6,0.95);
-      border: 1px solid rgba(201,168,76,0.35);
-      border-radius: 3px;
-      color: var(--oro);
-      text-align: center;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      opacity: 0;
-      transition: opacity 0.35s;
-      pointer-events: none;
-    }
-  </style>
 </head>
 
 <body>
 
-  <!-- LOGIN -->
-  <div id="screen-login">
-    <div id="bg-login"></div>
+<!-- LOGIN -->
+<div id="login">
+  <div id="bg"></div>
 
-    <div id="login-title">
-      <h1>PARACA!</h1>
-    </div>
+  <div id="box">
+    <h2>PARACA!</h2>
 
-    <div id="popup">
-      <div class="p-head">
-        <div class="lbl">Grado</div>
-        <div class="rank">SOLDATO</div>
-      </div>
+    <input id="nome" placeholder="Nome">
+    <input id="cognome" placeholder="Cognome">
 
-      <div class="frow">
-        <div class="flbl">Nome</div>
-        <input class="finp" id="inp-nome" type="text" placeholder="Il tuo nome" maxlength="20">
-      </div>
-
-      <div class="frow">
-        <div class="flbl">Cognome</div>
-        <input class="finp" id="inp-cogn" type="text" placeholder="Il tuo cognome" maxlength="20">
-      </div>
-
-      <div id="err-msg">Inserisci nome e cognome</div>
-
-      <button id="btn-start" disabled>INIZIA LA NAJA</button>
-    </div>
+    <button onclick="start()">INIZIA</button>
   </div>
-
-  <!-- MAPPA -->
-  <div id="screen-map">
-    <div id="hud">
-      <span class="hud-title">PARACA!</span>
-      <span class="hsep">|</span>
-      <span class="hud-stat">FORZA <b id="h-for">10</b></span>
-      <span class="hsep">|</span>
-      <span class="hud-stat">SPIRITO <b id="h-spi">10</b></span>
-      <span class="hsep">|</span>
-      <span class="hud-stat">DISC <b id="h-dis">10</b></span>
-      <span id="hud-name">SOLDATO</span>
-    </div>
-
-    <div id="map-vp">
-      <div id="map-world">
-        <img id="map-bg" src="mappa.jpg" alt="Mappa caserma">
-        <div id="player">
-          <div id="pspr">
-            <div id="pdot"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="dpad">
-      <div class="db" id="du">▲</div>
-      <div class="db" id="dl">◀</div>
-      <div id="dc"></div>
-      <div class="db" id="dr">▶</div>
-      <div class="db" id="dd">▼</div>
-    </div>
-
-    <div id="zoom-ctrl">
-      <div class="zb" id="zi">+</div>
-      <div class="zb" id="zo">−</div>
-    </div>
-
-    <div id="bottom-bar">
-      <div class="bb-item">
-        <span class="bb-lbl">Giorno</span>
-        <span class="bb-val" id="dv">1</span>
-      </div>
-      <div class="bb-item">
-        <span class="bb-lbl">Grado</span>
-        <span class="bb-val">Soldato</span>
-      </div>
-      <div class="bb-item">
-        <span class="bb-lbl">Lanci</span>
-        <span class="bb-val" id="lanci-val">0</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL -->
-  <div id="modal">
-    <div id="mbox">
-      <button id="m-x">✕</button>
-      <div id="m-ico"></div>
-      <div id="m-tit"></div>
-      <div id="m-sub"></div>
-      <div id="m-dsc"></div>
-      <div id="m-quo"></div>
-      <div id="m-act"></div>
-    </div>
-  </div>
-
-  <div id="toast"></div>
-
-  <script>
-    const MAP_W = 900;
-    const MAP_H = 1124;
-
-    const player = {
-      nome: "",
-      cognome: "",
-      forza: 10,
-      spirito: 10,
-      disc: 10,
-      giorno: 1,
-      lanci: 0
-    };
-
-    let px = 450;
-    let py = 560;
-    let zoom = 0.65;
-    let moveIv = null;
-
-    const FRASI = [
-      "Vai a terra!",
-      "Pompa! Pompa cazzo!",
-      "Stai sul pezzo!",
-      "Ti devi muovere!",
-      "Sei massiccio!",
-      "Eccezionale!",
-      "Serra piombo!",
-      "Jonny andiamo!",
-      "Cagnaccio!",
-      "Vecchio!",
-      "Weee naja!"
-    ];
-
-    const SPOTS = [
-      { x:60, y:80, w:140, h:110, ico:"💪", name:"PALESTRA", sub:"Allenamento", dsc:"Piegamenti, trazioni e corsa.", quo:"Sei massiccio!", act:"train" },
-      { x:210, y:80, w:110, h:110, ico:"🍺", name:"SPACCIO", sub:"Bar", dsc:"Caffè, bibite e lamentele.", quo:"Weee naja!", act:"bar" },
-      { x:325, y:80, w:120, h:110, ico:"✈️", name:"SUPPORTO AVIO", sub:"Avio", dsc:"Zona collegata alle attività di volo.", quo:"Serra piombo!" },
-      { x:455, y:80, w:130, h:110, ico:"🚧", name:"EDIFICIO IN RIPARAZIONE", sub:"Lavori", dsc:"Edificio malandato in sistemazione.", quo:"Cagnaccio!" },
-      { x:590, y:60, w:140, h:130, ico:"🪖", name:"2ª COMP.", sub:"Seconda compagnia", dsc:"Area della seconda compagnia.", quo:"Ti devi muovere!", act:"battle" },
-      { x:745, y:60, w:135, h:110, ico:"🏥", name:"INFERMERIA", sub:"Sanità", dsc:"Dove vai quando sei mezzo rotto.", quo:"Non sei idoneo alla vita!", act:"heal" },
-      { x:745, y:190, w:135, h:100, ico:"🏛️", name:"MUSEO AVIOTRUPPE", sub:"Storia", dsc:"Memoria delle aviotruppe.", quo:"Eccezionale!" },
-
-      { x:60, y:240, w:145, h:110, ico:"🍽️", name:"MENSA", sub:"Vitto", dsc:"Pasta, secondo e sopravvivenza.", quo:"A mensa!", act:"eat" },
-      { x:60, y:360, w:145, h:100, ico:"🎬", name:"CINEMA", sub:"Svago", dsc:"Sala cinema della caserma.", quo:"Vecchio!" },
-      { x:370, y:240, w:120, h:120, ico:"🕍", name:"TEMPIO", sub:"Area simbolica", dsc:"Zona particolare della mappa.", quo:"Volo spericolato!", act:"battle" },
-      { x:510, y:240, w:220, h:200, ico:"🚩", name:"PIAZZALE", sub:"Adunata", dsc:"Piazzale principale.", quo:"Ti devi muovere!" },
-
-      { x:60, y:470, w:130, h:120, ico:"📋", name:"UFFICIO", sub:"Burocrazia", dsc:"Carte, firme e richieste.", quo:"Signorsì!" },
-      { x:200, y:470, w:130, h:120, ico:"⭐", name:"COMANDO", sub:"Comando", dsc:"Meglio andarci solo se necessario.", quo:"Sissignore!" },
-      { x:340, y:470, w:130, h:120, ico:"📦", name:"LOGISTICA", sub:"Magazzini", dsc:"Materiali e deposito.", quo:"Stai sul pezzo!" },
-      { x:475, y:470, w:130, h:120, ico:"🪖", name:"1ª COMP.", sub:"Prima compagnia", dsc:"Area della prima compagnia.", quo:"Cavaliere alato!", act:"battle" },
-      { x:610, y:470, w:110, h:120, ico:"✈️", name:"SUPPORTO AVIO", sub:"Secondo supporto", dsc:"Area avio secondaria.", quo:"Jonny andiamo!" },
-      { x:725, y:470, w:135, h:120, ico:"🔒", name:"GUARDIE", sub:"Sorveglianza", dsc:"Zona guardie e controllo.", quo:"Documenti!" },
-
-      { x:175, y:615, w:160, h:130, ico:"🏅", name:"ASSO", sub:"Leggenda", dsc:"Zona speciale della mappa.", quo:"Eccezionale!", act:"battle" },
-      { x:350, y:625, w:115, h:135, ico:"🗽", name:"TORRE DEL PARACA", sub:"Simbolo", dsc:"La torre del paracadutista.", quo:"Tornado di fuoco!", act:"battle" },
-      { x:470, y:615, w:185, h:100, ico:"🚗", name:"PARCHEGGIO", sub:"Veicoli", dsc:"Area parcheggio.", quo:"Vecchio!" },
-      { x:175, y:760, w:160, h:100, ico:"🔫", name:"ARMERIA", sub:"Armi", dsc:"Deposito armi.", quo:"Disciplina!", act:"weapon" },
-
-      { x:55, y:865, w:165, h:90, ico:"🛏️", name:"DORMITORI 01", sub:"Riposo", dsc:"Primo dormitorio.", quo:"Dormi!", act:"sleep" },
-      { x:55, y:965, w:165, h:90, ico:"🛏️", name:"DORMITORI 02", sub:"Riposo", dsc:"Secondo dormitorio.", quo:"Dormi!", act:"sleep" },
-      { x:55, y:1058, w:165, h:90, ico:"🛏️", name:"DORMITORI 03", sub:"Riposo", dsc:"Terzo dormitorio.", quo:"Dormi!", act:"sleep" },
-
-      { x:330, y:845, w:120, h:185, ico:"🗼", name:"TORRI", sub:"Addestramento", dsc:"Torri di addestramento.", quo:"Vai a terra!", act:"train" },
-      { x:325, y:1038, w:165, h:110, ico:"🐔", name:"CAMPO ADDESTRAMENTO", sub:"Campo", dsc:"Area addestrativa.", quo:"Pompa!", act:"train" },
-      { x:495, y:860, w:285, h:275, ico:"🏘️", name:"BORGO BELLA NAJA", sub:"Area", dsc:"Zona ricreativa e sociale.", quo:"Bella naja!" }
-    ];
-
-    function buildMap() {
-      const img = document.getElementById("map-bg");
-      img.style.width = MAP_W + "px";
-      img.style.height = MAP_H + "px";
-
-      const world = document.getElementById("map-world");
-      world.style.width = MAP_W + "px";
-      world.style.height = MAP_H + "px";
-
-      document.querySelectorAll(".hs").forEach(e => e.remove());
-
-      SPOTS.forEach(s => {
-        const el = document.createElement("div");
-        el.className = "hs";
-        el.style.left = s.x + "px";
-        el.style.top = s.y + "px";
-        el.style.width = s.w + "px";
-        el.style.height = s.h + "px";
-
-        const lbl = document.createElement("div");
-        lbl.className = "hs-lbl";
-        lbl.textContent = s.name;
-
-        el.appendChild(lbl);
-        el.addEventListener("pointerdown", e => {
-          e.stopPropagation();
-          openModal(s);
-        });
-
-        world.insertBefore(el, document.getElementById("player"));
-      });
-    }
-
-    function updateCam() {
-      const vp = document.getElementById("map-vp");
-      const vpW = vp.clientWidth;
-      const vpH = vp.clientHeight;
-
-      const scaledW = MAP_W * zoom;
-      const scaledH = MAP_H * zoom;
-
-      let ox = vpW / 2 - px * zoom;
-      let oy = vpH / 2 - py * zoom;
-
-      ox = Math.min(0, Math.max(ox, vpW - scaledW));
-      oy = Math.min(0, Math.max(oy, vpH - scaledH));
-
-      document.getElementById("map-world").style.transform =
-        `translate(${ox}px, ${oy}px) scale(${zoom})`;
-
-      const pel = document.getElementById("player");
-      pel.style.left = (px - 11) + "px";
-      pel.style.top = (py - 11) + "px";
-    }
-
-    const SPEED = 7;
-    const dirs = {
-      du: [0, -1],
-      dd: [0, 1],
-      dl: [-1, 0],
-      dr: [1, 0]
-    };
-
-    function startMove(id) {
-      stopMove();
-      document.getElementById(id).classList.add("on");
-
-      const [dx, dy] = dirs[id];
-
-      function step() {
-        px = Math.max(10, Math.min(MAP_W - 10, px + dx * SPEED));
-        py = Math.max(10, Math.min(MAP_H - 10, py + dy * SPEED));
-        updateCam();
-      }
-
-      step();
-      moveIv = setInterval(step, 60);
-    }
-
-    function stopMove() {
-      if (moveIv) {
-        clearInterval(moveIv);
-        moveIv = null;
-      }
-
-      document.querySelectorAll(".db").forEach(b => b.classList.remove("on"));
-    }
-
-    ["du", "dd", "dl", "dr"].forEach(id => {
-      const btn = document.getElementById(id);
-
-      btn.addEventListener("pointerdown", e => {
-        e.preventDefault();
-        startMove(id);
-      });
-
-      btn.addEventListener("pointerup", e => {
-        e.preventDefault();
-        stopMove();
-      });
-
-      btn.addEventListener("pointerleave", e => {
-        e.preventDefault();
-        stopMove();
-      });
-    });
-
-    document.getElementById("zi").onclick = () => {
-      zoom = Math.min(2.2, zoom + 0.2);
-      updateCam();
-    };
-
-    document.getElementById("zo").onclick = () => {
-      zoom = Math.max(0.3, zoom - 0.2);
-      updateCam();
-    };
-
-    function openModal(s) {
-      document.getElementById("m-ico").textContent = s.ico;
-      document.getElementById("m-tit").textContent = s.name;
-      document.getElementById("m-sub").textContent = s.sub;
-      document.getElementById("m-dsc").textContent = s.dsc;
-      document.getElementById("m-quo").textContent = `"${s.quo}"`;
-
-      const act = document.getElementById("m-act");
-      act.innerHTML = "";
-
-      if (s.act === "train") addBtn(act, "ALLENATI", true, doTrain);
-      if (s.act === "sleep") addBtn(act, "DORMI", true, doSleep);
-      if (s.act === "bar") addBtn(act, "ENTRA", true, doBar);
-      if (s.act === "eat") addBtn(act, "MANGIA", true, doEat);
-      if (s.act === "heal") addBtn(act, "RIPOSA", true, doHeal);
-      if (s.act === "weapon") addBtn(act, "PULISCI ARMA", true, doWeapon);
-      if (s.act === "battle") addBtn(act, "SFIDA", true, () => {
-        closeModal();
-        toast("Sistema battaglia in costruzione.");
-      });
-
-      addBtn(act, "CHIUDI", false, closeModal);
-
-      document.getElementById("modal").classList.add("show");
-    }
-
-    function addBtn(parent, text, primary, fn) {
-      const b = document.createElement("button");
-      b.className = "mb " + (primary ? "mb-p" : "mb-s");
-      b.textContent = text;
-      b.onclick = fn;
-      parent.appendChild(b);
-    }
-
-    function closeModal() {
-      document.getElementById("modal").classList.remove("show");
-    }
-
-    document.getElementById("m-x").onclick = closeModal;
-
-    document.getElementById("modal").addEventListener("click", e => {
-      if (e.target === document.getElementById("modal")) closeModal();
-    });
-
-    function doTrain() {
-      closeModal();
-      player.forza += 1;
-      player.disc += 1;
-      updHud();
-      toast(randomFrase());
-    }
-
-    function doSleep() {
-      closeModal();
-      player.giorno += 1;
-      player.spirito += 2;
-      updHud();
-      toast("Hai dormito. Giorno " + player.giorno);
-    }
-
-    function doBar() {
-      closeModal();
-      player.spirito += 3;
-      updHud();
-      toast("Spirito +3");
-    }
-
-    function doEat() {
-      closeModal();
-      player.forza += 1;
-      player.spirito += 1;
-      updHud();
-      toast("Forza +1, Spirito +1");
-    }
-
-    function doHeal() {
-      closeModal();
-      player.forza += 4;
-      updHud();
-      toast("Infermeria. Forza +4");
-    }
-
-    function doWeapon() {
-      closeModal();
-      player.disc += 3;
-      updHud();
-      toast("Disciplina +3");
-    }
-
-    function updHud() {
-      document.getElementById("h-for").textContent = player.forza;
-      document.getElementById("h-spi").textContent = player.spirito;
-      document.getElementById("h-dis").textContent = player.disc;
-      document.getElementById("dv").textContent = player.giorno;
-      document.getElementById("lanci-val").textContent = player.lanci;
-    }
-
-    function randomFrase() {
-      return FRASI[Math.floor(Math.random() * FRASI.length)];
-    }
-
-    let toastT = null;
-
-    function toast(msg) {
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.style.opacity = "1";
-
-      if (toastT) clearTimeout(toastT);
-
-      toastT = setTimeout(() => {
-        t.style.opacity = "0";
-      }, 2600);
-    }
-
-    const inN = document.getElementById("inp-nome");
-    const inC = document.getElementById("inp-cogn");
-    const bS = document.getElementById("btn-start");
-
-    function chkLogin() {
-      bS.disabled = !(inN.value.trim() && inC.value.trim());
-      document.getElementById("err-msg").classList.remove("show");
-    }
-
-    inN.addEventListener("input", chkLogin);
-    inC.addEventListener("input", chkLogin);
-
-    bS.addEventListener("click", () => {
-      const n = inN.value.trim();
-      const c = inC.value.trim();
-
-      if (!n || !c) {
-        document.getElementById("err-msg").classList.add("show");
-        return;
-      }
-
-      player.nome = n;
-      player.cognome = c;
-
-      document.getElementById("hud-name").textContent =
-        "SOLDATO " + c.toUpperCase();
-
-      document.getElementById("screen-login").style.display = "none";
-      document.getElementById("screen-map").classList.add("show");
-
-      buildMap();
-
-      px = 450;
-      py = 560;
-      zoom = 0.65;
-
-      updateCam();
-
-      setTimeout(() => {
-        toast("Weee naja! Benvenuto soldato " + c);
-      }, 500);
-    });
-
-    window.addEventListener("resize", updateCam);
-  </script>
+</div>
+
+<!-- MAPPA -->
+<div id="game">
+  <img id="map" src="E203C4EC-1216-469D-9B0E-7465C587B443.png">
+</div>
+
+<script>
+function start(){
+  let nome = document.getElementById("nome").value;
+  let cognome = document.getElementById("cognome").value;
+
+  if(!nome || !cognome){
+    alert("Inserisci nome e cognome");
+    return;
+  }
+
+  document.getElementById("login").style.display = "none";
+  document.getElementById("game").style.display = "block";
+}
+</script>
 
 </body>
 </html>
