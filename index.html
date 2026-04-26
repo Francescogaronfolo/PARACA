@@ -5,20 +5,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>PARACA!</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
-:root{--amaranto:#7B1020;--oro:#C9A84C;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{width:100vw;height:100vh;overflow:hidden;background:#0a0a0a;font-family:'Rajdhani',sans-serif;}
 
-/* LOGIN */
-#screen-login{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:32px;}
-#bg-login{position:absolute;inset:0;background:url(‘bg.png’) center top/cover no-repeat;z-index:0;}
-#bg-login::after{content:’’;position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 50%,rgba(0,0,0,0.22) 100%);}
+/* ====== LOGIN ====== */
+#screen-login{
+position:fixed;inset:0;z-index:100;
+display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:32px;
+}
+#bg-login{
+position:absolute;inset:0;
+background-image:url(‘bg.png’);
+background-size:cover;background-position:center top;z-index:0;
+}
+#bg-login::after{content:’’;position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 50%,rgba(0,0,0,0.2) 100%);}
 #login-title{position:absolute;top:8px;left:0;right:0;text-align:center;z-index:2;pointer-events:none;}
-#login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(68px,14vw,128px);color:#7B1020;text-shadow:4px 4px 0 #3d000a,7px 7px 0 rgba(0,0,0,0.2);line-height:1;animation:titlePulse 4s ease-in-out infinite;}
-@keyframes titlePulse{0%,100%{color:#7B1020;}50%{color:#8B1828;text-shadow:4px 4px 0 #3d000a,7px 7px 0 rgba(0,0,0,0.2),0 0 40px rgba(123,16,32,0.3);}}
-#popup{position:relative;z-index:2;background:rgba(235,226,206,0.87);border:2px solid rgba(123,16,32,0.35);border-radius:4px;padding:14px 20px 18px;width:min(320px,86vw);backdrop-filter:blur(10px);box-shadow:0 8px 32px rgba(0,0,0,0.25);}
+#login-title h1{
+font-family:‘Black Han Sans’,sans-serif;
+font-size:clamp(68px,14vw,128px);color:#7B1020;
+text-shadow:4px 4px 0 #3d000a,7px 7px 0 rgba(0,0,0,0.2);
+line-height:1;animation:titlePulse 4s ease-in-out infinite;
+}
+@keyframes titlePulse{
+0%,100%{color:#7B1020;}
+50%{color:#8B1828;text-shadow:4px 4px 0 #3d000a,7px 7px 0 rgba(0,0,0,0.2),0 0 40px rgba(123,16,32,0.3);}
+}
+#popup{
+position:relative;z-index:2;
+background:rgba(235,226,206,0.87);border:2px solid rgba(123,16,32,0.35);
+border-radius:4px;padding:14px 20px 18px;width:min(320px,86vw);
+backdrop-filter:blur(10px);box-shadow:0 8px 32px rgba(0,0,0,0.25);
+}
 #popup::before,#popup::after{content:’’;position:absolute;width:11px;height:11px;border-color:rgba(123,16,32,0.55);border-style:solid;}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
 #popup::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
@@ -37,65 +56,118 @@ body{width:100vw;height:100vh;overflow:hidden;background:#0a0a0a;font-family:'Ra
 #btn-start:active{transform:scale(0.98);}
 #btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;box-shadow:none;}
 
-/* MAPPA */
-#screen-map{position:fixed;inset:0;z-index:50;display:none;background:#0a0a0a;}
-#screen-map.show{display:block;}
-#hud{position:absolute;top:0;left:0;right:0;height:44px;background:rgba(6,8,5,0.96);border-bottom:1px solid rgba(180,150,80,0.25);display:flex;align-items:center;padding:0 10px;z-index:300;gap:7px;}
-.hud-title{font-family:‘Black Han Sans’,sans-serif;font-size:19px;color:#7B1020;text-shadow:2px 2px 0 #3d000a;}
-.hud-stat{font-family:‘Rajdhani’,sans-serif;font-size:11px;font-weight:700;color:#c0aa80;letter-spacing:1px;white-space:nowrap;}
-.hud-stat b{color:#C9A84C;font-size:13px;}
-.hsep{color:rgba(180,150,80,0.2);}
-#hud-name{margin-left:auto;font-family:‘Bebas Neue’,sans-serif;font-size:12px;color:rgba(180,150,80,0.7);letter-spacing:3px;white-space:nowrap;}
-#map-vp{position:absolute;top:44px;left:0;right:0;bottom:52px;overflow:hidden;touch-action:none;}
-#map-world{position:absolute;transform-origin:0 0;}
-#map-bg{position:absolute;top:0;left:0;display:block;}
-#path-canvas{position:absolute;top:0;left:0;pointer-events:none;z-index:5;}
+/* ====== MAPPA STATICA ====== */
+#screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#0a0a0a;}
+#screen-map.show{display:flex;}
+
+#hud{
+flex-shrink:0;height:44px;
+background:rgba(6,8,5,0.97);border-bottom:1px solid rgba(180,150,80,0.25);
+display:flex;align-items:center;padding:0 10px;z-index:300;gap:6px;
+}
+.hud-title{font-family:‘Black Han Sans’,sans-serif;font-size:18px;color:#7B1020;text-shadow:2px 2px 0 #3d000a;}
+.hud-stat{font-family:‘Rajdhani’,sans-serif;font-size:10px;font-weight:700;color:#c0aa80;letter-spacing:1px;white-space:nowrap;}
+.hud-stat b{color:#C9A84C;font-size:12px;}
+.hsep{color:rgba(180,150,80,0.2);font-size:14px;}
+#hud-name{margin-left:auto;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(180,150,80,0.7);letter-spacing:2px;white-space:nowrap;}
+
+/* MAP AREA — occupa tutto lo spazio rimanente */
+#map-area{
+flex:1;position:relative;
+display:flex;align-items:center;justify-content:center;
+overflow:hidden;background:#111;
+}
+
+/* Mappa centrata, dimensione fissa */
+#map-wrap{
+position:relative;
+/* dimensioni calcolate in JS */
+}
+#map-img{display:block;width:100%;height:100%;image-rendering:auto;}
 
 /* PORTE SCI-FI */
-.door{position:absolute;z-index:20;cursor:pointer;width:18px;height:12px;transform:translate(-50%,-50%);}
-.door-inner{width:100%;height:100%;background:rgba(201,168,76,0.12);border:1.5px solid #C9A84C;border-radius:2px;position:relative;animation:doorPulse 2s ease-in-out infinite;box-shadow:0 0 8px rgba(201,168,76,0.55),inset 0 0 4px rgba(201,168,76,0.15);}
-.door-inner::before{content:’’;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:5px;height:5px;background:#C9A84C;border-radius:50%;box-shadow:0 0 6px #C9A84C;}
-.door-inner::after{content:’’;position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:4px solid rgba(201,168,76,0.8);}
-.door.locked .door-inner{border-color:#c0392b;box-shadow:0 0 8px rgba(192,57,43,0.6),inset 0 0 4px rgba(192,57,43,0.15);background:rgba(192,57,43,0.08);animation:doorPulseLocked 2s ease-in-out infinite;}
-.door.locked .door-inner::before{background:#c0392b;box-shadow:0 0 6px #c0392b;}
-.door.locked .door-inner::after{border-bottom-color:rgba(192,57,43,0.8);}
-@keyframes doorPulse{0%,100%{box-shadow:0 0 5px rgba(201,168,76,0.4);}50%{box-shadow:0 0 14px rgba(201,168,76,0.9),inset 0 0 6px rgba(201,168,76,0.25);}}
-@keyframes doorPulseLocked{0%,100%{box-shadow:0 0 5px rgba(192,57,43,0.4);}50%{box-shadow:0 0 14px rgba(192,57,43,0.9),inset 0 0 6px rgba(192,57,43,0.25);}}
+.door{
+position:absolute;
+cursor:pointer;
+width:16px;height:11px;
+transform:translate(-50%,-50%);
+z-index:10;
+}
+.door-body{
+width:100%;height:100%;
+border:1.5px solid #C9A84C;
+border-radius:2px;
+background:rgba(201,168,76,0.1);
+position:relative;
+box-shadow:0 0 7px rgba(201,168,76,0.6),inset 0 0 3px rgba(201,168,76,0.15);
+animation:dpulse 2s ease-in-out infinite;
+}
+.door-body::before{
+content:’’;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+width:4px;height:4px;background:#C9A84C;border-radius:50%;
+box-shadow:0 0 5px #C9A84C;
+}
+.door-body::after{
+content:’’;position:absolute;top:-4px;left:50%;transform:translateX(-50%);
+width:0;height:0;
+border-left:3px solid transparent;border-right:3px solid transparent;
+border-bottom:3px solid rgba(201,168,76,0.9);
+}
+.door.locked .door-body{
+border-color:#c0392b;background:rgba(192,57,43,0.08);
+box-shadow:0 0 7px rgba(192,57,43,0.6),inset 0 0 3px rgba(192,57,43,0.15);
+animation:dpulsered 2s ease-in-out infinite;
+}
+.door.locked .door-body::before{background:#c0392b;box-shadow:0 0 5px #c0392b;}
+.door.locked .door-body::after{border-bottom-color:rgba(192,57,43,0.9);}
+@keyframes dpulse{
+0%,100%{box-shadow:0 0 5px rgba(201,168,76,0.4);}
+50%{box-shadow:0 0 12px rgba(201,168,76,1),inset 0 0 5px rgba(201,168,76,0.2);}
+}
+@keyframes dpulsered{
+0%,100%{box-shadow:0 0 5px rgba(192,57,43,0.4);}
+50%{box-shadow:0 0 12px rgba(192,57,43,1),inset 0 0 5px rgba(192,57,43,0.2);}
+}
 
-/* PLAYER */
-#player{position:absolute;width:18px;height:18px;z-index:30;pointer-events:none;}
-#pspr{width:18px;height:18px;background:#7B1020;border-radius:50% 50% 40% 40%;border:1.5px solid #C9A84C;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.8);position:relative;}
-#pspr::before{content:’’;position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:12px;height:5px;background:#2a1a05;border-radius:2px 2px 0 0;border:1px solid #C9A84C;}
-#pdot{width:5px;height:5px;background:#fff;border-radius:50%;}
-#player::after{content:’’;position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);width:11px;height:4px;background:rgba(0,0,0,0.35);border-radius:50%;}
+/* Tooltip sul hover */
+.door-tip{
+position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+background:rgba(6,8,5,0.92);border:1px solid rgba(201,168,76,0.4);
+border-radius:2px;padding:2px 6px;
+font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;
+color:#C9A84C;letter-spacing:1px;white-space:nowrap;
+opacity:0;transition:opacity .15s;pointer-events:none;
+}
+.door:hover .door-tip{opacity:1;}
 
-/* DPAD */
-#dpad{position:absolute;bottom:60px;left:12px;width:108px;height:108px;z-index:200;}
-.db{position:absolute;width:33px;height:33px;background:rgba(6,8,5,0.85);border:1.5px solid rgba(180,150,80,0.38);border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;-webkit-user-select:none;font-size:12px;color:rgba(220,200,150,0.8);transition:background .1s,transform .1s;}
-.db:active,.db.on{background:rgba(123,16,32,0.88);transform:scale(0.88);border-color:rgba(200,40,40,0.65);}
-#du{top:0;left:37px;}#dd{bottom:0;left:37px;}#dl{top:37px;left:0;}#dr{top:37px;right:0;}
-#dc{position:absolute;top:37px;left:37px;width:33px;height:33px;background:rgba(6,8,5,0.45);border-radius:4px;}
-#zoom-ctrl{position:absolute;bottom:60px;right:10px;display:flex;flex-direction:column;gap:5px;z-index:200;}
-.zb{width:30px;height:30px;background:rgba(6,8,5,0.85);border:1.5px solid rgba(180,150,80,0.38);border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:rgba(220,200,150,0.8);transition:background .1s;}
-.zb:active{background:rgba(123,16,32,0.88);}
-#bottom-bar{position:absolute;bottom:0;left:0;right:0;height:52px;background:rgba(6,8,5,0.94);border-top:1px solid rgba(180,150,80,0.18);display:flex;align-items:center;justify-content:center;gap:22px;z-index:200;}
+/* BOTTOM BAR */
+#bottom-bar{
+flex-shrink:0;height:48px;
+background:rgba(6,8,5,0.97);border-top:1px solid rgba(180,150,80,0.18);
+display:flex;align-items:center;justify-content:center;gap:24px;
+}
 .bb-item{text-align:center;}
-.bb-lbl{font-size:8px;letter-spacing:3px;color:rgba(180,150,80,0.45);text-transform:uppercase;display:block;}
-.bb-val{font-family:‘Bebas Neue’,sans-serif;font-size:17px;color:#C9A84C;letter-spacing:2px;}
+.bb-lbl{font-size:7px;letter-spacing:3px;color:rgba(180,150,80,0.45);text-transform:uppercase;display:block;}
+.bb-val{font-family:‘Bebas Neue’,sans-serif;font-size:16px;color:#C9A84C;letter-spacing:2px;}
 
 /* MODAL */
-#modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.72);display:none;align-items:center;justify-content:center;}
+#modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;}
 #modal.show{display:flex;}
-#mbox{background:rgba(10,12,8,0.98);border:2px solid rgba(180,150,80,0.38);border-radius:4px;padding:18px 22px;width:min(350px,90vw);position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.9);animation:mIn .18s ease;}
-@keyframes mIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+#mbox{
+background:rgba(10,12,8,0.98);border:2px solid rgba(180,150,80,0.38);
+border-radius:4px;padding:18px 22px;width:min(340px,90vw);
+position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.9);
+animation:mIn .18s ease;
+}
+@keyframes mIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 #mbox::before,#mbox::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(180,150,80,0.55);border-style:solid;}
 #mbox::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
 #mbox::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
-#m-ico{font-size:32px;text-align:center;margin-bottom:4px;}
-#m-tit{font-family:‘Bebas Neue’,sans-serif;font-size:22px;color:#C9A84C;letter-spacing:4px;text-align:center;}
-#m-sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(180,150,80,0.38);text-align:center;margin-bottom:9px;}
-#m-dsc{font-size:13px;color:rgba(208,196,175,0.85);line-height:1.55;margin-bottom:9px;text-align:center;}
-#m-quo{font-size:12px;color:#9B1020;font-style:italic;text-align:center;padding:5px 9px;border-left:2px solid #7B1020;margin-bottom:13px;background:rgba(123,16,32,0.07);}
+#m-ico{font-size:30px;text-align:center;margin-bottom:3px;}
+#m-tit{font-family:‘Bebas Neue’,sans-serif;font-size:21px;color:#C9A84C;letter-spacing:4px;text-align:center;}
+#m-sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(180,150,80,0.38);text-align:center;margin-bottom:8px;}
+#m-dsc{font-size:13px;color:rgba(208,196,175,0.85);line-height:1.5;margin-bottom:8px;text-align:center;}
+#m-quo{font-size:12px;color:#9B1020;font-style:italic;text-align:center;padding:5px 8px;border-left:2px solid #7B1020;margin-bottom:12px;background:rgba(123,16,32,0.07);}
 .mb{width:100%;padding:8px;margin-bottom:5px;border:none;border-radius:2px;cursor:pointer;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;transition:background .2s;}
 .mb-p{background:#7B1020;color:#fff;box-shadow:0 3px 10px rgba(123,16,32,0.28);}
 .mb-p:hover{background:#9B1828;}
@@ -103,11 +175,21 @@ body{width:100vw;height:100vh;overflow:hidden;background:#0a0a0a;font-family:'Ra
 .mb-s:hover{background:rgba(180,150,80,0.18);}
 #m-x{position:absolute;top:7px;right:9px;background:none;border:none;color:rgba(180,150,80,0.38);font-size:16px;cursor:pointer;}
 #m-x:hover{color:#C9A84C;}
-#toast{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:rgba(6,8,5,0.95);border:1px solid rgba(180,150,80,0.3);border-radius:3px;padding:7px 14px;color:#C9A84C;font-family:‘Rajdhani’,sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;z-index:600;max-width:78vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
+
+#toast{
+position:fixed;bottom:56px;left:50%;transform:translateX(-50%);
+background:rgba(6,8,5,0.95);border:1px solid rgba(180,150,80,0.3);
+border-radius:3px;padding:7px 14px;color:#C9A84C;
+font-family:‘Rajdhani’,sans-serif;font-size:12px;font-weight:600;
+letter-spacing:1px;z-index:600;max-width:80vw;text-align:center;
+opacity:0;transition:opacity .4s;pointer-events:none;
+}
 </style>
 
 </head>
 <body>
+
+<!-- LOGIN -->
 
 <div id="screen-login">
   <div id="bg-login"></div>
@@ -121,33 +203,35 @@ body{width:100vw;height:100vh;overflow:hidden;background:#0a0a0a;font-family:'Ra
   </div>
 </div>
 
+<!-- MAPPA -->
+
 <div id="screen-map">
   <div id="hud">
-    <span class="hud-title">PARACA!</span><span class="hsep">|</span>
-    <span class="hud-stat">FORZA <b id="h-for">10</b></span><span class="hsep">|</span>
-    <span class="hud-stat">SPIRITO <b id="h-spi">10</b></span><span class="hsep">|</span>
+    <span class="hud-title">PARACA!</span>
+    <span class="hsep">|</span>
+    <span class="hud-stat">FORZA <b id="h-for">10</b></span>
+    <span class="hsep">|</span>
+    <span class="hud-stat">SPIRITO <b id="h-spi">10</b></span>
+    <span class="hsep">|</span>
     <span class="hud-stat">DISC <b id="h-dis">10</b></span>
     <span id="hud-name">SOLDATO</span>
   </div>
-  <div id="map-vp">
-    <div id="map-world">
-      <img id="map-bg" src="E203C4EC-1216-469D-9B0E-7465C587B443.png" alt="caserma">
-      <canvas id="path-canvas"></canvas>
-      <div id="player"><div id="pspr"><div id="pdot"></div></div></div>
+
+  <div id="map-area">
+    <div id="map-wrap">
+      <img id="map-img" src="E203C4EC-1216-469D-9B0E-7465C587B443.png" alt="caserma">
+      <!-- porte iniettate da JS -->
     </div>
   </div>
-  <div id="dpad">
-    <div class="db" id="du">▲</div><div class="db" id="dl">◀</div>
-    <div id="dc"></div>
-    <div class="db" id="dr">▶</div><div class="db" id="dd">▼</div>
-  </div>
-  <div id="zoom-ctrl"><div class="zb" id="zi">+</div><div class="zb" id="zo">−</div></div>
+
   <div id="bottom-bar">
     <div class="bb-item"><span class="bb-lbl">Giorno</span><span class="bb-val" id="dv">1</span></div>
-    <div class="bb-item"><span class="bb-lbl">Grado</span><span class="bb-val" id="grado-val">Soldato</span></div>
+    <div class="bb-item"><span class="bb-lbl">Grado</span><span class="bb-val">Soldato</span></div>
     <div class="bb-item"><span class="bb-lbl">Lanci</span><span class="bb-val" id="lanci-val">0</span></div>
   </div>
 </div>
+
+<!-- MODAL -->
 
 <div id="modal">
   <div id="mbox">
@@ -159,303 +243,159 @@ body{width:100vw;height:100vh;overflow:hidden;background:#0a0a0a;font-family:'Ra
 <div id="toast"></div>
 
 <script>
-const MAP_W=900, MAP_H=1124;
+// Dimensioni immagine mappa originale (su cui sono calibrate le coordinate)
+const MAP_W_REF = 1122, MAP_H_REF = 1402;
 
-// ============================================================
-// PERCORSI — segmenti [x1,y1,x2,y2] sulla mappa 900x1124
-// Calibrati sulla mappa annotata con le linee blu
-// ============================================================
-const SEGS = [
-  // STRADA NORD orizzontale
-  [155,215, 820,215],
-  // VERTICALI nord->centro
-  [155,215, 155,540],   // sinistra (palestra/mensa/cinema)
-  [310,215, 310,540],   // centro-sx (spaccio/comando)
-  [460,215, 460,540],   // centro (tempio/logistica)
-  [600,215, 600,540],   // centro-dx (2comp/1comp)
-  [790,215, 790,540],   // destra (infermeria/guardie)
-  // STRADA CENTRO orizzontale
-  [155,540, 820,540],
-  // VERTICALI centro->sud
-  [155,540, 155,870],   // sinistra (asso/armeria)
-  [310,540, 310,660],   // asso branch
-  [460,540, 460,1080],  // centrale (torre/torri/campo)
-  [700,540, 700,870],   // dx (parcheggio/borgo)
-  // STRADA SUD-ALTA orizzontale (asso,torre,parcheggio)
-  [155,660, 700,660],
-  // STRADA ARMERIA
-  [155,790, 460,790],
-  // VERTICALI dormitori
-  [155,870, 155,1080],
-  // STRADA DORMITORI
-  [155,870, 460,870],
-  // CAMPO
-  [155,1080, 460,1080],
-  // BORGO
-  [700,660, 820,660],
-  [820,540, 820,870],
-  [700,870, 820,870],
-  // MUSEO branch
-  [820,215, 820,380],
-];
-
-// ============================================================
-// PORTE — coordinate sulla mappa, gialle=libere rosse=bloccate
-// ============================================================
-const DOORS = [
-  {id:'pal',  x:155,y:252, locked:false, ico:'💪', name:'PALESTRA',        sub:'Allenamento',                     dsc:'Piegamenti, trazioni, corsa. Il tuo nuovo hobby.',                        quo:'Sei massiccio cazzo!',                     act:'train'},
-  {id:'spa',  x:310,y:252, locked:false, ico:'🍺', name:'ALLA PORTA!',      sub:'Bar / Spaccio',                   dsc:"L'oasi di civilta della caserma. Birra, caffe, lamentele.",               quo:'Weee naja!',                               act:'bar'  },
-  {id:'sup1', x:390,y:252, locked:false, ico:'✈️', name:'SUPPORTO AVIO',    sub:'Aeronautica',                     dsc:'Tutto quello che vola passa di qui.',                                      quo:'Jonny andiamo!'                                       },
-  {id:'comp2',x:600,y:252, locked:false, ico:'🪖', name:'2a COMPAGNIA',     sub:'SEN — Devil Baffaccio',           dsc:'SEN il Devil Baffaccio. Baffi leggendari.',                                quo:'Devil Baffaccio SEN!',                     act:'battle'},
-  {id:'inf',  x:790,y:252, locked:false, ico:'🏥', name:'INFERMERIA',       sub:'Sanita militare',                 dsc:"Ci vai quando non riesci piu ad alzare le braccia.",                       quo:'Non sei idoneo alla vita!',                act:'heal' },
-  {id:'mus',  x:820,y:340, locked:false, ico:'🏛️', name:'MUSEO AVIOTRUPPE', sub:'Storia militare',                 dsc:'La storia di chi e venuto prima di te. Rispetto.',                        quo:'Eccezzionale!'                                        },
-  {id:'men',  x:155,y:370, locked:false, ico:'🍽️', name:'MENSA',           sub:'Vitto militare',                  dsc:'Pasta scotta e carne misteriosa. Ma e tutto tuo.',                        quo:'Non farti mangiare il cazzo dalle mosche!',act:'eat'  },
-  {id:'cin',  x:155,y:460, locked:false, ico:'🎬', name:'CINEMA',          sub:'Svago',                           dsc:'Film militari, documentari di guerra.',                                    quo:"Liberta per gli ultra!"                               },
-  {id:'tem',  x:460,y:340, locked:false, ico:'🕍', name:'TEMPIO',          sub:'BARONE DI PRUSSIA',               dsc:'Prima studi, poi alleni, poi sfidi il Barone di Prussia.',                 quo:'Volo Spericolato!',                        act:'battle'},
-  {id:'piaz', x:600,y:390, locked:false, ico:'🚩', name:'PIAZZALE',        sub:'Adunata',                         dsc:"Ogni mattina, ogni sera. L'adunata e sacra.",                             quo:'Ti devi muovere!'                                     },
-  {id:'uff',  x:155,y:540, locked:false, ico:'📋', name:'UFFICIO',         sub:'Burocrazia militare',             dsc:'Moduli, richieste, permessi. La guerra della carta.',                      quo:'Signorsi!'                                            },
-  {id:'cmd',  x:310,y:540, locked:false, ico:'⭐', name:'COMANDO',         sub:'Ufficiali superiori',             dsc:'Non ci si va senza motivo. Il motivo e quasi sempre brutto.',              quo:'Io ti dico signorsi! E tu dici sissignore!'            },
-  {id:'log',  x:460,y:540, locked:false, ico:'📦', name:'LOGISTICA',       sub:'10 blocchi',                      dsc:'Carico, scarico, stivaggio. La tua routine alternativa.',                  quo:'Stai sul pezzo della merda!'                          },
-  {id:'comp1',x:600,y:540, locked:false, ico:'🪖', name:'1a COMPAGNIA',    sub:'OGYA — Cavaliere Alato',          dsc:'Il Cavaliere Alato OGYA ti aspetta. Primo boss.',                          quo:'Cavaliere Alato OGYA!',                    act:'battle'},
-  {id:'sup2', x:700,y:540, locked:false, ico:'✈️', name:'SUPPORTO AVIO 2', sub:'Hangar secondario',               dsc:'Avio support. Il C130 parte da qui.',                                      quo:'Serra piombo!'                                        },
-  {id:'asso', x:310,y:660, locked:false, ico:'🏅', name:'ASSO',            sub:'La Leggenda — Penultimo Boss',    dsc:'Occhio bendato, barba folta, record assoluto di lanci.',                   quo:'Eccezzionale!',                            act:'battle'},
-  {id:'torre',x:460,y:660, locked:false, ico:'🗽', name:'TORRE DEL PARACA',sub:'LEON — IL TORNADO DI FUOCO',     dsc:'Cilindro bianco. Statua enorme. Due leoni. LEON, Grado Leggenda.',         quo:'IL TORNADO DI FUOCO',                      act:'battle'},
-  {id:'parch',x:600,y:660, locked:false, ico:'🚗', name:'PARCHEGGIO',      sub:'Area veicoli',                    dsc:"Le macchine di chi ha il permesso.",                                       quo:'Vecchio!'                                             },
-  {id:'dor1', x:155,y:870, locked:false, ico:'🛏️', name:'DORMITORI 01',   sub:'CIOK — Caprone di Montagna',     dsc:'Il Sergente CIOK domina il primo dormitorio.',                             quo:'Caprone di Montagna Volante!',             act:'sleep'},
-  {id:'dor2', x:155,y:960, locked:false, ico:'🛏️', name:'DORMITORI 02',   sub:'LACER — Parla-cadutista',        dsc:'LACER parla anche nel sonno. Incessantemente.',                            quo:'Parla-cadutista LACER!',                   act:'sleep'},
-  {id:'dor3', x:155,y:1050,locked:false, ico:'🛏️', name:'DORMITORI 03',   sub:'PANIKO — Sexy Baffo in Burrasca',dsc:'PANIKO. Bello. Pericoloso. Anche addormentato.',                           quo:'Sexy Baffo in Burrasca!',                  act:'sleep'},
-  {id:'torri',x:460,y:870, locked:false, ico:'🗼', name:'TORRI',           sub:'Strutture addestramento',         dsc:'Le torri di lancio. Qui si allena il corpo.',                              quo:'Vai a terra!',                             act:'train'},
-  {id:'campo',x:460,y:1080,locked:false, ico:'🐔', name:'CAMPO ADDESTR.',  sub:'Pollaio — Carlinghe',             dsc:'Carlinghe finte, uscite simulate.',                                        quo:'Pompa! Pompa cazzo!',                      act:'train'},
-  {id:'borgo',x:700,y:760, locked:false, ico:'🏘️', name:'BORGO BELLA NAJA',sub:'Area ricreativa',                dsc:'Il cuore sociale della caserma.',                                          quo:'Cane cane cane cane!'                                 },
-  // ROSSE — bloccate
-  {id:'arm',  x:155,y:790, locked:true,  ico:'🔫', name:'ARMERIA',         sub:'ACCESSO VIETATO',                 dsc:'Deposito armi. Richiede permesso speciale del Comando.',                   quo:'Non sei presente a te stesso!'                        },
-  {id:'grd',  x:790,y:540, locked:true,  ico:'🔒', name:'GUARDIE / INGRESSO',sub:'ACCESSO RISERVATO',            dsc:'Checkpoint principale. Solo con lasciapassare.',                           quo:'Non lo fare il chamber check della merda!'            },
-];
-
-// ============================================================
-// PATH ENGINE
-// ============================================================
-function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
-function dist2(ax,ay,bx,by){return (ax-bx)**2+(ay-by)**2;}
-
-function closestOnSeg(px,py,x1,y1,x2,y2){
-  const dx=x2-x1,dy=y2-y1,len2=dx*dx+dy*dy;
-  if(len2===0)return{x:x1,y:y1,t:0};
-  const t=clamp(((px-x1)*dx+(py-y1)*dy)/len2,0,1);
-  return{x:x1+t*dx,y:y1+t*dy,t};
-}
-
-function snapToPath(px,py){
-  let best=null,bd=Infinity;
-  for(const s of SEGS){
-    const p=closestOnSeg(px,py,...s);
-    const d=dist2(px,py,p.x,p.y);
-    if(d<bd){bd=d;best=p;}
-  }
-  return best||{x:px,y:py};
-}
-
-// Trova il segmento su cui il giocatore e piu vicino
-function currentSeg(px,py){
-  let best=null,bd=Infinity;
-  for(const s of SEGS){
-    const p=closestOnSeg(px,py,...s);
-    const d=dist2(px,py,p.x,p.y);
-    if(d<bd){bd=d;best=s;}
-  }
-  return best;
-}
-
-const SNAP_DIST=18; // max distanza per cambiare segmento a un incrocio
-
-function movePlayer(px,py,dx,dy,speed){
-  const seg=currentSeg(px,py);
-  if(!seg)return{x:px,y:py};
-  const [x1,y1,x2,y2]=seg;
-  const isH=Math.abs(x2-x1)>Math.abs(y2-y1);
-
-  // Prova movimento sul segmento corrente
-  if(isH&&dx!==0){
-    const nx=clamp(px+dx*speed,Math.min(x1,x2),Math.max(x1,x2));
-    return{x:nx,y:(y1+y2)/2};
-  }
-  if(!isH&&dy!==0){
-    const ny=clamp(py+dy*speed,Math.min(y1,y2),Math.max(y1,y2));
-    return{x:(x1+x2)/2,y:ny};
-  }
-
-  // Direzione trasversale: cerca segmento connesso vicino nella direzione giusta
-  for(const s of SEGS){
-    if(s===seg)continue;
-    const [ax1,ay1,ax2,ay2]=s;
-    const sIsH=Math.abs(ax2-ax1)>Math.abs(ay2-ay1);
-    if(sIsH===isH)continue; // stesso orientamento, salta
-    // Controlla se c'e un endpoint del segmento s vicino al player
-    const pts=[[ax1,ay1],[ax2,ay2]];
-    for(const[jx,jy]of pts){
-      if(dist2(px,py,jx,jy)<SNAP_DIST*SNAP_DIST){
-        // c'e un incrocio qui — prova a muoversi sul nuovo segmento
-        if(sIsH&&dx!==0){
-          const nx=clamp(jx+dx*speed,Math.min(ax1,ax2),Math.max(ax1,ax2));
-          return{x:nx,y:(ay1+ay2)/2};
-        }
-        if(!sIsH&&dy!==0){
-          const ny=clamp(jy+dy*speed,Math.min(ay1,ay2),Math.max(ay1,ay2));
-          return{x:(ax1+ax2)/2,y:ny};
-        }
-      }
-    }
-  }
-  return{x:px,y:py};
-}
-
-// ============================================================
-// STATO
-// ============================================================
 const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!","Non sei idoneo alla vita!","Ti devi muovere! Ti devi muovere!","Sei massiccio cazzo!","Eccezzionale!","Serra piombo!","Jonny andiamo!","Dai Jonny cazzo!","Non sei presente a te stesso!","Cagnaccio!","Cane cane cane cane!","Ma lo vedi che non sei idoneo!","Non lo fare il chamber check della merda!","Io ti dico signorsi! E tu dici sissignore!","Cavallo! Cavallo! Meeeglio!","Non farti mangiare il cazzo dalle mosche!","Vecchio!","Weee naja!","Liberta per gli ultra! Tornado forza naja in arrivo!"];
+
 const player={nome:'',cognome:'',forza:10,spirito:10,disc:10,giorno:1,lanci:0};
-let px=460,py=215,zoom=0.7;
 
 // ============================================================
-// BUILD MAP
+// PORTE — coordinate sull'immagine ORIGINALE 1122x1402
+// Calibrate guardando la mappa reale
+// ============================================================
+const DOORS=[
+  // NORD
+  {id:'pal',  x:188, y:230, locked:false, ico:'💪', name:'PALESTRA',         sub:'Allenamento',                     dsc:'Piegamenti, trazioni, corsa. Il tuo nuovo hobby.',                        quo:'Sei massiccio cazzo!',                     act:'train'},
+  {id:'spa',  x:340, y:230, locked:false, ico:'🍺', name:'ALLA PORTA!',       sub:'Bar / Spaccio',                   dsc:"L'oasi di civilta della caserma. Birra, caffe, lamentele.",               quo:'Weee naja!',                               act:'bar'  },
+  {id:'sup1', x:450, y:230, locked:false, ico:'✈️', name:'SUPPORTO AVIO',     sub:'Aeronautica',                     dsc:'Tutto quello che vola passa di qui.',                                      quo:'Jonny andiamo!'                                       },
+  {id:'comp2',x:670, y:200, locked:false, ico:'🪖', name:'2a COMPAGNIA',      sub:'SEN — Devil Baffaccio',           dsc:'SEN il Devil Baffaccio. Baffi leggendari, pugni pesanti.',                 quo:'Devil Baffaccio SEN!',                     act:'battle'},
+  {id:'inf',  x:900, y:175, locked:false, ico:'🏥', name:'INFERMERIA',        sub:'Sanita militare',                 dsc:"Ci vai quando non riesci piu ad alzare le braccia.",                       quo:'Non sei idoneo alla vita!',                act:'heal' },
+  {id:'mus',  x:960, y:340, locked:false, ico:'🏛️', name:'MUSEO AVIOTRUPPE',  sub:'Storia militare',                 dsc:'La storia di chi e venuto prima di te. Rispetto.',                        quo:'Eccezzionale!'                                        },
+  // CENTRO SINISTRA
+  {id:'men',  x:188, y:410, locked:false, ico:'🍽️', name:'MENSA',            sub:'Vitto militare',                  dsc:'Pasta scotta e carne misteriosa. Ma e tutto tuo.',                        quo:'Non farti mangiare il cazzo dalle mosche!',act:'eat'  },
+  {id:'cin',  x:188, y:555, locked:false, ico:'🎬', name:'CINEMA',           sub:'Svago',                           dsc:'Film militari, documentari di guerra.',                                    quo:"Liberta per gli ultra!"                               },
+  // CENTRO
+  {id:'tem',  x:530, y:390, locked:false, ico:'🕍', name:'TEMPIO',           sub:'BARONE DI PRUSSIA',               dsc:'Prima studi, poi alleni, poi sfidi il Barone di Prussia.',                 quo:'Volo Spericolato!',                        act:'battle'},
+  {id:'piaz', x:720, y:430, locked:false, ico:'🚩', name:'PIAZZALE',         sub:'Adunata',                         dsc:"Ogni mattina, ogni sera. L'adunata e sacra.",                             quo:'Ti devi muovere!'                                     },
+  // CENTRO BASSO
+  {id:'uff',  x:230, y:650, locked:false, ico:'📋', name:'UFFICIO',          sub:'Burocrazia militare',             dsc:'Moduli, richieste, permessi. La guerra della carta.',                      quo:'Signorsi!'                                            },
+  {id:'cmd',  x:380, y:650, locked:false, ico:'⭐', name:'COMANDO',          sub:'Ufficiali superiori',             dsc:'Non ci si va senza motivo. Il motivo e quasi sempre brutto.',              quo:'Io ti dico signorsi! E tu dici sissignore!'            },
+  {id:'log',  x:530, y:650, locked:false, ico:'📦', name:'LOGISTICA',        sub:'10 blocchi',                      dsc:'Carico, scarico, stivaggio. La tua routine alternativa.',                  quo:'Stai sul pezzo della merda!'                          },
+  {id:'comp1',x:670, y:650, locked:false, ico:'🪖', name:'1a COMPAGNIA',     sub:'OGYA — Cavaliere Alato',          dsc:'Il Cavaliere Alato OGYA ti aspetta. Primo boss.',                          quo:'Cavaliere Alato OGYA!',                    act:'battle'},
+  {id:'sup2', x:820, y:650, locked:false, ico:'✈️', name:'SUPPORTO AVIO 2',  sub:'Hangar secondario',               dsc:'Avio support. Il C130 parte da qui.',                                      quo:'Serra piombo!'                                        },
+  // SUD ALTO
+  {id:'asso', x:330, y:830, locked:false, ico:'🏅', name:'ASSO',             sub:'La Leggenda — Penultimo Boss',    dsc:'Occhio bendato, barba folta, record assoluto di lanci.',                   quo:'Eccezzionale!',                            act:'battle'},
+  {id:'torre',x:490, y:870, locked:false, ico:'🗽', name:'TORRE DEL PARACA', sub:'LEON — IL TORNADO DI FUOCO',     dsc:'Cilindro bianco. Statua enorme. Due leoni. LEON, Grado Leggenda.',         quo:'IL TORNADO DI FUOCO',                      act:'battle'},
+  {id:'parch',x:660, y:830, locked:false, ico:'🚗', name:'PARCHEGGIO',       sub:'Area veicoli',                    dsc:"Le macchine di chi ha il permesso.",                                       quo:'Vecchio!'                                             },
+  {id:'borgo',x:820, y:980, locked:false, ico:'🏘️', name:'BORGO BELLA NAJA', sub:'Area ricreativa',                 dsc:'Il cuore sociale della caserma.',                                          quo:'Cane cane cane cane!'                                 },
+  // SUD
+  {id:'dor1', x:230, y:1090,locked:false, ico:'🛏️', name:'DORMITORI 01',    sub:'CIOK — Caprone di Montagna',     dsc:'Il Sergente CIOK domina il primo dormitorio.',                             quo:'Caprone di Montagna Volante!',             act:'sleep'},
+  {id:'dor2', x:230, y:1200,locked:false, ico:'🛏️', name:'DORMITORI 02',    sub:'LACER — Parla-cadutista',        dsc:'LACER parla anche nel sonno.',                                             quo:'Parla-cadutista LACER!',                   act:'sleep'},
+  {id:'dor3', x:230, y:1310,locked:false, ico:'🛏️', name:'DORMITORI 03',    sub:'PANIKO — Sexy Baffo',            dsc:'PANIKO. Bello. Pericoloso. Anche addormentato.',                           quo:'Sexy Baffo in Burrasca!',                  act:'sleep'},
+  {id:'torri',x:490, y:1100,locked:false, ico:'🗼', name:'TORRI',            sub:'Strutture addestramento',         dsc:'Le torri di lancio. Qui si allena il corpo.',                              quo:'Vai a terra!',                             act:'train'},
+  {id:'campo',x:490, y:1300,locked:false, ico:'🐔', name:'CAMPO ADDESTR.',   sub:'Pollaio — Carlinghe',             dsc:'Carlinghe finte, uscite simulate.',                                        quo:'Pompa! Pompa cazzo!',                      act:'train'},
+  // ROSSE
+  {id:'arm',  x:230, y:975, locked:true,  ico:'🔫', name:'ARMERIA',          sub:'ACCESSO VIETATO',                 dsc:'Deposito armi. Richiede permesso speciale del Comando.',                   quo:'Non sei presente a te stesso!'                        },
+  {id:'grd',  x:960, y:650, locked:true,  ico:'🔒', name:'GUARDIE / INGRESSO',sub:'ACCESSO RISERVATO',             dsc:'Checkpoint principale. Solo con lasciapassare.',                           quo:'Non lo fare il chamber check della merda!'            },
+];
+
+// ============================================================
+// BUILD MAP STATICA
 // ============================================================
 function buildMap(){
-  const img=document.getElementById('map-bg');
-  img.style.width=MAP_W+'px'; img.style.height=MAP_H+'px';
-  const world=document.getElementById('map-world');
-  world.style.width=MAP_W+'px'; world.style.height=MAP_H+'px';
+  const img = document.getElementById('map-img');
+  const wrap = document.getElementById('map-wrap');
+  const area = document.getElementById('map-area');
 
-  // Canvas percorsi
-  const canvas=document.getElementById('path-canvas');
-  canvas.width=MAP_W; canvas.height=MAP_H;
-  canvas.style.width=MAP_W+'px'; canvas.style.height=MAP_H+'px';
-  const ctx=canvas.getContext('2d');
+  // Calcola dimensione mappa per riempire area disponibile
+  const areaW = area.clientWidth;
+  const areaH = area.clientHeight;
+  const ratio  = MAP_W_REF / MAP_H_REF;
+  let mw = areaW;
+  let mh = mw / ratio;
+  if(mh > areaH){ mh = areaH; mw = mh * ratio; }
 
-  // Ombra percorso
-  ctx.strokeStyle='rgba(201,168,76,0.13)';
-  ctx.lineWidth=16; ctx.lineCap='round';
-  for(const[x1,y1,x2,y2]of SEGS){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();}
-  // Linea centrale sottile
-  ctx.strokeStyle='rgba(201,168,76,0.22)';
-  ctx.lineWidth=3;
-  for(const[x1,y1,x2,y2]of SEGS){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();}
-  // Punti di incrocio
-  ctx.fillStyle='rgba(201,168,76,0.35)';
-  for(const[x1,y1,x2,y2]of SEGS){
-    ctx.beginPath();ctx.arc(x1,y1,4,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(x2,y2,4,0,Math.PI*2);ctx.fill();
-  }
+  wrap.style.width  = mw + 'px';
+  wrap.style.height = mh + 'px';
+  img.style.width   = mw + 'px';
+  img.style.height  = mh + 'px';
+
+  // Scale factor da coordinate originali a display
+  const sx = mw / MAP_W_REF;
+  const sy = mh / MAP_H_REF;
 
   // Rimuovi porte vecchie
   document.querySelectorAll('.door').forEach(e=>e.remove());
 
   // Crea porte
   DOORS.forEach(d=>{
-    const el=document.createElement('div');
-    el.className='door'+(d.locked?' locked':'');
-    el.style.left=d.x+'px'; el.style.top=d.y+'px';
-    const inner=document.createElement('div');
-    inner.className='door-inner';
-    el.appendChild(inner);
-    el.addEventListener('pointerdown',e=>{e.stopPropagation();openModal(d);});
-    world.insertBefore(el,document.getElementById('player'));
+    const el = document.createElement('div');
+    el.className = 'door' + (d.locked ? ' locked' : '');
+    el.style.left = (d.x * sx) + 'px';
+    el.style.top  = (d.y * sy) + 'px';
+
+    const body = document.createElement('div');
+    body.className = 'door-body';
+
+    const tip = document.createElement('div');
+    tip.className = 'door-tip';
+    tip.textContent = d.name;
+
+    el.appendChild(body);
+    el.appendChild(tip);
+    el.addEventListener('pointerdown', e=>{ e.stopPropagation(); openModal(d); });
+    wrap.appendChild(el);
   });
 }
-
-// ============================================================
-// CAMERA
-// ============================================================
-function updateCam(){
-  const vp=document.getElementById('map-vp');
-  const vpW=vp.clientWidth,vpH=vp.clientHeight;
-  const sW=MAP_W*zoom,sH=MAP_H*zoom;
-  let ox=vpW/2-px*zoom, oy=vpH/2-py*zoom;
-  ox=Math.min(0,Math.max(ox,vpW-sW));
-  oy=Math.min(0,Math.max(oy,vpH-sH));
-  document.getElementById('map-world').style.transform=`translate(${ox}px,${oy}px) scale(${zoom})`;
-  const pel=document.getElementById('player');
-  pel.style.left=(px-9)+'px'; pel.style.top=(py-9)+'px';
-}
-
-// ============================================================
-// MOVIMENTO
-// ============================================================
-const SPEED=5;
-let moveIv=null;
-const dirs={du:[0,-1],dd:[0,1],dl:[-1,0],dr:[1,0]};
-
-function startMove(id){
-  stopMove();
-  document.getElementById(id)?.classList.add('on');
-  const[dx,dy]=dirs[id];
-  function step(){
-    const np=movePlayer(px,py,dx,dy,SPEED);
-    px=np.x; py=np.y; updateCam();
-  }
-  step(); moveIv=setInterval(step,55);
-}
-function stopMove(){
-  if(moveIv){clearInterval(moveIv);moveIv=null;}
-  document.querySelectorAll('.db').forEach(b=>b.classList.remove('on'));
-}
-
-['du','dd','dl','dr'].forEach(id=>{
-  const btn=document.getElementById(id);
-  btn.addEventListener('pointerdown',e=>{e.preventDefault();startMove(id);});
-  btn.addEventListener('pointerup',  e=>{e.preventDefault();stopMove();});
-  btn.addEventListener('pointerleave',e=>{e.preventDefault();stopMove();});
-});
-const KB={'ArrowUp':'du','ArrowDown':'dd','ArrowLeft':'dl','ArrowRight':'dr','w':'du','s':'dd','a':'dl','d':'dr'};
-const held={};
-document.addEventListener('keydown',e=>{if(!held[e.key]&&KB[e.key]){held[e.key]=true;startMove(KB[e.key]);}});
-document.addEventListener('keyup',  e=>{held[e.key]=false;stopMove();});
-
-document.getElementById('zi').onclick=()=>{zoom=Math.min(2.2,zoom+0.2);updateCam();};
-document.getElementById('zo').onclick=()=>{zoom=Math.max(0.3,zoom-0.2);updateCam();};
-let lpd=null;
-const vpEl=document.getElementById('map-vp');
-vpEl.addEventListener('touchstart',e=>{if(e.touches.length===2)lpd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);},{passive:true});
-vpEl.addEventListener('touchmove', e=>{if(e.touches.length===2&&lpd){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);zoom=Math.max(0.3,Math.min(2.2,zoom+(d-lpd)*0.006));lpd=d;updateCam();}},{passive:true});
 
 // ============================================================
 // MODAL
 // ============================================================
 function openModal(d){
-  if(d.locked){toast('ACCESSO NEGATO — Richiede permesso del Comando');return;}
-  document.getElementById('m-ico').textContent=d.ico;
-  document.getElementById('m-tit').textContent=d.name;
-  document.getElementById('m-sub').textContent=d.sub;
-  document.getElementById('m-dsc').textContent=d.dsc;
-  document.getElementById('m-quo').textContent='"'+d.quo+'"';
-  const act=document.getElementById('m-act'); act.innerHTML='';
-  if(d.act==='battle')addBtn(act,'SFIDA',true,()=>{closeModal();toast('Sistema battaglia — prossimo aggiornamento!');});
-  if(d.act==='train') addBtn(act,'ALLENATI',true,()=>{closeModal();doTrain();});
-  if(d.act==='sleep') addBtn(act,'DORMI (+1 giorno)',true,()=>{closeModal();doSleep();});
-  if(d.act==='bar')   addBtn(act,'ENTRA AL BAR',true,()=>{closeModal();doBar();});
-  if(d.act==='eat')   addBtn(act,'MANGIA',true,()=>{closeModal();doEat();});
-  if(d.act==='heal')  addBtn(act,'RIPOSA',true,()=>{closeModal();doHeal();});
+  if(d.locked){ toast('ACCESSO NEGATO — Richiede permesso del Comando'); return; }
+  document.getElementById('m-ico').textContent = d.ico;
+  document.getElementById('m-tit').textContent = d.name;
+  document.getElementById('m-sub').textContent = d.sub;
+  document.getElementById('m-dsc').textContent = d.dsc;
+  document.getElementById('m-quo').textContent = '"' + d.quo + '"';
+  const act = document.getElementById('m-act'); act.innerHTML='';
+  if(d.act==='battle') addBtn(act,'SFIDA',true,()=>{closeModal();toast('Sistema battaglia — prossimo aggiornamento!');});
+  if(d.act==='train')  addBtn(act,'ALLENATI',true,()=>{closeModal();doTrain();});
+  if(d.act==='sleep')  addBtn(act,'DORMI (+1 giorno)',true,()=>{closeModal();doSleep();});
+  if(d.act==='bar')    addBtn(act,'ENTRA AL BAR',true,()=>{closeModal();doBar();});
+  if(d.act==='eat')    addBtn(act,'MANGIA',true,()=>{closeModal();doEat();});
+  if(d.act==='heal')   addBtn(act,'RIPOSA',true,()=>{closeModal();doHeal();});
   addBtn(act,'CHIUDI',false,closeModal);
   document.getElementById('modal').classList.add('show');
 }
-function addBtn(par,txt,primary,fn){const b=document.createElement('button');b.className='mb '+(primary?'mb-p':'mb-s');b.textContent=txt;b.onclick=fn;par.appendChild(b);}
-function closeModal(){document.getElementById('modal').classList.remove('show');}
+function addBtn(par,txt,primary,fn){
+  const b=document.createElement('button');
+  b.className='mb '+(primary?'mb-p':'mb-s');
+  b.textContent=txt;b.onclick=fn;par.appendChild(b);
+}
+function closeModal(){ document.getElementById('modal').classList.remove('show'); }
 document.getElementById('m-x').onclick=closeModal;
-document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+document.getElementById('modal').addEventListener('click',e=>{ if(e.target===document.getElementById('modal'))closeModal(); });
 
-// ACTIONS
+// ============================================================
+// AZIONI
+// ============================================================
 function doTrain(){player.forza=Math.min(99,player.forza+Math.floor(Math.random()*3)+1);player.disc=Math.min(99,player.disc+1);updHud();toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
 function doSleep(){player.giorno++;player.spirito=Math.min(99,player.spirito+2);document.getElementById('dv').textContent=player.giorno;updHud();toast('Hai dormito. Giorno '+player.giorno);}
 function doBar()  {player.spirito=Math.min(99,player.spirito+3);updHud();toast('"Alla Porta!" — Spirito +3. Weee naja!');}
-function doEat()  {player.spirito=Math.min(99,player.spirito+1);player.forza=Math.min(99,player.forza+1);updHud();toast('Pasta scotta ma calda. Forza +1, Spirito +1.');}
+function doEat()  {player.spirito=Math.min(99,player.spirito+1);player.forza=Math.min(99,player.forza+1);updHud();toast('Pasta scotta. Forza +1, Spirito +1.');}
 function doHeal() {player.forza=Math.min(99,player.forza+4);updHud();toast('Infermeria. Forza +4.');}
-function updHud() {document.getElementById('h-for').textContent=player.forza;document.getElementById('h-spi').textContent=player.spirito;document.getElementById('h-dis').textContent=player.disc;document.getElementById('lanci-val').textContent=player.lanci;}
+function updHud() {
+  document.getElementById('h-for').textContent=player.forza;
+  document.getElementById('h-spi').textContent=player.spirito;
+  document.getElementById('h-dis').textContent=player.disc;
+  document.getElementById('lanci-val').textContent=player.lanci;
+}
 let toastT=null;
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>t.style.opacity='0',2800);}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.opacity='1';
+  if(toastT)clearTimeout(toastT);
+  toastT=setTimeout(()=>t.style.opacity='0',2800);
+}
 
+// ============================================================
 // LOGIN
+// ============================================================
 const inN=document.getElementById('inp-nome'),inC=document.getElementById('inp-cogn'),bS=document.getElementById('btn-start');
 function chkLogin(){bS.disabled=!(inN.value.trim()&&inC.value.trim());document.getElementById('err-msg').classList.remove('show');}
-inN.addEventListener('input',chkLogin); inC.addEventListener('input',chkLogin);
+inN.addEventListener('input',chkLogin);inC.addEventListener('input',chkLogin);
 inN.addEventListener('keydown',e=>{if(e.key==='Enter')inC.focus();});
 inC.addEventListener('keydown',e=>{if(e.key==='Enter'&&!bS.disabled)bS.click();});
 bS.addEventListener('click',()=>{
@@ -465,9 +405,9 @@ bS.addEventListener('click',()=>{
   document.getElementById('hud-name').textContent='SOLDATO '+c.toUpperCase();
   document.getElementById('screen-login').style.display='none';
   document.getElementById('screen-map').classList.add('show');
-  buildMap();
-  const st=snapToPath(460,215); px=st.x; py=st.y; zoom=0.7; updateCam();
-  setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+c+'"'),700);
+  // buildMap dopo che il layout e visibile
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ buildMap(); }); });
+  setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+c+'"'),400);
 });
 </script>
 
