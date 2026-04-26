@@ -1,112 +1,495 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PARACA</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>PARACA!</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#000;
-  overflow:hidden;
+:root { --amaranto:#7B1020; --oro:#C9A84C; }
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body{ width:100vw; height:100vh; overflow:hidden; background:#1a1a1a; font-family:'Rajdhani',sans-serif; }
+
+/* ====== LOGIN ====== */
+#screen-login{
+position:fixed; inset:0; z-index:100;
+display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:30px;
+}
+#bg-login{
+position:absolute; inset:0;
+background-image:url(‘bg.png’);
+background-size:cover; background-position:center top; z-index:0;
+}
+#bg-login::after{
+content:’’; position:absolute; inset:0;
+background:linear-gradient(to bottom,rgba(0,0,0,0) 55%,rgba(0,0,0,0.18) 100%);
+}
+#login-title{ position:absolute; top:10px; left:0; right:0; text-align:center; z-index:2; pointer-events:none; }
+#login-title h1{
+font-family:‘Black Han Sans’,sans-serif;
+font-size:clamp(70px,15vw,130px); color:#7B1020;
+text-shadow:4px 4px 0 #3d000a, 7px 7px 0 rgba(0,0,0,0.2);
+line-height:1; animation:titlePulse 4s ease-in-out infinite;
+}
+@keyframes titlePulse{
+0%,100%{ color:#7B1020; }
+50%{ color:#8B1828; text-shadow:4px 4px 0 #3d000a,7px 7px 0 rgba(0,0,0,0.2),0 0 40px rgba(123,16,32,0.25); }
+}
+#popup{
+position:relative; z-index:2;
+background:rgba(238,230,210,0.84); border:2px solid rgba(123,16,32,0.35);
+border-radius:4px; padding:16px 22px 20px; width:min(340px,88vw);
+backdrop-filter:blur(8px); box-shadow:0 8px 32px rgba(0,0,0,0.22);
+}
+#popup::before,#popup::after{ content:’’; position:absolute; width:12px; height:12px; border-color:rgba(123,16,32,0.55); border-style:solid; }
+#popup::before{ top:-1px; left:-1px; border-width:2px 0 0 2px; }
+#popup::after{ bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
+.p-head{ text-align:center; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid rgba(123,16,32,0.2); }
+.p-head .lbl{ font-size:9px; letter-spacing:5px; text-transform:uppercase; color:rgba(123,16,32,0.5); }
+.p-head .rank{ font-family:‘Bebas Neue’,sans-serif; font-size:22px; color:#7B1020; letter-spacing:5px; }
+.frow{ margin-bottom:9px; }
+.flbl{ font-size:9px; letter-spacing:4px; text-transform:uppercase; color:rgba(80,30,30,0.55); margin-bottom:3px; }
+.finp{
+width:100%; background:rgba(255,255,255,0.5); border:1px solid rgba(123,16,32,0.28);
+border-radius:2px; padding:7px 11px; color:#2a0a0a;
+font-family:‘Rajdhani’,sans-serif; font-size:16px; font-weight:600; letter-spacing:2px;
+outline:none; transition:border-color .2s,background .2s;
+}
+.finp:focus{ border-color:rgba(123,16,32,0.65); background:rgba(255,255,255,0.75); }
+.finp::placeholder{ color:rgba(80,30,30,0.28); font-weight:400; }
+#err-msg{ font-size:10px; color:#7B1020; letter-spacing:1px; text-align:center; height:13px; margin-top:5px; opacity:0; transition:opacity .3s; }
+#err-msg.show{ opacity:1; }
+#btn-start{
+width:100%; margin-top:14px; padding:10px; background:#7B1020; border:none; border-radius:2px;
+color:#fff; font-family:‘Bebas Neue’,sans-serif; font-size:19px; letter-spacing:6px; cursor:pointer;
+box-shadow:0 3px 12px rgba(123,16,32,0.3); transition:background .2s,transform .1s;
+}
+#btn-start:hover{ background:#9B1828; }
+#btn-start:active{ transform:scale(0.98); }
+#btn-start:disabled{ background:rgba(140,120,110,0.4); cursor:not-allowed; box-shadow:none; }
+
+/* ====== MAPPA ====== */
+#screen-map{ position:fixed; inset:0; z-index:50; display:none; background:#2a2a1a; }
+#screen-map.show{ display:block; }
+
+#hud{
+position:absolute; top:0; left:0; right:0; height:46px;
+background:rgba(8,10,6,0.95); border-bottom:2px solid rgba(180,150,80,0.3);
+display:flex; align-items:center; padding:0 12px; z-index:300; gap:8px;
+}
+.hud-title{ font-family:‘Black Han Sans’,sans-serif; font-size:20px; color:#7B1020; text-shadow:2px 2px 0 #3d000a; margin-right:4px; }
+.hud-stat{ font-family:‘Rajdhani’,sans-serif; font-size:11px; font-weight:700; color:#c8b890; letter-spacing:1px; white-space:nowrap; }
+.hud-stat b{ color:#C9A84C; font-size:13px; }
+.hsep{ color:rgba(180,150,80,0.25); font-size:16px; }
+#hud-name{ margin-left:auto; font-family:‘Bebas Neue’,sans-serif; font-size:13px; color:rgba(180,150,80,0.75); letter-spacing:3px; white-space:nowrap; }
+
+#map-vp{
+position:absolute; top:46px; left:0; right:0; bottom:56px;
+overflow:hidden; touch-action:none;
+}
+#map-world{ position:absolute; transform-origin:0 0; }
+#map-bg{ position:absolute; top:0; left:0; display:block; }
+
+.hs{
+position:absolute; cursor:pointer; border-radius:4px;
+border:2px solid transparent;
+transition:border-color .15s, background .15s;
+display:flex; align-items:flex-end; justify-content:center;
+padding-bottom:4px;
+}
+.hs:hover{ border-color:rgba(201,168,76,0.75); background:rgba(201,168,76,0.1); }
+.hs-lbl{
+font-family:‘Bebas Neue’,sans-serif; font-size:10px; letter-spacing:1px;
+color:transparent; text-shadow:0 1px 3px rgba(0,0,0,0.8);
+white-space:nowrap; transition:color .15s; pointer-events:none;
+}
+.hs:hover .hs-lbl{ color:rgba(255,255,240,0.95); }
+
+#player{ position:absolute; width:20px; height:20px; z-index:50; pointer-events:none; }
+#pspr{
+width:20px; height:20px; background:#7B1020; border-radius:50% 50% 40% 40%;
+border:1.5px solid #C9A84C; display:flex; align-items:center; justify-content:center;
+box-shadow:0 2px 6px rgba(0,0,0,0.7); position:relative;
+}
+#pspr::before{
+content:’’; position:absolute; top:-5px; left:50%; transform:translateX(-50%);
+width:13px; height:5px; background:#2a1a05; border-radius:2px 2px 0 0; border:1px solid #C9A84C;
+}
+#pdot{ width:6px; height:6px; background:#fff; border-radius:50%; }
+#player::after{
+content:’’; position:absolute; bottom:-3px; left:50%; transform:translateX(-50%);
+width:12px; height:4px; background:rgba(0,0,0,0.3); border-radius:50%;
 }
 
-/* ===== LOGIN ===== */
-#login{
-  position:fixed;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+#dpad{ position:absolute; bottom:64px; left:14px; width:110px; height:110px; z-index:200; }
+.db{
+position:absolute; width:34px; height:34px;
+background:rgba(8,10,6,0.82); border:2px solid rgba(180,150,80,0.4);
+border-radius:5px; display:flex; align-items:center; justify-content:center;
+cursor:pointer; user-select:none; -webkit-user-select:none;
+font-size:13px; color:rgba(220,200,150,0.85); transition:background .1s,transform .1s;
 }
+.db:active,.db.on{ background:rgba(123,16,32,0.85); transform:scale(0.88); border-color:rgba(200,40,40,0.7); }
+#du{ top:0; left:38px; } #dd{ bottom:0; left:38px; } #dl{ top:38px; left:0; } #dr{ top:38px; right:0; }
+#dc{ position:absolute; top:38px; left:38px; width:34px; height:34px; background:rgba(8,10,6,0.4); border-radius:4px; border:1px solid rgba(180,150,80,0.15); }
 
-/* IMMAGINE PARACADUTISTI */
-#bg{
-  position:absolute;
-  inset:0;
-  background:url("bg.png") center/cover no-repeat;
-  z-index:0;
+#zoom-ctrl{ position:absolute; bottom:64px; right:12px; display:flex; flex-direction:column; gap:5px; z-index:200; }
+.zb{
+width:32px; height:32px; background:rgba(8,10,6,0.82);
+border:2px solid rgba(180,150,80,0.4); border-radius:5px;
+display:flex; align-items:center; justify-content:center;
+cursor:pointer; font-size:19px; color:rgba(220,200,150,0.85); transition:background .1s;
 }
+.zb:active{ background:rgba(123,16,32,0.85); }
 
-/* BOX LOGIN */
-#box{
-  position:relative;
-  z-index:1;
-  background:rgba(255,255,255,0.9);
-  padding:20px;
-  border-radius:10px;
-  width:250px;
-  text-align:center;
+#bottom-bar{
+position:absolute; bottom:0; left:0; right:0; height:56px;
+background:rgba(8,10,6,0.93); border-top:1px solid rgba(180,150,80,0.2);
+display:flex; align-items:center; justify-content:center; gap:24px; z-index:200;
 }
+.bb-item{ text-align:center; }
+.bb-lbl{ font-size:8px; letter-spacing:3px; color:rgba(180,150,80,0.5); text-transform:uppercase; display:block; }
+.bb-val{ font-family:‘Bebas Neue’,sans-serif; font-size:18px; color:#C9A84C; letter-spacing:2px; }
 
-input{
-  width:100%;
-  margin:10px 0;
-  padding:10px;
+/* ====== MODAL ====== */
+#modal{ position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; }
+#modal.show{ display:flex; }
+#mbox{
+background:rgba(12,15,10,0.98); border:2px solid rgba(180,150,80,0.4);
+border-radius:4px; padding:20px 24px; width:min(360px,90vw);
+position:relative; box-shadow:0 24px 80px rgba(0,0,0,0.85);
+animation:mboxIn .2s ease;
 }
+@keyframes mboxIn{ from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+#mbox::before,#mbox::after{ content:’’; position:absolute; width:11px; height:11px; border-color:rgba(180,150,80,0.6); border-style:solid; }
+#mbox::before{ top:-1px; left:-1px; border-width:2px 0 0 2px; }
+#mbox::after{ bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
+#m-ico{ font-size:34px; text-align:center; margin-bottom:5px; }
+#m-tit{ font-family:‘Bebas Neue’,sans-serif; font-size:24px; color:#C9A84C; letter-spacing:4px; text-align:center; }
+#m-sub{ font-size:9px; letter-spacing:3px; text-transform:uppercase; color:rgba(180,150,80,0.4); text-align:center; margin-bottom:10px; }
+#m-dsc{ font-size:13px; color:rgba(210,200,180,0.85); line-height:1.55; margin-bottom:10px; text-align:center; }
+#m-quo{ font-size:13px; color:#9B1020; font-style:italic; text-align:center; padding:6px 10px; border-left:2px solid #7B1020; margin-bottom:14px; background:rgba(123,16,32,0.08); }
+.mb{ width:100%; padding:9px; margin-bottom:6px; border:none; border-radius:2px; cursor:pointer; font-family:‘Bebas Neue’,sans-serif; font-size:15px; letter-spacing:4px; transition:background .2s; }
+.mb-p{ background:#7B1020; color:#fff; box-shadow:0 3px 10px rgba(123,16,32,0.3); }
+.mb-p:hover{ background:#9B1828; }
+.mb-s{ background:rgba(180,150,80,0.1); color:#C9A84C; border:1px solid rgba(180,150,80,0.25); }
+.mb-s:hover{ background:rgba(180,150,80,0.2); }
+#m-x{ position:absolute; top:8px; right:10px; background:none; border:none; color:rgba(180,150,80,0.4); font-size:17px; cursor:pointer; }
+#m-x:hover{ color:#C9A84C; }
 
-button{
-  width:100%;
-  padding:10px;
-  background:#7B1020;
-  color:white;
-  border:none;
-  cursor:pointer;
-}
-
-/* ===== MAPPA ===== */
-#game{
-  display:none;
-  position:fixed;
-  inset:0;
-}
-
-#map{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+#toast{
+position:fixed; bottom:64px; left:50%; transform:translateX(-50%);
+background:rgba(8,10,6,0.94); border:1px solid rgba(180,150,80,0.35);
+border-radius:3px; padding:8px 16px; color:#C9A84C;
+font-family:‘Rajdhani’,sans-serif; font-size:13px; font-weight:600;
+letter-spacing:1px; z-index:600; max-width:80vw; text-align:center;
+opacity:0; transition:opacity .4s; pointer-events:none;
 }
 </style>
 
 </head>
-
 <body>
 
 <!-- LOGIN -->
-<div id="login">
-  <div id="bg"></div>
 
-  <div id="box">
-    <h2>PARACA!</h2>
-
-    <input id="nome" placeholder="Nome">
-    <input id="cognome" placeholder="Cognome">
-
-    <button onclick="start()">INIZIA</button>
+<div id="screen-login">
+  <div id="bg-login"></div>
+  <div id="login-title"><h1>PARACA!</h1></div>
+  <div id="popup">
+    <div class="p-head">
+      <div class="lbl">Grado</div>
+      <div class="rank">SOLDATO</div>
+    </div>
+    <div class="frow">
+      <div class="flbl">Nome</div>
+      <input class="finp" id="inp-nome" type="text" placeholder="Il tuo nome" maxlength="20" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="frow">
+      <div class="flbl">Cognome</div>
+      <input class="finp" id="inp-cogn" type="text" placeholder="Il tuo cognome" maxlength="20" autocomplete="off" spellcheck="false">
+    </div>
+    <div id="err-msg">Inserisci nome e cognome</div>
+    <button id="btn-start" disabled>INIZIA LA NAJA</button>
   </div>
 </div>
 
 <!-- MAPPA -->
-<div id="game">
-  <img id="map" src="E203C4EC-1216-469D-9B0E-7465C587B443.png">
+
+<div id="screen-map">
+  <div id="hud">
+    <span class="hud-title">PARACA!</span>
+    <span class="hsep">|</span>
+    <span class="hud-stat">FORZA <b id="h-for">10</b></span>
+    <span class="hsep">|</span>
+    <span class="hud-stat">SPIRITO <b id="h-spi">10</b></span>
+    <span class="hsep">|</span>
+    <span class="hud-stat">DISC <b id="h-dis">10</b></span>
+    <span id="hud-name">SOLDATO</span>
+  </div>
+  <div id="map-vp">
+    <div id="map-world">
+      <img id="map-bg" src="E203C4EC-1216-469D-9B0E-7465C587B443.png" alt="caserma">
+      <div id="player"><div id="pspr"><div id="pdot"></div></div></div>
+    </div>
+  </div>
+  <div id="dpad">
+    <div class="db" id="du">▲</div>
+    <div class="db" id="dl">◀</div>
+    <div id="dc"></div>
+    <div class="db" id="dr">▶</div>
+    <div class="db" id="dd">▼</div>
+  </div>
+  <div id="zoom-ctrl">
+    <div class="zb" id="zi">+</div>
+    <div class="zb" id="zo">−</div>
+  </div>
+  <div id="bottom-bar">
+    <div class="bb-item"><span class="bb-lbl">Giorno</span><span class="bb-val" id="dv">1</span></div>
+    <div class="bb-item"><span class="bb-lbl">Grado</span><span class="bb-val" id="grado-val">Soldato</span></div>
+    <div class="bb-item"><span class="bb-lbl">Lanci</span><span class="bb-val" id="lanci-val">0</span></div>
+  </div>
 </div>
 
+<!-- MODAL -->
+
+<div id="modal">
+  <div id="mbox">
+    <button id="m-x">✕</button>
+    <div id="m-ico"></div>
+    <div id="m-tit"></div>
+    <div id="m-sub"></div>
+    <div id="m-dsc"></div>
+    <div id="m-quo"></div>
+    <div id="m-act"></div>
+  </div>
+</div>
+<div id="toast"></div>
+
 <script>
-function start(){
-  let nome = document.getElementById("nome").value;
-  let cognome = document.getElementById("cognome").value;
+const MAP_W = 900, MAP_H = 1124;
 
-  if(!nome || !cognome){
-    alert("Inserisci nome e cognome");
-    return;
-  }
+const FRASI = [
+  "Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!",
+  "Non sei idoneo alla vita!","Ti devi muovere! Ti devi muovere!",
+  "Sei massiccio cazzo!","Eccezzionale!","Serra piombo!",
+  "Jonny andiamo!","Dai Jonny cazzo!","Non sei presente a te stesso!",
+  "Cagnaccio!","Cane cane cane cane!","Ma lo vedi che non sei idoneo!",
+  "Non lo fare il chamber check della merda!",
+  "Io ti dico signorsì! E tu dici sissignore!","Cavallo! Cavallo! Meeeglio!",
+  "Non farti mangiare il cazzo dalle mosche!","Vecchio!","Weee naja!",
+  "Libertà per gli ultrà! Tornado forza naja in arrivo!"
+];
 
-  document.getElementById("login").style.display = "none";
-  document.getElementById("game").style.display = "block";
+const player = { nome:'', cognome:'', forza:10, spirito:10, disc:10, giorno:1, lanci:0 };
+let px = 450, py = 560, zoom = 0.65;
+
+const SPOTS = [
+  { id:'pal',   x:60,  y:80,  w:140,h:110, ico:'💪', name:'PALESTRA',         sub:'Allenamento quotidiano',              dsc:'Piegamenti, trazioni, corsa. Il tuo nuovo hobby.',                          quo:'Sei massiccio cazzo!',                      act:'train' },
+  { id:'spa',   x:210, y:80,  w:110,h:110, ico:'🍺', name:'ALLA PORTA!',       sub:'Bar / Spaccio',                       dsc:"L'oasi di civilta della caserma. Birra, caffe, lamentele.",                 quo:'Weee naja!',                                act:'bar'   },
+  { id:'sup1',  x:325, y:80,  w:120,h:110, ico:'✈️', name:'SUPPORTO AVIO',     sub:'Aeronautica',                         dsc:'Tutto quello che vola passa di qui. Anche te, presto.',                     quo:'Jonny andiamo!'                                         },
+  { id:'edif',  x:455, y:80,  w:130,h:110, ico:'🚧', name:'EDIFICIO IN RIP.',  sub:'Lavori in corso',                     dsc:'Sempre in riparazione. Da quando sei arrivato a quando te ne vai.',         quo:'Cagnaccio!'                                              },
+  { id:'comp2', x:590, y:60,  w:140,h:130, ico:'🪖', name:'2a COMPAGNIA',      sub:'SEN — Devil Baffaccio',               dsc:'SEN il Devil Baffaccio. Baffi leggendari, pugni pesanti.',                  quo:'Devil Baffaccio SEN!',                      act:'battle'},
+  { id:'inf',   x:745, y:60,  w:135,h:110, ico:'🏥', name:'INFERMERIA',        sub:'Sanita militare',                     dsc:"Ci vai quando non riesci piu ad alzare le braccia dai piegamenti.",         quo:'Non sei idoneo alla vita!',                 act:'heal'  },
+  { id:'mus',   x:745, y:190, w:135,h:100, ico:'🏛️', name:'MUSEO AVIOTRUPPE',  sub:'Storia militare',                     dsc:'La storia di chi e venuto prima di te. Rispetto.',                         quo:'Eccezzionale!'                                           },
+  { id:'men',   x:60,  y:240, w:145,h:110, ico:'🍽️', name:'MENSA',            sub:'Vitto militare',                      dsc:'Pasta scotta e carne misteriosa. Ma e tutto tuo.',                         quo:'Non farti mangiare il cazzo dalle mosche!', act:'eat'   },
+  { id:'cin',   x:60,  y:360, w:145,h:100, ico:'🎬', name:'CINEMA',           sub:'Svago',                               dsc:'Film militari, documentari di guerra. Relax garantito.',                    quo:'Liberta per gli ultra!'                                  },
+  { id:'tem',   x:370, y:240, w:120,h:120, ico:'🕍', name:'TEMPIO',           sub:'BARONE DI PRUSSIA — Volo Spericolato', dsc:'Prima studi, poi alleni i commilitoni, poi sfidi il Barone di Prussia.',   quo:'Volo Spericolato!',                         act:'battle'},
+  { id:'piaz',  x:510, y:240, w:220,h:200, ico:'🚩', name:'PIAZZALE',         sub:'Adunata e cerimonie',                 dsc:"Ogni mattina, ogni sera. L'adunata e sacra.",                              quo:'Ti devi muovere! Ti devi muovere!'                       },
+  { id:'uff',   x:60,  y:470, w:130,h:120, ico:'📋', name:'UFFICIO',          sub:'Burocrazia militare',                 dsc:'Moduli, richieste, permessi. La guerra della carta.',                       quo:'Signorsi!'                                               },
+  { id:'cmd',   x:200, y:470, w:130,h:120, ico:'⭐', name:'COMANDO',          sub:'Ufficiali superiori',                 dsc:'Non ci si va senza motivo. Il motivo e quasi sempre brutto.',               quo:'Io ti dico signorsi! E tu dici sissignore!'               },
+  { id:'log',   x:340, y:470, w:130,h:120, ico:'📦', name:'LOGISTICA',        sub:'10 blocchi — Magazzini',              dsc:'Carico, scarico, stivaggio. La tua routine alternativa ai piegamenti.',      quo:'Stai sul pezzo della merda!'                             },
+  { id:'comp1', x:475, y:470, w:130,h:120, ico:'🪖', name:'1a COMPAGNIA',     sub:'OGYA — Cavaliere Alato',              dsc:'Il Cavaliere Alato OGYA ti aspetta. Primo boss. Sei pronto?',               quo:'Cavaliere Alato OGYA!',                     act:'battle'},
+  { id:'sup2',  x:610, y:470, w:110,h:120, ico:'✈️', name:'SUPPORTO AVIO 2',  sub:'Hangar secondario',                   dsc:'Avio support. Il C130 parte da qui.',                                       quo:'Serra piombo!'                                           },
+  { id:'grd',   x:725, y:470, w:135,h:120, ico:'🔒', name:'GUARDIE',          sub:'Ingresso principale',                 dsc:'Checkpoint. Documenti in mano.',                                            quo:'Non lo fare il chamber check della merda!'               },
+  { id:'asso',  x:175, y:615, w:160,h:130, ico:'🏅', name:'ASSO',             sub:'La Leggenda — Penultimo Boss',        dsc:'Occhio bendato, barba folta, record assoluto di lanci. La leggenda vivente.',quo:'Eccezzionale!',                             act:'battle'},
+  { id:'torre', x:350, y:625, w:115,h:135, ico:'🗽', name:'TORRE DEL PARACA', sub:'LEON — IL TORNADO DI FUOCO',          dsc:'Cilindro bianco. Statua enorme. Barba bianca, outfit WWII, due leoni. LEON, Grado Leggenda.', quo:'IL TORNADO DI FUOCO', act:'battle'},
+  { id:'parch', x:470, y:615, w:185,h:100, ico:'🚗', name:'PARCHEGGIO',       sub:'Area veicoli',                        dsc:"Le macchine di chi ha il permesso. Le bici di chi non ce l'ha.",            quo:'Vecchio!'                                                },
+  { id:'arm',   x:175, y:760, w:160,h:100, ico:'🔫', name:'ARMERIA',          sub:'Deposito armi',                       dsc:'Trattala meglio di te stesso. Pulisci. Controlla. Rispetta.',               quo:'Non sei presente a te stesso!',             act:'weapon'},
+  { id:'dor1',  x:55,  y:865, w:165,h:90,  ico:'🛏️', name:'DORMITORI 01',    sub:'CIOK — Caprone di Montagna Volante',  dsc:'Il Sergente CIOK domina il primo dormitorio.',                              quo:'Caprone di Montagna Volante!',              act:'sleep' },
+  { id:'dor2',  x:55,  y:965, w:165,h:90,  ico:'🛏️', name:'DORMITORI 02',    sub:'LACER — Parla-cadutista',             dsc:'LACER parla anche nel sonno. Incessantemente.',                             quo:'Parla-cadutista LACER!',                    act:'sleep' },
+  { id:'dor3',  x:55,  y:1058,w:165,h:90,  ico:'🛏️', name:'DORMITORI 03',    sub:'PANIKO — Sexy Baffo in Burrasca',     dsc:'PANIKO. Bello. Pericoloso. Anche addormentato.',                            quo:'Sexy Baffo in Burrasca!',                   act:'sleep' },
+  { id:'torri', x:330, y:845, w:120,h:185, ico:'🗼', name:'TORRI',            sub:'Strutture di addestramento',          dsc:'Le torri di lancio. Qui si allena il corpo. E la testa.',                   quo:'Vai a terra!',                              act:'train' },
+  { id:'campo', x:325, y:1038,w:165,h:110, ico:'🐔', name:'CAMPO ADDESTR.',   sub:'Pollaio — Carlinghe',                 dsc:'Carlinghe finte, uscite simulate. Qui impari prima di volare davvero.',     quo:'Pompa! Pompa cazzo!',                       act:'train' },
+  { id:'borgo', x:495, y:860, w:285,h:275, ico:'🏘️', name:'BORGO BELLA NAJA', sub:'Area ricreativa',                    dsc:'Il cuore sociale della caserma. Dove si ride, si piange, si sopravvive.',   quo:'Cane cane cane cane!'                                    },
+];
+
+// ============================================================
+// BUILD MAP
+// ============================================================
+function buildMap() {
+  const img = document.getElementById('map-bg');
+  img.style.width  = MAP_W + 'px';
+  img.style.height = MAP_H + 'px';
+
+  const world = document.getElementById('map-world');
+  world.style.width  = MAP_W + 'px';
+  world.style.height = MAP_H + 'px';
+
+  document.querySelectorAll('.hs').forEach(e => e.remove());
+
+  SPOTS.forEach(s => {
+    const el = document.createElement('div');
+    el.className = 'hs';
+    el.style.cssText = `left:${s.x}px;top:${s.y}px;width:${s.w}px;height:${s.h}px;`;
+    const lbl = document.createElement('div');
+    lbl.className = 'hs-lbl';
+    lbl.textContent = s.name;
+    el.appendChild(lbl);
+    el.addEventListener('pointerdown', e => { e.stopPropagation(); openModal(s); });
+    world.insertBefore(el, document.getElementById('player'));
+  });
 }
+
+// ============================================================
+// CAMERA
+// ============================================================
+function updateCam() {
+  const vp  = document.getElementById('map-vp');
+  const vpW = vp.clientWidth, vpH = vp.clientHeight;
+  const scaledW = MAP_W * zoom, scaledH = MAP_H * zoom;
+
+  let ox = vpW / 2 - px * zoom;
+  let oy = vpH / 2 - py * zoom;
+  ox = Math.min(0, Math.max(ox, vpW  - scaledW));
+  oy = Math.min(0, Math.max(oy, vpH  - scaledH));
+
+  document.getElementById('map-world').style.transform = `translate(${ox}px,${oy}px) scale(${zoom})`;
+  const pel = document.getElementById('player');
+  pel.style.left = (px - 10) + 'px';
+  pel.style.top  = (py - 10) + 'px';
+}
+
+// ============================================================
+// MOVEMENT
+// ============================================================
+const SPEED = 7;
+let moveIv = null;
+const dirs = { du:[0,-1], dd:[0,1], dl:[-1,0], dr:[1,0] };
+
+function startMove(id) {
+  stopMove();
+  document.getElementById(id)?.classList.add('on');
+  const [dx, dy] = dirs[id];
+  function step() {
+    px = Math.max(10, Math.min(MAP_W - 10, px + dx * SPEED));
+    py = Math.max(10, Math.min(MAP_H - 10, py + dy * SPEED));
+    updateCam();
+  }
+  step();
+  moveIv = setInterval(step, 60);
+}
+function stopMove() {
+  if (moveIv) { clearInterval(moveIv); moveIv = null; }
+  document.querySelectorAll('.db').forEach(b => b.classList.remove('on'));
+}
+
+['du','dd','dl','dr'].forEach(id => {
+  const btn = document.getElementById(id);
+  btn.addEventListener('pointerdown', e => { e.preventDefault(); startMove(id); });
+  btn.addEventListener('pointerup',   e => { e.preventDefault(); stopMove(); });
+  btn.addEventListener('pointerleave',e => { e.preventDefault(); stopMove(); });
+});
+
+const KB  = {'ArrowUp':'du','ArrowDown':'dd','ArrowLeft':'dl','ArrowRight':'dr','w':'du','s':'dd','a':'dl','d':'dr'};
+const held = {};
+document.addEventListener('keydown', e => { if (!held[e.key] && KB[e.key]) { held[e.key]=true; startMove(KB[e.key]); } });
+document.addEventListener('keyup',   e => { held[e.key]=false; stopMove(); });
+
+document.getElementById('zi').onclick = () => { zoom = Math.min(2.2, zoom + 0.2); updateCam(); };
+document.getElementById('zo').onclick = () => { zoom = Math.max(0.3, zoom - 0.2); updateCam(); };
+
+let lpd = null;
+const vpEl = document.getElementById('map-vp');
+vpEl.addEventListener('touchstart', e => {
+  if (e.touches.length === 2) lpd = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+}, {passive:true});
+vpEl.addEventListener('touchmove', e => {
+  if (e.touches.length === 2 && lpd) {
+    const d = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+    zoom = Math.max(0.3, Math.min(2.2, zoom + (d - lpd) * 0.006));
+    lpd = d; updateCam();
+  }
+}, {passive:true});
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(s) {
+  document.getElementById('m-ico').textContent = s.ico;
+  document.getElementById('m-tit').textContent = s.name;
+  document.getElementById('m-sub').textContent = s.sub;
+  document.getElementById('m-dsc').textContent = s.dsc;
+  document.getElementById('m-quo').textContent = '"' + s.quo + '"';
+  const act = document.getElementById('m-act');
+  act.innerHTML = '';
+  if (s.act === 'battle') addBtn(act, 'SFIDA',            true,  () => { closeModal(); toast('Sistema battaglia — prossimo aggiornamento!'); });
+  if (s.act === 'train')  addBtn(act, 'ALLENATI',         true,  () => { closeModal(); doTrain(); });
+  if (s.act === 'sleep')  addBtn(act, 'DORMI (+1 giorno)',true,  () => { closeModal(); doSleep(); });
+  if (s.act === 'bar')    addBtn(act, 'ENTRA AL BAR',     true,  () => { closeModal(); doBar(); });
+  if (s.act === 'eat')    addBtn(act, 'MANGIA',           true,  () => { closeModal(); doEat(); });
+  if (s.act === 'heal')   addBtn(act, 'RIPOSA',           true,  () => { closeModal(); doHeal(); });
+  if (s.act === 'weapon') addBtn(act, 'PULISCI ARMA',     true,  () => { closeModal(); doWeapon(); });
+  addBtn(act, 'CHIUDI', false, closeModal);
+  document.getElementById('modal').classList.add('show');
+}
+function addBtn(par, txt, primary, fn) {
+  const b = document.createElement('button');
+  b.className = 'mb ' + (primary ? 'mb-p' : 'mb-s');
+  b.textContent = txt; b.onclick = fn; par.appendChild(b);
+}
+function closeModal() { document.getElementById('modal').classList.remove('show'); }
+document.getElementById('m-x').onclick = closeModal;
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+// ============================================================
+// ACTIONS
+// ============================================================
+function doTrain()  { player.forza=Math.min(99,player.forza+Math.floor(Math.random()*3)+1); player.disc=Math.min(99,player.disc+1); updHud(); toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"'); }
+function doSleep()  { player.giorno++; player.spirito=Math.min(99,player.spirito+2); document.getElementById('dv').textContent=player.giorno; updHud(); toast('Hai dormito. Giorno '+player.giorno); }
+function doBar()    { player.spirito=Math.min(99,player.spirito+3); updHud(); toast('"Alla Porta!" — Spirito +3. Weee naja!'); }
+function doEat()    { player.spirito=Math.min(99,player.spirito+1); player.forza=Math.min(99,player.forza+1); updHud(); toast('Pasta scotta ma calda. Forza +1, Spirito +1.'); }
+function doHeal()   { player.forza=Math.min(99,player.forza+4); updHud(); toast('Infermeria. Forza +4.'); }
+function doWeapon() { player.disc=Math.min(99,player.disc+3); updHud(); toast('Arma pulita. Disciplina +3. Signorsi!'); }
+function updHud()   {
+  document.getElementById('h-for').textContent = player.forza;
+  document.getElementById('h-spi').textContent = player.spirito;
+  document.getElementById('h-dis').textContent = player.disc;
+  document.getElementById('lanci-val').textContent = player.lanci;
+}
+
+let toastT = null;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.opacity = '1';
+  if (toastT) clearTimeout(toastT);
+  toastT = setTimeout(() => t.style.opacity = '0', 2800);
+}
+
+// ============================================================
+// LOGIN
+// ============================================================
+const inN = document.getElementById('inp-nome');
+const inC = document.getElementById('inp-cogn');
+const bS  = document.getElementById('btn-start');
+
+function chkLogin() { bS.disabled = !(inN.value.trim() && inC.value.trim()); document.getElementById('err-msg').classList.remove('show'); }
+inN.addEventListener('input', chkLogin);
+inC.addEventListener('input', chkLogin);
+inN.addEventListener('keydown', e => { if (e.key === 'Enter') inC.focus(); });
+inC.addEventListener('keydown', e => { if (e.key === 'Enter' && !bS.disabled) bS.click(); });
+
+bS.addEventListener('click', () => {
+  const n = inN.value.trim(), c = inC.value.trim();
+  if (!n || !c) { document.getElementById('err-msg').classList.add('show'); return; }
+  player.nome = n; player.cognome = c;
+  document.getElementById('hud-name').textContent = 'SOLDATO ' + c.toUpperCase();
+  document.getElementById('screen-login').style.display = 'none';
+  document.getElementById('screen-map').classList.add('show');
+  buildMap();
+  px = 450; py = 560; zoom = 0.65; updateCam();
+  setTimeout(() => toast('"Weee naja! Benvenuto Soldato ' + c + '"'), 700);
+});
 </script>
 
 </body>
