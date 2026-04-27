@@ -361,6 +361,18 @@ bS.addEventListener('click',()=>{
   requestAnimationFrame(()=>requestAnimationFrame(()=>buildMap()));
   setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+c+'"'),400);
 });
+
+// DEBUG MODE — tocca la mappa per vedere coordinate
+let debugMode = true;
+document.getElementById('map-wrap').addEventListener('pointerdown', function(e) {
+  if(!debugMode) return;
+  const wrap = document.getElementById('map-wrap');
+  const rect = wrap.getBoundingClientRect();
+  const sx = (e.clientX - rect.left) / scaleX;
+  const sy = (e.clientY - rect.top)  / scaleY;
+  toast('map(' + Math.round(sx) + ',' + Math.round(sy) + ')');
+});
+
 document.getElementById('bg-login').style.backgroundImage="url('bg.png?v=4')";
 </script>
 
