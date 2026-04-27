@@ -1,130 +1,240 @@
 <!DOCTYPE html>
-
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>PARACA!</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:'Rajdhani',sans-serif;}
 
+:root{
+  --oro:#C9A84C;
+  --rosso:#7B1020;
+  --scuro:#070906;
+}
+
+#rotate-msg{
+  display:none;position:fixed;inset:0;z-index:9999;background:#0a0a0a;
+  flex-direction:column;align-items:center;justify-content:center;gap:16px;
+}
+#rotate-msg .ico{font-size:56px;animation:rs 2s ease-in-out infinite;}
+@keyframes rs{0%,100%{transform:rotate(0deg);}50%{transform:rotate(90deg);}}
+#rotate-msg p{
+  font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:4px;
+  color:var(--oro);text-align:center;
+}
+@media(orientation:portrait){
+  #rotate-msg{display:flex;}
+  #screen-login,#screen-map{display:none!important;}
+}
+
 /* LOGIN */
-#screen-login{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;}
-#bg-login{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;}
-#bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.32);}
-#login-title{position:absolute;top:50%;left:0;right:0;transform:translateY(-160px);text-align:center;z-index:2;pointer-events:none;}
-#login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(48px,12vw,100px);color:#7B1020;text-shadow:4px 4px 0 #3d000a,7px 7px 0 rgba(0,0,0,0.2);line-height:1;animation:tp 4s ease-in-out infinite;}
-@keyframes tp{0%,100%{color:#7B1020;}50%{color:#8B1828;text-shadow:4px 4px 0 #3d000a,7px 7px 0 rgba(0,0,0,0.2),0 0 40px rgba(123,16,32,0.3);}}
-#popup{position:relative;z-index:2;background:rgba(235,226,206,0.91);border:2px solid rgba(123,16,32,0.4);border-radius:4px;padding:14px 20px 18px;width:min(300px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.4);}
-#popup::before,#popup::after{content:’’;position:absolute;width:11px;height:11px;border-color:rgba(123,16,32,0.6);border-style:solid;}
+#screen-login{
+  position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+}
+#bg-login{
+  position:absolute;inset:0;background-image:url("bg.png");background-size:cover;
+  background-position:center;z-index:0;
+}
+#bg-login::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.32);}
+#login-title{
+  position:absolute;top:50%;left:0;right:0;transform:translateY(-160px);
+  text-align:center;z-index:2;pointer-events:none;
+}
+#login-title h1{
+  font-family:'Black Han Sans',sans-serif;font-size:clamp(42px,8vw,82px);
+  color:var(--rosso);text-shadow:3px 3px 0 #3d000a,5px 5px 0 rgba(0,0,0,0.25);
+  line-height:1;animation:tp 4s ease-in-out infinite;
+}
+@keyframes tp{
+  0%,100%{color:var(--rosso);}
+  50%{color:#8B1828;text-shadow:3px 3px 0 #3d000a,5px 5px 0 rgba(0,0,0,0.2),0 0 28px rgba(123,16,32,0.4);}
+}
+#popup{
+  position:relative;z-index:2;background:rgba(235,226,206,0.91);
+  border:2px solid rgba(123,16,32,0.4);border-radius:4px;padding:14px 20px 16px;
+  width:min(260px,36vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+#popup::before,#popup::after{
+  content:"";position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;
+}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
 #popup::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
-.p-head{text-align:center;margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid rgba(123,16,32,0.2);}
-.p-lbl{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(123,16,32,0.5);}
-.p-rank{font-family:‘Bebas Neue’,sans-serif;font-size:22px;color:#7B1020;letter-spacing:5px;}
-.frow{margin-bottom:9px;}
-.flbl{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(80,30,30,0.55);margin-bottom:3px;}
-.finp{width:100%;background:rgba(255,255,255,0.6);border:1px solid rgba(123,16,32,0.28);border-radius:2px;padding:7px 10px;color:#2a0a0a;font-family:‘Rajdhani’,sans-serif;font-size:15px;font-weight:600;letter-spacing:2px;outline:none;transition:border-color .2s;}
+.p-head{text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(123,16,32,0.2);}
+.p-lbl{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:rgba(123,16,32,0.5);}
+.p-rank{font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--rosso);letter-spacing:5px;}
+.frow{margin-bottom:7px;}
+.flbl{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:rgba(80,30,30,0.55);margin-bottom:3px;}
+.finp{
+  width:100%;background:rgba(255,255,255,0.6);border:1px solid rgba(123,16,32,0.28);
+  border-radius:2px;padding:6px 9px;color:#2a0a0a;font-family:'Rajdhani',sans-serif;
+  font-size:14px;font-weight:600;letter-spacing:2px;outline:none;
+}
 .finp:focus{border-color:rgba(123,16,32,0.7);background:rgba(255,255,255,0.85);}
 .finp::placeholder{color:rgba(80,30,30,0.3);font-weight:400;}
-#err-msg{font-size:10px;color:#7B1020;text-align:center;height:12px;margin-top:4px;opacity:0;transition:opacity .3s;}
+#err-msg{font-size:9px;color:var(--rosso);text-align:center;height:11px;margin-top:3px;opacity:0;transition:opacity .3s;}
 #err-msg.show{opacity:1;}
-#btn-start{width:100%;margin-top:12px;padding:10px;background:#7B1020;border:none;border-radius:2px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:18px;letter-spacing:6px;cursor:pointer;box-shadow:0 3px 12px rgba(123,16,32,0.35);transition:background .2s;}
-#btn-start:hover{background:#9B1828;}
-#btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;box-shadow:none;}
+#btn-start{
+  width:100%;margin-top:10px;padding:9px;background:var(--rosso);border:none;border-radius:2px;
+  color:#fff;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:6px;cursor:pointer;
+}
+#btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;}
 
-/* MAPPA */
+/* MAP */
 #screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#0a0a0a;}
 #screen-map.show{display:flex;}
-#hud{flex-shrink:0;height:36px;background:rgba(6,8,5,0.97);border-bottom:1px solid rgba(180,150,80,0.2);display:flex;align-items:center;padding:0 10px;gap:7px;z-index:300;}
-.ht{font-family:‘Black Han Sans’,sans-serif;font-size:16px;color:#7B1020;text-shadow:2px 2px 0 #3d000a;}
-.hs{font-family:‘Rajdhani’,sans-serif;font-size:11px;font-weight:700;color:#c0aa80;letter-spacing:1px;white-space:nowrap;}
-.hs b{color:#C9A84C;font-size:12px;}
-.hd{color:rgba(180,150,80,0.2);font-size:10px;}
-#hud-name{margin-left:auto;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(180,150,80,0.65);letter-spacing:3px;}
+#hud{
+  flex-shrink:0;height:34px;background:rgba(6,8,5,0.97);
+  border-bottom:1px solid rgba(180,150,80,0.18);
+  display:flex;align-items:center;padding:0 10px;gap:7px;z-index:300;
+}
+.ht{font-family:'Black Han Sans',sans-serif;font-size:15px;color:var(--rosso);text-shadow:2px 2px 0 #3d000a;}
+.hs{font-size:10px;font-weight:700;color:#c0aa80;letter-spacing:1px;white-space:nowrap;}
+.hs b{color:var(--oro);font-size:11px;}
+.hd{color:rgba(180,150,80,0.18);font-size:10px;}
+#hud-name{margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(180,150,80,0.6);letter-spacing:3px;}
+
 #game-body{flex:1;display:flex;overflow:hidden;}
-#map-area{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#0d0d0d;overflow:hidden;}
+#map-area{
+  flex:1;position:relative;display:flex;align-items:center;justify-content:center;
+  background:#0d0d0d;overflow:hidden;
+}
 #map-wrap{position:relative;}
 #map-img{display:block;}
 
-/* PUNTINI */
-.door{position:absolute;cursor:pointer;width:14px;height:14px;transform:translate(-50%,-50%);z-index:10;}
-.door-dot{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle,#fff 0%,#C9A84C 45%,rgba(201,168,76,0.2) 75%,transparent 100%);box-shadow:0 0 8px rgba(201,168,76,0.8),0 0 3px #fff;animation:pd 2s ease-in-out infinite;}
-.door-dot::after{content:’’;position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(201,168,76,0.4);animation:pr 2s ease-in-out infinite;}
-.door.locked .door-dot{background:radial-gradient(circle,#fff 0%,#c0392b 45%,rgba(192,57,43,0.2) 75%,transparent 100%);box-shadow:0 0 8px rgba(192,57,43,0.8),0 0 3px #fff;animation:pdr 2s ease-in-out infinite;}
-.door.locked .door-dot::after{border-color:rgba(192,57,43,0.4);}
-@keyframes pd{0%,100%{box-shadow:0 0 6px rgba(201,168,76,0.6),0 0 2px #fff;transform:scale(1);}50%{box-shadow:0 0 14px rgba(201,168,76,1),0 0 5px #fff;transform:scale(1.2);}}
-@keyframes pdr{0%,100%{box-shadow:0 0 6px rgba(192,57,43,0.6);}50%{box-shadow:0 0 14px rgba(192,57,43,1);transform:scale(1.2);}}
-@keyframes pr{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:0;transform:scale(2);}}
-.door-tip{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(6,8,5,0.96);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 7px;font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;color:#C9A84C;letter-spacing:1px;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
+/* Puntini */
+.door{
+  position:absolute;cursor:pointer;width:12px;height:12px;transform:translate(-50%,-50%);
+  z-index:10;border-radius:50%;
+}
+.door-dot{
+  width:100%;height:100%;border-radius:50%;
+  background:radial-gradient(circle,#fff 0%,var(--oro) 40%,rgba(201,168,76,0.3) 70%,transparent 100%);
+  box-shadow:0 0 8px rgba(201,168,76,0.9),0 0 3px #fff;
+  animation:pdot 2s ease-in-out infinite;position:relative;
+}
+.door-dot::after{
+  content:"";position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid rgba(201,168,76,0.5);animation:pring 2s ease-in-out infinite;
+}
+.door.locked .door-dot{
+  background:radial-gradient(circle,#fff 0%,#c0392b 40%,rgba(192,57,43,0.3) 70%,transparent 100%);
+  box-shadow:0 0 8px rgba(192,57,43,0.9),0 0 3px #fff;
+}
+.door.locked .door-dot::after{border-color:rgba(192,57,43,0.5);}
+@keyframes pdot{
+  0%,100%{box-shadow:0 0 6px rgba(201,168,76,0.7),0 0 2px #fff;transform:scale(1);}
+  50%{box-shadow:0 0 12px rgba(201,168,76,1),0 0 4px #fff;transform:scale(1.15);}
+}
+@keyframes pring{
+  0%,100%{opacity:0.6;transform:scale(1);}
+  50%{opacity:0;transform:scale(1.8);}
+}
+.door-tip{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  background:rgba(6,8,5,0.96);border:1px solid rgba(201,168,76,0.45);
+  border-radius:2px;padding:2px 6px;font-size:8px;font-weight:700;color:var(--oro);
+  letter-spacing:1px;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;
+}
 .door:hover .door-tip,.door:active .door-tip{opacity:1;}
 
-/* HIGHLIGHT */
-.bld-hl{position:absolute;pointer-events:none;z-index:8;border:2px solid #C9A84C;border-radius:4px;box-shadow:0 0 14px rgba(201,168,76,0.5),inset 0 0 8px rgba(201,168,76,0.08);background:rgba(201,168,76,0.04);animation:bhl .5s ease-out forwards;}
-.bld-hl.locked{border-color:#c0392b;box-shadow:0 0 14px rgba(192,57,43,0.5);}
-@keyframes bhl{from{opacity:0;transform:scale(0.93);}to{opacity:1;transform:scale(1);}}
+.bld-highlight{
+  position:absolute;pointer-events:none;z-index:8;border:2px solid var(--oro);border-radius:4px;
+  box-shadow:0 0 12px rgba(201,168,76,0.6),inset 0 0 8px rgba(201,168,76,0.1);
+  background:rgba(201,168,76,0.05);animation:bhl .6s ease-out forwards;
+}
+.bld-highlight.locked{border-color:#c0392b;box-shadow:0 0 12px rgba(192,57,43,0.6);}
+@keyframes bhl{
+  0%{opacity:0;transform:scale(.92);}
+  30%{opacity:1;transform:scale(1.02);}
+  100%{opacity:1;transform:scale(1);}
+}
 
-/* SIDEBAR */
-#sidebar{flex-shrink:0;width:110px;background:rgba(6,8,5,0.97);border-left:1px solid rgba(180,150,80,0.14);display:flex;flex-direction:column;padding:8px 7px;gap:7px;}
-.sb-s{border:1px solid rgba(180,150,80,0.13);border-radius:3px;padding:6px 7px;}
-.sb-l{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:rgba(180,150,80,0.36);display:block;margin-bottom:4px;}
-.sb-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
-.sb-n{font-size:9px;color:rgba(200,180,140,0.6);}
-.sb-v{font-family:‘Bebas Neue’,sans-serif;font-size:13px;color:#C9A84C;}
+/* Sidebar */
+#sidebar{
+  flex-shrink:0;width:110px;background:rgba(6,8,5,0.97);
+  border-left:1px solid rgba(180,150,80,0.14);
+  display:flex;flex-direction:column;padding:7px 6px;gap:6px;
+}
+.sb-s{border:1px solid rgba(180,150,80,0.13);border-radius:3px;padding:5px 6px;}
+.sb-l{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:rgba(180,150,80,0.36);display:block;margin-bottom:3px;}
+.sb-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;}
+.sb-n{font-size:8px;color:rgba(200,180,140,0.6);}
+.sb-v{font-family:'Bebas Neue',sans-serif;font-size:12px;color:var(--oro);}
 .sb-day{text-align:center;}
-.sb-dv{font-family:‘Bebas Neue’,sans-serif;font-size:26px;color:#C9A84C;line-height:1;}
-.sb-gr{font-family:‘Bebas Neue’,sans-serif;font-size:10px;color:rgba(180,150,80,0.5);letter-spacing:2px;margin-top:1px;}
-.sb-hint{font-size:7px;color:rgba(180,150,80,0.45);line-height:1.7;}
+.sb-dv{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--oro);line-height:1;}
+.sb-gr{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(180,150,80,0.5);letter-spacing:2px;margin-top:1px;}
+.sb-hint{font-size:7px;color:rgba(180,150,80,0.45);line-height:1.6;}
 
-/* BOTTOM BAR */
-#bottom-bar{flex-shrink:0;height:44px;background:rgba(6,8,5,0.97);border-top:1px solid rgba(180,150,80,0.15);display:flex;align-items:center;justify-content:center;gap:24px;}
-.bb-item{text-align:center;}
-.bb-lbl{font-size:7px;letter-spacing:3px;color:rgba(180,150,80,0.4);text-transform:uppercase;display:block;}
-.bb-val{font-family:‘Bebas Neue’,sans-serif;font-size:17px;color:#C9A84C;letter-spacing:2px;}
-
-/* MODAL */
-#modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;}
+/* Modal */
+#modal{
+  position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.78);
+  display:none;align-items:center;justify-content:center;
+}
 #modal.show{display:flex;}
-#mbox{background:rgba(10,12,8,0.98);border:2px solid rgba(180,150,80,0.38);border-radius:4px;padding:18px 22px;width:min(320px,88vw);position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.9);animation:mIn .18s ease;}
-@keyframes mIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-#mbox::before,#mbox::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(180,150,80,0.55);border-style:solid;}
-#mbox::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
-#mbox::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
-#m-ico{font-size:30px;text-align:center;margin-bottom:4px;}
-#m-tit{font-family:‘Bebas Neue’,sans-serif;font-size:22px;color:#C9A84C;letter-spacing:4px;text-align:center;}
-#m-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(180,150,80,0.38);text-align:center;margin-bottom:9px;}
-#m-dsc{font-size:13px;color:rgba(208,196,175,0.85);line-height:1.5;margin-bottom:9px;text-align:center;}
-#m-quo{font-size:12px;color:#9B1020;font-style:italic;text-align:center;padding:5px 9px;border-left:2px solid #7B1020;margin-bottom:13px;background:rgba(123,16,32,0.07);}
-.mb{width:100%;padding:9px;margin-bottom:6px;border:none;border-radius:2px;cursor:pointer;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;transition:background .2s;}
-.mb-p{background:#7B1020;color:#fff;box-shadow:0 3px 10px rgba(123,16,32,0.28);}
-.mb-p:hover{background:#9B1828;}
-.mb-s{background:rgba(180,150,80,0.09);color:#C9A84C;border:1px solid rgba(180,150,80,0.22);}
-.mb-s:hover{background:rgba(180,150,80,0.18);}
-#m-x{position:absolute;top:7px;right:9px;background:none;border:none;color:rgba(180,150,80,0.38);font-size:16px;cursor:pointer;}
-#m-x:hover{color:#C9A84C;}
-#toast{position:fixed;bottom:52px;left:50%;transform:translateX(-50%);background:rgba(6,8,5,0.95);border:1px solid rgba(180,150,80,0.3);border-radius:3px;padding:7px 14px;color:#C9A84C;font-family:‘Rajdhani’,sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;z-index:600;max-width:80vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
-</style>
+#mbox{
+  background:rgba(10,12,8,0.98);border:2px solid rgba(180,150,80,0.38);
+  border-radius:4px;padding:16px 20px;width:min(300px,52vw);
+  position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.9);
+}
+#m-x{position:absolute;top:6px;right:8px;background:none;border:none;color:rgba(180,150,80,0.38);font-size:15px;cursor:pointer;}
+#m-ico{font-size:26px;text-align:center;margin-bottom:2px;}
+#m-tit{font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--oro);letter-spacing:4px;text-align:center;}
+#m-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(180,150,80,0.38);text-align:center;margin-bottom:7px;}
+#m-dsc{font-size:12px;color:rgba(208,196,175,0.85);line-height:1.5;margin-bottom:7px;text-align:center;}
+#m-quo{font-size:11px;color:#9B1020;font-style:italic;text-align:center;padding:4px 7px;border-left:2px solid var(--rosso);margin-bottom:11px;background:rgba(123,16,32,0.07);}
+.mb{
+  width:100%;padding:7px;margin-bottom:4px;border:none;border-radius:2px;cursor:pointer;
+  font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:4px;
+}
+.mb-p{background:var(--rosso);color:#fff;}
+.mb-s{background:rgba(180,150,80,0.09);color:var(--oro);border:1px solid rgba(180,150,80,0.22);}
 
+#toast{
+  position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+  background:rgba(6,8,5,0.95);border:1px solid rgba(180,150,80,0.3);
+  border-radius:3px;padding:6px 13px;color:var(--oro);font-size:11px;font-weight:600;
+  letter-spacing:1px;z-index:600;max-width:68vw;text-align:center;opacity:0;
+  transition:opacity .4s;pointer-events:none;
+}
+</style>
 </head>
+
 <body>
 
-<!-- LOGIN -->
+<div id="rotate-msg">
+  <div class="ico">📱</div>
+  <p>GIRA IL TELEFONO<br>PER GIOCARE</p>
+</div>
 
 <div id="screen-login">
   <div id="bg-login"></div>
   <div id="login-title"><h1>PARACA!</h1></div>
+
   <div id="popup">
-    <div class="p-head"><div class="p-lbl">Grado</div><div class="p-rank">SOLDATO</div></div>
-    <div class="frow"><div class="flbl">Nome</div><input class="finp" id="inp-nome" type="text" placeholder="Il tuo nome" maxlength="20" autocomplete="off" spellcheck="false"></div>
-    <div class="frow"><div class="flbl">Cognome</div><input class="finp" id="inp-cogn" type="text" placeholder="Il tuo cognome" maxlength="20" autocomplete="off" spellcheck="false"></div>
+    <div class="p-head">
+      <div class="p-lbl">Grado</div>
+      <div class="p-rank">SOLDATO</div>
+    </div>
+
+    <div class="frow">
+      <div class="flbl">Nome</div>
+      <input class="finp" id="inp-nome" type="text" placeholder="Il tuo nome" maxlength="20" autocomplete="off">
+    </div>
+
+    <div class="frow">
+      <div class="flbl">Cognome</div>
+      <input class="finp" id="inp-cogn" type="text" placeholder="Il tuo cognome" maxlength="20" autocomplete="off">
+    </div>
+
     <div id="err-msg">Inserisci nome e cognome</div>
     <button id="btn-start" disabled>INIZIA LA NAJA</button>
   </div>
 </div>
-
-<!-- MAPPA -->
 
 <div id="screen-map">
   <div id="hud">
@@ -134,18 +244,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
     <span class="hd">|</span><span class="hs">DISC <b id="h-dis">10</b></span>
     <span id="hud-name">SOLDATO</span>
   </div>
+
   <div id="game-body">
     <div id="map-area">
       <div id="map-wrap">
         <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
       </div>
     </div>
+
     <div id="sidebar">
       <div class="sb-s sb-day">
         <span class="sb-l">Giorno</span>
         <div class="sb-dv" id="dv">1</div>
-        <div class="sb-gr" id="grado-val">SOLDATO</div>
+        <div class="sb-gr">SOLDATO</div>
       </div>
+
       <div class="sb-s">
         <span class="sb-l">Stats</span>
         <div class="sb-row"><span class="sb-n">FOR</span><span class="sb-v" id="sb-for">10</span></div>
@@ -153,168 +266,321 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
         <div class="sb-row"><span class="sb-n">DIS</span><span class="sb-v" id="sb-dis">10</span></div>
         <div class="sb-row"><span class="sb-n">LAN</span><span class="sb-v" id="sb-lan">0</span></div>
       </div>
+
       <div class="sb-s">
         <span class="sb-l">Porte</span>
         <div class="sb-hint">
           <span style="color:#C9A84C">●</span> Aperta<br>
           <span style="color:#c0392b">●</span> Vietata<br><br>
-          Tocca per entrare
+          Tocca un punto per entrare
         </div>
       </div>
     </div>
   </div>
-  <div id="bottom-bar">
-    <div class="bb-item"><span class="bb-lbl">Giorno</span><span class="bb-val" id="dv2">1</span></div>
-    <div class="bb-item"><span class="bb-lbl">Grado</span><span class="bb-val">Soldato</span></div>
-    <div class="bb-item"><span class="bb-lbl">Lanci</span><span class="bb-val" id="lan-val">0</span></div>
-  </div>
 </div>
-
-<!-- MODAL -->
 
 <div id="modal">
   <div id="mbox">
     <button id="m-x">✕</button>
-    <div id="m-ico"></div><div id="m-tit"></div><div id="m-sub"></div>
-    <div id="m-dsc"></div><div id="m-quo"></div><div id="m-act"></div>
+    <div id="m-ico"></div>
+    <div id="m-tit"></div>
+    <div id="m-sub"></div>
+    <div id="m-dsc"></div>
+    <div id="m-quo"></div>
+    <div id="m-act"></div>
   </div>
 </div>
+
 <div id="toast"></div>
 
 <script>
-const MW=1183, MH=1330;
-const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!","Non sei idoneo alla vita!","Ti devi muovere!","Sei massiccio cazzo!","Eccezzionale!","Serra piombo!","Jonny andiamo!","Dai Jonny cazzo!","Non sei presente a te stesso!","Cagnaccio!","Cane cane cane cane!","Non lo fare il chamber check della merda!","Io ti dico signorsi! E tu dici sissignore!","Cavallo! Cavallo! Meeeglio!","Non farti mangiare il cazzo dalle mosche!","Vecchio!","Weee naja!","Liberta per gli ultra!"];
-const player={nome:'',cognome:'',forza:10,spirito:10,disc:10,giorno:1,lanci:0};
-let scaleX=1,scaleY=1;
+const MW = 1183;
+const MH = 1330;
 
-const DOORS=[
-  {id:'pal',  x:165,y:190, bx:95, by:95, bw:155,bh:140,locked:false,ico:'💪',name:'PALESTRA',                  sub:'Allenamento',              dsc:'Piegamenti, trazioni, corsa. Il tuo nuovo hobby.',                      quo:'Sei massiccio cazzo!',                     act:'train'},
-  {id:'spa',  x:350,y:195, bx:300,by:95, bw:115,bh:140,locked:false,ico:'🍺',name:'SPACCIO',                   sub:'Bar / ristoro',            dsc:"L'oasi di civilta della caserma.",                                      quo:'Weee naja!',                               act:'bar'  },
-  {id:'sup1', x:495,y:195, bx:445,by:95, bw:120,bh:140,locked:false,ico:'✈️',name:'SUPPORTO AVIO',             sub:'Aeronautica',              dsc:'Tutto quello che vola passa di qui.',                                   quo:'Serra piombo!'                                       },
-  {id:'edif', x:610,y:190, bx:570,by:90, bw:135,bh:145,locked:false,ico:'🚧',name:'EDIFICIO DI RIPARAZIONE',   sub:'Lavori in corso',          dsc:'Sempre in riparazione.',                                                quo:'Cagnaccio!'                                          },
-  {id:'comp2',x:765,y:205, bx:700,by:80, bw:170,bh:170,locked:false,ico:'🪖',name:'2a COMPAGNIA',              sub:'SEN — Devil Baffaccio',    dsc:'SEN il Devil Baffaccio. Baffi leggendari.',                             quo:'Devil Baffaccio SEN!',                     act:'battle'},
-  {id:'inf',  x:965,y:190, bx:905,by:95, bw:135,bh:145,locked:false,ico:'🏥',name:'INFERMERIA',                sub:'Sanita militare',          dsc:"Ci vai quando non riesci piu ad alzare le braccia.",                    quo:'Non sei idoneo alla vita!',                act:'heal' },
-  {id:'men',  x:135,y:360, bx:70, by:285,bw:140,bh:170,locked:false,ico:'🍽️',name:'MENSA',                   sub:'Vitto militare',           dsc:'Pasta scotta e carne misteriosa.',                                      quo:'Non farti mangiare il cazzo dalle mosche!',act:'eat'  },
-  {id:'cin',  x:130,y:515, bx:70, by:455,bw:135,bh:100,locked:false,ico:'🎬',name:'CINEMA',                   sub:'Svago',                    dsc:'Film militari, documentari di guerra.',                                 quo:'Liberta per gli ultra!'                              },
-  {id:'tem',  x:520,y:430, bx:455,by:335,bw:135,bh:170,locked:false,ico:'🕍',name:'TEMPIO',                   sub:'BARONE DI PRUSSIA',        dsc:'Prima studi, poi alleni, poi sfidi il Barone di Prussia.',              quo:'Memento audere semper',                    act:'battle'},
-  {id:'piaz', x:760,y:500, bx:650,by:335,bw:270,bh:260,locked:false,ico:'🚩',name:'PIAZZALE',                 sub:'Adunata',                  dsc:"L'adunata e sacra.",                                                    quo:'Ti devi muovere!'                                    },
-  {id:'mus',  x:1005,y:390,bx:935,by:295,bw:160,bh:155,locked:false,ico:'🏛️',name:'MUSEO AVIOTRUPPE',          sub:'Storia militare',          dsc:'La storia di chi e venuto prima di te.',                                quo:'Eccezzionale!'                                       },
-  {id:'uff',  x:135,y:675, bx:75, by:600,bw:140,bh:145,locked:false,ico:'📋',name:'UFFICIO',                  sub:'Burocrazia militare',      dsc:'Moduli, richieste, permessi.',                                          quo:'Signorsi!'                                           },
-  {id:'cmd',  x:315,y:675, bx:245,by:600,bw:145,bh:145,locked:false,ico:'⭐',name:'COMANDO',                  sub:'Ufficiali superiori',      dsc:'Non ci si va senza motivo.',                                            quo:'Io ti dico signorsi!',                     act:'battle'},
-  {id:'log',  x:455,y:675, bx:405,by:600,bw:135,bh:145,locked:false,ico:'📦',name:'LOGISTICA',                sub:'10 blocchi',               dsc:'Carico, scarico, stivaggio.',                                           quo:'Stai sul pezzo della merda!'                         },
-  {id:'comp1',x:680,y:675, bx:620,by:600,bw:135,bh:145,locked:false,ico:'🪖',name:'1a COMPAGNIA',             sub:'OGYA — Cavaliere Alato',   dsc:'Il Cavaliere Alato OGYA ti aspetta.',                                  quo:'Cavaliere Alato OGYA!',                    act:'battle'},
-  {id:'sup2', x:810,y:675, bx:760,by:600,bw:135,bh:145,locked:false,ico:'✈️',name:'SUPPORTO AVIO 2',          sub:'Hangar secondario',        dsc:'Il C130 parte da qui.',                                                 quo:'Serra piombo!'                                       },
-  {id:'grd',  x:980,y:675, bx:920,by:600,bw:135,bh:145,locked:true, ico:'🔒',name:'GUARDIE',                  sub:'ACCESSO RISERVATO',        dsc:'Checkpoint. Solo con lasciapassare.',                                  quo:'Non lo fare il chamber check!'                       },
-  {id:'asso', x:160,y:850, bx:95, by:775,bw:145,bh:145,locked:false,ico:'🏅',name:'ASSO',                     sub:'La Leggenda — Penultimo',  dsc:'Occhio bendato, barba folta, record assoluto di lanci.',               quo:'Eccezzionale!',                            act:'battle'},
-  {id:'torre',x:390,y:850, bx:315,by:770,bw:150,bh:180,locked:false,ico:'🗽',name:'TORRE DEL PARACA',         sub:'LEON — TORNADO DI FUOCO', dsc:'Cilindro bianco. Statua. Due leoni. LEON, Grado Leggenda.',            quo:'IL TORNADO DI FUOCO',                      act:'battle'},
-  {id:'parch',x:590,y:835, bx:505,by:760,bw:200,bh:150,locked:false,ico:'🚗',name:'PARCHEGGIO',               sub:'Area veicoli',             dsc:"Le macchine di chi ha il permesso.",                                   quo:'Vecchio!'                                            },
-  {id:'arm',  x:150,y:990, bx:90, by:930,bw:150,bh:135,locked:true, ico:'🔫',name:'ARMERIA',                  sub:'ACCESSO VIETATO',          dsc:'Deposito armi. Richiede permesso speciale.',                           quo:'Non sei presente a te stesso!'                       },
-  {id:'dor',  x:150,y:1115,bx:90, by:1060,bw:150,bh:135,locked:false,ico:'🛏️',name:'DORMITORIO',             sub:'CIOK / LACER / PANIKO',    dsc:'Le brande. Qui si dorme, si sfida, si sopravvive.',                    quo:'Caprone di Montagna Volante!',             act:'sleep'},
-  {id:'torri',x:520,y:1010,bx:380,by:940,bw:300,bh:310,locked:false,ico:'🗼',name:'TORRI',                    sub:'Strutture addestramento',  dsc:'Le torri di lancio. Qui si allena il corpo.',                          quo:'Vai a terra!',                             act:'train'},
-  {id:'borgo',x:830,y:1080,bx:715,by:900,bw:285,bh:310,locked:false,ico:'🏘️',name:'BORGO BELLA NAJA',        sub:'Area ricreativa',          dsc:'Il cuore sociale della caserma.',                                      quo:'Cane cane cane cane!'                                },
+const player = {
+  nome:"",
+  cognome:"",
+  forza:10,
+  spirito:10,
+  disc:10,
+  giorno:1,
+  lanci:0
+};
+
+const FRASI = [
+  "Vai a terra!",
+  "Pompa! Pompa cazzo!",
+  "Stai sul pezzo!",
+  "Non sei idoneo alla vita!",
+  "Ti devi muovere!",
+  "Sei massiccio!",
+  "Eccezionale!",
+  "Serra piombo!",
+  "Jonny andiamo!",
+  "Vecchio!",
+  "Weee naja!"
 ];
 
+const DOORS = [
+  {id:"pal",x:165,y:190,bx:95,by:95,bw:155,bh:140,locked:false,ico:"💪",name:"PALESTRA",sub:"Allenamento",dsc:"Allenamento fisico.",quo:"Sei massiccio!",act:"train"},
+  {id:"spa",x:350,y:195,bx:300,by:95,bw:115,bh:140,locked:false,ico:"🍺",name:"SPACCIO",sub:"Bar / ristoro",dsc:"Zona ristoro.",quo:"Weee naja!",act:"bar"},
+  {id:"sup1",x:495,y:195,bx:445,by:95,bw:120,bh:140,locked:false,ico:"✈️",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Area supporto avio.",quo:"Serra piombo!"},
+  {id:"edif",x:610,y:190,bx:570,by:90,bw:135,bh:145,locked:false,ico:"🚧",name:"EDIFICIO DI RIPARAZIONE",sub:"Lavori",dsc:"Edificio in riparazione.",quo:"Cagnaccio!"},
+  {id:"comp2",x:765,y:205,bx:700,by:80,bw:170,bh:170,locked:false,ico:"🪖",name:"2ª COMPAGNIA",sub:"Compagnia",dsc:"Seconda compagnia.",quo:"Devil Baffaccio SEN!",act:"battle"},
+  {id:"inf",x:965,y:190,bx:905,by:95,bw:135,bh:145,locked:false,ico:"🏥",name:"INFERMERIA",sub:"Sanità",dsc:"Infermeria.",quo:"Non sei idoneo alla vita!",act:"heal"},
+
+  {id:"men",x:135,y:360,bx:70,by:285,bw:140,bh:170,locked:false,ico:"🍽️",name:"MENSA",sub:"Vitto",dsc:"Mensa.",quo:"Non farti mangiare dalle mosche!",act:"eat"},
+  {id:"cin",x:130,y:515,bx:70,by:455,bw:135,bh:100,locked:false,ico:"🎬",name:"CINEMA",sub:"Svago",dsc:"Cinema.",quo:"Libertà per gli ultrà!"},
+
+  {id:"tem",x:520,y:430,bx:455,by:335,bw:135,bh:170,locked:false,ico:"🕍",name:"TEMPIO",sub:"Addestramento",dsc:"Tempio.",quo:"Memento audere semper",act:"battle"},
+  {id:"piaz",x:760,y:500,bx:650,by:335,bw:270,bh:260,locked:false,ico:"🚩",name:"PIAZZALE",sub:"Adunata",dsc:"Piazzale.",quo:"Ti devi muovere!"},
+  {id:"mus",x:1005,y:390,bx:935,by:295,bw:160,bh:155,locked:false,ico:"🏛️",name:"MUSEO STORICO DELLE AVIOTRUPPE",sub:"Museo",dsc:"Museo.",quo:"Eccezionale!"},
+
+  {id:"uff",x:135,y:675,bx:75,by:600,bw:140,bh:145,locked:false,ico:"📋",name:"UFFICIO",sub:"Burocrazia",dsc:"Ufficio.",quo:"Signorsì!"},
+  {id:"cmd",x:315,y:675,bx:245,by:600,bw:145,bh:145,locked:false,ico:"⭐",name:"COMANDO",sub:"Comando",dsc:"Comando.",quo:"Io ti dico signorsì!",act:"battle"},
+  {id:"log",x:455,y:675,bx:405,by:600,bw:135,bh:145,locked:false,ico:"📦",name:"LOGISTICA",sub:"Magazzino",dsc:"Logistica.",quo:"Stai sul pezzo!"},
+  {id:"comp1",x:680,y:675,bx:620,by:600,bw:135,bh:145,locked:false,ico:"🪖",name:"1ª COMPAGNIA",sub:"Compagnia",dsc:"Prima compagnia.",quo:"Cavaliere Alato OGYA!",act:"battle"},
+  {id:"sup2",x:810,y:675,bx:760,by:600,bw:135,bh:145,locked:false,ico:"✈️",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Supporto avio.",quo:"Serra piombo!"},
+  {id:"grd",x:980,y:675,bx:920,by:600,bw:135,bh:145,locked:true,ico:"🔒",name:"GUARDIE",sub:"Accesso riservato",dsc:"Checkpoint.",quo:"Accesso negato"},
+
+  {id:"asso",x:160,y:850,bx:95,by:775,bw:145,bh:145,locked:false,ico:"🏅",name:"ASSO",sub:"Leggenda",dsc:"Asso.",quo:"Eccezionale!",act:"battle"},
+  {id:"torre",x:390,y:850,bx:315,by:770,bw:150,bh:180,locked:false,ico:"🗽",name:"TORRE DEL PARACA",sub:"Torre",dsc:"Torre del Paraca.",quo:"Il Tornado di Fuoco",act:"battle"},
+  {id:"parch",x:590,y:835,bx:505,by:760,bw:200,bh:150,locked:false,ico:"🚗",name:"PARCHEGGIO",sub:"Veicoli",dsc:"Parcheggio.",quo:"Vecchio!"},
+
+  {id:"arm",x:150,y:990,bx:90,by:930,bw:150,bh:135,locked:true,ico:"🔫",name:"ARMERIA",sub:"Accesso vietato",dsc:"Armeria.",quo:"Accesso vietato"},
+  {id:"dor",x:150,y:1115,bx:90,by:1060,bw:150,bh:135,locked:false,ico:"🛏️",name:"DORMITORIO",sub:"Riposo",dsc:"Dormitorio.",quo:"Qui si sopravvive.",act:"sleep"},
+
+  {id:"torri",x:520,y:1010,bx:380,by:940,bw:300,bh:310,locked:false,ico:"🗼",name:"TORRI",sub:"Lancio",dsc:"Torri di lancio.",quo:"Vai a terra!",act:"train"},
+  {id:"borgo",x:830,y:1080,bx:715,by:900,bw:285,bh:310,locked:false,ico:"🏘️",name:"BORGO BELLA NAJA",sub:"Area addestrativa",dsc:"Borgo Bella Naja.",quo:"Cane cane cane cane!"}
+];
+
+let scaleX = 1;
+let scaleY = 1;
+
 function buildMap(){
-  const area=document.getElementById('map-area');
-  const wrap=document.getElementById('map-wrap');
-  const img=document.getElementById('map-img');
-  const aW=area.clientWidth, aH=area.clientHeight;
-  const ratio=MW/MH;
-  let mw=aW, mh=mw/ratio;
-  if(mh>aH){mh=aH;mw=mh*ratio;}
-  wrap.style.width=mw+'px'; wrap.style.height=mh+'px';
-  img.style.width=mw+'px'; img.style.height=mh+'px';
-  scaleX=mw/MW; scaleY=mh/MH;
-  document.querySelectorAll('.door,.bld-hl').forEach(e=>e.remove());
-  DOORS.forEach(d=>{
-    const el=document.createElement('div');
-    el.className='door'+(d.locked?' locked':'');
-    el.style.left=(d.x*scaleX)+'px';
-    el.style.top=(d.y*scaleY)+'px';
-    const dot=document.createElement('div'); dot.className='door-dot';
-    const tip=document.createElement('div'); tip.className='door-tip'; tip.textContent=d.name;
-    el.appendChild(dot); el.appendChild(tip);
-    el.addEventListener('pointerdown',e=>{e.stopPropagation();handleDoor(d);});
+  const area = document.getElementById("map-area");
+  const wrap = document.getElementById("map-wrap");
+  const img = document.getElementById("map-img");
+
+  const aW = area.clientWidth;
+  const aH = area.clientHeight;
+  const ratio = MW / MH;
+
+  let mw = aW;
+  let mh = mw / ratio;
+
+  if(mh > aH){
+    mh = aH;
+    mw = mh * ratio;
+  }
+
+  wrap.style.width = mw + "px";
+  wrap.style.height = mh + "px";
+  img.style.width = mw + "px";
+  img.style.height = mh + "px";
+
+  scaleX = mw / MW;
+  scaleY = mh / MH;
+
+  document.querySelectorAll(".door,.bld-highlight").forEach(e => e.remove());
+
+  DOORS.forEach(d => {
+    const el = document.createElement("div");
+    el.className = "door" + (d.locked ? " locked" : "");
+    el.style.left = (d.x * scaleX) + "px";
+    el.style.top = (d.y * scaleY) + "px";
+
+    const dot = document.createElement("div");
+    dot.className = "door-dot";
+
+    const tip = document.createElement("div");
+    tip.className = "door-tip";
+    tip.textContent = d.name;
+
+    el.appendChild(dot);
+    el.appendChild(tip);
+
+    el.addEventListener("pointerdown", e => {
+      e.stopPropagation();
+      handleDoor(d);
+    });
+
     wrap.appendChild(el);
   });
 }
 
 function handleDoor(d){
-  showHL(d);
-  if(d.locked){setTimeout(()=>toast('ACCESSO NEGATO'),200);return;}
-  setTimeout(()=>openModal(d),250);
+  showHighlight(d);
+
+  if(d.locked){
+    setTimeout(() => toast("ACCESSO NEGATO — Richiede permesso"), 250);
+    return;
+  }
+
+  setTimeout(() => openModal(d), 250);
 }
 
-function showHL(d){
-  document.querySelectorAll('.bld-hl').forEach(e=>e.remove());
-  const wrap=document.getElementById('map-wrap');
-  const hl=document.createElement('div');
-  hl.className='bld-hl'+(d.locked?' locked':'');
-  hl.style.left=(d.bx*scaleX)+'px';
-  hl.style.top=(d.by*scaleY)+'px';
-  hl.style.width=(d.bw*scaleX)+'px';
-  hl.style.height=(d.bh*scaleY)+'px';
+function showHighlight(d){
+  document.querySelectorAll(".bld-highlight").forEach(e => e.remove());
+
+  const wrap = document.getElementById("map-wrap");
+  const hl = document.createElement("div");
+
+  hl.className = "bld-highlight" + (d.locked ? " locked" : "");
+  hl.style.left = (d.bx * scaleX) + "px";
+  hl.style.top = (d.by * scaleY) + "px";
+  hl.style.width = (d.bw * scaleX) + "px";
+  hl.style.height = (d.bh * scaleY) + "px";
+
   wrap.appendChild(hl);
-  setTimeout(()=>hl.remove(),2200);
+  setTimeout(() => hl.remove(), 2200);
 }
 
 function openModal(d){
-  document.getElementById('m-ico').textContent=d.ico;
-  document.getElementById('m-tit').textContent=d.name;
-  document.getElementById('m-sub').textContent=d.sub;
-  document.getElementById('m-dsc').textContent=d.dsc;
-  document.getElementById('m-quo').textContent='"'+d.quo+'"';
-  const act=document.getElementById('m-act'); act.innerHTML='';
-  if(d.act==='battle')addBtn(act,'SFIDA',true,()=>{closeModal();toast('Sistema battaglia — in arrivo!');});
-  if(d.act==='train') addBtn(act,'ALLENATI',true,()=>{closeModal();doTrain();});
-  if(d.act==='sleep') addBtn(act,'DORMI (+1 giorno)',true,()=>{closeModal();doSleep();});
-  if(d.act==='bar')   addBtn(act,'ENTRA',true,()=>{closeModal();doBar();});
-  if(d.act==='eat')   addBtn(act,'MANGIA',true,()=>{closeModal();doEat();});
-  if(d.act==='heal')  addBtn(act,'RIPOSA',true,()=>{closeModal();doHeal();});
-  addBtn(act,'CHIUDI',false,closeModal);
-  document.getElementById('modal').classList.add('show');
-}
-function addBtn(par,txt,primary,fn){const b=document.createElement('button');b.className='mb '+(primary?'mb-p':'mb-s');b.textContent=txt;b.onclick=fn;par.appendChild(b);}
-function closeModal(){document.getElementById('modal').classList.remove('show');}
-document.getElementById('m-x').onclick=closeModal;
-document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+  document.getElementById("m-ico").textContent = d.ico;
+  document.getElementById("m-tit").textContent = d.name;
+  document.getElementById("m-sub").textContent = d.sub;
+  document.getElementById("m-dsc").textContent = d.dsc;
+  document.getElementById("m-quo").textContent = '"' + d.quo + '"';
 
-function doTrain(){player.forza=Math.min(99,player.forza+Math.floor(Math.random()*3)+1);player.disc=Math.min(99,player.disc+1);updHud();toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
-function doSleep(){player.giorno++;player.spirito=Math.min(99,player.spirito+2);updHud();toast('Hai dormito. Giorno '+player.giorno);}
-function doBar()  {player.spirito=Math.min(99,player.spirito+3);updHud();toast('Weee naja! Spirito +3');}
-function doEat()  {player.spirito=Math.min(99,player.spirito+1);player.forza=Math.min(99,player.forza+1);updHud();toast('Pasta scotta. Forza +1, Spirito +1.');}
-function doHeal() {player.forza=Math.min(99,player.forza+4);updHud();toast('Infermeria. Forza +4.');}
-function updHud(){
-  document.getElementById('h-for').textContent=player.forza;
-  document.getElementById('h-spi').textContent=player.spirito;
-  document.getElementById('h-dis').textContent=player.disc;
-  document.getElementById('sb-for').textContent=player.forza;
-  document.getElementById('sb-spi').textContent=player.spirito;
-  document.getElementById('sb-dis').textContent=player.disc;
-  document.getElementById('sb-lan').textContent=player.lanci;
-  document.getElementById('dv').textContent=player.giorno;
-  document.getElementById('dv2').textContent=player.giorno;
-  document.getElementById('lan-val').textContent=player.lanci;
-}
-let tt=null;
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';if(tt)clearTimeout(tt);tt=setTimeout(()=>t.style.opacity='0',2800);}
+  const act = document.getElementById("m-act");
+  act.innerHTML = "";
 
-const inN=document.getElementById('inp-nome'),inC=document.getElementById('inp-cogn'),bS=document.getElementById('btn-start');
-function chk(){bS.disabled=!(inN.value.trim()&&inC.value.trim());document.getElementById('err-msg').classList.remove('show');}
-inN.addEventListener('input',chk);inC.addEventListener('input',chk);
-inN.addEventListener('keydown',e=>{if(e.key==='Enter')inC.focus();});
-inC.addEventListener('keydown',e=>{if(e.key==='Enter'&&!bS.disabled)bS.click();});
-bS.addEventListener('click',()=>{
-  const n=inN.value.trim(),c=inC.value.trim();
-  if(!n||!c){document.getElementById('err-msg').classList.add('show');return;}
-  player.nome=n;player.cognome=c;
-  document.getElementById('hud-name').textContent='SOLDATO '+c.toUpperCase();
-  document.getElementById('screen-login').style.display='none';
-  document.getElementById('screen-map').classList.add('show');
-  requestAnimationFrame(()=>requestAnimationFrame(()=>buildMap()));
-  setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+c+'"'),500);
+  if(d.act === "battle") addBtn(act,"SFIDA",true,() => {closeModal();toast("Sistema battaglia — prossimo aggiornamento!");});
+  if(d.act === "train") addBtn(act,"ALLENATI",true,() => {closeModal();doTrain();});
+  if(d.act === "sleep") addBtn(act,"DORMI (+1 giorno)",true,() => {closeModal();doSleep();});
+  if(d.act === "bar") addBtn(act,"ENTRA AL BAR",true,() => {closeModal();doBar();});
+  if(d.act === "eat") addBtn(act,"MANGIA",true,() => {closeModal();doEat();});
+  if(d.act === "heal") addBtn(act,"RIPOSA",true,() => {closeModal();doHeal();});
+
+  addBtn(act,"CHIUDI",false,closeModal);
+
+  document.getElementById("modal").classList.add("show");
+}
+
+function addBtn(parent,text,primary,fn){
+  const b = document.createElement("button");
+  b.className = "mb " + (primary ? "mb-p" : "mb-s");
+  b.textContent = text;
+  b.onclick = fn;
+  parent.appendChild(b);
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("show");
+}
+
+document.getElementById("m-x").onclick = closeModal;
+document.getElementById("modal").addEventListener("click", e => {
+  if(e.target === document.getElementById("modal")) closeModal();
 });
-document.getElementById('bg-login').style.backgroundImage="url('bg.png?v=5')";
+
+function doTrain(){
+  player.forza = Math.min(99, player.forza + 2);
+  player.disc = Math.min(99, player.disc + 1);
+  updHud();
+  toast(FRASI[Math.floor(Math.random() * FRASI.length)]);
+}
+
+function doSleep(){
+  player.giorno++;
+  player.spirito = Math.min(99, player.spirito + 2);
+  document.getElementById("dv").textContent = player.giorno;
+  updHud();
+  toast("Hai dormito. Giorno " + player.giorno);
+}
+
+function doBar(){
+  player.spirito = Math.min(99, player.spirito + 3);
+  updHud();
+  toast("Spirito +3");
+}
+
+function doEat(){
+  player.forza = Math.min(99, player.forza + 1);
+  player.spirito = Math.min(99, player.spirito + 1);
+  updHud();
+  toast("Forza +1, Spirito +1");
+}
+
+function doHeal(){
+  player.forza = Math.min(99, player.forza + 4);
+  updHud();
+  toast("Forza +4");
+}
+
+function updHud(){
+  document.getElementById("h-for").textContent = player.forza;
+  document.getElementById("h-spi").textContent = player.spirito;
+  document.getElementById("h-dis").textContent = player.disc;
+
+  document.getElementById("sb-for").textContent = player.forza;
+  document.getElementById("sb-spi").textContent = player.spirito;
+  document.getElementById("sb-dis").textContent = player.disc;
+  document.getElementById("sb-lan").textContent = player.lanci;
+}
+
+let toastTimer = null;
+
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.opacity = "1";
+
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    t.style.opacity = "0";
+  }, 2600);
+}
+
+/* LOGIN */
+const inN = document.getElementById("inp-nome");
+const inC = document.getElementById("inp-cogn");
+const bS = document.getElementById("btn-start");
+
+function checkLogin(){
+  bS.disabled = !(inN.value.trim() && inC.value.trim());
+  document.getElementById("err-msg").classList.remove("show");
+}
+
+inN.addEventListener("input", checkLogin);
+inC.addEventListener("input", checkLogin);
+
+inN.addEventListener("keydown", e => {
+  if(e.key === "Enter") inC.focus();
+});
+
+inC.addEventListener("keydown", e => {
+  if(e.key === "Enter" && !bS.disabled) bS.click();
+});
+
+bS.addEventListener("click", () => {
+  const n = inN.value.trim();
+  const c = inC.value.trim();
+
+  if(!n || !c){
+    document.getElementById("err-msg").classList.add("show");
+    return;
+  }
+
+  player.nome = n;
+  player.cognome = c;
+
+  document.getElementById("hud-name").textContent = "SOLDATO " + c.toUpperCase();
+
+  document.getElementById("screen-login").style.display = "none";
+  document.getElementById("screen-map").classList.add("show");
+
+  requestAnimationFrame(() => requestAnimationFrame(buildMap));
+
+  setTimeout(() => toast("Weee naja! Benvenuto Soldato " + c), 500);
+});
+
+window.addEventListener("resize", () => {
+  if(document.getElementById("screen-map").classList.contains("show")) buildMap();
+});
+
+document.getElementById("map-img").addEventListener("load", buildMap);
 </script>
 
 </body>
