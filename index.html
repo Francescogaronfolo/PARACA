@@ -45,7 +45,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f0f0eb;font-family:
 .hd{color:rgba(140,110,40,0.3);font-size:10px;}
 #hud-name{margin-left:auto;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(120,90,30,0.8);letter-spacing:3px;}
 #game-body{flex:1;display:flex;overflow:hidden;}
-#map-area{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#d8e8f0;overflow:hidden;}
+#map-area{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:url(sfondo.png) center/cover no-repeat;overflow:hidden;}
 #map-wrap{position:relative;}
 #map-img{display:block;}
 .door{position:absolute;cursor:pointer;width:14px;height:14px;transform:translate(-50%,-50%);z-index:10;}
@@ -125,9 +125,6 @@ animation:torrepulse 2s ease-in-out infinite;
 <div id="screen-map">
   <div id="hud">
     <span class="ht">PARACA!</span>
-    <span class="hd">|</span><span class="hs">FORZA <b id="h-for">10</b></span>
-    <span class="hd">|</span><span class="hs">SPIRITO <b id="h-spi">10</b></span>
-    <span class="hd">|</span><span class="hs">DISC <b id="h-dis">10</b></span>
     <span id="hud-name">SOLDATO</span>
   </div>
   <div id="game-body">
@@ -142,12 +139,24 @@ animation:torrepulse 2s ease-in-out infinite;
         <div class="sb-dv" id="dv">1</div>
         <div class="sb-gr" id="grado-val">SOLDATO</div>
       </div>
-      <div class="sb-s">
-        <span class="sb-l">Stats</span>
-        <div class="sb-row"><span class="sb-n">FOR</span><span class="sb-v" id="sb-for">10</span></div>
-        <div class="sb-row"><span class="sb-n">SPI</span><span class="sb-v" id="sb-spi">10</span></div>
-        <div class="sb-row"><span class="sb-n">DIS</span><span class="sb-v" id="sb-dis">10</span></div>
-        <div class="sb-row"><span class="sb-n">LAN</span><span class="sb-v" id="sb-lan">0</span></div>
+      <div class="sb-s" style="text-align:center;cursor:pointer;" onclick="toggleStats()">
+        <span class="sb-l">Statistiche</span>
+        <svg id="penta-icon" viewBox="0 0 60 58" width="52" height="50" style="display:block;margin:2px auto;">
+          <!-- Pentagono esterno fisso -->
+          <polygon points="30,3 57,22 47,53 13,53 3,22"
+            fill="none" stroke="rgba(180,150,80,0.35)" stroke-width="1.5"/>
+          <!-- Pentagono interno dinamico (radar) -->
+          <polygon id="radar-poly" points="30,3 57,22 47,53 13,53 3,22"
+            fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1.5"
+            style="transform-origin:30px 30px;"/>
+          <!-- Punti ai vertici -->
+          <circle cx="30" cy="3"  r="2.5" fill="#C9A84C"/>
+          <circle cx="57" cy="22" r="2.5" fill="#C9A84C"/>
+          <circle cx="47" cy="53" r="2.5" fill="#C9A84C"/>
+          <circle cx="13" cy="53" r="2.5" fill="#C9A84C"/>
+          <circle cx="3"  cy="22" r="2.5" fill="#C9A84C"/>
+        </svg>
+        <div style="font-size:7px;color:rgba(120,90,30,0.5);letter-spacing:1px;margin-top:2px;">TOCCA</div>
       </div>
       <div class="sb-s">
         <span class="sb-l">Porte</span>
@@ -173,12 +182,50 @@ animation:torrepulse 2s ease-in-out infinite;
     <div id="m-dsc"></div><div id="m-quo"></div><div id="m-act"></div>
   </div>
 </div>
+
+<!-- STATS MODAL -->
+
+<div id="stats-modal" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:12px;padding:20px 24px;width:min(300px,88vw);position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <button onclick="toggleStats()" style="position:absolute;top:10px;right:12px;background:none;border:none;font-size:18px;color:#999;cursor:pointer;">✕</button>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#7B1020;letter-spacing:3px;text-align:center;margin-bottom:14px;">STATISTICHE</div>
+    <svg id="radar-chart" viewBox="0 0 200 200" width="200" height="200" style="display:block;margin:0 auto 14px;">
+      <!-- Griglia -->
+      <polygon points="100,10 181,68 152,165 48,165 19,68" fill="none" stroke="#ddd" stroke-width="1"/>
+      <polygon points="100,37 158,79 137,151 63,151 42,79" fill="none" stroke="#ddd" stroke-width="1"/>
+      <polygon points="100,64 135,90 122,137 78,137 65,90" fill="none" stroke="#ddd" stroke-width="1"/>
+      <!-- Assi -->
+      <line x1="100" y1="10"  x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="181" y1="68"  x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="152" y1="165" x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="48"  y1="165" x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="19"  y1="68"  x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
+      <!-- Area stats -->
+      <polygon id="radar-area" points="100,10 181,68 152,165 48,165 19,68"
+        fill="rgba(201,168,76,0.3)" stroke="#C9A84C" stroke-width="2"/>
+      <!-- Labels -->
+      <text x="100" y="6"   text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">FORZA</text>
+      <text x="188" y="70"  text-anchor="start"  font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">DISC</text>
+      <text x="158" y="176" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">MOTIV</text>
+      <text x="42"  y="176" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">SPIRITO</text>
+      <text x="10"  y="70"  text-anchor="end"    font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">QI</text>
+    </svg>
+    <!-- Valori -->
+    <div style="display:flex;justify-content:space-around;font-family:'Rajdhani',sans-serif;font-size:12px;color:#666;">
+      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-for">10</div><div>FORZA</div></div>
+      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-dis">10</div><div>DISC</div></div>
+      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-mot">10</div><div>MOTIV</div></div>
+      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-spi">10</div><div>SPIRITO</div></div>
+      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-qi">10</div><div>QI</div></div>
+    </div>
+  </div>
+</div>
 <div id="toast"></div>
 
 <script>
 const MW=1183,MH=1330;
 const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!","Non sei idoneo alla vita!","Ti devi muovere!","Sei massiccio cazzo!","Eccezzionale!","Serra piombo!","Jonny andiamo!","Dai Jonny cazzo!","Non sei presente a te stesso!","Cagnaccio!","Cane cane cane cane!","Non lo fare il chamber check della merda!","Io ti dico signorsi! E tu dici sissignore!","Cavallo! Cavallo! Meeeglio!","Non farti mangiare il cazzo dalle mosche!","Vecchio!","Weee naja!","Liberta per gli ultra!"];
-const player={nome:'',cognome:'',forza:10,spirito:10,disc:10,giorno:1,lanci:0};
+const player={nome:'',cognome:'',forza:10,spirito:10,disc:10,motiv:10,qi:10,giorno:1,lanci:0};
 let scaleX=1,scaleY=1;
 
 const DOORS=[
@@ -277,6 +324,36 @@ function updHud(){
   document.getElementById('dv2').textContent=player.giorno;
   document.getElementById('lan-val').textContent=player.lanci;
 }
+
+function toggleStats(){
+  const m = document.getElementById('stats-modal');
+  if(m.style.display==='none'||!m.style.display){
+    updateRadar();
+    m.style.display='flex';
+  } else {
+    m.style.display='none';
+  }
+}
+
+function updateRadar(){
+  // Vertici pentagono: top, right, bottom-right, bottom-left, left
+  // Scala 0-99 -> raggio 0-90 (centro 100,100)
+  const cx=100,cy=100,maxR=90;
+  const stats=[player.forza,player.disc,player.motiv,player.spirito,player.qi];
+  const angles=[-90, -90+72, -90+144, -90+216, -90+288].map(a=>a*Math.PI/180);
+  const pts = stats.map((v,i)=>{
+    const r = (v/99)*maxR;
+    return [(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];
+  });
+  const polyStr = pts.map(p=>p.join(',')).join(' ');
+  document.getElementById('radar-area').setAttribute('points',polyStr);
+  document.getElementById('s-for').textContent=player.forza;
+  document.getElementById('s-dis').textContent=player.disc;
+  document.getElementById('s-mot').textContent=player.motiv;
+  document.getElementById('s-spi').textContent=player.spirito;
+  document.getElementById('s-qi').textContent=player.qi;
+}
+
 let tt=null;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';if(tt)clearTimeout(tt);tt=setTimeout(()=>t.style.opacity='0',2800);}
 
