@@ -38,41 +38,58 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f0f0eb;font-family:
 /* MAPPA */
 #screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f0f0eb;}
 #screen-map.show{display:flex;}
-#hud{flex-shrink:0;height:36px;background:#ffffff;border-bottom:1px solid rgba(180,150,80,0.35);display:flex;align-items:center;padding:0 10px;gap:7px;z-index:300;}
-.ht{font-family:‘Black Han Sans’,sans-serif;font-size:16px;color:#7B1020;text-shadow:2px 2px 0 #3d000a;}
+#hud{flex-shrink:0;height:44px;background:#ffffff;border-bottom:2px solid rgba(180,150,80,0.3);display:flex;align-items:center;padding:0 12px;gap:7px;z-index:300;}
+.ht{
+font-family:‘Black Han Sans’,sans-serif;
+font-size:22px;
+color:#7B1020;
+text-shadow:2px 2px 0 #3d000a, 3px 3px 0 rgba(0,0,0,0.15);
+letter-spacing:2px;
+}
 .hs{font-family:‘Rajdhani’,sans-serif;font-size:11px;font-weight:700;color:#7a6030;letter-spacing:1px;white-space:nowrap;}
 .hs b{color:#C9A84C;font-size:12px;}
 .hd{color:rgba(140,110,40,0.3);font-size:10px;}
 #hud-name{margin-left:auto;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(120,90,30,0.8);letter-spacing:3px;}
 #game-body{flex:1;display:flex;overflow:hidden;}
 #map-area{
-flex:1;position:relative;
-display:grid;
-grid-template-columns:1fr auto;
-grid-template-rows:1fr auto;
-gap:8px;
-padding:8px;
-background:#1e1e2e;
-background-image:
-linear-gradient(rgba(180,150,80,0.06) 1px, transparent 1px),
-linear-gradient(90deg, rgba(180,150,80,0.06) 1px, transparent 1px);
-background-size:32px 32px;
+flex:1;
+display:flex;
+flex-direction:row;
+align-items:flex-start;
 overflow:hidden;
+background:#f5f5f0;
+}
+#map-col{
+flex-shrink:0;
+display:flex;
+flex-direction:column;
+align-items:flex-start;
 }
 #map-wrap{
-grid-column:1;grid-row:1 / span 2;
 position:relative;
-align-self:start;
+flex-shrink:0;
 }
 #map-img{display:block;}
-#side-panels{
-grid-column:2;grid-row:1;
-width:160px;
-display:flex;flex-direction:column;gap:8px;
+#below-map{
+width:100%;
+display:flex;
+flex-direction:row;
+gap:6px;
+padding:6px 0 0 0;
 }
-#bottom-panel{
-grid-column:1;grid-row:2;
-/* spazio sotto la mappa */
+.fn-box{
+flex:1;
+background:#fff;
+border:1px solid rgba(180,150,80,0.25);
+border-radius:6px;
+padding:8px;
+text-align:center;
+font-family:‘Rajdhani’,sans-serif;
+font-size:10px;
+font-weight:700;
+letter-spacing:2px;
+color:rgba(120,90,30,0.5);
+text-transform:uppercase;
 }
 #map-wrap{position:relative;}
 #map-img{display:block;}
@@ -157,18 +174,14 @@ animation:torrepulse 2s ease-in-out infinite;
   </div>
   <div id="game-body">
     <div id="map-area">
-      <div id="map-wrap">
-        <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
-      </div>
-      <!-- Pannelli laterali -->
-      <div id="side-panels">
-        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(180,150,80,0.2);border-radius:6px;overflow:hidden;">
-          <img src="4D69F042-C985-44F1-A409-84C09A4B3FEA.png" style="width:100%;display:block;opacity:0.85;">
-          <div style="padding:4px 6px;font-family:Rajdhani,sans-serif;font-size:9px;color:rgba(201,168,76,0.7);letter-spacing:2px;">LANCIO</div>
+      <div id="map-col">
+        <div id="map-wrap">
+          <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
         </div>
-        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(180,150,80,0.2);border-radius:6px;padding:8px;font-family:Rajdhani,sans-serif;">
-          <div style="font-size:8px;letter-spacing:3px;color:rgba(201,168,76,0.5);margin-bottom:6px;">AMICI</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.3);font-style:italic;">Presto disponibile</div>
+        <div id="below-map">
+          <div class="fn-box">Plotone</div>
+          <div class="fn-box">Missioni</div>
+          <div class="fn-box">Archivio</div>
         </div>
       </div>
     </div>
@@ -247,7 +260,7 @@ animation:torrepulse 2s ease-in-out infinite;
       <text x="188" y="70"  text-anchor="start"  font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">QI</text>
       <text x="158" y="176" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">MOTIV</text>
       <text x="42"  y="176" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">SPIRITO</text>
-      <text x="10"  y="70"  text-anchor="end"    font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">DIS</text>
+      <text x="10"  y="70"  text-anchor="end"    font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">DI</text>
     </svg>
     <!-- Valori -->
     <div style="display:flex;justify-content:space-around;font-family:'Rajdhani',sans-serif;font-size:12px;color:#666;">
@@ -255,7 +268,7 @@ animation:torrepulse 2s ease-in-out infinite;
       <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-qi">10</div><div>QI</div></div>
       <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-mot">10</div><div>MOTIV</div></div>
       <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-spi">10</div><div>SPIRITO</div></div>
-      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-dis">10</div><div>DIS</div></div>
+      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-dis">10</div><div>DI</div></div>
     </div>
   </div>
 </div>
