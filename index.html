@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:'Rajdhani',sans-serif;}
+html,body{width:100%;height:100%;overflow:hidden;background:#f0f0eb;font-family:'Rajdhani',sans-serif;}
 
 /* LOGIN */
 #screen-login{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;}
@@ -36,16 +36,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
 #btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;box-shadow:none;}
 
 /* MAPPA */
-#screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#0a0a0a;}
+#screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f0f0eb;}
 #screen-map.show{display:flex;}
-#hud{flex-shrink:0;height:36px;background:rgba(6,8,5,0.97);border-bottom:1px solid rgba(180,150,80,0.2);display:flex;align-items:center;padding:0 10px;gap:7px;z-index:300;}
+#hud{flex-shrink:0;height:36px;background:#ffffff;border-bottom:1px solid rgba(180,150,80,0.35);display:flex;align-items:center;padding:0 10px;gap:7px;z-index:300;}
 .ht{font-family:‘Black Han Sans’,sans-serif;font-size:16px;color:#7B1020;text-shadow:2px 2px 0 #3d000a;}
-.hs{font-family:‘Rajdhani’,sans-serif;font-size:11px;font-weight:700;color:#c0aa80;letter-spacing:1px;white-space:nowrap;}
+.hs{font-family:‘Rajdhani’,sans-serif;font-size:11px;font-weight:700;color:#7a6030;letter-spacing:1px;white-space:nowrap;}
 .hs b{color:#C9A84C;font-size:12px;}
-.hd{color:rgba(180,150,80,0.2);font-size:10px;}
-#hud-name{margin-left:auto;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(180,150,80,0.65);letter-spacing:3px;}
+.hd{color:rgba(140,110,40,0.3);font-size:10px;}
+#hud-name{margin-left:auto;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(120,90,30,0.8);letter-spacing:3px;}
 #game-body{flex:1;display:flex;overflow:hidden;}
-#map-area{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#0d0d0d;overflow:hidden;}
+#map-area{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#d8e8f0;overflow:hidden;}
 #map-wrap{position:relative;}
 #map-img{display:block;}
 .door{position:absolute;cursor:pointer;width:14px;height:14px;transform:translate(-50%,-50%);z-index:10;}
@@ -71,19 +71,19 @@ animation:torrepulse 2s ease-in-out infinite;
 }
 .door-tip{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(6,8,5,0.96);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 7px;font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;color:#C9A84C;letter-spacing:1px;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
 .door:hover .door-tip,.door:active .door-tip{opacity:1;}
-#sidebar{flex-shrink:0;width:110px;background:rgba(6,8,5,0.97);border-left:1px solid rgba(180,150,80,0.14);display:flex;flex-direction:column;padding:8px 7px;gap:7px;}
-.sb-s{border:1px solid rgba(180,150,80,0.13);border-radius:3px;padding:6px 7px;}
-.sb-l{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:rgba(180,150,80,0.36);display:block;margin-bottom:4px;}
+#sidebar{flex-shrink:0;width:110px;background:#ffffff;border-left:1px solid rgba(180,150,80,0.3);display:flex;flex-direction:column;padding:8px 7px;gap:7px;}
+.sb-s{border:1px solid rgba(180,150,80,0.25);border-radius:3px;padding:6px 7px;}
+.sb-l{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:rgba(120,90,30,0.6);display:block;margin-bottom:4px;}
 .sb-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
-.sb-n{font-size:9px;color:rgba(200,180,140,0.6);}
+.sb-n{font-size:9px;color:#666;}
 .sb-v{font-family:‘Bebas Neue’,sans-serif;font-size:13px;color:#C9A84C;}
 .sb-day{text-align:center;}
 .sb-dv{font-family:‘Bebas Neue’,sans-serif;font-size:26px;color:#C9A84C;line-height:1;}
-.sb-gr{font-family:‘Bebas Neue’,sans-serif;font-size:10px;color:rgba(180,150,80,0.5);letter-spacing:2px;margin-top:1px;}
-.sb-hint{font-size:7px;color:rgba(180,150,80,0.45);line-height:1.7;}
-#bottom-bar{flex-shrink:0;height:44px;background:rgba(6,8,5,0.97);border-top:1px solid rgba(180,150,80,0.15);display:flex;align-items:center;justify-content:center;gap:24px;}
+.sb-gr{font-family:‘Bebas Neue’,sans-serif;font-size:10px;color:rgba(120,90,30,0.6);letter-spacing:2px;margin-top:1px;}
+.sb-hint{font-size:7px;color:#888;line-height:1.7;}
+#bottom-bar{flex-shrink:0;height:44px;background:#ffffff;border-top:1px solid rgba(180,150,80,0.3);display:flex;align-items:center;justify-content:center;gap:24px;}
 .bb-item{text-align:center;}
-.bb-lbl{font-size:7px;letter-spacing:3px;color:rgba(180,150,80,0.4);text-transform:uppercase;display:block;}
+.bb-lbl{font-size:7px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;display:block;}
 .bb-val{font-family:‘Bebas Neue’,sans-serif;font-size:17px;color:#C9A84C;letter-spacing:2px;}
 #modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;}
 #modal.show{display:flex;}
@@ -200,7 +200,7 @@ const DOORS=[
   {id:"sup2", x:840,y:687, locked:false,ico:"✈️",name:"SUPPORTO AVIO 2",          sub:"Supporto",         dsc:"Supporto avio.",                  quo:"Serra piombo!"                                       },
   {id:"grd",  x:980,y:687, locked:true, ico:"🔒",name:"GUARDIE",                  sub:"Accesso riservato",dsc:"Checkpoint.",                     quo:"Accesso negato"                                      },
   {id:"asso", x:185,y:860, locked:false,ico:"🏅",name:"ASSO",                     sub:"Leggenda",         dsc:"Asso.",                           quo:"Ogni tre... gia sai",                      act:"battle"},
-  {id:"torre",x:357,y:736, locked:false,ico:"🗽",name:"TORRE DEL PARACA",         sub:"Torre",            dsc:"Torre del Paraca.",               quo:"IL TORNADO DI FUOCO",                      act:"battle"},
+  {id:"torre",x:355,y:740, locked:false,ico:"🗽",name:"TORRE DEL PARACA",         sub:"Torre",            dsc:"Torre del Paraca.",               quo:"IL TORNADO DI FUOCO",                      act:"battle"},
   {id:"parch",x:576,y:726, locked:false,ico:"🚗",name:"PARCHEGGIO",               sub:"Veicoli",          dsc:"Parcheggio.",                     quo:"Vecchio! Dove cazzo stai andando!"                   },
   {id:"arm",  x:165,y:1005,locked:true, ico:"🔫",name:"ARMERIA",                  sub:"Accesso vietato",  dsc:"Armeria.",                        quo:"Non sei presente a te stesso!"                       },
   {id:"dor",  x:140,y:1160,locked:false,ico:"🛏️",name:"DORMITORIO",              sub:"Riposo",           dsc:"Dormitorio.",                     quo:"Che giornata di merda. Domani alzo una ricca mano.",act:"sleep"},
