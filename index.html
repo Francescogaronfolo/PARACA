@@ -187,31 +187,44 @@ const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!",
 const player={nome:'',cognome:'',forza:10,spirito:10,disc:10,giorno:1,lanci:0};
 let scaleX=1,scaleY=1;
 
-const DOORS=[
-  {id:"pal",  x:145,y:205, bx:95, by:95, bw:155,bh:140,locked:false,ico:"💪",name:"PALESTRA",                  sub:"Allenamento",      dsc:"Allenamento fisico.",          quo:"Sei massiccio cazzo!",                     act:"train"},
-  {id:"spa",  x:350,y:195, bx:300,by:95, bw:115,bh:140,locked:false,ico:"🍺",name:"SPACCIO",                   sub:"Bar / ristoro",    dsc:"Zona ristoro.",                quo:"Weee naja!",                               act:"bar"  },
-  {id:"sup1", x:480,y:190, bx:445,by:95, bw:120,bh:140,locked:false,ico:"✈️",name:"SUPPORTO AVIO",             sub:"Supporto",         dsc:"Area supporto avio.",          quo:"Serra piombo!"                                       },
-  {id:"edif", x:610,y:190, bx:570,by:90, bw:135,bh:145,locked:false,ico:"🚧",name:"EDIFICIO DI RIPARAZIONE",   sub:"Lavori",           dsc:"Edificio in riparazione.",     quo:"Cagnaccio!"                                          },
-  {id:"comp2",x:790,y:200, bx:700,by:80, bw:170,bh:170,locked:false,ico:"🪖",name:"2a COMPAGNIA",              sub:"Compagnia",        dsc:"Seconda compagnia.",           quo:"Devil Baffaccio SEN!",                     act:"battle"},
-  {id:"inf",  x:965,y:190, bx:905,by:95, bw:135,bh:145,locked:false,ico:"🏥",name:"INFERMERIA",                sub:"Sanita",           dsc:"Infermeria.",                  quo:"Non sei idoneo alla vita!",                act:"heal" },
-  {id:"men",  x:125,y:385, bx:70, by:285,bw:140,bh:170,locked:false,ico:"🍽️",name:"MENSA",                   sub:"Vitto",            dsc:"Mensa.",                       quo:"Non farti mangiare il cazzo dalle mosche!",act:"eat"  },
-  {id:"cin",  x:120,y:530, bx:70, by:455,bw:135,bh:100,locked:false,ico:"🎬",name:"CINEMA",                   sub:"Svago",            dsc:"Cinema.",                      quo:"Liberta per gli ultra!"                              },
-  {id:"tem",  x:515,y:405, bx:455,by:335,bw:135,bh:170,locked:false,ico:"🕍",name:"TEMPIO",                   sub:"Addestramento",    dsc:"Tempio.",                      quo:"Memento audere semper",                    act:"battle"},
-  {id:"piaz", x:735,y:500, bx:650,by:335,bw:270,bh:260,locked:false,ico:"🚩",name:"PIAZZALE",                 sub:"Adunata",          dsc:"Piazzale.",                    quo:"Ti devi muovere!"                                    },
-  {id:"mus",  x:970,y:385, bx:935,by:295,bw:160,bh:155,locked:false,ico:"🏛️",name:"MUSEO AVIOTRUPPE",          sub:"Museo",            dsc:"Museo.",                       quo:"Eccezzionale!"                                       },
-  {id:"uff",  x:135,y:675, bx:75, by:600,bw:140,bh:145,locked:false,ico:"📋",name:"UFFICIO",                  sub:"Burocrazia",       dsc:"Ufficio.",                     quo:"Signorsi!"                                           },
-  {id:"cmd",  x:300,y:675, bx:245,by:600,bw:145,bh:145,locked:false,ico:"⭐",name:"COMANDO",                  sub:"Comando",          dsc:"Comando.",                     quo:"Io ti dico signorsi!",                     act:"battle"},
-  {id:"log",  x:465,y:675, bx:405,by:600,bw:135,bh:145,locked:false,ico:"📦",name:"LOGISTICA",                sub:"Magazzino",        dsc:"Logistica.",                   quo:"Stai sul pezzo della merda!"                         },
-  {id:"comp1",x:710,y:660, bx:620,by:600,bw:135,bh:145,locked:false,ico:"🪖",name:"1a COMPAGNIA",             sub:"Compagnia",        dsc:"Prima compagnia.",             quo:"Cavaliere Alato OGYA!",                    act:"battle"},
-  {id:"sup2", x:835,y:660, bx:760,by:600,bw:135,bh:145,locked:false,ico:"✈️",name:"SUPPORTO AVIO 2",          sub:"Supporto",         dsc:"Supporto avio.",               quo:"Serra piombo!"                                       },
-  {id:"grd",  x:980,y:675, bx:920,by:600,bw:135,bh:145,locked:true, ico:"🔒",name:"GUARDIE",                  sub:"Accesso riservato",dsc:"Checkpoint.",                  quo:"Non lo fare il chamber check!"                       },
-  {id:"asso", x:175,y:860, bx:95, by:775,bw:145,bh:145,locked:false,ico:"🏅",name:"ASSO",                     sub:"Leggenda",         dsc:"Asso.",                        quo:"Eccezzionale!",                            act:"battle"},
-  {id:"torre",x:370,y:785, bx:315,by:770,bw:150,bh:180,locked:false,ico:"🗽",name:"TORRE DEL PARACA",         sub:"Torre",            dsc:"Torre del Paraca.",            quo:"IL TORNADO DI FUOCO",                      act:"battle"},
-  {id:"parch",x:555,y:740, bx:505,by:760,bw:200,bh:150,locked:false,ico:"🚗",name:"PARCHEGGIO",               sub:"Veicoli",          dsc:"Parcheggio.",                  quo:"Vecchio!"                                            },
-  {id:"arm",  x:165,y:965, bx:90, by:930,bw:150,bh:135,locked:true, ico:"🔫",name:"ARMERIA",                  sub:"Accesso vietato",  dsc:"Armeria.",                     quo:"Non sei presente a te stesso!"                       },
-  {id:"dor",  x:145,y:1075,bx:90, by:1060,bw:150,bh:135,locked:false,ico:"🛏️",name:"DORMITORIO",            sub:"Riposo",           dsc:"Dormitorio.",                  quo:"Caprone di Montagna Volante!",             act:"sleep"},
-  {id:"torri",x:570,y:975, bx:380,by:940,bw:300,bh:310,locked:false,ico:"🗼",name:"TORRI",                   sub:"Lancio",           dsc:"Torri di lancio.",             quo:"Vai a terra!",                             act:"train"},
-  {id:"borgo",x:760,y:960, bx:715,by:900,bw:285,bh:310,locked:false,ico:"🏘️",name:"BORGO BELLA NAJA",        sub:"Area addestrativa",dsc:"Borgo Bella Naja.",            quo:"Cane cane cane cane!"                                },
+const DOORS = [
+  // FILA ALTA
+  {id:"pal",x:155,y:210,bx:95,by:95,bw:155,bh:140,locked:false,ico:"💪",name:"PALESTRA",sub:"Allenamento",dsc:"Allenamento fisico.",quo:"Sei massiccio!",act:"train"},
+  {id:"spa",x:350,y:195,bx:300,by:95,bw:115,bh:140,locked:false,ico:"🍺",name:"SPACCIO",sub:"Bar / ristoro",dsc:"Zona ristoro.",quo:"Weee naja!",act:"bar"},
+  {id:"sup1",x:475,y:190,bx:445,by:95,bw:120,bh:140,locked:false,ico:"✈️",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Area supporto avio.",quo:"Serra piombo!"},
+  {id:"edif",x:610,y:190,bx:570,by:90,bw:135,bh:145,locked:false,ico:"🚧",name:"EDIFICIO DI RIPARAZIONE",sub:"Lavori",dsc:"Edificio in riparazione.",quo:"Cagnaccio!"},
+  {id:"comp2",x:780,y:200,bx:700,by:80,bw:170,bh:170,locked:false,ico:"🪖",name:"2ª COMPAGNIA",sub:"Compagnia",dsc:"Seconda compagnia.",quo:"Devil Baffaccio SEN!",act:"battle"},
+  {id:"inf",x:965,y:190,bx:905,by:95,bw:135,bh:145,locked:false,ico:"🏥",name:"INFERMERIA",sub:"Sanità",dsc:"Infermeria.",quo:"Non sei idoneo alla vita!",act:"heal"},
+
+  // LATO SINISTRO
+  {id:"men",x:115,y:355,bx:70,by:285,bw:140,bh:170,locked:false,ico:"🍽️",name:"MENSA",sub:"Vitto",dsc:"Mensa.",quo:"Non farti mangiare dalle mosche!",act:"eat"},
+  {id:"cin",x:130,y:530,bx:70,by:455,bw:135,bh:100,locked:false,ico:"🎬",name:"CINEMA",sub:"Svago",dsc:"Cinema.",quo:"Libertà per gli ultrà!"},
+
+  // CENTRO ALTO
+  {id:"tem",x:505,y:395,bx:455,by:335,bw:135,bh:170,locked:false,ico:"🕍",name:"TEMPIO",sub:"Addestramento",dsc:"Tempio.",quo:"Memento audere semper",act:"battle"},
+  {id:"piaz",x:720,y:520,bx:650,by:335,bw:270,bh:260,locked:false,ico:"🚩",name:"PIAZZALE",sub:"Adunata",dsc:"Piazzale.",quo:"Ti devi muovere!"},
+  {id:"mus",x:955,y:345,bx:935,by:295,bw:160,bh:155,locked:false,ico:"🏛️",name:"MUSEO STORICO DELLE AVIOTRUPPE",sub:"Museo",dsc:"Museo.",quo:"Eccezionale!"},
+
+  // FILA CENTRALE
+  {id:"uff",x:135,y:675,bx:75,by:600,bw:140,bh:145,locked:false,ico:"📋",name:"UFFICIO",sub:"Burocrazia",dsc:"Ufficio.",quo:"Signorsì!"},
+  {id:"cmd",x:290,y:675,bx:245,by:600,bw:145,bh:145,locked:false,ico:"⭐",name:"COMANDO",sub:"Comando",dsc:"Comando.",quo:"Io ti dico signorsì!",act:"battle"},
+  {id:"log",x:455,y:675,bx:405,by:600,bw:135,bh:145,locked:false,ico:"📦",name:"LOGISTICA",sub:"Magazzino",dsc:"Logistica.",quo:"Stai sul pezzo!"},
+  {id:"comp1",x:695,y:690,bx:620,by:600,bw:135,bh:145,locked:false,ico:"🪖",name:"1ª COMPAGNIA",sub:"Compagnia",dsc:"Prima compagnia.",quo:"Cavaliere Alato OGYA!",act:"battle"},
+  {id:"sup2",x:850,y:690,bx:760,by:600,bw:135,bh:145,locked:false,ico:"✈️",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Supporto avio.",quo:"Serra piombo!"},
+  {id:"grd",x:980,y:675,bx:920,by:600,bw:135,bh:145,locked:true,ico:"🔒",name:"GUARDIE",sub:"Accesso riservato",dsc:"Checkpoint.",quo:"Accesso negato"},
+
+  // ZONA BASSA
+  {id:"asso",x:185,y:860,bx:95,by:775,bw:145,bh:145,locked:false,ico:"🏅",name:"ASSO",sub:"Leggenda",dsc:"Asso.",quo:"Eccezionale!",act:"battle"},
+  {id:"torre",x:350,y:760,bx:315,by:770,bw:150,bh:180,locked:false,ico:"🗽",name:"TORRE DEL PARACA",sub:"Torre",dsc:"Torre del Paraca.",quo:"Il Tornado di Fuoco",act:"battle"},
+  {id:"parch",x:575,y:730,bx:505,by:760,bw:200,bh:150,locked:false,ico:"🚗",name:"PARCHEGGIO",sub:"Veicoli",dsc:"Parcheggio.",quo:"Vecchio!"},
+
+  // ARMERIA / DORMITORIO
+  {id:"arm",x:165,y:990,bx:90,by:930,bw:150,bh:135,locked:true,ico:"🔫",name:"ARMERIA",sub:"Accesso vietato",dsc:"Armeria.",quo:"Accesso vietato"},
+  {id:"dor",x:125,y:1165,bx:90,by:1060,bw:150,bh:135,locked:false,ico:"🛏️",name:"DORMITORIO",sub:"Riposo",dsc:"Dormitorio.",quo:"Qui si sopravvive.",act:"sleep"},
+
+  // CAMPO / BORGO
+  {id:"torri",x:570,y:975,bx:380,by:940,bw:300,bh:310,locked:false,ico:"🗼",name:"TORRI",sub:"Lancio",dsc:"Torri di lancio.",quo:"Vai a terra!",act:"train"},
+  {id:"borgo",x:760,y:960,bx:715,by:900,bw:285,bh:310,locked:false,ico:"🏘️",name:"BORGO BELLA NAJA",sub:"Area addestrativa",dsc:"Borgo Bella Naja.",quo:"Cane cane cane cane!"}
 ];
 
 function buildMap(){
