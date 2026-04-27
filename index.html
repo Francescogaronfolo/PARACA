@@ -4,172 +4,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="screen-orientation" content="portrait">
 <title>PARACA!</title>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{width:100%;height:100%;overflow:hidden;background:#f0f0eb;font-family:'Rajdhani',sans-serif;}
+html,body{width:100%;height:100%;overflow:hidden;background:#f5f5f0;font-family:'Rajdhani',sans-serif;}
+@media(orientation:landscape){
+  html{transform:rotate(-90deg);transform-origin:left top;width:100vh;height:100vw;position:fixed;top:100%;left:0;}
+}
 
-/* LOGIN */
+/* ====== LOGIN ====== */
 #screen-login{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;}
 #bg-login{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;}
 #bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.32);}
 #login-title{position:absolute;left:0;right:0;top:8%;text-align:center;z-index:2;pointer-events:none;}
-#login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(44px,10vw,90px);color:#7B1020;text-shadow:4px 4px 0 #3d000a,7px 7px 0 rgba(0,0,0,0.2);line-height:1;animation:tp 4s ease-in-out infinite;}
-@keyframes tp{0%,100%{color:#7B1020;}50%{color:#8B1828;text-shadow:4px 4px 0 #3d000a,7px 7px 0 rgba(0,0,0,0.2),0 0 40px rgba(123,16,32,0.3);}}
-#popup{position:relative;z-index:2;background:rgba(235,226,206,0.91);border:2px solid rgba(123,16,32,0.4);border-radius:4px;padding:10px 16px 12px;width:min(240px,70vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+#login-title h1{
+font-family:‘Black Han Sans’,sans-serif;
+font-size:clamp(52px,14vw,110px);
+color:#7B1020;
+-webkit-text-stroke:2px #3d000a;
+text-shadow:none;
+line-height:1;
+animation:tp 4s ease-in-out infinite;
+}
+@keyframes tp{0%,100%{color:#7B1020;}50%{color:#9B1828;}}
+#popup{position:relative;z-index:2;background:rgba(235,226,206,0.92);border:2px solid rgba(123,16,32,0.4);border-radius:8px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
 #popup::before,#popup::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
 #popup::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
-.p-head{text-align:center;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid rgba(123,16,32,0.2);}
+.p-head{text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(123,16,32,0.2);}
 .p-lbl{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:rgba(123,16,32,0.5);}
-.p-rank{font-family:‘Bebas Neue’,sans-serif;font-size:19px;color:#7B1020;letter-spacing:5px;}
-.frow{margin-bottom:7px;}
-.flbl{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:rgba(80,30,30,0.55);margin-bottom:2px;}
-.finp{width:100%;background:rgba(255,255,255,0.6);border:1px solid rgba(123,16,32,0.28);border-radius:2px;padding:6px 9px;color:#2a0a0a;font-family:‘Rajdhani’,sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;outline:none;transition:border-color .2s;}
-.finp:focus{border-color:rgba(123,16,32,0.7);background:rgba(255,255,255,0.85);}
+.p-rank{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:5px;}
+.frow{margin-bottom:8px;}
+.flbl{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:rgba(80,30,30,0.55);margin-bottom:3px;}
+.finp{width:100%;background:rgba(255,255,255,0.65);border:1px solid rgba(123,16,32,0.28);border-radius:3px;padding:7px 10px;color:#2a0a0a;font-family:‘Rajdhani’,sans-serif;font-size:15px;font-weight:600;letter-spacing:2px;outline:none;}
+.finp:focus{border-color:rgba(123,16,32,0.7);background:rgba(255,255,255,0.9);}
 .finp::placeholder{color:rgba(80,30,30,0.3);font-weight:400;}
 #err-msg{font-size:9px;color:#7B1020;text-align:center;height:11px;margin-top:3px;opacity:0;transition:opacity .3s;}
 #err-msg.show{opacity:1;}
-#btn-start{width:100%;margin-top:10px;padding:9px;background:#7B1020;border:none;border-radius:2px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:16px;letter-spacing:6px;cursor:pointer;box-shadow:0 3px 12px rgba(123,16,32,0.35);transition:background .2s;}
+#btn-start{width:100%;margin-top:12px;padding:11px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:17px;letter-spacing:6px;cursor:pointer;box-shadow:0 3px 12px rgba(123,16,32,0.35);}
 #btn-start:hover{background:#9B1828;}
 #btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;box-shadow:none;}
 
-/* MAPPA */
-#screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f0f0eb;}
+/* ====== GIOCO ====== */
+#screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f5f5f0;}
 #screen-map.show{display:flex;}
-#hud{flex-shrink:0;height:44px;background:#ffffff;border-bottom:2px solid rgba(180,150,80,0.3);display:flex;align-items:center;padding:0 12px;gap:7px;z-index:300;}
-.ht{
+
+/* TOP BAR */
+#top-bar{
+flex-shrink:0;height:46px;
+background:#fff;
+border-bottom:1px solid rgba(180,150,80,0.25);
+display:flex;align-items:center;justify-content:center;
+position:relative;padding:0 12px;z-index:300;
+}
+#top-bar-title{
 font-family:‘Black Han Sans’,sans-serif;
-font-size:22px;
-color:#7B1020;
-text-shadow:2px 2px 0 #3d000a, 3px 3px 0 rgba(0,0,0,0.15);
+font-size:26px;color:#7B1020;
+-webkit-text-stroke:1px #3d000a;
 letter-spacing:2px;
 }
-.hs{font-family:‘Rajdhani’,sans-serif;font-size:11px;font-weight:700;color:#7a6030;letter-spacing:1px;white-space:nowrap;}
-.hs b{color:#C9A84C;font-size:12px;}
-.hd{color:rgba(140,110,40,0.3);font-size:10px;}
-#hud-name{margin-left:auto;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(120,90,30,0.8);letter-spacing:3px;}
-#game-body{flex:1;display:flex;overflow:hidden;}
-#map-area{
-flex:1;
-display:flex;
-flex-direction:row;
-align-items:flex-start;
-overflow:hidden;
+#top-bar-name{
+position:absolute;right:12px;
+font-family:‘Bebas Neue’,sans-serif;
+font-size:11px;color:rgba(120,90,30,0.7);letter-spacing:3px;
+}
+
+/* TAB CONTENT */
+#tab-content{flex:1;overflow:hidden;position:relative;}
+
+/* ===== TAB CASERMA ===== */
+#tab-caserma{
+position:absolute;inset:0;
+display:flex;flex-direction:column;
+align-items:center;
 background:#f5f5f0;
+overflow-y:auto;
 }
-#map-col{
+
+/* Galleria immagini sopra mappa */
+#gallery{
 flex-shrink:0;
-display:flex;
-flex-direction:column;
-align-items:flex-start;
-}
-#map-wrap{
-position:relative;
-flex-shrink:0;
-}
-#map-img{display:block;}
-#below-map{
 width:100%;
-display:flex;
-flex-direction:row;
-gap:6px;
-padding:6px 0 0 0;
+padding:8px 8px 4px;
+display:flex;gap:6px;
+overflow-x:auto;
 }
-.fn-box{flex:1;background:#fff;border:1px solid rgba(180,150,80,0.25);border-radius:6px;padding:8px;text-align:center;font-family:‘Rajdhani’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(120,90,30,0.5);text-transform:uppercase;}
-#below-map{width:100%;padding:6px 0 8px 0;display:flex;flex-direction:column;gap:0;}
-.carta-pg{
+.gal-box{
+flex-shrink:0;
+width:72px;height:72px;
+background:#e0dbd0;
+border-radius:6px;
+border:1px solid rgba(180,150,80,0.25);
+display:flex;align-items:center;justify-content:center;
+font-size:9px;color:rgba(120,90,30,0.4);letter-spacing:1px;
+text-align:center;font-family:‘Rajdhani’,sans-serif;font-weight:700;
+overflow:hidden;
+}
+.gal-box img{width:100%;height:100%;object-fit:cover;}
+
+/* Mappa centrata */
+#map-container{
+width:100%;
+flex-shrink:0;
+display:flex;justify-content:center;
+padding:0 4px;
+}
+#map-wrap{position:relative;display:inline-block;}
+#map-img{display:block;width:100%;max-width:500px;}
+
+/* Puntini */
+.door{position:absolute;cursor:pointer;width:14px;height:14px;transform:translate(-50%,-50%);z-index:10;}
+.door-dot{width:100%;height:100%;border-radius:3px;background:#C9A84C;opacity:0.92;}
+.door.locked .door-dot{background:#c0392b;}
+.door.torre .door-dot{background:transparent;border-radius:50%;border:2.5px solid #3a8fff;box-shadow:0 0 8px rgba(58,143,255,0.8);animation:torrepulse 2s ease-in-out infinite;}
+@keyframes torrepulse{0%,100%{box-shadow:0 0 5px rgba(58,143,255,0.5);}50%{box-shadow:0 0 14px rgba(58,143,255,1);}}
+.door-tip{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(6,8,5,0.9);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 7px;font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;color:#C9A84C;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
+.door:hover .door-tip,.door:active .door-tip{opacity:1;}
+
+/* Controlli sotto mappa */
+#controls{
+width:100%;
+flex-shrink:0;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:8px 16px 6px;
+gap:12px;
+}
+/* Tasto AZIONE sinistra */
+#btn-azione{
+width:60px;height:60px;
+background:#7B1020;
+border-radius:50%;
+border:none;
+color:#fff;
+font-family:‘Bebas Neue’,sans-serif;
+font-size:11px;letter-spacing:1px;
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;flex-shrink:0;
+box-shadow:0 3px 12px rgba(123,16,32,0.35);
+text-align:center;line-height:1.2;
+}
+/* Joystick analogico destra */
+#joystick-area{
+width:90px;height:90px;
+position:relative;flex-shrink:0;
+}
+#joystick-base{
+width:90px;height:90px;
+border-radius:50%;
+background:rgba(0,0,0,0.08);
+border:2px solid rgba(180,150,80,0.3);
+position:absolute;top:0;left:0;
+}
+#joystick-knob{
+width:38px;height:38px;
+border-radius:50%;
+background:#C9A84C;
+box-shadow:0 2px 8px rgba(0,0,0,0.2);
+position:absolute;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+transition:transform .05s;
+}
+/* Info giornata */
+#caserma-info{
+width:100%;
+flex-shrink:0;
+display:flex;gap:6px;
+padding:4px 8px 6px;
+}
+.info-pill{
+flex:1;background:#fff;
+border:1px solid rgba(180,150,80,0.25);
+border-radius:6px;padding:5px 8px;
+text-align:center;
+}
+.info-pill .lbl{font-size:7px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;display:block;}
+.info-pill .val{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#C9A84C;letter-spacing:2px;}
+/* Bottoni extra sotto */
+#extra-buttons{
+width:100%;
+flex-shrink:0;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:6px;padding:0 8px 8px;
+}
+.ext-btn{
 background:#fff;
 border:1px solid rgba(180,150,80,0.25);
 border-radius:6px;
-overflow:hidden;
-cursor:pointer;
-transition:border-color .15s;
-}
-.carta-pg:hover{border-color:rgba(180,150,80,0.6);}
-.carta-img{
-width:100%;
-aspect-ratio:1;
-background:#f0ece0;
-display:flex;align-items:center;justify-content:center;
-font-size:28px;
-border-bottom:1px solid rgba(180,150,80,0.15);
-}
-.carta-nome{
-font-family:‘Rajdhani’,sans-serif;
-font-size:9px;font-weight:700;
-letter-spacing:1px;
-color:rgba(120,90,30,0.7);
+padding:10px 8px;
 text-align:center;
-padding:3px 2px;
-text-transform:uppercase;
-white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+cursor:pointer;
+font-family:‘Rajdhani’,sans-serif;font-size:10px;font-weight:700;
+letter-spacing:2px;color:rgba(120,90,30,0.6);text-transform:uppercase;
 }
-#map-wrap{position:relative;}
-#map-img{display:block;}
-.door{position:absolute;cursor:pointer;width:14px;height:14px;transform:translate(-50%,-50%);z-index:10;}
-.door-dot{
-width:100%;height:100%;
-border-radius:3px;
-background:#C9A84C;
-opacity:0.92;
-transition:opacity .15s;
+.ext-btn:hover{border-color:rgba(180,150,80,0.6);color:#7B1020;}
+
+/* ===== TAB PROFILO ===== */
+#tab-profilo{position:absolute;inset:0;display:none;flex-direction:column;background:#f5f5f0;overflow-y:auto;padding:12px;}
+
+.profilo-header{
+background:#fff;border-radius:8px;
+border:1px solid rgba(180,150,80,0.25);
+padding:14px;display:flex;align-items:center;gap:12px;
+margin-bottom:10px;
 }
-.door:active .door-dot{opacity:1;transform:scale(1.1);}
-.door.locked .door-dot{background:#c0392b;}
-.door.torre .door-dot{
-background:transparent;
-border-radius:50%;
-border:2.5px solid #3a8fff;
-box-shadow:0 0 8px rgba(58,143,255,0.8),0 0 3px rgba(58,143,255,0.5);
-animation:torrepulse 2s ease-in-out infinite;
+.avatar-circle{
+width:52px;height:52px;border-radius:50%;
+background:#e8e0cc;border:2px solid rgba(180,150,80,0.4);
+display:flex;align-items:center;justify-content:center;
+font-size:22px;flex-shrink:0;
 }
-@keyframes torrepulse{
-0%,100%{box-shadow:0 0 6px rgba(58,143,255,0.6);}
-50%{box-shadow:0 0 14px rgba(58,143,255,1),0 0 6px rgba(58,143,255,0.8);}
+.profilo-info .nome{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:2px;}
+.profilo-info .grado{font-size:10px;color:rgba(120,90,30,0.6);letter-spacing:3px;text-transform:uppercase;}
+
+/* Radar */
+.penta-card{
+background:#fff;border-radius:8px;
+border:1px solid rgba(180,150,80,0.25);
+padding:12px;margin-bottom:10px;
+cursor:pointer;
 }
-.door-tip{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(6,8,5,0.96);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 7px;font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;color:#C9A84C;letter-spacing:1px;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
-.door:hover .door-tip,.door:active .door-tip{opacity:1;}
-#sidebar{flex-shrink:0;width:110px;background:#ffffff;border-left:1px solid rgba(180,150,80,0.3);display:flex;flex-direction:column;padding:8px 7px;gap:7px;}
-.sb-s{border:1px solid rgba(180,150,80,0.25);border-radius:3px;padding:6px 7px;}
-.sb-l{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:rgba(120,90,30,0.6);display:block;margin-bottom:4px;}
-.sb-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
-.sb-n{font-size:9px;color:#666;}
-.sb-v{font-family:‘Bebas Neue’,sans-serif;font-size:13px;color:#C9A84C;}
-.sb-day{text-align:center;}
-.sb-dv{font-family:‘Bebas Neue’,sans-serif;font-size:26px;color:#C9A84C;line-height:1;}
-.sb-gr{font-family:‘Bebas Neue’,sans-serif;font-size:10px;color:rgba(120,90,30,0.6);letter-spacing:2px;margin-top:1px;}
-.sb-hint{font-size:7px;color:#888;line-height:1.7;}
-#bottom-bar{flex-shrink:0;height:44px;background:#ffffff;border-top:1px solid rgba(180,150,80,0.3);display:flex;align-items:center;justify-content:center;gap:24px;}
-.bb-item{text-align:center;}
-.bb-lbl{font-size:7px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;display:block;}
-.bb-val{font-family:‘Bebas Neue’,sans-serif;font-size:17px;color:#C9A84C;letter-spacing:2px;}
-#modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;}
+.penta-title{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(120,90,30,0.5);margin-bottom:8px;}
+
+/* Squadra */
+.squadra-card{background:#fff;border-radius:8px;border:1px solid rgba(180,150,80,0.25);padding:12px;margin-bottom:10px;}
+.squadra-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;cursor:pointer;}
+.squadra-nome-display{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#7B1020;letter-spacing:2px;}
+.squadra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.carta-pg{background:#f0ece0;border:1px solid rgba(180,150,80,0.2);border-radius:6px;overflow:hidden;cursor:pointer;}
+.carta-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:26px;border-bottom:1px solid rgba(180,150,80,0.12);}
+.carta-nome{font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(120,90,30,0.7);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ===== TAB ZAINO ===== */
+#tab-zaino{position:absolute;inset:0;display:none;flex-direction:column;background:#f5f5f0;overflow-y:auto;padding:12px;}
+.zaino-empty{text-align:center;padding:40px 20px;color:rgba(120,90,30,0.4);font-family:‘Rajdhani’,sans-serif;font-size:14px;letter-spacing:2px;}
+
+/* ===== BOTTOM TAB BAR ===== */
+#tab-bar{
+flex-shrink:0;height:56px;
+background:#fff;
+border-top:1px solid rgba(180,150,80,0.25);
+display:flex;align-items:stretch;
+z-index:200;
+}
+.tab-btn{
+flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+cursor:pointer;border:none;background:none;gap:2px;
+transition:color .15s;
+}
+.tab-btn .tab-ico{font-size:20px;}
+.tab-btn .tab-lbl{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.5);}
+.tab-btn.active .tab-lbl{color:#7B1020;}
+.tab-btn.active .tab-ico{filter:drop-shadow(0 0 3px rgba(123,16,32,0.4));}
+.tab-center{
+flex:1.2;
+background:#7B1020;
+display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+cursor:pointer;border:none;
+}
+.tab-center .tab-ico{font-size:22px;}
+.tab-center .tab-lbl{font-family:‘Bebas Neue’,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.85);}
+
+/* MODAL */
+#modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.72);display:none;align-items:center;justify-content:center;}
 #modal.show{display:flex;}
-#mbox{background:rgba(10,12,8,0.98);border:2px solid rgba(180,150,80,0.38);border-radius:4px;padding:18px 22px;width:min(320px,88vw);position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.9);animation:mIn .18s ease;}
+#mbox{background:#fff;border-radius:10px;padding:18px 20px;width:min(320px,88vw);position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.25);animation:mIn .18s ease;}
 @keyframes mIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-#mbox::before,#mbox::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(180,150,80,0.55);border-style:solid;}
-#mbox::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
-#mbox::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
-#m-ico{font-size:30px;text-align:center;margin-bottom:4px;}
-#m-tit{font-family:‘Bebas Neue’,sans-serif;font-size:22px;color:#C9A84C;letter-spacing:4px;text-align:center;}
-#m-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(180,150,80,0.38);text-align:center;margin-bottom:9px;}
-#m-dsc{font-size:13px;color:rgba(208,196,175,0.85);line-height:1.5;margin-bottom:9px;text-align:center;}
-#m-quo{font-size:12px;color:#9B1020;font-style:italic;text-align:center;padding:5px 9px;border-left:2px solid #7B1020;margin-bottom:13px;background:rgba(123,16,32,0.07);}
-.mb{width:100%;padding:9px;margin-bottom:6px;border:none;border-radius:2px;cursor:pointer;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;transition:background .2s;}
-.mb-p{background:#7B1020;color:#fff;box-shadow:0 3px 10px rgba(123,16,32,0.28);}
+#m-ico{font-size:28px;text-align:center;margin-bottom:3px;}
+#m-tit{font-family:‘Bebas Neue’,sans-serif;font-size:21px;color:#7B1020;letter-spacing:4px;text-align:center;}
+#m-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.4);text-align:center;margin-bottom:8px;}
+#m-dsc{font-size:13px;color:#555;line-height:1.5;margin-bottom:8px;text-align:center;}
+#m-quo{font-size:12px;color:#9B1020;font-style:italic;text-align:center;padding:5px 9px;border-left:3px solid #7B1020;margin-bottom:12px;background:rgba(123,16,32,0.05);}
+.mb{width:100%;padding:9px;margin-bottom:5px;border:none;border-radius:4px;cursor:pointer;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;}
+.mb-p{background:#7B1020;color:#fff;}
 .mb-p:hover{background:#9B1828;}
-.mb-s{background:rgba(180,150,80,0.09);color:#C9A84C;border:1px solid rgba(180,150,80,0.22);}
-.mb-s:hover{background:rgba(180,150,80,0.18);}
-#m-x{position:absolute;top:7px;right:9px;background:none;border:none;color:rgba(180,150,80,0.38);font-size:16px;cursor:pointer;}
-#m-x:hover{color:#C9A84C;}
-#toast{position:fixed;bottom:52px;left:50%;transform:translateX(-50%);background:rgba(6,8,5,0.95);border:1px solid rgba(180,150,80,0.3);border-radius:3px;padding:7px 14px;color:#C9A84C;font-family:‘Rajdhani’,sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;z-index:600;max-width:80vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
+.mb-s{background:#f0ece0;color:rgba(120,90,30,0.7);border:1px solid rgba(180,150,80,0.3);}
+#m-x{position:absolute;top:10px;right:12px;background:none;border:none;color:#bbb;font-size:18px;cursor:pointer;}
+#m-x:hover{color:#7B1020;}
+
+/* STATS MODAL */
+#stats-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;}
+#stats-inner{background:#fff;border-radius:12px;padding:20px 24px;width:min(300px,88vw);position:relative;}
+#stats-inner h3{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:3px;text-align:center;margin-bottom:14px;}
+.stats-row{display:flex;justify-content:space-around;margin-top:12px;}
+.stat-item{text-align:center;}
+.stat-val{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#C9A84C;}
+.stat-lbl{font-size:8px;letter-spacing:2px;color:rgba(120,90,30,0.5);text-transform:uppercase;}
+#s-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#bbb;font-size:18px;cursor:pointer;}
+
+#toast{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);background:rgba(30,20,10,0.9);border-radius:4px;padding:8px 16px;color:#C9A84C;font-family:‘Rajdhani’,sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;z-index:700;max-width:80vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
 </style>
 
 </head>
 <body>
+
+<!-- LOGIN -->
 
 <div id="screen-login">
   <div id="bg-login"></div>
@@ -183,102 +316,139 @@ animation:torrepulse 2s ease-in-out infinite;
   </div>
 </div>
 
+<!-- GIOCO -->
+
 <div id="screen-map">
-  <div id="hud">
-    <span class="ht">PARACA!</span>
-    <span id="hud-name">SOLDATO</span>
+
+  <!-- TOP BAR -->
+
+  <div id="top-bar">
+    <div id="top-bar-title">PARACA!</div>
+    <div id="top-bar-name">SOLDATO</div>
   </div>
-  <div id="game-body">
-    <div id="map-area">
-      <div id="map-col">
-        <div id="map-wrap">
-          <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
-        </div>
-        <div id="below-map">
-          <!-- Header squadra con nome cliccabile -->
-          <div id="squadra-header" onclick="rinominaSquadra()" style="
-            display:flex;align-items:center;justify-content:space-between;
-            padding:6px 8px;margin-bottom:6px;
-            background:#fff;border:1px solid rgba(180,150,80,0.3);border-radius:6px;
-            cursor:pointer;
-          ">
-            <div>
-              <div style="font-size:7px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;">Squadra</div>
-              <div id="squadra-nome" style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:#7B1020;letter-spacing:2px;">SCEGLI NOME</div>
-            </div>
-            <div style="font-size:11px;color:rgba(180,150,80,0.6);">✏️</div>
-          </div>
-          <!-- 6 carte personaggio -->
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;">
-            <div class="carta-pg" data-idx="0">
-              <div class="carta-img">👤</div>
-              <div class="carta-nome">Soldato 1</div>
-            </div>
-            <div class="carta-pg" data-idx="1">
-              <div class="carta-img">👤</div>
-              <div class="carta-nome">Soldato 2</div>
-            </div>
-            <div class="carta-pg" data-idx="2">
-              <div class="carta-img">👤</div>
-              <div class="carta-nome">Soldato 3</div>
-            </div>
-            <div class="carta-pg" data-idx="3">
-              <div class="carta-img">👤</div>
-              <div class="carta-nome">Soldato 4</div>
-            </div>
-            <div class="carta-pg" data-idx="4">
-              <div class="carta-img">👤</div>
-              <div class="carta-nome">Soldato 5</div>
-            </div>
-            <div class="carta-pg" data-idx="5">
-              <div class="carta-img">👤</div>
-              <div class="carta-nome">Soldato 6</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="sidebar">
-      <div class="sb-s sb-day">
-        <span class="sb-l">Giorno</span>
-        <div class="sb-dv" id="dv">1</div>
-        <div class="sb-gr" id="grado-val">SOLDATO</div>
-      </div>
-      <div class="sb-s" style="text-align:center;cursor:pointer;" onclick="toggleStats()">
-        <span class="sb-l">Statistiche</span>
-        <svg id="penta-icon" viewBox="0 0 60 58" width="52" height="50" style="display:block;margin:2px auto;">
-          <!-- Pentagono esterno fisso -->
-          <polygon points="30,3 57,22 47,53 13,53 3,22"
-            fill="none" stroke="rgba(180,150,80,0.35)" stroke-width="1.5"/>
-          <!-- Pentagono interno dinamico (radar) -->
-          <polygon id="radar-poly" points="30,3 57,22 47,53 13,53 3,22"
-            fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1.5"
-            style="transform-origin:30px 30px;"/>
-          <!-- Punti ai vertici -->
-          <circle cx="30" cy="3"  r="2.5" fill="#C9A84C"/>
-          <circle cx="57" cy="22" r="2.5" fill="#C9A84C"/>
-          <circle cx="47" cy="53" r="2.5" fill="#C9A84C"/>
-          <circle cx="13" cy="53" r="2.5" fill="#C9A84C"/>
-          <circle cx="3"  cy="22" r="2.5" fill="#C9A84C"/>
-        </svg>
-        <div style="font-size:7px;color:rgba(120,90,30,0.5);letter-spacing:1px;margin-top:2px;">TOCCA</div>
-      </div>
-      <div class="sb-s">
-        <span class="sb-l">Porte</span>
-        <div class="sb-hint">
-          <span style="color:#C9A84C">●</span> Aperta<br>
-          <span style="color:#c0392b">●</span> Vietata<br><br>
-          Tocca per entrare
-        </div>
-      </div>
+
+  <!-- CONTENUTO TAB -->
+
+  <div id="tab-content">
+
+```
+<!-- TAB CASERMA -->
+<div id="tab-caserma">
+  <!-- Galleria 4 foto sopra mappa -->
+  <div id="gallery">
+    <div class="gal-box" id="gal0"><span>FOTO<br>1</span></div>
+    <div class="gal-box" id="gal1"><span>FOTO<br>2</span></div>
+    <div class="gal-box" id="gal2"><span>FOTO<br>3</span></div>
+    <div class="gal-box" id="gal3"><span>FOTO<br>4</span></div>
+  </div>
+
+  <!-- Mappa centrata -->
+  <div id="map-container">
+    <div id="map-wrap">
+      <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
     </div>
   </div>
-  <div id="bottom-bar">
-    <div class="bb-item"><span class="bb-lbl">Giorno</span><span class="bb-val" id="dv2">1</span></div>
-    <div class="bb-item"><span class="bb-lbl">Grado</span><span class="bb-val">Soldato</span></div>
-    <div class="bb-item"><span class="bb-lbl">Lanci</span><span class="bb-val" id="lan-val">0</span></div>
+
+  <!-- Controlli: tasto azione + joystick -->
+  <div id="controls">
+    <button id="btn-azione">AZIONE</button>
+    <div id="caserma-info" style="flex:1;display:flex;gap:6px;padding:0 8px;">
+      <div class="info-pill"><span class="lbl">Giorno</span><span class="val" id="dv">1</span></div>
+      <div class="info-pill"><span class="lbl">Grado</span><span class="val">Soldato</span></div>
+    </div>
+    <div id="joystick-area">
+      <div id="joystick-base"></div>
+      <div id="joystick-knob"></div>
+    </div>
+  </div>
+
+  <!-- Bottoni extra -->
+  <div id="extra-buttons">
+    <div class="ext-btn" onclick="toast('Linea di comando — presto!')">Linea di Comando</div>
+    <div class="ext-btn" onclick="toast('Plotone — presto!')">Plotone</div>
+    <div class="ext-btn" onclick="toast('Missioni — presto!')">Missioni</div>
+    <div class="ext-btn" onclick="toast('Archivio — presto!')">Archivio</div>
   </div>
 </div>
+
+<!-- TAB PROFILO -->
+<div id="tab-profilo">
+  <div class="profilo-header">
+    <div class="avatar-circle">🪖</div>
+    <div class="profilo-info">
+      <div class="nome" id="p-nome">SOLDATO</div>
+      <div class="grado">Soldato Semplice • Giorno <span id="p-giorno">1</span></div>
+    </div>
+  </div>
+
+  <!-- Statistiche radar -->
+  <div class="penta-card" onclick="toggleStats()">
+    <div class="penta-title">Statistiche</div>
+    <svg viewBox="0 0 120 116" width="100" height="84" style="display:block;margin:0 auto 4px;">
+      <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(180,150,80,0.25)" stroke-width="1.5"/>
+      <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(180,150,80,0.12)" stroke-width="8"/>
+      <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(201,168,76,0.2)" stroke="#C9A84C" stroke-width="1.5"/>
+      <circle cx="60" cy="6"   r="3" fill="#C9A84C"/>
+      <circle cx="114" cy="44" r="3" fill="#C9A84C"/>
+      <circle cx="94" cy="106" r="3" fill="#C9A84C"/>
+      <circle cx="26" cy="106" r="3" fill="#C9A84C"/>
+      <circle cx="6" cy="44"  r="3" fill="#C9A84C"/>
+    </svg>
+    <div style="text-align:center;font-size:8px;color:rgba(120,90,30,0.4);letter-spacing:2px;">TOCCA PER DETTAGLI</div>
+  </div>
+
+  <!-- Squadra -->
+  <div class="squadra-card">
+    <div class="squadra-header-row" onclick="rinominaSquadra()">
+      <div>
+        <div style="font-size:7px;letter-spacing:3px;color:rgba(120,90,30,0.45);text-transform:uppercase;">Squadra</div>
+        <div class="squadra-nome-display" id="squadra-nome">SCEGLI NOME</div>
+      </div>
+      <div style="font-size:16px;">✏️</div>
+    </div>
+    <div class="squadra-grid">
+      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 1</div></div>
+      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 2</div></div>
+      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 3</div></div>
+      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 4</div></div>
+      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 5</div></div>
+      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 6</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB ZAINO -->
+<div id="tab-zaino">
+  <div class="zaino-empty">
+    <div style="font-size:40px;margin-bottom:12px;">🎒</div>
+    <div>ZAINO VUOTO</div>
+    <div style="font-size:11px;margin-top:8px;color:rgba(120,90,30,0.3);">Colleziona gadget e armi</div>
+  </div>
+</div>
+```
+
+  </div><!-- fine tab-content -->
+
+  <!-- BOTTOM TAB BAR -->
+
+  <div id="tab-bar">
+    <button class="tab-btn active" id="tbtn-profilo" onclick="switchTab('profilo')">
+      <span class="tab-ico">👤</span>
+      <span class="tab-lbl">Profilo</span>
+    </button>
+    <button class="tab-center" id="tbtn-caserma" onclick="switchTab('caserma')">
+      <span class="tab-ico">🏛️</span>
+      <span class="tab-lbl">Caserma</span>
+    </button>
+    <button class="tab-btn" id="tbtn-zaino" onclick="switchTab('zaino')">
+      <span class="tab-ico">🎒</span>
+      <span class="tab-lbl">Zaino</span>
+    </button>
+  </div>
+
+</div><!-- fine screen-map -->
+
+<!-- MODAL EDIFICIO -->
 
 <div id="modal">
   <div id="mbox">
@@ -290,97 +460,110 @@ animation:torrepulse 2s ease-in-out infinite;
 
 <!-- STATS MODAL -->
 
-<div id="stats-modal" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:12px;padding:20px 24px;width:min(300px,88vw);position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-    <button onclick="toggleStats()" style="position:absolute;top:10px;right:12px;background:none;border:none;font-size:18px;color:#999;cursor:pointer;">✕</button>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#7B1020;letter-spacing:3px;text-align:center;margin-bottom:14px;">STATISTICHE</div>
-    <svg id="radar-chart" viewBox="0 0 200 200" width="200" height="200" style="display:block;margin:0 auto 14px;">
-      <!-- Griglia -->
-      <polygon points="100,10 181,68 152,165 48,165 19,68" fill="none" stroke="#ddd" stroke-width="1"/>
-      <polygon points="100,37 158,79 137,151 63,151 42,79" fill="none" stroke="#ddd" stroke-width="1"/>
-      <polygon points="100,64 135,90 122,137 78,137 65,90" fill="none" stroke="#ddd" stroke-width="1"/>
-      <!-- Assi -->
-      <line x1="100" y1="10"  x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
-      <line x1="181" y1="68"  x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
-      <line x1="152" y1="165" x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
-      <line x1="48"  y1="165" x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
-      <line x1="19"  y1="68"  x2="100" y2="100" stroke="#ddd" stroke-width="0.5"/>
-      <!-- Area stats -->
-      <polygon id="radar-area" points="100,10 181,68 152,165 48,165 19,68"
-        fill="rgba(201,168,76,0.3)" stroke="#C9A84C" stroke-width="2"/>
-      <!-- Labels -->
+<div id="stats-modal">
+  <div id="stats-inner">
+    <button id="s-close" onclick="toggleStats()">✕</button>
+    <h3>STATISTICHE</h3>
+    <svg id="radar-chart" viewBox="0 0 200 200" width="200" height="200" style="display:block;margin:0 auto 10px;">
+      <polygon points="100,10 181,68 152,165 48,165 19,68" fill="none" stroke="#eee" stroke-width="1"/>
+      <polygon points="100,37 158,79 137,151 63,151 42,79" fill="none" stroke="#eee" stroke-width="1"/>
+      <polygon points="100,64 135,90 122,137 78,137 65,90" fill="none" stroke="#eee" stroke-width="1"/>
+      <line x1="100" y1="10"  x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+      <line x1="181" y1="68"  x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+      <line x1="152" y1="165" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+      <line x1="48"  y1="165" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+      <line x1="19"  y1="68"  x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+      <polygon id="radar-area" points="100,10 181,68 152,165 48,165 19,68" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="2"/>
       <text x="100" y="6"   text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">FORZA</text>
-      <text x="188" y="70"  text-anchor="start"  font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">QI</text>
-      <text x="158" y="176" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">MOTIV</text>
-      <text x="42"  y="176" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">SPIRITO</text>
-      <text x="10"  y="70"  text-anchor="end"    font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">DI</text>
+      <text x="190" y="70"  text-anchor="start"  font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">QI</text>
+      <text x="162" y="178" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">MOTIV</text>
+      <text x="38"  y="178" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">SPIRITO</text>
+      <text x="8"   y="70"  text-anchor="end"    font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">DI</text>
     </svg>
-    <!-- Valori -->
-    <div style="display:flex;justify-content:space-around;font-family:'Rajdhani',sans-serif;font-size:12px;color:#666;">
-      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-for">10</div><div>FORZA</div></div>
-      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-qi">10</div><div>QI</div></div>
-      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-mot">10</div><div>MOTIV</div></div>
-      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-spi">10</div><div>SPIRITO</div></div>
-      <div style="text-align:center;"><div style="color:#7B1020;font-weight:700;font-size:16px;" id="s-dis">10</div><div>DI</div></div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-val" id="s-for">10</div><div class="stat-lbl">FORZA</div></div>
+      <div class="stat-item"><div class="stat-val" id="s-qi">10</div><div class="stat-lbl">QI</div></div>
+      <div class="stat-item"><div class="stat-val" id="s-mot">10</div><div class="stat-lbl">MOTIV</div></div>
+      <div class="stat-item"><div class="stat-val" id="s-spi">10</div><div class="stat-lbl">SPIRITO</div></div>
+      <div class="stat-item"><div class="stat-val" id="s-di">10</div><div class="stat-lbl">DI</div></div>
     </div>
   </div>
 </div>
+
 <div id="toast"></div>
 
 <script>
-const MW=1183,MH=1330;
+const MW=1183, MH=1330;
 const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!","Non sei idoneo alla vita!","Ti devi muovere!","Sei massiccio cazzo!","Eccezzionale!","Serra piombo!","Jonny andiamo!","Dai Jonny cazzo!","Non sei presente a te stesso!","Cagnaccio!","Cane cane cane cane!","Non lo fare il chamber check della merda!","Io ti dico signorsi! E tu dici sissignore!","Cavallo! Cavallo! Meeeglio!","Non farti mangiare il cazzo dalle mosche!","Vecchio!","Weee naja!","Liberta per gli ultra!"];
-const player={nome:'',cognome:'',forza:10,spirito:10,disc:10,motiv:10,qi:10,giorno:1,lanci:0};
+const player={nome:'',cognome:'',forza:10,spirito:10,di:10,motiv:10,qi:10,giorno:1,lanci:0};
 let scaleX=1,scaleY=1;
+let currentTab='caserma';
 
 const DOORS=[
-  {id:"pal",  x:200,y:210, locked:false,ico:"💪",name:"PALESTRA",                  sub:"Allenamento",      dsc:"Allenamento fisico.",              quo:"Sei massiccio!",                           act:"train"},
-  {id:"spa",  x:350,y:190, locked:false,ico:"🍺",name:"SPACCIO",                   sub:"Bar / ristoro",    dsc:"Zona ristoro.",                   quo:"Weee naja!",                               act:"bar"  },
-  {id:"sup1", x:476,y:190, locked:false,ico:"✈️",name:"SUPPORTO AVIO",             sub:"Supporto",         dsc:"Area supporto avio.",             quo:"Serra piombo!"                                       },
-  {id:"edif", x:610,y:190, locked:false,ico:"🚧",name:"EDIFICIO DI RIPARAZIONE",   sub:"Lavori",           dsc:"Edificio in riparazione.",        quo:"Cagnaccio!"                                          },
-  {id:"comp2",x:780,y:200, locked:false,ico:"🪖",name:"2a COMPAGNIA",              sub:"Compagnia",        dsc:"Seconda compagnia.",              quo:"Muti! Muti! Dovete stare muti!",           act:"battle"},
-  {id:"inf",  x:965,y:190, locked:false,ico:"🏥",name:"INFERMERIA",                sub:"Sanita",           dsc:"Infermeria.",                     quo:"Non sei idoneo alla vita!",                act:"heal" },
-  {id:"men",  x:148,y:388, locked:false,ico:"🍽️",name:"MENSA",                   sub:"Vitto",            dsc:"Mensa.",                          quo:"Non farti mangiare il cazzo dalle mosche!",act:"eat"  },
-  {id:"cin",  x:133,y:525, locked:false,ico:"🎬",name:"CINEMA",                   sub:"Svago",            dsc:"Cinema.",                         quo:"Liberta per gli ultra!"                              },
-  {id:"tem",  x:541,y:395, locked:false,ico:"🕍",name:"TEMPIO",                   sub:"Addestramento",    dsc:"Tempio.",                         quo:"Ma lo vedi che non sei idoneo!",           act:"battle"},
-  {id:"piaz", x:777,y:530, locked:false,ico:"🚩",name:"PIAZZALE MITICO",          sub:"Adunata",          dsc:"Piazzale.",                       quo:"Ti devi muovere! Serraaaaa"                          },
-  {id:"mus",  x:990,y:368, locked:false,ico:"🏛️",name:"MUSEO AVIOTRUPPE",          sub:"Museo",            dsc:"Museo.",                          quo:"Eccezzionale!"                                       },
-  {id:"uff",  x:136,y:675, locked:false,ico:"📋",name:"UFFICIO",                  sub:"Burocrazia",       dsc:"Ufficio.",                        quo:"Stai a rapporto... Signorsi!"                        },
-  {id:"cmd",  x:284,y:675, locked:false,ico:"⭐",name:"COMANDO",                  sub:"Comando",          dsc:"Comando.",                        quo:"Io ti dico signorsi! E tu dici sissignore!",act:"battle"},
-  {id:"log",  x:442,y:675, locked:false,ico:"📦",name:"LOGISTICA",                sub:"Magazzino",        dsc:"Logistica.",                      quo:"Stai sul pezzo della merda!"                         },
-  {id:"comp1",x:702,y:687, locked:false,ico:"🪖",name:"1a COMPAGNIA",             sub:"Compagnia",        dsc:"Prima compagnia.",                quo:"Fai schiffo, busta di piscio",             act:"battle"},
-  {id:"sup2", x:840,y:687, locked:false,ico:"✈️",name:"SUPPORTO AVIO 2",          sub:"Supporto",         dsc:"Supporto avio.",                  quo:"Serra piombo!"                                       },
-  {id:"grd",  x:980,y:687, locked:true, ico:"🔒",name:"GUARDIE",                  sub:"Accesso riservato",dsc:"Checkpoint.",                     quo:"Accesso negato"                                      },
-  {id:"asso", x:185,y:860, locked:false,ico:"🏅",name:"ASSO",                     sub:"Leggenda",         dsc:"Asso.",                           quo:"Ogni tre... gia sai",                      act:"battle"},
-  {id:"torre",x:355,y:740, locked:false,ico:"🗽",name:"TORRE DEL PARACA",         sub:"Torre",            dsc:"Torre del Paraca.",               quo:"IL TORNADO DI FUOCO",                      act:"battle"},
-  {id:"parch",x:576,y:726, locked:false,ico:"🚗",name:"PARCHEGGIO",               sub:"Veicoli",          dsc:"Parcheggio.",                     quo:"Vecchio! Dove cazzo stai andando!"                   },
-  {id:"arm",  x:165,y:1005,locked:true, ico:"🔫",name:"ARMERIA",                  sub:"Accesso vietato",  dsc:"Armeria.",                        quo:"Non sei presente a te stesso!"                       },
-  {id:"dor",  x:140,y:1160,locked:false,ico:"🛏️",name:"DORMITORIO",              sub:"Riposo",           dsc:"Dormitorio.",                     quo:"Che giornata di merda. Domani alzo una ricca mano.",act:"sleep"},
-  {id:"torri",x:565,y:960, locked:false,ico:"🗼",name:"TORRI",                   sub:"Lancio",           dsc:"Torri di lancio.",                quo:"Minchia non era legato",                   act:"train"},
-  {id:"borgo",x:760,y:960, locked:false,ico:"🏘️",name:"BORGO BELLA NAJA",        sub:"Area addestrativa",dsc:"Borgo Bella Naja.",               quo:"Cane cane cane cane!"                                },
+  {id:"pal",  x:200,y:210,locked:false,ico:"💪",name:"PALESTRA",                sub:"Allenamento",      dsc:"Allenamento fisico.",              quo:"Sei massiccio!",                           act:"train"},
+  {id:"spa",  x:350,y:190,locked:false,ico:"🍺",name:"SPACCIO",                 sub:"Bar / ristoro",    dsc:"Zona ristoro.",                   quo:"Weee naja!",                               act:"bar"  },
+  {id:"sup1", x:476,y:190,locked:false,ico:"✈️",name:"SUPPORTO AVIO",           sub:"Supporto",         dsc:"Area supporto avio.",             quo:"Serra piombo!"                                       },
+  {id:"edif", x:610,y:190,locked:false,ico:"🚧",name:"EDIFICIO DI RIPARAZIONE", sub:"Lavori",           dsc:"Edificio in riparazione.",        quo:"Cagnaccio!"                                          },
+  {id:"comp2",x:780,y:200,locked:false,ico:"🪖",name:"2a COMPAGNIA",            sub:"Compagnia",        dsc:"Seconda compagnia.",              quo:"Muti! Muti! Dovete stare muti!",           act:"battle"},
+  {id:"inf",  x:965,y:190,locked:false,ico:"🏥",name:"INFERMERIA",              sub:"Sanita",           dsc:"Infermeria.",                     quo:"Non sei idoneo alla vita!",                act:"heal" },
+  {id:"men",  x:148,y:388,locked:false,ico:"🍽️",name:"MENSA",                 sub:"Vitto",            dsc:"Mensa.",                          quo:"Non farti mangiare il cazzo dalle mosche!",act:"eat"  },
+  {id:"cin",  x:133,y:525,locked:false,ico:"🎬",name:"CINEMA",                 sub:"Svago",            dsc:"Cinema.",                         quo:"Liberta per gli ultra!"                              },
+  {id:"tem",  x:541,y:395,locked:false,ico:"🕍",name:"TEMPIO",                 sub:"Addestramento",    dsc:"Tempio.",                         quo:"Ma lo vedi che non sei idoneo!",           act:"battle"},
+  {id:"piaz", x:777,y:530,locked:false,ico:"🚩",name:"PIAZZALE MITICO",        sub:"Adunata",          dsc:"Piazzale.",                       quo:"Ti devi muovere! Serraaaaa"                          },
+  {id:"mus",  x:990,y:368,locked:false,ico:"🏛️",name:"MUSEO AVIOTRUPPE",        sub:"Museo",            dsc:"Museo.",                          quo:"Eccezzionale!"                                       },
+  {id:"uff",  x:136,y:675,locked:false,ico:"📋",name:"UFFICIO",                sub:"Burocrazia",       dsc:"Ufficio.",                        quo:"Stai a rapporto... Signorsi!"                        },
+  {id:"cmd",  x:284,y:675,locked:false,ico:"⭐",name:"COMANDO",                sub:"Comando",          dsc:"Comando.",                        quo:"Io ti dico signorsi! E tu dici sissignore!",act:"battle"},
+  {id:"log",  x:442,y:675,locked:false,ico:"📦",name:"LOGISTICA",              sub:"Magazzino",        dsc:"Logistica.",                      quo:"Stai sul pezzo della merda!"                         },
+  {id:"comp1",x:702,y:687,locked:false,ico:"🪖",name:"1a COMPAGNIA",           sub:"Compagnia",        dsc:"Prima compagnia.",                quo:"Fai schiffo, busta di piscio",             act:"battle"},
+  {id:"sup2", x:840,y:687,locked:false,ico:"✈️",name:"SUPPORTO AVIO 2",        sub:"Supporto",         dsc:"Supporto avio.",                  quo:"Serra piombo!"                                       },
+  {id:"grd",  x:980,y:687,locked:true, ico:"🔒",name:"GUARDIE",                sub:"Accesso riservato",dsc:"Checkpoint.",                     quo:"Accesso negato"                                      },
+  {id:"asso", x:185,y:860,locked:false,ico:"🏅",name:"ASSO",                   sub:"Leggenda",         dsc:"Asso.",                           quo:"Ogni tre... gia sai",                      act:"battle"},
+  {id:"torre",x:355,y:740,locked:false,ico:"🗽",name:"TORRE DEL PARACA",       sub:"Torre",            dsc:"Torre del Paraca.",               quo:"IL TORNADO DI FUOCO",                      act:"battle"},
+  {id:"parch",x:576,y:726,locked:false,ico:"🚗",name:"PARCHEGGIO",             sub:"Veicoli",          dsc:"Parcheggio.",                     quo:"Vecchio! Dove cazzo stai andando!"                   },
+  {id:"arm",  x:165,y:1005,locked:true,ico:"🔫",name:"ARMERIA",               sub:"Accesso vietato",  dsc:"Armeria.",                        quo:"Non sei presente a te stesso!"                       },
+  {id:"dor",  x:140,y:1160,locked:false,ico:"🛏️",name:"DORMITORIO",           sub:"Riposo",           dsc:"Dormitorio.",                     quo:"Che giornata di merda.",                   act:"sleep"},
+  {id:"torri",x:565,y:960, locked:false,ico:"🗼",name:"TORRI",                 sub:"Lancio",           dsc:"Torri di lancio.",                quo:"Minchia non era legato",                   act:"train"},
+  {id:"borgo",x:760,y:960, locked:false,ico:"🏘️",name:"BORGO BELLA NAJA",      sub:"Area addestrativa",dsc:"Borgo Bella Naja.",               quo:"Cane cane cane cane!"                                },
 ];
 
+// ===== TAB SWITCHING =====
+function switchTab(tab){
+  currentTab=tab;
+  ['caserma','profilo','zaino'].forEach(t=>{
+    const el=document.getElementById('tab-'+t);
+    el.style.display = t===tab ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const btn=document.getElementById('tbtn-'+tab);
+  if(btn)btn.classList.add('active');
+  if(tab==='caserma') buildMap();
+  if(tab==='profilo') updateProfiloUI();
+}
+
+// ===== BUILD MAP =====
 function buildMap(){
-  const area=document.getElementById('map-area');
   const wrap=document.getElementById('map-wrap');
   const img=document.getElementById('map-img');
-  const aW=area.clientWidth,aH=area.clientHeight;
-  const ratio=MW/MH;
-  let mw=aW,mh=mw/ratio;
-  if(mh>aH){mh=aH;mw=mh*ratio;}
-  wrap.style.width=mw+'px';wrap.style.height=mh+'px';
-  img.style.width=mw+'px';img.style.height=mh+'px';
-  scaleX=mw/MW;scaleY=mh/MH;
+  // Usa larghezza disponibile
+  const containerW = document.getElementById('map-container').clientWidth - 8;
+  const mw = Math.min(containerW, 500);
+  const mh = mw * (MH/MW);
+  img.style.width=mw+'px';
+  img.style.height=mh+'px';
+  wrap.style.width=mw+'px';
+  wrap.style.height=mh+'px';
+  scaleX=mw/MW; scaleY=mh/MH;
+
   document.querySelectorAll('.door').forEach(e=>e.remove());
   DOORS.forEach(d=>{
     const el=document.createElement('div');
     el.className='door'+(d.locked?' locked':'');
+    if(d.id==='torre') el.classList.add('torre');
     el.style.left=(d.x*scaleX)+'px';
     el.style.top=(d.y*scaleY)+'px';
     const dot=document.createElement('div');dot.className='door-dot';
     const tip=document.createElement('div');tip.className='door-tip';tip.textContent=d.name;
     el.appendChild(dot);el.appendChild(tip);
-    if(d.id==='torre') el.classList.add('torre');
     el.addEventListener('pointerdown',e=>{e.stopPropagation();handleDoor(d);});
     wrap.appendChild(el);
   });
@@ -412,63 +595,92 @@ function closeModal(){document.getElementById('modal').classList.remove('show');
 document.getElementById('m-x').onclick=closeModal;
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
 
-function doTrain(){player.forza=Math.min(99,player.forza+Math.floor(Math.random()*3)+1);player.disc=Math.min(99,player.disc+1);updHud();toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
-function doSleep(){player.giorno++;player.spirito=Math.min(99,player.spirito+2);updHud();toast('Hai dormito. Giorno '+player.giorno);}
+// ===== AZIONI =====
+function doTrain(){player.forza=Math.min(99,player.forza+Math.floor(Math.random()*3)+1);player.di=Math.min(99,player.di+1);updHud();toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
+function doSleep(){player.giorno++;player.spirito=Math.min(99,player.spirito+2);document.getElementById('dv').textContent=player.giorno;updHud();toast('Hai dormito. Giorno '+player.giorno);}
 function doBar()  {player.spirito=Math.min(99,player.spirito+3);updHud();toast('Weee naja! Spirito +3');}
 function doEat()  {player.spirito=Math.min(99,player.spirito+1);player.forza=Math.min(99,player.forza+1);updHud();toast('Pasta scotta. Forza +1, Spirito +1.');}
 function doHeal() {player.forza=Math.min(99,player.forza+4);updHud();toast('Infermeria. Forza +4.');}
+
 function updHud(){
-  document.getElementById('h-for').textContent=player.forza;
-  document.getElementById('h-spi').textContent=player.spirito;
-  document.getElementById('h-dis').textContent=player.disc;
-  document.getElementById('sb-for').textContent=player.forza;
-  document.getElementById('sb-spi').textContent=player.spirito;
-  document.getElementById('sb-dis').textContent=player.disc;
-  document.getElementById('sb-lan').textContent=player.lanci;
   document.getElementById('dv').textContent=player.giorno;
-  document.getElementById('dv2').textContent=player.giorno;
-  document.getElementById('lan-val').textContent=player.lanci;
+  document.getElementById('p-giorno').textContent=player.giorno;
+  updateRadarMini();
 }
 
-function rinominaSquadra(){
-  const nome = prompt('Nome della tua squadra:');
-  if(nome && nome.trim()){
-    document.getElementById('squadra-nome').textContent = nome.trim().toUpperCase();
-  }
+function updateProfiloUI(){
+  document.getElementById('p-nome').textContent=(player.nome+' '+player.cognome).toUpperCase();
+  updateRadarMini();
 }
 
+function updateRadarMini(){
+  const cx=60,cy=58,maxR=52;
+  const stats=[player.forza,player.qi,player.motiv,player.spirito,player.di];
+  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
+  const pts=stats.map((v,i)=>{const r=(v/99)*maxR;return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];});
+  document.getElementById('radar-mini').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+}
+
+// ===== STATS MODAL =====
 function toggleStats(){
-  const m = document.getElementById('stats-modal');
+  const m=document.getElementById('stats-modal');
   if(m.style.display==='none'||!m.style.display){
-    updateRadar();
+    updateRadarFull();
     m.style.display='flex';
   } else {
     m.style.display='none';
   }
 }
-
-function updateRadar(){
-  // Vertici pentagono: top, right, bottom-right, bottom-left, left
-  // Scala 0-99 -> raggio 0-90 (centro 100,100)
+function updateRadarFull(){
   const cx=100,cy=100,maxR=90;
-  const stats=[player.forza,player.qi,player.motiv,player.spirito,player.disc];
-  const angles=[-90, -90+72, -90+144, -90+216, -90+288].map(a=>a*Math.PI/180);
-  const pts = stats.map((v,i)=>{
-    const r = (v/99)*maxR;
-    return [(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];
-  });
-  const polyStr = pts.map(p=>p.join(',')).join(' ');
-  document.getElementById('radar-area').setAttribute('points',polyStr);
+  const stats=[player.forza,player.qi,player.motiv,player.spirito,player.di];
+  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
+  const pts=stats.map((v,i)=>{const r=(v/99)*maxR;return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];});
+  document.getElementById('radar-area').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
   document.getElementById('s-for').textContent=player.forza;
-  document.getElementById('s-dis').textContent=player.disc;
+  document.getElementById('s-qi').textContent=player.qi;
   document.getElementById('s-mot').textContent=player.motiv;
   document.getElementById('s-spi').textContent=player.spirito;
-  document.getElementById('s-qi').textContent=player.qi;
+  document.getElementById('s-di').textContent=player.di;
+}
+document.getElementById('stats-modal').addEventListener('click',e=>{if(e.target===document.getElementById('stats-modal'))toggleStats();});
+
+// ===== SQUADRA =====
+function rinominaSquadra(){
+  const nome=prompt('Nome della tua squadra:');
+  if(nome&&nome.trim()) document.getElementById('squadra-nome').textContent=nome.trim().toUpperCase();
 }
 
+// ===== JOYSTICK =====
+(function(){
+  const knob=document.getElementById('joystick-knob');
+  const base=document.getElementById('joystick-area');
+  let active=false,startX=0,startY=0;
+  const R=26;
+
+  function getCenter(){const r=base.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2};}
+
+  base.addEventListener('pointerdown',e=>{
+    active=true;base.setPointerCapture(e.pointerId);
+    const c=getCenter();startX=c.x;startY=c.y;
+    moveKnob(e.clientX,e.clientY);
+  });
+  base.addEventListener('pointermove',e=>{if(!active)return;moveKnob(e.clientX,e.clientY);});
+  base.addEventListener('pointerup',()=>{active=false;knob.style.transform='translate(-50%,-50%)';});
+
+  function moveKnob(cx,cy){
+    let dx=cx-startX,dy=cy-startY;
+    const d=Math.sqrt(dx*dx+dy*dy);
+    if(d>R){dx=dx/d*R;dy=dy/d*R;}
+    knob.style.transform=`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+  }
+})();
+
+// ===== TOAST =====
 let tt=null;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';if(tt)clearTimeout(tt);tt=setTimeout(()=>t.style.opacity='0',2800);}
 
+// ===== LOGIN =====
 const inN=document.getElementById('inp-nome'),inC=document.getElementById('inp-cogn'),bS=document.getElementById('btn-start');
 function chk(){bS.disabled=!(inN.value.trim()&&inC.value.trim());document.getElementById('err-msg').classList.remove('show');}
 inN.addEventListener('input',chk);inC.addEventListener('input',chk);
@@ -478,13 +690,13 @@ bS.addEventListener('click',()=>{
   const n=inN.value.trim(),c=inC.value.trim();
   if(!n||!c){document.getElementById('err-msg').classList.add('show');return;}
   player.nome=n;player.cognome=c;
-  document.getElementById('hud-name').textContent='SOLDATO '+c.toUpperCase();
+  document.getElementById('top-bar-name').textContent='SOLDATO '+c.toUpperCase();
   document.getElementById('screen-login').style.display='none';
   document.getElementById('screen-map').classList.add('show');
-  requestAnimationFrame(()=>requestAnimationFrame(()=>buildMap()));
+  switchTab('caserma');
   setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+c+'"'),500);
 });
-document.getElementById('bg-login').style.backgroundImage="url('bg.png?v=6')";
+document.getElementById('bg-login').style.backgroundImage="url('bg.png?v=7')";
 </script>
 
 </body>
