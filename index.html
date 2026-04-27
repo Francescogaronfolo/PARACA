@@ -222,7 +222,7 @@ const player={nome:'',cognome:'',forza:10,spirito:10,disc:10,giorno:1,lanci:0};
 // ============================================================
 const DOORS=[
   // FILA NORD — spostati verso entrate reali
-  {id:'pal',  x:125, y:245, bx:70, by:130,bw:175,bh:165, locked:false,ico:'💪',name:'PALESTRA',        sub:'Allenamento',               dsc:'Piegamenti, trazioni, corsa. Il tuo nuovo hobby.',                       quo:'Sei massiccio cazzo!',                     act:'train'},
+  {id:'pal',  x:160, y:268, bx:70, by:130,bw:175,bh:165, locked:false,ico:'💪',name:'PALESTRA',        sub:'Allenamento',               dsc:'Piegamenti, trazioni, corsa. Il tuo nuovo hobby.',                       quo:'Sei massiccio cazzo!',                     act:'train'},
   {id:'spa',  x:255, y:243, bx:195,by:130,bw:145,bh:165, locked:false,ico:'🍺',name:'ALLA PORTA!',      sub:'Bar / Spaccio',             dsc:"L'oasi di civilta della caserma.",                                       quo:'Weee naja!',                               act:'bar'  },
   {id:'sup1', x:362, y:242, bx:300,by:130,bw:145,bh:165, locked:false,ico:'✈️',name:'SUPPORTO AVIO',    sub:'Aeronautica',               dsc:'Tutto quello che vola passa di qui.',                                    quo:'Jonny andiamo!'                                      },
   {id:'edif', x:530, y:242, bx:465,by:130,bw:165,bh:165, locked:false,ico:'🚧',name:'EDIFICIO IN RIP.', sub:'Lavori in corso',           dsc:'Sempre in riparazione.',                                                 quo:'Cagnaccio!'                                          },
@@ -249,6 +249,7 @@ const DOORS=[
   {id:'borgo',x:800, y:900, bx:700,by:850,bw:300,bh:295, locked:false,ico:'🏘️',name:'BORGO BELLA NAJA',sub:'Area ricreativa',          dsc:'Il cuore sociale della caserma.',                                       quo:'Cane cane cane cane!'                                },
   {id:'arm',  x:130, y:930, bx:60, by:905,bw:205,bh:135, locked:true, ico:'🔫',name:'ARMERIA',         sub:'ACCESSO VIETATO',           dsc:'Deposito armi. Richiede permesso speciale.',                            quo:'Non sei presente a te stesso!'                       },
   // DORMITORI — solo 01 (02 e 03 eliminati per ora)
+  {id:'torri',x:455, y:1020,bx:360,by:975,bw:160,bh:220, locked:false,ico:'🗼',name:'TORRI',           sub:'Strutture addestramento',   dsc:'Le torri di lancio. Qui si allena il corpo e la testa.',                quo:'Vai a terra!',                             act:'train'},
   {id:'dor1', x:120, y:1020,bx:60, by:990,bw:205,bh:130, locked:false,ico:'🛏️',name:'DORMITORI',      sub:'CIOK / LACER / PANIKO',     dsc:'Le brande. Il tuo migliore amico. Qui si dorme, si sfida, si sopravvive.',quo:'Caprone di Montagna Volante!',            act:'sleep'},
 ];
 
