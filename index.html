@@ -115,6 +115,18 @@ padding:0 4px;
 
 /* Puntini */
 .door{position:absolute;cursor:pointer;width:14px;height:14px;transform:translate(-50%,-50%);z-index:10;}
+#omino{
+position:absolute;
+width:11px;height:11px;
+border-radius:50%;
+background:#fff;
+border:2px solid rgba(60,60,60,0.6);
+box-shadow:0 0 4px rgba(0,0,0,0.4);
+transform:translate(-50%,-50%);
+z-index:20;
+transition:left .12s linear, top .12s linear;
+pointer-events:none;
+}
 .door-dot{width:100%;height:100%;border-radius:3px;background:#C9A84C;opacity:0.92;}
 .door.locked .door-dot{background:#c0392b;}
 .door.torre .door-dot{background:transparent;border-radius:50%;border:2.5px solid #3a8fff;box-shadow:0 0 8px rgba(58,143,255,0.8);animation:torrepulse 2s ease-in-out infinite;}
@@ -147,27 +159,26 @@ box-shadow:0 3px 12px rgba(123,16,32,0.35);
 text-align:center;line-height:1.2;
 }
 /* Joystick analogico destra */
-#joystick-area{
-width:90px;height:90px;
-position:relative;flex-shrink:0;
+#dpad{
+display:grid;
+grid-template-columns:repeat(3,32px);
+grid-template-rows:repeat(3,32px);
+gap:3px;
+flex-shrink:0;
 }
-#joystick-base{
-width:90px;height:90px;
-border-radius:50%;
-background:rgba(0,0,0,0.08);
-border:2px solid rgba(180,150,80,0.3);
-position:absolute;top:0;left:0;
+.dpad-btn{
+width:32px;height:32px;
+background:#fff;
+border:1px solid rgba(180,150,80,0.35);
+border-radius:6px;
+font-size:13px;
+color:rgba(120,90,30,0.7);
+cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+-webkit-user-select:none;user-select:none;
+box-shadow:0 2px 4px rgba(0,0,0,0.08);
 }
-#joystick-knob{
-width:38px;height:38px;
-border-radius:50%;
-background:#C9A84C;
-box-shadow:0 2px 8px rgba(0,0,0,0.2);
-position:absolute;
-top:50%;left:50%;
-transform:translate(-50%,-50%);
-transition:transform .05s;
-}
+.dpad-btn:active{background:#f0ece0;border-color:rgba(180,150,80,0.6);}
 /* Info giornata */
 #caserma-info{
 width:100%;
@@ -346,6 +357,7 @@ cursor:pointer;border:none;
   <div id="map-container">
     <div id="map-wrap">
       <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
+      <div id="omino"></div>
     </div>
   </div>
 
@@ -356,9 +368,22 @@ cursor:pointer;border:none;
       <div class="info-pill"><span class="lbl">Giorno</span><span class="val" id="dv">1</span></div>
       <div class="info-pill"><span class="lbl">Grado</span><span class="val">Soldato</span></div>
     </div>
-    <div id="joystick-area">
-      <div id="joystick-base"></div>
-      <div id="joystick-knob"></div>
+    <div id="dpad">
+      <div style="grid-column:2;grid-row:1;">
+        <button class="dpad-btn" id="d-up" onpointerdown="startMove('up')" onpointerup="stopMove()" onpointerleave="stopMove()">▲</button>
+      </div>
+      <div style="grid-column:1;grid-row:2;">
+        <button class="dpad-btn" id="d-left" onpointerdown="startMove('left')" onpointerup="stopMove()" onpointerleave="stopMove()">◀</button>
+      </div>
+      <div style="grid-column:2;grid-row:2;display:flex;align-items:center;justify-content:center;">
+        <div style="width:14px;height:14px;border-radius:50%;background:rgba(180,150,80,0.25);"></div>
+      </div>
+      <div style="grid-column:3;grid-row:2;">
+        <button class="dpad-btn" id="d-right" onpointerdown="startMove('right')" onpointerup="stopMove()" onpointerleave="stopMove()">▶</button>
+      </div>
+      <div style="grid-column:2;grid-row:3;">
+        <button class="dpad-btn" id="d-down" onpointerdown="startMove('down')" onpointerup="stopMove()" onpointerleave="stopMove()">▼</button>
+      </div>
     </div>
   </div>
 
@@ -555,6 +580,7 @@ function buildMap(){
   scaleX=mw/MW; scaleY=mh/MH;
 
   document.querySelectorAll('.door').forEach(e=>e.remove());
+  updateOmino();
   DOORS.forEach(d=>{
     const el=document.createElement('div');
     el.className='door'+(d.locked?' locked':'');
@@ -651,30 +677,74 @@ function rinominaSquadra(){
   if(nome&&nome.trim()) document.getElementById('squadra-nome').textContent=nome.trim().toUpperCase();
 }
 
-// ===== JOYSTICK =====
-(function(){
-  const knob=document.getElementById('joystick-knob');
-  const base=document.getElementById('joystick-area');
-  let active=false,startX=0,startY=0;
-  const R=26;
+// ===== OMINO + FRECCE =====
+const omino = {
+  // Posizione iniziale: ingresso caserma (in coordinate mappa originale)
+  x: 580, y: 720,
+  speed: 18  // px per step sulla mappa originale
+};
 
-  function getCenter(){const r=base.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2};}
+let moveInterval = null;
+let moveDir = null;
 
-  base.addEventListener('pointerdown',e=>{
-    active=true;base.setPointerCapture(e.pointerId);
-    const c=getCenter();startX=c.x;startY=c.y;
-    moveKnob(e.clientX,e.clientY);
-  });
-  base.addEventListener('pointermove',e=>{if(!active)return;moveKnob(e.clientX,e.clientY);});
-  base.addEventListener('pointerup',()=>{active=false;knob.style.transform='translate(-50%,-50%)';});
+function startMove(dir){
+  moveDir = dir;
+  if(moveInterval) return;
+  moveInterval = setInterval(()=>{
+    if(!moveDir) return;
+    const step = omino.speed;
+    if(moveDir==='up')    omino.y = Math.max(0,    omino.y - step);
+    if(moveDir==='down')  omino.y = Math.min(MH,   omino.y + step);
+    if(moveDir==='left')  omino.x = Math.max(0,    omino.x - step);
+    if(moveDir==='right') omino.x = Math.min(MW,   omino.x + step);
+    updateOmino();
+    checkNearDoor();
+  }, 120);
+}
 
-  function moveKnob(cx,cy){
-    let dx=cx-startX,dy=cy-startY;
-    const d=Math.sqrt(dx*dx+dy*dy);
-    if(d>R){dx=dx/d*R;dy=dy/d*R;}
-    knob.style.transform=`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+function stopMove(){
+  moveDir = null;
+  clearInterval(moveInterval);
+  moveInterval = null;
+}
+
+function updateOmino(){
+  const el = document.getElementById('omino');
+  if(!el) return;
+  el.style.left = (omino.x * scaleX) + 'px';
+  el.style.top  = (omino.y * scaleY) + 'px';
+}
+
+function checkNearDoor(){
+  const threshold = 60;
+  for(const d of DOORS){
+    const dx = Math.abs(omino.x - d.x);
+    const dy = Math.abs(omino.y - d.y);
+    if(dx < threshold && dy < threshold){
+      // Evidenzia il nome edificio vicino
+      return;
+    }
   }
-})();
+}
+
+// Tasto AZIONE: apre edificio vicino
+document.getElementById('btn-azione').addEventListener('click', ()=>{
+  const threshold = 80;
+  let nearest = null;
+  let minDist = 9999;
+  for(const d of DOORS){
+    const dist = Math.sqrt(Math.pow(omino.x-d.x,2)+Math.pow(omino.y-d.y,2));
+    if(dist < threshold && dist < minDist){
+      minDist = dist;
+      nearest = d;
+    }
+  }
+  if(nearest){
+    handleDoor(nearest);
+  } else {
+    toast('Avvicinati a un edificio');
+  }
+});
 
 // ===== TOAST =====
 let tt=null;
