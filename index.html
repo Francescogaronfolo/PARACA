@@ -105,17 +105,46 @@ background:linear-gradient(160deg,#e8a020 0%,#c97a10 100%);
 overflow-y:auto;padding:12px;
 }
 #tab-profilo.active{display:flex;}
-.profilo-header{background:rgba(255,255,255,0.18);border-radius:8px;border:1px solid rgba(255,255,255,0.25);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.profilo-header{background:rgba(255,255,255,0.92);border-radius:8px;border:1px solid rgba(220,200,160,0.4);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;}
 .avatar-circle{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.profilo-info .nome{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#fff;letter-spacing:2px;}
-.profilo-info .grado{font-size:10px;color:rgba(255,255,255,0.65);letter-spacing:3px;text-transform:uppercase;}
-.penta-card{background:rgba(255,255,255,0.18);border-radius:8px;border:1px solid rgba(255,255,255,0.25);padding:12px;margin-bottom:10px;cursor:pointer;}
-.penta-title{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:8px;}
-.squadra-card{background:rgba(255,255,255,0.18);border-radius:8px;border:1px solid rgba(255,255,255,0.25);padding:12px;margin-bottom:10px;}
+.profilo-info .nome{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:2px;}
+.profilo-info .grado{font-size:10px;color:rgba(120,90,30,0.6);letter-spacing:3px;text-transform:uppercase;}
+.penta-card{background:rgba(255,255,255,0.92);border-radius:8px;border:1px solid rgba(220,200,160,0.4);padding:12px;margin-bottom:10px;cursor:pointer;}
+.penta-title{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(120,90,30,0.5);margin-bottom:8px;}
+.squadra-card{background:rgba(255,255,255,0.92);border-radius:8px;border:1px solid rgba(220,200,160,0.4);padding:12px;margin-bottom:10px;}
 .squadra-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;cursor:pointer;}
-.squadra-nome-display{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#fff;letter-spacing:2px;}
+.squadra-nome-display{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#7B1020;letter-spacing:2px;}
 .squadra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
 .carta-pg{background:rgba(255,255,255,0.92);border:1px solid rgba(180,130,30,0.3);border-radius:6px;overflow:hidden;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.carta-pg.elite{border:2px solid #b0bec8;box-shadow:0 0 0 1px #dce8f0,0 3px 14px rgba(160,190,210,0.55);background:linear-gradient(160deg,#f8fafc 0%,#edf2f7 100%);}
+.carta-pg.elite .carta-nome{color:#3a4a58;}
+.carta-pg.legio{
+border:2px solid #c8a830;
+background:linear-gradient(160deg,#fffbe8 0%,#fff3c0 50%,#fffbe8 100%);
+background-size:200% 200%;
+animation:goldshine 2.8s ease-in-out infinite;
+box-shadow:0 0 0 1px #e8c840,0 3px 16px rgba(220,180,40,0.5),0 0 24px rgba(255,210,50,0.2);
+}
+@keyframes goldshine{
+0%{background-position:0% 50%;box-shadow:0 0 0 1px #e8c840,0 3px 14px rgba(220,180,40,0.4),0 0 20px rgba(255,210,50,0.15);}
+50%{background-position:100% 50%;box-shadow:0 0 0 1px #f0d850,0 3px 20px rgba(240,200,50,0.7),0 0 32px rgba(255,220,60,0.35);}
+100%{background-position:0% 50%;box-shadow:0 0 0 1px #e8c840,0 3px 14px rgba(220,180,40,0.4),0 0 20px rgba(255,210,50,0.15);}
+}
+.carta-pg.legio .carta-nome{color:#6a4800;}
+.carta-pg.ecce{
+border:2px solid #c040e0;
+background:linear-gradient(160deg,#fdf0ff 0%,#f5d0ff 50%,#fdf0ff 100%);
+background-size:200% 200%;
+animation:eccshine 2.2s ease-in-out infinite;
+box-shadow:0 0 0 1px #d060f0,0 3px 18px rgba(180,40,220,0.55),0 0 30px rgba(220,80,255,0.25);
+}
+@keyframes eccshine{
+0%{background-position:0% 50%;box-shadow:0 0 0 1px #c040e0,0 3px 16px rgba(160,30,200,0.5),0 0 24px rgba(200,60,240,0.2);}
+50%{background-position:100% 50%;box-shadow:0 0 0 1px #e060ff,0 4px 24px rgba(200,50,255,0.8),0 0 40px rgba(240,100,255,0.4);}
+100%{background-position:0% 50%;box-shadow:0 0 0 1px #c040e0,0 3px 16px rgba(160,30,200,0.5),0 0 24px rgba(200,60,240,0.2);}
+}
+.carta-pg.ecce .carta-nome{color:#6a0080;}
+
 .carta-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:26px;}
 .carta-nome{font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
@@ -146,6 +175,18 @@ z-index:200;
 .tab-center{flex:1.2;background:#7B1020;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;}
 .tab-center .tab-ico{font-size:22px;}
 .tab-center .tab-lbl{font-family:‘Bebas Neue’,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.85);}
+
+/* ====== ZAINO ====== */
+#zaino-tabs{display:flex;gap:4px;padding:0 0 10px;flex-shrink:0;overflow-x:auto;}
+.ztab{flex-shrink:0;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(200,200,200,0.5);text-transform:uppercase;cursor:pointer;}
+.ztab.active{background:rgba(255,255,255,0.2);color:#fff;border-color:rgba(255,255,255,0.35);}
+#zaino-search{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:6px;padding:8px 12px;color:#fff;font-family:‘Rajdhani’,sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;outline:none;flex-shrink:0;margin-bottom:10px;}
+#zaino-search::placeholder{color:rgba(255,255,255,0.3);}
+#zaino-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;overflow-y:auto;padding-bottom:8px;}
+.zaino-card{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.14);border-radius:8px;overflow:hidden;cursor:pointer;}
+.zaino-card-img{width:100%;aspect-ratio:1;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:28px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.zaino-card-nome{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(200,200,200,0.7);text-align:center;padding:4px 3px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.zaino-card-cat{font-size:7px;color:rgba(150,150,150,0.45);text-align:center;padding-bottom:4px;letter-spacing:1px;text-transform:uppercase;}
 
 /* ====== MODAL EDIFICIO ====== */
 #modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.72);display:none;align-items:center;justify-content:center;}
@@ -216,10 +257,10 @@ z-index:200;
 <!-- TAB CASERMA -->
 <div id="tab-caserma">
   <div id="gallery">
-    <div class="gal-box" id="gal0"><span>FOTO<br>1</span></div>
-    <div class="gal-box" id="gal1"><span>FOTO<br>2</span></div>
-    <div class="gal-box" id="gal2"><span>FOTO<br>3</span></div>
-    <div class="gal-box" id="gal3"><span>FOTO<br>4</span></div>
+    <div class="gal-box" id="gal0" onclick="apriFoto(0)"><span id="gal0-lbl">FOTO<br>1</span><input type="file" id="file0" accept="image/*,video/*" style="display:none" onchange="caricaFoto(0,this)"></div>
+    <div class="gal-box" id="gal1" onclick="apriFoto(1)"><span id="gal1-lbl">FOTO<br>2</span><input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)"></div>
+    <div class="gal-box" id="gal2" onclick="apriFoto(2)"><span id="gal2-lbl">FOTO<br>3</span><input type="file" id="file2" accept="image/*,video/*" style="display:none" onchange="caricaFoto(2,this)"></div>
+    <div class="gal-box" id="gal3" onclick="apriFoto(3)"><span id="gal3-lbl">FOTO<br>4</span><input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)"></div>
   </div>
   <div id="map-container">
     <div id="map-wrap">
@@ -250,17 +291,17 @@ z-index:200;
   <div class="penta-card" onclick="toggleStats()">
     <div class="penta-title">Statistiche — tocca per dettagli</div>
     <svg viewBox="0 0 120 116" width="100" height="84" style="display:block;margin:0 auto 4px;">
-      <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-      <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-      <circle cx="60" cy="6" r="3" fill="#fff"/><circle cx="114" cy="44" r="3" fill="#fff"/>
-      <circle cx="94" cy="106" r="3" fill="#fff"/><circle cx="26" cy="106" r="3" fill="#fff"/>
-      <circle cx="6" cy="44" r="3" fill="#fff"/>
+      <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(180,150,80,0.25)" stroke-width="1.5"/>
+      <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(201,168,76,0.2)" stroke="#C9A84C" stroke-width="1.5"/>
+      <circle cx="60" cy="6" r="3" fill="#C9A84C"/><circle cx="114" cy="44" r="3" fill="#C9A84C"/>
+      <circle cx="94" cy="106" r="3" fill="#C9A84C"/><circle cx="26" cy="106" r="3" fill="#C9A84C"/>
+      <circle cx="6" cy="44" r="3" fill="#C9A84C"/>
     </svg>
   </div>
   <div class="squadra-card">
     <div class="squadra-header-row" onclick="rinominaSquadra()">
       <div>
-        <div style="font-size:7px;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase;">Squadra</div>
+        <div style="font-size:7px;letter-spacing:3px;color:rgba(120,90,30,0.45);text-transform:uppercase;">Squadra</div>
         <div class="squadra-nome-display" id="squadra-nome">SCEGLI NOME</div>
       </div>
       <div style="font-size:16px;">✏️</div>
@@ -268,7 +309,7 @@ z-index:200;
     <div class="squadra-grid" id="squadra-grid"></div>
     <div onclick="openCollezione()" style="margin:10px 0 0;border-radius:8px;overflow:hidden;cursor:pointer;">
       <div style="background:linear-gradient(135deg,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.15) 100%);border:1px solid rgba(255,255,255,0.2);height:56px;display:flex;align-items:center;justify-content:center;">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(255,255,255,0.85);">TUTTE LE CARTE</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(255,255,255,0.85);">TUTTE LE TRUPPE</span>
       </div>
     </div>
   </div>
@@ -276,11 +317,18 @@ z-index:200;
 
 <!-- TAB ZAINO -->
 <div id="tab-zaino">
-  <div class="zaino-title">ZAINO</div>
-  <div class="zaino-empty">
-    <div style="font-size:44px;margin-bottom:14px;opacity:0.4;">🎒</div>
-    <div style="color:rgba(160,160,160,0.5);letter-spacing:3px;">VUOTO</div>
-    <div style="font-size:11px;margin-top:10px;color:rgba(120,120,120,0.35);letter-spacing:1px;">Colleziona gadget e armi</div>
+  <div style="display:flex;flex-direction:column;height:100%;padding:10px 10px 0;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(200,200,200,0.6);letter-spacing:4px;margin-bottom:8px;flex-shrink:0;">ZAINO</div>
+    <input id="zaino-search" type="text" placeholder="🔍  Cerca equipaggiamento..." oninput="zainoRicerca=this.value;renderZaino()">
+    <div id="zaino-tabs">
+      <div class="ztab active" data-cat="tutto" onclick="setZainoCat('tutto')">Tutto</div>
+      <div class="ztab" data-cat="armi" onclick="setZainoCat('armi')">Armi</div>
+      <div class="ztab" data-cat="munizionamento" onclick="setZainoCat('munizionamento')">Munizioni</div>
+      <div class="ztab" data-cat="risorse" onclick="setZainoCat('risorse')">Risorse</div>
+      <div class="ztab" data-cat="gadget" onclick="setZainoCat('gadget')">Gadget</div>
+      <div class="ztab" data-cat="mappe" onclick="setZainoCat('mappe')">Mappe</div>
+    </div>
+    <div id="zaino-grid"></div>
   </div>
 </div>
 ```
@@ -369,7 +417,7 @@ z-index:200;
       <div id="sm-avatar" style="width:64px;height:64px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;overflow:hidden;">👤</div>
       <div>
         <div id="sm-ruolo" style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:2px;">Ruolo</div>
-        <div id="sm-nome" style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:2px;line-height:1;">SOLDATO</div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><div id="sm-nome" style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:2px;line-height:1;">SOLDATO</div><div id="sm-elite-badge" style="display:none;background:linear-gradient(135deg,#b0c4d4,#d8eaf4);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#3a5060;">ELITE</div><div id="sm-legio-badge" style="display:none;background:linear-gradient(135deg,#d4a820,#f0cc50);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#5a3a00;animation:goldshine 2s ease-in-out infinite;">LEGIONARIO</div><div id="sm-ecce-badge" style="display:none;background:linear-gradient(135deg,#c040e0,#f060ff);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#fff;animation:eccshine 2s ease-in-out infinite;">ECCEZIONALE</div></div>
         <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
           <div style="font-size:9px;color:rgba(255,255,255,0.5);">LV</div>
           <div id="sm-lv" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;">1</div>
@@ -447,6 +495,7 @@ function switchTab(tab){
   if(btn)btn.classList.add('active');
   if(tab==='caserma')buildMap();
   if(tab==='profilo'){updateProfiloUI();buildSquadraGrid();}
+  if(tab==='zaino')renderZaino();
 }
 
 // ===== MAPPA =====
@@ -535,7 +584,31 @@ const squadraData=[
   {nome:'KASKOMATOM',ruolo:'Soldato Semplice',lv:1,xp:12,forza:10,qi:12,motiv:11,spirito:10,di:13,mosse:['Tappacessi','Sturacessi','Multiuso','Forza del Monte'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D423AE7B-E843-4B09-9722-AE44A25E1A43.png'},
   {nome:'FUNNYBOY',ruolo:'Soldato Semplice',lv:1,xp:18,forza:9,qi:10,motiv:13,spirito:13,di:9,mosse:['Fascino','Fantasma','Lupo Grigio','Graffio del Gattino'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E314AAA3-3066-4467-9FFB-AFC02998F90D.png'},
 ];
-const tutteCarte=[...squadraData];
+const eliteData=[
+  {nome:'SOLDATO MOSTRO GIU GIU',ruolo:'Elite',lv:3,xp:45,forza:17,qi:9,motiv:14,spirito:12,di:15,mosse:['Schaffo del Paraca','Bomba a Mano','Puzzo di Morte','Fuoco Naja'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/938AC1FB-D867-4415-9396-721C033C8380.png',elite:true},
+  {nome:'BAU BAU',ruolo:'Elite',lv:3,xp:60,forza:15,qi:13,motiv:11,spirito:14,di:16,mosse:['Lupo Grigio','Fantasma','Passo del Leopardo','Scava Tasso'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DF448FA1-2FE5-4D32-B19A-0E737B6AE2F2.png',elite:true},
+  {nome:'MENDEL',ruolo:'Elite',lv:3,xp:55,forza:18,qi:11,motiv:13,spirito:10,di:14,mosse:['Forza del Monte','Braccio di Ferro','Scarpone Pesante','Piegamenti'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C15ADB13-D46F-40E9-816C-584DE83F0D8D.png',elite:true},
+  {nome:'GATTUSARDU',ruolo:'Elite',lv:3,xp:50,forza:14,qi:15,motiv:16,spirito:13,di:17,mosse:['Graffio del Gattino','Fascino','Mossa Alcolica','Sigaro Pesante'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/BE59E4A0-977C-4003-ABC1-876453330D32.png',elite:true},
+  {nome:'DOMINIK',ruolo:'Elite',lv:3,xp:48,forza:13,qi:14,motiv:16,spirito:12,di:13,mosse:['Mossa Alcolica','Fascino','Fuga dalla Valle','Sputo Lontano'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8B8145C7-F9DE-4DE0-BC58-2F81A74CA4CE.png',elite:true},
+  {nome:'MACHO DIGGER',ruolo:'Elite',lv:3,xp:52,forza:19,qi:10,motiv:12,spirito:11,di:15,mosse:['Scava Tasso','Braccio di Ferro','Scarpone Pesante','Forza del Monte'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C5A990F4-89E0-48E5-9C74-648C2391D095.png',elite:true},
+];
+const tutteCarte=[...squadraData,...eliteData];
+
+
+// Carte Legionario (oro)
+const legioData=[
+  {nome:'FRANKIE BLUE',ruolo:'Legionario',lv:5,xp:80,forza:15,qi:17,motiv:14,spirito:16,di:18,mosse:['Fantasma','Passo del Leopardo','Orientamento Assente','Fuoco Naja'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/82D42B3B-8AA0-4AB1-B4C3-0410AF76D752.png',legio:true},
+  {nome:'DECIO',ruolo:'Legionario',lv:5,xp:75,forza:17,qi:15,motiv:18,spirito:13,di:16,mosse:['Schaffo del Paraca','Bomba a Mano','Lupo Grigio','Forza del Monte'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/7D62F215-1B50-40C9-B60B-E71D6B1D2E5E.png',legio:true},
+  {nome:'ARMANDO',ruolo:'Legionario',lv:5,xp:90,forza:16,qi:18,motiv:15,spirito:17,di:14,mosse:['Fantasma','Graffio del Gattino','Multiuso','Sturacessi'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/1E90A1F2-E03F-4CCD-AA43-5A2E6268E21B.png',legio:true},
+  {nome:'DINAMITARO',ruolo:'Legionario',lv:5,xp:85,forza:18,qi:14,motiv:17,spirito:12,di:19,mosse:['Bomba a Mano','Tappacessi','Scava Tasso','Schaffo del Paraca'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D4EB0AF0-9F22-4531-88C5-39A9DFE6F3DF.png',legio:true},
+  {nome:'FILUEFERRU',ruolo:'Legionario',lv:5,xp:88,forza:16,qi:13,motiv:19,spirito:17,di:15,mosse:['Fuoco Naja','Fuga dalla Valle','Fascino','Graffio del Gattino'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/54926765-D9FF-4CE2-BFCA-B....png',legio:true},
+];
+
+tutteCarte.push(...legioData);
+const ecceData=[
+  {nome:'GAAR',ruolo:'Eccezionale',lv:8,xp:99,forza:19,qi:19,motiv:20,spirito:18,di:20,mosse:['Fascino','Lupo Grigio','Schaffo del Paraca','Fuoco Naja'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DA827B70-4C54-4CFC-B898-C7F675CAE15D.png',ecce:true},
+];
+tutteCarte.push(...ecceData);
 
 function buildSquadraGrid(){
   const grid=document.getElementById('squadra-grid');if(!grid)return;
@@ -550,8 +623,9 @@ function buildSquadraGrid(){
 function openCollezione(){
   const grid=document.getElementById('coll-grid');grid.innerHTML='';
   tutteCarte.forEach((s,i)=>{
-    const card=document.createElement('div');card.className='carta-pg';card.onclick=()=>openSoldato(i<squadraData.length?i:0);
-    card.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">`:'👤'}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div></div>`;
+    const card=document.createElement('div');card.className='carta-pg'+(s.ecce?' ecce':s.elite?' elite':s.legio?' legio':'');card.onclick=()=>openSoldato(i<squadraData.length?i:0);
+    const eliteBadge=s.elite?`<div style="font-size:6px;letter-spacing:2px;color:#7a8fa0;text-align:center;padding-bottom:3px;text-transform:uppercase;">★ ELITE</div>`:s.legio?`<div style="font-size:6px;letter-spacing:2px;color:#a07800;text-align:center;padding-bottom:3px;text-transform:uppercase;">✦ LEGIONARIO</div>`:s.ecce?`<div style="font-size:6px;letter-spacing:2px;color:#8a00aa;text-align:center;padding-bottom:3px;text-transform:uppercase;">⚡ ECCEZIONALE</div>`:""
+    card.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">`:'👤'}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${eliteBadge}</div>`;
     grid.appendChild(card);
   });
   document.getElementById('collezione-modal').style.display='flex';
@@ -562,6 +636,11 @@ function openSoldato(idx){
   const s=squadraData[idx];
   document.getElementById('sm-nome').textContent=s.nome.toUpperCase();
   document.getElementById('sm-ruolo').textContent=s.ruolo;
+  const smb=document.getElementById('sm-elite-badge');
+  const sml=document.getElementById('sm-legio-badge');
+  if(smb)smb.style.display=s.elite?'inline-block':'none';
+  if(sml){sml.style.display=s.legio?'inline-block':'none';}
+  const sme=document.getElementById('sm-ecce-badge');if(sme)sme.style.display=s.ecce?'inline-block':'none';
   document.getElementById('sm-lv').textContent=s.lv;
   document.getElementById('sm-xpbar').style.width=s.xp+'%';
   document.getElementById('sm-avatar').innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤';
@@ -579,6 +658,120 @@ document.getElementById('collezione-modal').addEventListener('click',e=>{if(e.ta
 document.getElementById('soldato-modal').addEventListener('click',e=>{if(e.target===document.getElementById('soldato-modal'))closeSoldato();});
 
 function rinominaSquadra(){const n=prompt('Nome della tua squadra:');if(n&&n.trim())document.getElementById('squadra-nome').textContent=n.trim().toUpperCase();}
+
+
+const ZAINO_ITEMS = [
+  // ARMI
+  {nome:"Pistola Beretta M9",cat:"armi",ico:"🔫",img:null},
+  {nome:"Fucile AR70/90",cat:"armi",ico:"🔫",img:null},
+  {nome:"Fucile di Precisione",cat:"armi",ico:"🎯",img:null},
+  {nome:"Pistola a Salve",cat:"armi",ico:"🔫",img:null},
+  {nome:"Baionetta",cat:"armi",ico:"🗡️",img:null},
+  {nome:"Coltello Tattico",cat:"armi",ico:"🔪",img:null},
+  {nome:"Coltellino Multiuso",cat:"armi",ico:"🔪",img:null},
+  {nome:"Granata a Mano",cat:"armi",ico:"💣",img:null},
+  {nome:"Granata Fumogena",cat:"armi",ico:"💨",img:null},
+  // MUNIZIONAMENTO
+  {nome:"Caricatore 5.56mm",cat:"munizionamento",ico:"🟡",img:null},
+  {nome:"Caricatore 9mm",cat:"munizionamento",ico:"🟡",img:null},
+  {nome:"Munizioni 7.62mm",cat:"munizionamento",ico:"🟠",img:null},
+  {nome:"Fumogeno Colorato",cat:"munizionamento",ico:"🔴",img:null},
+  {nome:"Bengala",cat:"munizionamento",ico:"🔆",img:null},
+  {nome:"Tracciante",cat:"munizionamento",ico:"⚡",img:null},
+  // RISORSE
+  {nome:"Kit Pronto Soccorso",cat:"risorse",ico:"🏥",img:null},
+  {nome:"Razione K",cat:"risorse",ico:"🥫",img:null},
+  {nome:"Borraccia Militare",cat:"risorse",ico:"💧",img:null},
+  {nome:"Accendino",cat:"risorse",ico:"🔥",img:null},
+  {nome:"Batteria Extra",cat:"risorse",ico:"🔋",img:null},
+  {nome:"Corda Tattica 15m",cat:"risorse",ico:"🪢",img:null},
+  {nome:"Laccio Emostatico",cat:"risorse",ico:"🩹",img:null},
+  {nome:"Cerotti Sterili",cat:"risorse",ico:"🩹",img:null},
+  {nome:"Morfina",cat:"risorse",ico:"💊",img:null},
+  // GADGET
+  {nome:"Visore Notturno",cat:"gadget",ico:"👁️",img:null},
+  {nome:"Radio Ricetrasmittente",cat:"gadget",ico:"📻",img:null},
+  {nome:"Torcia Tattica",cat:"gadget",ico:"🔦",img:null},
+  {nome:"Bussola",cat:"gadget",ico:"🧭",img:null},
+  {nome:"Fischietto",cat:"gadget",ico:"📣",img:null},
+  {nome:"Binocolo",cat:"gadget",ico:"🔭",img:null},
+  {nome:"Occhiali da Poligono",cat:"gadget",ico:"🥽",img:null},
+  {nome:"Maschera Antigas",cat:"gadget",ico:"😷",img:null},
+  {nome:"Orologio Militare",cat:"gadget",ico:"⌚",img:null},
+  {nome:"Pinza Multiuso",cat:"gadget",ico:"🔧",img:null},
+  {nome:"Telefonino Cifrato",cat:"gadget",ico:"📱",img:null},
+  {nome:"Drone Tascabile",cat:"gadget",ico:"🚁",img:null},
+  // EQUIPAGGIAMENTO
+  {nome:"Elmetto Ballistico",cat:"risorse",ico:"⛑️",img:null},
+  {nome:"Giubbotto Antiproiettile",cat:"risorse",ico:"🦺",img:null},
+  {nome:"Piastre Protettive",cat:"risorse",ico:"🛡️",img:null},
+  {nome:"Combat Jacket",cat:"risorse",ico:"🧥",img:null},
+  {nome:"Stivali Anfibi",cat:"risorse",ico:"👢",img:null},
+  {nome:"Guanti Tattici",cat:"risorse",ico:"🧤",img:null},
+  {nome:"Maschera Aviatore",cat:"gadget",ico:"🥽",img:null},
+  {nome:"Zaino ALICE 80L",cat:"risorse",ico:"🎒",img:null},
+  {nome:"Porta Caricatori",cat:"risorse",ico:"🟤",img:null},
+  // MAPPE
+  {nome:"Mappa Topografica",cat:"mappe",ico:"🗺️",img:null},
+  {nome:"Mappa Stradale",cat:"mappe",ico:"🗺️",img:null},
+  {nome:"Carta Geografica DEM",cat:"mappe",ico:"📍",img:null},
+  {nome:"Tavola Schematica Base",cat:"mappe",ico:"📋",img:null},
+  {nome:"Mappa Stella Polare",cat:"mappe",ico:"⭐",img:null},
+  {nome:"Foto Aerea Settore",cat:"mappe",ico:"🛰️",img:null},
+  {nome:"Codice Griglia NATO",cat:"mappe",ico:"🔢",img:null},
+  {nome:"Piano Operativo",cat:"mappe",ico:"📄",img:null},
+  {nome:"Rilevamento GPS",cat:"mappe",ico:"📡",img:null},
+];
+const ZAINO_CATS = ["tutto","armi","munizionamento","risorse","gadget","mappe"];
+let zainoCatAttiva = "tutto";
+let zainoRicerca = "";
+
+function renderZaino(){
+  const grid = document.getElementById('zaino-grid');
+  if(!grid) return;
+  let items = ZAINO_ITEMS.filter(it => {
+    const catOk = zainoCatAttiva === "tutto" || it.cat === zainoCatAttiva;
+    const cercaOk = !zainoRicerca || it.nome.toLowerCase().includes(zainoRicerca.toLowerCase());
+    return catOk && cercaOk;
+  });
+  grid.innerHTML = items.map(it => `
+    <div class="zaino-card">
+      <div class="zaino-card-img">${it.ico}</div>
+      <div class="zaino-card-nome">${it.nome}</div>
+      <div class="zaino-card-cat">${it.cat}</div>
+    </div>`).join('');
+}
+function setZainoCat(cat){
+  zainoCatAttiva = cat;
+  document.querySelectorAll('.ztab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+  renderZaino();
+}
+
+
+// ===== GALLERIA FOTO =====
+function apriFoto(i){ document.getElementById('file'+i).click(); }
+function caricaFoto(i, input){
+  if(!input.files||!input.files[0]) return;
+  const file = input.files[0];
+  const url = URL.createObjectURL(file);
+  const box = document.getElementById('gal'+i);
+  box.innerHTML = '';
+  if(file.type.startsWith('video/')){
+    const v = document.createElement('video');
+    v.src=url; v.style.cssText='width:100%;height:100%;object-fit:cover;';
+    v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true;
+    box.appendChild(v);
+  } else {
+    const img = document.createElement('img');
+    img.src=url; img.style.cssText='width:100%;height:100%;object-fit:cover;';
+    box.appendChild(img);
+  }
+  // Aggiungi input file di nuovo (nascosto)
+  const inp = document.createElement('input');
+  inp.type='file'; inp.accept='image/*,video/*'; inp.style.display='none';
+  inp.id='file'+i; inp.onchange=function(){caricaFoto(i,this);};
+  box.appendChild(inp);
+}
 
 // ===== TOAST =====
 let tt=null;
