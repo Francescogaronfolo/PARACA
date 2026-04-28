@@ -115,18 +115,7 @@ padding:0 4px;
 
 /* Puntini */
 .door{position:absolute;cursor:pointer;width:14px;height:14px;transform:translate(-50%,-50%);z-index:10;}
-#omino{
-position:absolute;
-width:11px;height:11px;
-border-radius:50%;
-background:#fff;
-border:2px solid rgba(60,60,60,0.6);
-box-shadow:0 0 4px rgba(0,0,0,0.4);
-transform:translate(-50%,-50%);
-z-index:20;
-transition:left .12s linear, top .12s linear;
-pointer-events:none;
-}
+
 .door-dot{width:100%;height:100%;border-radius:3px;background:#C9A84C;opacity:0.92;}
 .door.locked .door-dot{background:#c0392b;}
 .door.torre .door-dot{background:transparent;border-radius:50%;border:2.5px solid #3a8fff;box-shadow:0 0 8px rgba(58,143,255,0.8);animation:torrepulse 2s ease-in-out infinite;}
@@ -505,7 +494,7 @@ cursor:pointer;border:none;
     </div>
     <!-- Pentagono statistiche -->
     <div style="padding:12px 14px;">
-   https://github.com/Francescogaronfolo/PARACA/edit/main/index.html   <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Statistiche</div>
+      <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Statistiche</div>
       <div style="display:flex;align-items:center;gap:12px;">
         <svg id="sm-radar" viewBox="0 0 120 116" width="90" height="87" style="flex-shrink:0;">
           <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="#eee" stroke-width="1.5"/>
@@ -525,405 +514,581 @@ cursor:pointer;border:none;
 
 <div id="toast"></div>
 
-  <script>
+<script>
 const MW=1183, MH=1330;
-const FRASI=["Vai a terra!","Pompa!","Stai sul pezzo!","Ti devi muovere!","Sei massiccio!","Weee naja!"];
-
-const player={nome:"",cognome:"",forza:10,spirito:10,di:10,motiv:10,qi:10,giorno:1,lanci:0};
+const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!","Non sei idoneo alla vita!","Ti devi muovere!","Sei massiccio cazzo!","Eccezzionale!","Serra piombo!","Jonny andiamo!","Dai Jonny cazzo!","Non sei presente a te stesso!","Cagnaccio!","Cane cane cane cane!","Non lo fare il chamber check della merda!","Io ti dico signorsi! E tu dici sissignore!","Cavallo! Cavallo! Meeeglio!","Non farti mangiare il cazzo dalle mosche!","Vecchio!","Weee naja!","Liberta per gli ultra!"];
+const player={nome:'',cognome:'',forza:10,spirito:10,di:10,motiv:10,qi:10,giorno:1,lanci:0};
 let scaleX=1,scaleY=1;
-let currentTab="caserma";
+let currentTab='caserma';
 
 const DOORS=[
-{id:"pal",x:200,y:210,locked:false,ico:"💪",name:"PALESTRA",sub:"Allenamento",dsc:"Allenamento fisico.",quo:"Sei massiccio!",act:"train"},
-{id:"spa",x:350,y:190,locked:false,ico:"🍺",name:"SPACCIO",sub:"Bar",dsc:"Zona ristoro.",quo:"Weee naja!",act:"bar"},
-{id:"sup1",x:476,y:190,locked:false,ico:"✈️",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Area supporto avio.",quo:"Serra piombo!"},
-{id:"edif",x:610,y:190,locked:false,ico:"🚧",name:"EDIFICIO DI RIPARAZIONE",sub:"Lavori",dsc:"Edificio in riparazione.",quo:"Cagnaccio!"},
-{id:"comp2",x:780,y:200,locked:false,ico:"🪖",name:"2a COMPAGNIA",sub:"Compagnia",dsc:"Seconda compagnia.",quo:"Muti!",act:"battle"},
-{id:"inf",x:965,y:190,locked:false,ico:"🏥",name:"INFERMERIA",sub:"Sanità",dsc:"Infermeria.",quo:"Non sei idoneo alla vita!",act:"heal"},
-{id:"men",x:148,y:388,locked:false,ico:"🍽️",name:"MENSA",sub:"Vitto",dsc:"Mensa.",quo:"Mangia.",act:"eat"},
-{id:"cin",x:133,y:525,locked:false,ico:"🎬",name:"CINEMA",sub:"Svago",dsc:"Cinema.",quo:"Libertà!"},
-{id:"tem",x:541,y:395,locked:false,ico:"🕍",name:"TEMPIO",sub:"Addestramento",dsc:"Tempio.",quo:"Muoviti!",act:"battle"},
-{id:"piaz",x:777,y:530,locked:false,ico:"🚩",name:"PIAZZALE",sub:"Adunata",dsc:"Piazzale.",quo:"Adunata!"},
-{id:"mus",x:990,y:368,locked:false,ico:"🏛️",name:"MUSEO AVIOTRUPPE",sub:"Museo",dsc:"Museo.",quo:"Eccezionale!"},
-{id:"uff",x:136,y:675,locked:false,ico:"📋",name:"UFFICIO",sub:"Burocrazia",dsc:"Ufficio.",quo:"A rapporto."},
-{id:"cmd",x:284,y:675,locked:false,ico:"⭐",name:"COMANDO",sub:"Comando",dsc:"Comando.",quo:"Signorsì!",act:"battle"},
-{id:"log",x:442,y:675,locked:false,ico:"📦",name:"LOGISTICA",sub:"Magazzino",dsc:"Logistica.",quo:"Stai sul pezzo."},
-{id:"comp1",x:702,y:687,locked:false,ico:"🪖",name:"1a COMPAGNIA",sub:"Compagnia",dsc:"Prima compagnia.",quo:"Forza!",act:"battle"},
-{id:"sup2",x:840,y:687,locked:false,ico:"✈️",name:"SUPPORTO AVIO 2",sub:"Supporto",dsc:"Supporto avio.",quo:"Serra piombo!"},
-{id:"grd",x:980,y:687,locked:true,ico:"🔒",name:"GUARDIE",sub:"Riservato",dsc:"Checkpoint.",quo:"Accesso negato"},
-{id:"asso",x:185,y:860,locked:false,ico:"🏅",name:"ASSO",sub:"Leggenda",dsc:"Asso.",quo:"Ogni tre.",act:"battle"},
-{id:"torre",x:355,y:740,locked:false,ico:"🗽",name:"TORRE DEL PARACA",sub:"Torre",dsc:"Torre del Paraca.",quo:"Tornado di fuoco!",act:"battle"},
-{id:"parch",x:576,y:726,locked:false,ico:"🚗",name:"PARCHEGGIO",sub:"Veicoli",dsc:"Parcheggio.",quo:"Vecchio!"},
-{id:"arm",x:165,y:1005,locked:true,ico:"🔫",name:"ARMERIA",sub:"Vietato",dsc:"Armeria.",quo:"Accesso vietato"},
-{id:"dor",x:140,y:1160,locked:false,ico:"🛏️",name:"DORMITORIO",sub:"Riposo",dsc:"Dormitorio.",quo:"Riposa.",act:"sleep"},
-{id:"torri",x:565,y:960,locked:false,ico:"🗼",name:"TORRI",sub:"Lancio",dsc:"Torri di lancio.",quo:"Lancio!",act:"train"},
-{id:"borgo",x:760,y:960,locked:false,ico:"🏘️",name:"BORGO BELLA NAJA",sub:"Area addestrativa",dsc:"Borgo.",quo:"Bella naja!"}
+  {id:"pal",  x:200,y:210,locked:false,ico:"💪",name:"PALESTRA",                sub:"Allenamento",      dsc:"Allenamento fisico.",              quo:"Sei massiccio!",                           act:"train"},
+  {id:"spa",  x:350,y:190,locked:false,ico:"🍺",name:"SPACCIO",                 sub:"Bar / ristoro",    dsc:"Zona ristoro.",                   quo:"Weee naja!",                               act:"bar"  },
+  {id:"sup1", x:476,y:190,locked:false,ico:"✈️",name:"SUPPORTO AVIO",           sub:"Supporto",         dsc:"Area supporto avio.",             quo:"Serra piombo!"                                       },
+  {id:"edif", x:610,y:190,locked:false,ico:"🚧",name:"EDIFICIO DI RIPARAZIONE", sub:"Lavori",           dsc:"Edificio in riparazione.",        quo:"Cagnaccio!"                                          },
+  {id:"comp2",x:780,y:200,locked:false,ico:"🪖",name:"2a COMPAGNIA",            sub:"Compagnia",        dsc:"Seconda compagnia.",              quo:"Muti! Muti! Dovete stare muti!",           act:"battle"},
+  {id:"inf",  x:965,y:190,locked:false,ico:"🏥",name:"INFERMERIA",              sub:"Sanita",           dsc:"Infermeria.",                     quo:"Non sei idoneo alla vita!",                act:"heal" },
+  {id:"men",  x:148,y:388,locked:false,ico:"🍽️",name:"MENSA",                 sub:"Vitto",            dsc:"Mensa.",                          quo:"Non farti mangiare il cazzo dalle mosche!",act:"eat"  },
+  {id:"cin",  x:133,y:525,locked:false,ico:"🎬",name:"CINEMA",                 sub:"Svago",            dsc:"Cinema.",                         quo:"Liberta per gli ultra!"                              },
+  {id:"tem",  x:541,y:395,locked:false,ico:"🕍",name:"TEMPIO",                 sub:"Addestramento",    dsc:"Tempio.",                         quo:"Ma lo vedi che non sei idoneo!",           act:"battle"},
+  {id:"piaz", x:777,y:530,locked:false,ico:"🚩",name:"PIAZZALE MITICO",        sub:"Adunata",          dsc:"Piazzale.",                       quo:"Ti devi muovere! Serraaaaa"                          },
+  {id:"mus",  x:990,y:368,locked:false,ico:"🏛️",name:"MUSEO AVIOTRUPPE",        sub:"Museo",            dsc:"Museo.",                          quo:"Eccezzionale!"                                       },
+  {id:"uff",  x:136,y:675,locked:false,ico:"📋",name:"UFFICIO",                sub:"Burocrazia",       dsc:"Ufficio.",                        quo:"Stai a rapporto... Signorsi!"                        },
+  {id:"cmd",  x:284,y:675,locked:false,ico:"⭐",name:"COMANDO",                sub:"Comando",          dsc:"Comando.",                        quo:"Io ti dico signorsi! E tu dici sissignore!",act:"battle"},
+  {id:"log",  x:442,y:675,locked:false,ico:"📦",name:"LOGISTICA",              sub:"Magazzino",        dsc:"Logistica.",                      quo:"Stai sul pezzo della merda!"                         },
+  {id:"comp1",x:702,y:687,locked:false,ico:"🪖",name:"1a COMPAGNIA",           sub:"Compagnia",        dsc:"Prima compagnia.",                quo:"Fai schiffo, busta di piscio",             act:"battle"},
+  {id:"sup2", x:840,y:687,locked:false,ico:"✈️",name:"SUPPORTO AVIO 2",        sub:"Supporto",         dsc:"Supporto avio.",                  quo:"Serra piombo!"                                       },
+  {id:"grd",  x:980,y:687,locked:true, ico:"🔒",name:"GUARDIE",                sub:"Accesso riservato",dsc:"Checkpoint.",                     quo:"Accesso negato"                                      },
+  {id:"asso", x:185,y:860,locked:false,ico:"🏅",name:"ASSO",                   sub:"Leggenda",         dsc:"Asso.",                           quo:"Ogni tre... gia sai",                      act:"battle"},
+  {id:"torre",x:355,y:740,locked:false,ico:"🗽",name:"TORRE DEL PARACA",       sub:"Torre",            dsc:"Torre del Paraca.",               quo:"IL TORNADO DI FUOCO",                      act:"battle"},
+  {id:"parch",x:576,y:726,locked:false,ico:"🚗",name:"PARCHEGGIO",             sub:"Veicoli",          dsc:"Parcheggio.",                     quo:"Vecchio! Dove cazzo stai andando!"                   },
+  {id:"arm",  x:165,y:1005,locked:true,ico:"🔫",name:"ARMERIA",               sub:"Accesso vietato",  dsc:"Armeria.",                        quo:"Non sei presente a te stesso!"                       },
+  {id:"dor",  x:140,y:1160,locked:false,ico:"🛏️",name:"DORMITORIO",           sub:"Riposo",           dsc:"Dormitorio.",                     quo:"Che giornata di merda.",                   act:"sleep"},
+  {id:"torri",x:565,y:960, locked:false,ico:"🗼",name:"TORRI",                 sub:"Lancio",           dsc:"Torri di lancio.",                quo:"Minchia non era legato",                   act:"train"},
+  {id:"borgo",x:760,y:960, locked:false,ico:"🏘️",name:"BORGO BELLA NAJA",      sub:"Area addestrativa",dsc:"Borgo Bella Naja.",               quo:"Cane cane cane cane!"                                },
 ];
 
-/* ===== STRADE VISIBILI DEBUG ===== */
-let SHOW_ROADS=true;
+// ===== TAB SWITCHING =====
+function switchTab(tab){
+  currentTab=tab;
+  ['caserma','profilo','zaino'].forEach(t=>{
+    const el=document.getElementById('tab-'+t);
+    el.style.display = t===tab ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const btn=document.getElementById('tbtn-'+tab);
+  if(btn)btn.classList.add('active');
+  if(tab==='caserma') buildMap();
+  if(tab==='profilo'){updateProfiloUI();buildSquadraGrid();}
+}
 
-const ROADS=[
-  {
-    id:"strada_alta",
-    points:[[180,345],[300,342],[430,338],[560,334],[690,333],[820,336],[955,342],[1040,350]]
-  },
-  {
-    id:"strada_mensa_tempio_piazzale",
-    points:[[165,515],[285,512],[420,508],[555,505],[690,506],[825,512],[965,522],[1070,535]]
-  },
-  {
-    id:"strada_uffici_compagnie",
-    points:[[160,665],[285,660],[420,655],[555,652],[695,655],[835,665],[975,680],[1065,695]]
-  },
-  {
-    id:"strada_torre_parcheggio",
-    points:[[175,795],[300,785],[430,778],[560,775],[690,782],[825,795],[950,815]]
-  },
+// ===== BUILD MAP =====
+function buildMap(){
+  const wrap=document.getElementById('map-wrap'); if(!wrap)return;
+  const img=document.getElementById('map-img');
+  // Usa larghezza disponibile
+  const containerW = document.getElementById('map-container').clientWidth - 8;
+  const mw = Math.min(containerW, 500);
+  const mh = mw * (MH/MW);
+  img.style.width=mw+'px';
+  img.style.height=mh+'px';
+  wrap.style.width=mw+'px';
+  wrap.style.height=mh+'px';
+  scaleX=mw/MW; scaleY=mh/MH;
 
-  {
-    id:"sinistra_mensa_cinema_uffici",
-    points:[[215,345],[210,450],[205,560],[200,680],[195,805],[190,940],[185,1120]]
-  },
-  {
-    id:"verticale_spaccio_comando",
-    points:[[330,340],[325,455],[320,565],[315,675],[310,790]]
-  },
-  {
-    id:"verticale_logistica_torre",
-    points:[[500,335],[502,455],[505,570],[508,680],[510,790]]
-  },
-  {
-    id:"verticale_tempio_chiesa",
-    points:[[610,335],[608,455],[606,575],[604,690],[602,810]]
-  },
-  {
-    id:"verticale_piazzale_compagnia",
-    points:[[725,335],[728,455],[732,575],[736,700],[740,825],[745,965]]
-  },
-  {
-    id:"verticale_museo_guardie",
-    points:[[955,345],[948,465],[942,585],[940,705],[950,830]]
-  },
+  document.querySelectorAll('.door').forEach(e=>e.remove());
+  drawRoads();
+  DOORS.forEach(d=>{
+    const el=document.createElement('div');
+    el.className='door'+(d.locked?' locked':'');
+    if(d.id==='torre') el.classList.add('torre');
+    el.style.left=(d.x*scaleX)+'px';
+    el.style.top=(d.y*scaleY)+'px';
+    const dot=document.createElement('div');dot.className='door-dot';
+    const tip=document.createElement('div');tip.className='door-tip';tip.textContent=d.name;
+    el.appendChild(dot);el.appendChild(tip);
+    el.addEventListener('pointerdown',e=>{e.stopPropagation();handleDoor(d);});
+    wrap.appendChild(el);
+  });
+  initNpcs();
+}
 
-  {
-    id:"curva_destra_guardie",
-    points:[[940,705],[1010,710],[1070,730]]
-  },
-  {
-    id:"accesso_basso_parcheggio",
-    points:[[510,790],[560,840],[625,885],[700,910],[745,965]]
+function handleDoor(d){
+  if(d.locked){toast('ACCESSO NEGATO');return;}
+  openModal(d);
+}
+
+function openModal(d){
+  document.getElementById('m-ico').textContent=d.ico;
+  document.getElementById('m-tit').textContent=d.name;
+  document.getElementById('m-sub').textContent=d.sub;
+  document.getElementById('m-dsc').textContent=d.dsc;
+  document.getElementById('m-quo').textContent='"'+d.quo+'"';
+  const act=document.getElementById('m-act');act.innerHTML='';
+  if(d.act==='battle')addBtn(act,'SFIDA',true,()=>{closeModal();toast('Sistema battaglia — in arrivo!');});
+  if(d.act==='train') addBtn(act,'ALLENATI',true,()=>{closeModal();doTrain();});
+  if(d.act==='sleep') addBtn(act,'DORMI (+1 giorno)',true,()=>{closeModal();doSleep();});
+  if(d.act==='bar')   addBtn(act,'ENTRA',true,()=>{closeModal();doBar();});
+  if(d.act==='eat')   addBtn(act,'MANGIA',true,()=>{closeModal();doEat();});
+  if(d.act==='heal')  addBtn(act,'RIPOSA',true,()=>{closeModal();doHeal();});
+  addBtn(act,'CHIUDI',false,closeModal);
+  document.getElementById('modal').classList.add('show');
+}
+function addBtn(par,txt,primary,fn){const b=document.createElement('button');b.className='mb '+(primary?'mb-p':'mb-s');b.textContent=txt;b.onclick=fn;par.appendChild(b);}
+function closeModal(){document.getElementById('modal').classList.remove('show');}
+document.getElementById('m-x').onclick=closeModal;
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+
+// ===== AZIONI =====
+function doTrain(){player.forza=Math.min(99,player.forza+Math.floor(Math.random()*3)+1);player.di=Math.min(99,player.di+1);updHud();toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
+function doSleep(){player.giorno++;player.spirito=Math.min(99,player.spirito+2);document.getElementById('dv').textContent=player.giorno;updHud();toast('Hai dormito. Giorno '+player.giorno);}
+function doBar()  {player.spirito=Math.min(99,player.spirito+3);updHud();toast('Weee naja! Spirito +3');}
+function doEat()  {player.spirito=Math.min(99,player.spirito+1);player.forza=Math.min(99,player.forza+1);updHud();toast('Pasta scotta. Forza +1, Spirito +1.');}
+function doHeal() {player.forza=Math.min(99,player.forza+4);updHud();toast('Infermeria. Forza +4.');}
+
+function updHud(){
+  document.getElementById('dv').textContent=player.giorno;
+  document.getElementById('p-giorno').textContent=player.giorno;
+  updateRadarMini();
+}
+
+function updateProfiloUI(){
+  document.getElementById('p-nome').textContent=(player.nome+' '+player.cognome).toUpperCase();
+  updateRadarMini();
+}
+
+function updateRadarMini(){
+  const cx=60,cy=58,maxR=52;
+  const stats=[player.forza,player.qi,player.motiv,player.spirito,player.di];
+  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
+  const pts=stats.map((v,i)=>{const r=(v/99)*maxR;return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];});
+  document.getElementById('radar-mini').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+}
+
+// ===== STATS MODAL =====
+function toggleStats(){
+  const m=document.getElementById('stats-modal');
+  if(m.style.display==='none'||!m.style.display){
+    updateRadarFull();
+    m.style.display='flex';
+  } else {
+    m.style.display='none';
   }
+}
+function updateRadarFull(){
+  const cx=100,cy=100,maxR=90;
+  const stats=[player.forza,player.qi,player.motiv,player.spirito,player.di];
+  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
+  const pts=stats.map((v,i)=>{const r=(v/99)*maxR;return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];});
+  document.getElementById('radar-area').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+  document.getElementById('s-for').textContent=player.forza;
+  document.getElementById('s-qi').textContent=player.qi;
+  document.getElementById('s-mot').textContent=player.motiv;
+  document.getElementById('s-spi').textContent=player.spirito;
+  document.getElementById('s-di').textContent=player.di;
+}
+document.getElementById('stats-modal').addEventListener('click',e=>{if(e.target===document.getElementById('stats-modal'))toggleStats();});
+
+
+// ===== SQUADRA DATA =====
+const squadraData = [
+  {
+    nome:'LACAN', ruolo:'Soldato Semplice', lv:1, xp:15,
+    forza:11, qi:10, motiv:9, spirito:11, di:10,
+    mosse:['Fuoco Naja','Orientamento Assente','Esaurimento','Sigaretta Fichetta'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/195A7AB0-5F41-4D88-8908-44BE45EB2339.png'
+  },
+  {
+    nome:'SONNY THE PARATROOPER', ruolo:'Soldato Semplice', lv:1, xp:20,
+    forza:10, qi:11, motiv:14, spirito:12, di:10,
+    mosse:['Piegamenti','Fuga dalla Valle','Sputo Lontano','Passo del Leopardo'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5180A3B8-0E69-45CB-A7D0-DF56A79B1343.png'
+  },
+  {
+    nome:'CAVADDU', ruolo:'Soldato Semplice', lv:1, xp:10,
+    forza:12, qi:9, motiv:11, spirito:10, di:11,
+    mosse:['Scarpone Pesante','Braccio di Ferro','Mossa Alcolica','Sigaro Pesante'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5858ECB1-25D9-4EB5-927E-5ADC6BD28D26.png'
+  },
+  {
+    nome:'HUGLY DIGGER', ruolo:'Soldato Semplice', lv:1, xp:8,
+    forza:14, qi:8, motiv:10, spirito:9, di:12,
+    mosse:['Scava Tasso','Schaffo del Paraca','Bomba a Mano','Puzzo di Morte'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C7A82DCE-09D3-45B2-A9B8-E77B8AB64BB7.png'
+  },
+  {
+    nome:'KASKOMATOM', ruolo:'Soldato Semplice', lv:1, xp:12,
+    forza:10, qi:12, motiv:11, spirito:10, di:13,
+    mosse:['Tappacessi','Sturacessi','Multiuso','Forza del Monte'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D423AE7B-E843-4B09-9722-AE44A25E1A43.png'
+  },
+  {
+    nome:'FUNNYBOY', ruolo:'Soldato Semplice', lv:1, xp:18,
+    forza:9, qi:10, motiv:13, spirito:13, di:9,
+    mosse:['Fascino','Fantasma','Lupo Grigio','Graffio del Gattino'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E314AAA3-3066-4467-9FFB-AFC02998F90D.png'
+  },
 ];
 
-function drawRoads(){
-  const wrap=document.getElementById("map-wrap");
-  if(!wrap || !SHOW_ROADS) return;
 
-  const old=document.getElementById("road-debug");
+
+// ===== TUTTE LE CARTE (array espandibile) =====
+const tutteCarte = [...squadraData];
+// In futuro: aggiungere altre carte qui con push o ampliando l'array
+
+// ===== POPUP COLLEZIONE =====
+function openCollezione(){
+  const modal = document.getElementById('collezione-modal');
+  if(!modal) return;
+  const grid = document.getElementById('coll-grid');
+  grid.innerHTML = '';
+  tutteCarte.forEach((s,i)=>{
+    const card = document.createElement('div');
+    card.className = 'carta-pg';
+    card.style.cursor = 'pointer';
+    card.onclick = ()=> openSoldato(i < squadraData.length ? i : 0);
+    card.innerHTML = `
+      <div class="carta-img">${s.img ? `<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">` : '👤'}</div>
+      <div style="padding:3px 4px;">
+        <div class="carta-nome" style="font-size:9px;">${s.nome}</div>
+        <div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  modal.style.display = 'flex';
+}
+function closeCollezione(){
+  document.getElementById('collezione-modal').style.display = 'none';
+}
+
+function buildSquadraGrid(){
+  const grid=document.getElementById('squadra-grid');
+  if(!grid)return;
+  grid.innerHTML='';
+  squadraData.forEach((s,i)=>{
+    const card=document.createElement('div');
+    card.className='carta-pg';
+    card.onclick=()=>openSoldato(i);
+    card.innerHTML=`
+      <div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤'}</div>
+      <div style="padding:3px 4px;">
+        <div class="carta-nome">${s.nome}</div>
+        <div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openSoldato(idx){
+  const s=squadraData[idx];
+  document.getElementById('sm-nome').textContent=s.nome.toUpperCase();
+  document.getElementById('sm-ruolo').textContent=s.ruolo;
+  document.getElementById('sm-lv').textContent=s.lv;
+  document.getElementById('sm-xpbar').style.width=(s.xp)+'%';
+  // Avatar
+  const av=document.getElementById('sm-avatar');
+  av.innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤';
+  // Mosse
+  const mosseEl=document.getElementById('sm-mosse');
+  mosseEl.innerHTML=s.mosse.map(m=>`
+    <div style="background:#f0ece0;border:1px solid rgba(180,150,80,0.25);border-radius:6px;padding:7px 8px;text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#7B1020;letter-spacing:1px;">${m}</div>
+    </div>`).join('');
+  // Radar
+  const cx=60,cy=58,maxR=52;
+  const stats=[s.forza,s.qi,s.motiv,s.spirito,s.di];
+  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
+  const pts=stats.map((v,i)=>{const r=(v/20)*maxR;return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];});
+  document.getElementById('sm-radar-poly').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+  // Stats list
+  const labels=['FORZA','QI','MOTIV','SPIRITO','DI'];
+  document.getElementById('sm-stats-list').innerHTML=labels.map((l,i)=>`
+    <div style="display:flex;align-items:center;gap:6px;">
+      <div style="font-size:8px;color:rgba(120,90,30,0.5);width:36px;letter-spacing:1px;">${l}</div>
+      <div style="flex:1;height:5px;background:#f0ece0;border-radius:3px;overflow:hidden;">
+        <div style="height:100%;background:#C9A84C;width:${(stats[i]/20)*100}%;border-radius:3px;"></div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;width:16px;text-align:right;">${stats[i]}</div>
+    </div>`).join('');
+
+  document.getElementById('soldato-modal').style.display='flex';
+}
+
+function closeSoldato(){
+  document.getElementById('soldato-modal').style.display='none';
+}
+document.getElementById('collezione-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('collezione-modal'))closeCollezione();
+});
+document.getElementById('soldato-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('soldato-modal'))closeSoldato();
+});
+
+// ===== SQUADRA =====
+function rinominaSquadra(){
+  const nome=prompt('Nome della tua squadra:');
+  if(nome&&nome.trim()) document.getElementById('squadra-nome').textContent=nome.trim().toUpperCase();
+}
+
+// ===== SISTEMA STRADE ANIMATE =====
+// Polyline che seguono le strade reali della mappa in prospettiva (1183x1330)
+// Ogni strada è una sequenza di punti [x,y] da sinistra a destra / alto a basso
+// MOSTRA_DEBUG=true per vedere i cerchi di calibrazione
+
+let MOSTRA_DEBUG = false;
+
+const ROADS = [
+  // STRADA ALTA (davanti agli edifici nord: palestra, spaccio, supporto, riparazioni, 2a comp, infermeria)
+  { id:"nord", points:[
+    [165,345],[290,340],[420,336],[555,333],[685,333],[820,337],[958,344],[1048,352]
+  ]},
+  // STRADA CENTRALE (davanti a mensa/cinema, tempio, piazzale, museo)
+  { id:"centrale", points:[
+    [155,515],[280,510],[415,507],[550,504],[685,506],[820,512],[960,522],[1068,535]
+  ]},
+  // STRADA UFFICI (davanti a ufficio, comando, logistica, 1a comp, supporto2, guardie)
+  { id:"uffici", points:[
+    [150,663],[278,658],[415,653],[552,650],[692,654],[832,663],[972,678],[1062,693]
+  ]},
+  // STRADA SUD (davanti ad asso, torre, parcheggio)
+  { id:"sud", points:[
+    [168,793],[295,783],[425,776],[558,773],[692,780],[828,793],[950,813]
+  ]},
+  // STRADA BASSA (armeria, dormitorio, torri, borgo)
+  { id:"bassa", points:[
+    [162,940],[290,930],[425,922],[560,918],[695,923],[828,935],[950,952]
+  ]},
+
+  // VERTICALE SINISTRA (palestra -> mensa -> cinema -> ufficio -> asso -> armeria -> dormitorio)
+  { id:"v_sinistra", points:[
+    [207,345],[207,430],[207,515],[202,600],[197,665],[192,730],[187,795],[183,940],[178,1060],[174,1170]
+  ]},
+  // VERTICALE 2 (spaccio -> comando -> torre)
+  { id:"v_spaccio", points:[
+    [325,340],[322,430],[318,515],[314,600],[310,663],[306,730],[302,795]
+  ]},
+  // VERTICALE 3 (sup.avio -> tempio -> logistica -> torre/parcheggio)
+  { id:"v_logistica", points:[
+    [500,335],[503,420],[507,510],[511,595],[515,653],[518,730],[521,795]
+  ]},
+  // VERTICALE 4 (riparazioni -> piazzale -> 1a comp -> parcheggio -> torri)
+  { id:"v_centrale", points:[
+    [615,333],[613,420],[611,508],[609,595],[607,655],[605,725],[603,795],[601,940]
+  ]},
+  // VERTICALE 5 (2a comp -> piazzale/museo -> supporto2 -> borgo)
+  { id:"v_destra", points:[
+    [730,333],[733,420],[736,510],[739,600],[742,660],[745,730],[748,800],[751,945]
+  ]},
+  // VERTICALE EST (infermeria -> museo -> guardie)
+  { id:"v_est", points:[
+    [955,344],[950,430],[944,520],[940,610],[938,680],[946,750],[954,820]
+  ]},
+];
+
+// ---- Disegna strade (SVG overlay) ----
+function drawRoads(){
+  const wrap = document.getElementById("map-wrap");
+  if(!wrap) return;
+
+  const old = document.getElementById("road-svg");
   if(old) old.remove();
 
-  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
-  svg.setAttribute("id","road-debug");
-  svg.setAttribute("viewBox",`0 0 ${MW} ${MH}`);
-  svg.style.cssText="position:absolute;inset:0;width:100%;height:100%;z-index:12;pointer-events:none;";
+  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.id = "road-svg";
+  svg.setAttribute("viewBox", `0 0 ${MW} ${MH}`);
+  svg.style.cssText = "position:absolute;inset:0;width:100%;height:100%;z-index:8;pointer-events:none;";
 
-  ROADS.forEach(r=>{
-    for(let i=0;i<r.points.length-1;i++){
-      const a=r.points[i];
-      const b=r.points[i+1];
-
-      const line=document.createElementNS("http://www.w3.org/2000/svg","line");
-      line.setAttribute("x1",a[0]);
-      line.setAttribute("y1",a[1]);
-      line.setAttribute("x2",b[0]);
-      line.setAttribute("y2",b[1]);
-      line.setAttribute("stroke","rgba(255,0,0,0.85)");
-      line.setAttribute("stroke-width","7");
+  // Linee strade
+  ROADS.forEach(r => {
+    for(let i = 0; i < r.points.length-1; i++){
+      const [ax,ay] = r.points[i];
+      const [bx,by] = r.points[i+1];
+      const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1",ax); line.setAttribute("y1",ay);
+      line.setAttribute("x2",bx); line.setAttribute("y2",by);
+      line.setAttribute("stroke","rgba(255,255,255,0.18)");
+      line.setAttribute("stroke-width","3");
       line.setAttribute("stroke-linecap","round");
       svg.appendChild(line);
     }
 
-    r.points.forEach(p=>{
-      const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
-      c.setAttribute("cx",p[0]);
-      c.setAttribute("cy",p[1]);
-      c.setAttribute("r","8");
-      c.setAttribute("fill","rgba(0,120,255,0.95)");
-      svg.appendChild(c);
-    });
+    // Debug: cerchi blu sui punti
+    if(MOSTRA_DEBUG){
+      r.points.forEach(([px,py]) => {
+        const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
+        c.setAttribute("cx",px); c.setAttribute("cy",py); c.setAttribute("r","7");
+        c.setAttribute("fill","rgba(0,120,255,0.8)");
+        svg.appendChild(c);
+      });
+    }
   });
 
   wrap.appendChild(svg);
 }
 
-/* ===== MOVIMENTO OMINO SULLE STRADE ===== */
-const omino={x:665,y:492};
-
-function updateOmino(){
-  const el=document.getElementById("omino");
-  if(!el)return;
-  el.style.left=(omino.x*scaleX)+"px";
-  el.style.top=(omino.y*scaleY)+"px";
-}
-
-function nearestRoadPoint(x,y){
-  let best=null;
-  let bestD=Infinity;
-
-  ROADS.forEach(r=>{
-    for(let i=0;i<r.points.length-1;i++){
-      const a=r.points[i];
-      const b=r.points[i+1];
-
-      const dx=b[0]-a[0];
-      const dy=b[1]-a[1];
-      const len2=dx*dx+dy*dy;
-
-      let t=((x-a[0])*dx+(y-a[1])*dy)/len2;
-      t=Math.max(0,Math.min(1,t));
-
-      const px=a[0]+t*dx;
-      const py=a[1]+t*dy;
-      const d=Math.hypot(x-px,y-py);
-
-      if(d<bestD){
-        bestD=d;
-        best={x:px,y:py};
-      }
+// ---- Calcola punto più vicino sulle strade (per ancorare gli NPC) ----
+function nearestRoadPoint(x, y){
+  let best = null, bestD = Infinity;
+  ROADS.forEach(r => {
+    for(let i = 0; i < r.points.length-1; i++){
+      const [ax,ay] = r.points[i], [bx,by] = r.points[i+1];
+      const dx = bx-ax, dy = by-ay, len2 = dx*dx+dy*dy;
+      const t = Math.max(0, Math.min(1, ((x-ax)*dx+(y-ay)*dy)/len2));
+      const px = ax+t*dx, py = ay+t*dy;
+      const d = Math.hypot(x-px, y-py);
+      if(d < bestD){ bestD=d; best={x:px,y:py,road:r.id,seg:i,t}; }
     }
   });
-
   return best;
 }
 
-function moveOminoTo(x,y){
-  const target=nearestRoadPoint(x,y);
-  if(!target)return;
+// ---- Avanza lungo una strada di una certa distanza ----
+function advanceOnRoad(roadId, segIdx, t, dist){
+  const road = ROADS.find(r=>r.id===roadId);
+  if(!road) return null;
+  const pts = road.points;
+  let i = segIdx;
+  let curT = t;
+  let remaining = dist;
 
-  omino.x=target.x;
-  omino.y=target.y;
-  updateOmino();
+  while(remaining > 0 && i < pts.length-1){
+    const [ax,ay] = pts[i], [bx,by] = pts[i+1];
+    const segLen = Math.hypot(bx-ax, by-ay);
+    const distToEnd = segLen * (1-curT);
+
+    if(remaining <= distToEnd){
+      curT += remaining/segLen;
+      const nx = ax + curT*(bx-ax);
+      const ny = ay + curT*(by-ay);
+      return {x:nx, y:ny, road:roadId, seg:i, t:curT, done:false};
+    } else {
+      remaining -= distToEnd;
+      i++;
+      curT = 0;
+    }
+  }
+  // Fine strada — torna a inizio
+  return {x:pts[0][0], y:pts[0][1], road:roadId, seg:0, t:0, done:true};
 }
 
-function initTapMove(){
-  const wrap=document.getElementById("map-wrap");
-  if(!wrap || wrap.dataset.tapReady==="1")return;
+// ============================================================
+// NPC ANIMATI — si muovono autonomamente lungo le strade
+// ============================================================
+const NPC_CONFIGS = [
+  // Soldatini verdi (fanteria)
+  {sym:"V", color:"rgba(80,200,80,0.9)",  road:"nord",      speed:28, startT:0.0},
+  {sym:"V", color:"rgba(80,200,80,0.9)",  road:"nord",      speed:22, startT:0.5},
+  {sym:"V", color:"rgba(80,200,80,0.85)", road:"centrale",  speed:25, startT:0.2},
+  {sym:"V", color:"rgba(80,200,80,0.85)", road:"uffici",    speed:30, startT:0.7},
+  // Soldatini blu (altro reparto)
+  {sym:"V", color:"rgba(80,140,220,0.9)", road:"v_sinistra",speed:20, startT:0.1},
+  {sym:"V", color:"rgba(80,140,220,0.9)", road:"v_centrale",speed:24, startT:0.4},
+  // Stelle oro (ufficiali)
+  {sym:"★", color:"rgba(220,180,40,0.95)",road:"centrale",  speed:15, startT:0.8},
+  {sym:"★", color:"rgba(220,180,40,0.95)",road:"v_destra",  speed:18, startT:0.3},
+  // Diamanti rossi (elementi speciali)
+  {sym:"◆", color:"rgba(220,80,80,0.85)", road:"sud",       speed:12, startT:0.5},
+  {sym:"◆", color:"rgba(220,80,80,0.85)", road:"bassa",     speed:14, startT:0.2},
+  // Puntini scuri (guardie)
+  {sym:"●", color:"rgba(60,40,20,0.6)",   road:"v_est",     speed:10, startT:0.0},
+  {sym:"●", color:"rgba(60,40,20,0.6)",   road:"v_spaccio", speed:16, startT:0.6},
+];
 
-  wrap.dataset.tapReady="1";
+let npcState = [];
+let npcAnimFrame = null;
+let npcLastTime = 0;
 
-  wrap.addEventListener("pointerdown",e=>{
-    if(
-      e.target.classList.contains("door") ||
-      e.target.classList.contains("door-dot") ||
-      e.target.classList.contains("door-tip")
-    ) return;
+function initNpcs(){
+  const wrap = document.getElementById("map-wrap");
+  if(!wrap) return;
 
-    const rect=wrap.getBoundingClientRect();
-    const mapX=(e.clientX-rect.left)/scaleX;
-    const mapY=(e.clientY-rect.top)/scaleY;
+  // Rimuovi NPC esistenti
+  wrap.querySelectorAll(".npc-dot").forEach(e=>e.remove());
+  npcState = [];
 
-    moveOminoTo(mapX,mapY);
-  });
-}
+  NPC_CONFIGS.forEach((cfg, i) => {
+    const road = ROADS.find(r=>r.id===cfg.road);
+    if(!road) return;
 
-/* ===== TAB ===== */
-function switchTab(tab){
-  currentTab=tab;
+    // Posizione iniziale lungo la strada
+    const totalLen = roadLength(road);
+    const startDist = totalLen * cfg.startT;
+    const pos = advanceOnRoad(cfg.road, 0, 0, startDist) ||
+                {x:road.points[0][0], y:road.points[0][1], road:cfg.road, seg:0, t:0};
 
-  ["caserma","profilo","zaino"].forEach(t=>{
-    const el=document.getElementById("tab-"+t);
-    if(el) el.style.display=t===tab?"flex":"none";
-  });
+    const el = document.createElement("div");
+    el.className = "npc-dot";
+    el.style.cssText = `position:absolute;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold;color:${cfg.color};pointer-events:none;z-index:25;text-shadow:0 0 4px rgba(0,0,0,0.7);transform:translate(-50%,-50%);`;
+    el.textContent = cfg.sym;
+    wrap.appendChild(el);
 
-  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
-  const btn=document.getElementById("tbtn-"+tab);
-  if(btn)btn.classList.add("active");
-
-  if(tab==="caserma")buildMap();
-  if(tab==="profilo"){updateProfiloUI();buildSquadraGrid();}
-}
-
-/* ===== BUILD MAP CORRETTO ===== */
-function buildMap(){
-  const wrap=document.getElementById("map-wrap");
-  if(!wrap)return;
-
-  const img=document.getElementById("map-img");
-  const containerW=document.getElementById("map-container").clientWidth-8;
-  const mw=Math.min(containerW,500);
-  const mh=mw*(MH/MW);
-
-  img.style.width=mw+"px";
-  img.style.height=mh+"px";
-
-  wrap.style.width=mw+"px";
-  wrap.style.height=mh+"px";
-
-  scaleX=mw/MW;
-  scaleY=mh/MH;
-
-  document.querySelectorAll(".door").forEach(e=>e.remove());
-
-  drawRoads();
-  updateOmino();
-
-  DOORS.forEach(d=>{
-    const el=document.createElement("div");
-    el.className="door"+(d.locked?" locked":"");
-    if(d.id==="torre")el.classList.add("torre");
-
-    el.style.left=(d.x*scaleX)+"px";
-    el.style.top=(d.y*scaleY)+"px";
-
-    const dot=document.createElement("div");
-    dot.className="door-dot";
-
-    const tip=document.createElement("div");
-    tip.className="door-tip";
-    tip.textContent=d.name;
-
-    el.appendChild(dot);
-    el.appendChild(tip);
-
-    el.addEventListener("pointerdown",e=>{
-      e.stopPropagation();
-      handleDoor(d);
+    npcState.push({
+      el, road:cfg.road, seg:pos.seg||0, t:pos.t||0,
+      x:pos.x, y:pos.y, speed:cfg.speed,
+      dir: Math.random() > 0.3 ? 1 : -1  // direzione casuale (avanti/indietro)
     });
 
-    wrap.appendChild(el);
+    el.style.left = (pos.x * scaleX) + "px";
+    el.style.top  = (pos.y * scaleY) + "px";
   });
 
-  initTapMove();
+  if(npcAnimFrame) cancelAnimationFrame(npcAnimFrame);
+  npcLastTime = performance.now();
+  animateNpcs(npcLastTime);
 }
 
-/* ===== MODAL EDIFICI ===== */
-function handleDoor(d){
-  if(d.locked){toast("ACCESSO NEGATO");return;}
-  openModal(d);
-}
-
-function openModal(d){
-  document.getElementById("m-ico").textContent=d.ico;
-  document.getElementById("m-tit").textContent=d.name;
-  document.getElementById("m-sub").textContent=d.sub;
-  document.getElementById("m-dsc").textContent=d.dsc;
-  document.getElementById("m-quo").textContent='"'+d.quo+'"';
-
-  const act=document.getElementById("m-act");
-  act.innerHTML="";
-
-  if(d.act==="battle")addBtn(act,"SFIDA",true,()=>{closeModal();toast("Sistema battaglia — in arrivo!");});
-  if(d.act==="train")addBtn(act,"ALLENATI",true,()=>{closeModal();doTrain();});
-  if(d.act==="sleep")addBtn(act,"DORMI (+1 giorno)",true,()=>{closeModal();doSleep();});
-  if(d.act==="bar")addBtn(act,"ENTRA",true,()=>{closeModal();doBar();});
-  if(d.act==="eat")addBtn(act,"MANGIA",true,()=>{closeModal();doEat();});
-  if(d.act==="heal")addBtn(act,"RIPOSA",true,()=>{closeModal();doHeal();});
-
-  addBtn(act,"CHIUDI",false,closeModal);
-  document.getElementById("modal").classList.add("show");
-}
-
-function addBtn(par,txt,primary,fn){
-  const b=document.createElement("button");
-  b.className="mb "+(primary?"mb-p":"mb-s");
-  b.textContent=txt;
-  b.onclick=fn;
-  par.appendChild(b);
-}
-
-function closeModal(){
-  document.getElementById("modal").classList.remove("show");
-}
-
-document.getElementById("m-x").onclick=closeModal;
-document.getElementById("modal").addEventListener("click",e=>{
-  if(e.target===document.getElementById("modal"))closeModal();
-});
-
-/* ===== AZIONI ===== */
-function doTrain(){player.forza=Math.min(99,player.forza+2);player.di=Math.min(99,player.di+1);updHud();toast("Allenamento completato.");}
-function doSleep(){player.giorno++;player.spirito=Math.min(99,player.spirito+2);updHud();toast("Hai dormito. Giorno "+player.giorno);}
-function doBar(){player.spirito=Math.min(99,player.spirito+3);updHud();toast("Spirito +3");}
-function doEat(){player.spirito=Math.min(99,player.spirito+1);player.forza=Math.min(99,player.forza+1);updHud();toast("Forza +1, Spirito +1");}
-function doHeal(){player.forza=Math.min(99,player.forza+4);updHud();toast("Forza +4");}
-
-function updHud(){
-  document.getElementById("dv").textContent=player.giorno;
-  document.getElementById("p-giorno").textContent=player.giorno;
-}
-
-/* ===== PLACEHOLDER PROFILO ===== */
-function updateProfiloUI(){
-  const el=document.getElementById("p-nome");
-  if(el)el.textContent=(player.nome+" "+player.cognome).toUpperCase();
-}
-
-function buildSquadraGrid(){}
-
-/* ===== COLLEZIONE PLACEHOLDER ===== */
-function openCollezione(){toast("Collezione — presto.");}
-function closeCollezione(){}
-function closeSoldato(){}
-function rinominaSquadra(){
-  const nome=prompt("Nome della tua squadra:");
-  if(nome&&nome.trim())document.getElementById("squadra-nome").textContent=nome.trim().toUpperCase();
-}
-
-/* ===== STATS PLACEHOLDER ===== */
-function toggleStats(){
-  const m=document.getElementById("stats-modal");
-  m.style.display=(m.style.display==="flex")?"none":"flex";
-}
-
-/* ===== TOAST ===== */
-let tt=null;
-function toast(msg){
-  const t=document.getElementById("toast");
-  t.textContent=msg;
-  t.style.opacity="1";
-  if(tt)clearTimeout(tt);
-  tt=setTimeout(()=>t.style.opacity="0",2600);
-}
-
-/* ===== LOGIN ===== */
-const inN=document.getElementById("inp-nome");
-const inC=document.getElementById("inp-cogn");
-const bS=document.getElementById("btn-start");
-
-function chk(){
-  bS.disabled=!(inN.value.trim()&&inC.value.trim());
-  document.getElementById("err-msg").classList.remove("show");
-}
-
-inN.addEventListener("input",chk);
-inC.addEventListener("input",chk);
-
-bS.addEventListener("click",()=>{
-  const n=inN.value.trim();
-  const c=inC.value.trim();
-
-  if(!n||!c){
-    document.getElementById("err-msg").classList.add("show");
-    return;
+function roadLength(road){
+  let len = 0;
+  for(let i=0; i<road.points.length-1; i++){
+    const [ax,ay]=road.points[i],[bx,by]=road.points[i+1];
+    len += Math.hypot(bx-ax,by-ay);
   }
+  return len;
+}
 
-  player.nome=n;
-  player.cognome=c;
+function animateNpcs(now){
+  npcAnimFrame = requestAnimationFrame(animateNpcs);
+  const dt = Math.min((now - npcLastTime)/1000, 0.1); // secondi, max 100ms
+  npcLastTime = now;
 
-  document.getElementById("top-bar-name").textContent="SOLDATO "+c.toUpperCase();
-  document.getElementById("screen-login").style.display="none";
-  document.getElementById("screen-map").classList.add("show");
+  npcState.forEach(npc => {
+    const dist = npc.speed * dt * npc.dir;
+    const result = advanceOnRoad(npc.road, npc.seg, npc.t, Math.abs(dist));
 
-  switchTab("caserma");
+    if(!result || result.done){
+      // Inverti direzione alla fine/inizio strada
+      npc.dir *= -1;
+      const road = ROADS.find(r=>r.id===npc.road);
+      if(road){
+        if(npc.dir > 0){ npc.seg=0; npc.t=0; npc.x=road.points[0][0]; npc.y=road.points[0][1]; }
+        else { npc.seg=road.points.length-2; npc.t=1; const p=road.points[road.points.length-1]; npc.x=p[0]; npc.y=p[1]; }
+      }
+    } else {
+      npc.seg = result.seg; npc.t = result.t;
+      npc.x = result.x;    npc.y = result.y;
+    }
 
+    npc.el.style.left = (npc.x * scaleX) + "px";
+    npc.el.style.top  = (npc.y * scaleY) + "px";
+  });
+}
+
+// ---- Aggiorna posizioni NPC dopo resize ----
+function updateNpcPositions(){
+  npcState.forEach(npc => {
+    npc.el.style.left = (npc.x * scaleX) + "px";
+    npc.el.style.top  = (npc.y * scaleY) + "px";
+  });
+}
+
+// ===== TOAST =====
+let tt=null;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';if(tt)clearTimeout(tt);tt=setTimeout(()=>t.style.opacity='0',2800);}
+
+// ===== LOGIN =====
+const inN=document.getElementById('inp-nome'),inC=document.getElementById('inp-cogn'),bS=document.getElementById('btn-start');
+function chk(){bS.disabled=!(inN.value.trim()&&inC.value.trim());document.getElementById('err-msg').classList.remove('show');}
+inN.addEventListener('input',chk);inC.addEventListener('input',chk);
+inN.addEventListener('keydown',e=>{if(e.key==='Enter')inC.focus();});
+inC.addEventListener('keydown',e=>{if(e.key==='Enter'&&!bS.disabled)bS.click();});
+bS.addEventListener('click',()=>{
+  const n=inN.value.trim(),c=inC.value.trim();
+  if(!n||!c){document.getElementById('err-msg').classList.add('show');return;}
+  player.nome=n;player.cognome=c;
+  document.getElementById('top-bar-name').textContent='SOLDATO '+c.toUpperCase();
+  document.getElementById('screen-login').style.display='none';
+  document.getElementById('screen-map').classList.add('show');
+  switchTab('caserma');
+  setTimeout(()=>{
+    drawRails();
+    initTapMove();
+    initNpcs();
+    updateOmino();
+  },150);
   setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+c+'"'),500);
 });
+document.getElementById('bg-login').style.backgroundImage="url('bg.png?v=7')";
+</script>
 
-document.getElementById("bg-login").style.backgroundImage="url('bg.png?v=7')";
-</script>  
-  
-
-
-    
-
+</body>
+</html>
