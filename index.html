@@ -19,7 +19,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 #bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.38);}
 #login-title{position:absolute;left:0;right:0;top:8%;text-align:center;z-index:2;pointer-events:none;}
 #login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(52px,14vw,110px);color:#7B1020;-webkit-text-stroke:2px #3d000a;line-height:1;animation:tp 4s ease-in-out infinite;}
-@keyframes tp{0%,100%{color:#7B1020;}50%{color:#9B1828;}}
+@keyframes tp{0%,100%{color:#C9A84C;}50%{color:#f0d060;}}
 #popup{position:relative;z-index:2;background:rgba(235,226,206,0.92);border:2px solid rgba(123,16,32,0.4);border-radius:8px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
 #popup::before,#popup::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
@@ -48,7 +48,7 @@ background:#f5f5f0;
 
 /* TOP BAR */
 #top-bar{flex-shrink:0;height:48px;background:#7B1020;border-bottom:none;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
-#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:26px;color:#7B1020;-webkit-text-stroke:2px #3d000a;letter-spacing:2px;animation:tp 4s ease-in-out infinite;}
+#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:26px;color:#C9A84C;-webkit-text-stroke:2px #7a5000;letter-spacing:2px;text-shadow:0 2px 0 rgba(0,0,0,0.3),0 0 12px rgba(201,168,76,0.4);animation:tp 4s ease-in-out infinite;}
 #top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(0,0,0,0.75);letter-spacing:3px;}
 
 /* TAB CONTENT — cresce tra top-bar e tab-bar */
@@ -268,6 +268,7 @@ z-index:200;
     <div class="gal-box" id="gal1" onclick="apriFoto(1)"><span id="gal1-lbl">FOTO<br>2</span><input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)"></div>
     <div class="gal-box" id="gal2" onclick="apriFoto(2)"><span id="gal2-lbl">FOTO<br>3</span><input type="file" id="file2" accept="image/*,video/*" style="display:none" onchange="caricaFoto(2,this)"></div>
     <div class="gal-box" id="gal3" onclick="apriFoto(3)"><span id="gal3-lbl">FOTO<br>4</span><input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)"></div>
+<div class="gal-box" id="gal4" onclick="apriFoto(4)"><span id="gal4-lbl">FOTO<br>5</span><input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)"></div>
   </div>
   <div id="map-container">
     <div id="map-wrap">
@@ -408,7 +409,7 @@ z-index:200;
 <div id="collezione-modal">
   <div style="background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
     <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:3px;">COLLEZIONE CARTE</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:3px;">COLLEZIONE TRUPPE</div>
       <button onclick="closeCollezione()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer;">✕</button>
     </div>
     <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
