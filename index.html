@@ -19,7 +19,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 #bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.38);}
 #login-title{position:absolute;left:0;right:0;top:8%;text-align:center;z-index:2;pointer-events:none;}
 #login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(52px,14vw,110px);color:#7B1020;-webkit-text-stroke:2px #3d000a;line-height:1;animation:tp 4s ease-in-out infinite;}
-@keyframes tp{0%,100%{color:#C9A84C;}50%{color:#e8c050;}}
+@keyframes tp{0%,100%{color:#7B1020;}50%{color:#9B1828;}}
 #popup{position:relative;z-index:2;background:rgba(235,226,206,0.92);border:2px solid rgba(123,16,32,0.4);border-radius:8px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
 #popup::before,#popup::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
@@ -48,7 +48,7 @@ background:#f5f5f0;
 
 /* TOP BAR */
 #top-bar{flex-shrink:0;height:48px;background:#7B1020;border-bottom:none;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
-#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:26px;color:#C9A84C;-webkit-text-stroke:1px #7a5a00;letter-spacing:2px;animation:tp 4s ease-in-out infinite;}
+#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:26px;color:#7B1020;-webkit-text-stroke:2px #3d000a;letter-spacing:2px;animation:tp 4s ease-in-out infinite;}
 #top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(0,0,0,0.75);letter-spacing:3px;}
 
 /* TAB CONTENT — cresce tra top-bar e tab-bar */
@@ -452,6 +452,9 @@ z-index:200;
         <div style="flex:1;display:flex;flex-direction:column;gap:5px;" id="sm-stats-list"></div>
       </div>
     </div>
+    <div style="padding:10px 14px 14px;">
+      <button id="sm-replace-btn" style="display:none;width:100%;padding:10px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;">⇄ SOSTITUISCI</button>
+    </div>
   </div>
 </div>
 
@@ -566,11 +569,11 @@ document.getElementById('m-x').onclick=closeModal;
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
 
 // ===== AZIONI =====
-function doTrain(){player.forza=Math.min(99,player.forza+Math.floor(Math.random()*3)+1);player.di=Math.min(99,player.di+1);updHud();toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
-function doSleep(){player.giorno++;player.spirito=Math.min(99,player.spirito+2);updHud();toast('Hai dormito. Giorno '+player.giorno);}
-function doBar(){player.spirito=Math.min(99,player.spirito+3);updHud();toast('Spirito +3');}
-function doEat(){player.spirito=Math.min(99,player.spirito+1);player.forza=Math.min(99,player.forza+1);updHud();toast('Forza +1, Spirito +1');}
-function doHeal(){player.forza=Math.min(99,player.forza+4);updHud();toast('Forza +4');}
+function doTrain(){toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
+function doSleep(){player.giorno++;document.getElementById('dv').textContent=player.giorno;document.getElementById('p-giorno').textContent=player.giorno;toast('Hai dormito. Giorno '+player.giorno);}
+function doBar(){toast('"Weee naja! Cin cin soldato!"');}
+function doEat(){toast('"Non farti mangiare il cazzo dalle mosche!"');}
+function doHeal(){toast('"Riposa soldato. Domani si soffre di più."');}
 function updHud(){document.getElementById('dv').textContent=player.giorno;document.getElementById('p-giorno').textContent=player.giorno;updateRadarMini();}
 
 // ===== PROFILO =====
