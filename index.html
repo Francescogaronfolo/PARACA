@@ -144,41 +144,7 @@ justify-content:space-between;
 padding:8px 16px 6px;
 gap:12px;
 }
-/* Tasto AZIONE sinistra */
-#btn-azione{
-width:60px;height:60px;
-background:#7B1020;
-border-radius:50%;
-border:none;
-color:#fff;
-font-family:‘Bebas Neue’,sans-serif;
-font-size:11px;letter-spacing:1px;
-display:flex;align-items:center;justify-content:center;
-cursor:pointer;flex-shrink:0;
-box-shadow:0 3px 12px rgba(123,16,32,0.35);
-text-align:center;line-height:1.2;
-}
-/* Joystick analogico destra */
-#dpad{
-display:grid;
-grid-template-columns:repeat(3,32px);
-grid-template-rows:repeat(3,32px);
-gap:3px;
-flex-shrink:0;
-}
-.dpad-btn{
-width:32px;height:32px;
-background:#fff;
-border:1px solid rgba(180,150,80,0.35);
-border-radius:6px;
-font-size:13px;
-color:rgba(120,90,30,0.7);
-cursor:pointer;
-display:flex;align-items:center;justify-content:center;
--webkit-user-select:none;user-select:none;
-box-shadow:0 2px 4px rgba(0,0,0,0.08);
-}
-.dpad-btn:active{background:#f0ece0;border-color:rgba(180,150,80,0.6);}
+
 /* Info giornata */
 #caserma-info{
 width:100%;
@@ -210,15 +176,15 @@ padding:10px 8px;
 text-align:center;
 cursor:pointer;
 font-family:‘Rajdhani’,sans-serif;font-size:10px;font-weight:700;
-letter-spacing:2px;color:rgba(120,90,30,0.6);text-transform:uppercase;
+letter-spacing:2px;color:rgba(60,30,0,0.7);text-transform:uppercase;
 }
 .ext-btn:hover{border-color:rgba(180,150,80,0.6);color:#7B1020;}
 
 /* ===== TAB PROFILO ===== */
-#tab-profilo{position:absolute;inset:0;display:none;flex-direction:column;background:#f5f5f0;overflow-y:auto;padding:12px;}
+#tab-profilo{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#e8a020 0%,#c97a10 100%);overflow-y:auto;padding:12px;}
 
-.profilo-header{
-background:#fff;border-radius:8px;
+.profilo-header{background:rgba(255,255,255,0.15);backdrop-filter:blur(4px);
+background:rgba(255,255,255,0.18);border-radius:8px;
 border:1px solid rgba(180,150,80,0.25);
 padding:14px;display:flex;align-items:center;gap:12px;
 margin-bottom:10px;
@@ -246,7 +212,7 @@ cursor:pointer;
 .squadra-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;cursor:pointer;}
 .squadra-nome-display{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#7B1020;letter-spacing:2px;}
 .squadra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
-.carta-pg{background:#f0ece0;border:1px solid rgba(180,150,80,0.2);border-radius:6px;overflow:hidden;cursor:pointer;}
+.carta-pg{background:rgba(255,255,255,0.92);border:1px solid rgba(180,130,30,0.3);border-radius:6px;overflow:hidden;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
 .carta-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:26px;border-bottom:1px solid rgba(180,150,80,0.12);}
 .carta-nome{font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(120,90,30,0.7);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
@@ -356,34 +322,18 @@ cursor:pointer;border:none;
   <!-- Mappa centrata -->
   <div id="map-container">
     <div id="map-wrap">
-      <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
+      <img id="map-img-bg" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
       <div id="omino"></div>
     </div>
   </div>
 
   <!-- Controlli: tasto azione + joystick -->
   <div id="controls">
-    <button id="btn-azione">AZIONE</button>
+    
     <div id="caserma-info" style="flex:1;display:flex;gap:6px;padding:0 8px;">
       <div class="info-pill"><span class="lbl">Giorno</span><span class="val" id="dv">1</span></div>
       <div class="info-pill"><span class="lbl">Grado</span><span class="val">Soldato</span></div>
     </div>
-    <div id="dpad">
-      <div style="grid-column:2;grid-row:1;">
-        <button class="dpad-btn" id="d-up" onpointerdown="startMove('up')" onpointerup="stopMove()" onpointerleave="stopMove()">▲</button>
-      </div>
-      <div style="grid-column:1;grid-row:2;">
-        <button class="dpad-btn" id="d-left" onpointerdown="startMove('left')" onpointerup="stopMove()" onpointerleave="stopMove()">◀</button>
-      </div>
-      <div style="grid-column:2;grid-row:2;display:flex;align-items:center;justify-content:center;">
-        <div style="width:14px;height:14px;border-radius:50%;background:rgba(180,150,80,0.25);"></div>
-      </div>
-      <div style="grid-column:3;grid-row:2;">
-        <button class="dpad-btn" id="d-right" onpointerdown="startMove('right')" onpointerup="stopMove()" onpointerleave="stopMove()">▶</button>
-      </div>
-      <div style="grid-column:2;grid-row:3;">
-        <button class="dpad-btn" id="d-down" onpointerdown="startMove('down')" onpointerup="stopMove()" onpointerleave="stopMove()">▼</button>
-      </div>
     </div>
   </div>
 
@@ -526,7 +476,7 @@ cursor:pointer;border:none;
       <button onclick="closeCollezione()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer;">✕</button>
     </div>
     <!-- Griglia -->
-    <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
+    <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:rgba(255,255,255,0.15);"></div>
   </div>
 </div>
 
@@ -625,7 +575,7 @@ function switchTab(tab){
 
 // ===== BUILD MAP =====
 function buildMap(){
-  const wrap=document.getElementById('map-wrap');
+  const wrap=document.getElementById('map-wrap'); if(!wrap)return;
   const img=document.getElementById('map-img');
   // Usa larghezza disponibile
   const containerW = document.getElementById('map-container').clientWidth - 8;
@@ -870,64 +820,157 @@ function rinominaSquadra(){
   if(nome&&nome.trim()) document.getElementById('squadra-nome').textContent=nome.trim().toUpperCase();
 }
 
-// ===== OMINO + FRECCE =====
-const NODES={"N1": [200, 155], "N2": [350, 155], "N3": [476, 155], "N4": [610, 155], "N5": [780, 155], "N6": [965, 155], "NE1": [1080, 155], "NE2": [1080, 290], "NE3": [1080, 450], "W1": [70, 210], "W2": [70, 388], "W3": [70, 525], "W4": [70, 675], "W5": [70, 820], "NW": [200, 280], "C1": [136, 580], "C2": [284, 580], "C3": [442, 580], "C4": [580, 580], "C5": [702, 580], "C6": [840, 580], "C7": [980, 580], "M1": [442, 430], "M2": [580, 430], "M3": [702, 430], "M4": [580, 520], "U1": [136, 750], "U2": [284, 750], "U3": [442, 750], "U4": [702, 750], "U5": [840, 750], "U6": [980, 750], "S1": [200, 820], "S2": [355, 820], "S3": [576, 820], "S4": [760, 820], "S5": [980, 820], "B1": [200, 960], "B2": [355, 960], "B3": [576, 1050], "B4": [760, 1050], "D1": [200, 1080], "D2": [200, 1220], "E1": [580, 1280], "E2": [580, 1180]};
-const EDGES=[["N1", "N2"], ["N2", "N3"], ["N3", "N4"], ["N4", "N5"], ["N5", "N6"], ["N6", "NE1"], ["NE1", "NE2"], ["NE2", "NE3"], ["NE3", "C7"], ["W1", "NW"], ["NW", "N1"], ["W1", "W2"], ["W2", "W3"], ["W3", "W4"], ["W4", "W5"], ["W2", "C1"], ["W4", "U1"], ["W5", "S1"], ["N1", "NW"], ["N2", "C2"], ["N3", "C3"], ["N4", "M1"], ["N5", "C5"], ["N6", "C7"], ["C1", "C2"], ["C2", "C3"], ["C3", "M1"], ["M1", "M2"], ["M2", "C4"], ["C4", "M3"], ["M3", "C5"], ["C5", "C6"], ["C6", "C7"], ["M1", "M4"], ["M2", "M4"], ["M3", "M4"], ["C4", "M4"], ["C1", "U1"], ["C2", "U2"], ["C3", "U3"], ["C5", "U4"], ["C6", "U5"], ["C7", "U6"], ["U1", "U2"], ["U2", "U3"], ["U3", "U4"], ["U4", "U5"], ["U5", "U6"], ["U1", "S1"], ["U3", "S2"], ["U3", "S3"], ["U5", "S4"], ["U6", "S5"], ["S1", "S2"], ["S2", "S3"], ["S3", "S4"], ["S4", "S5"], ["S1", "B1"], ["S2", "B2"], ["S3", "B3"], ["S4", "B4"], ["B1", "B2"], ["B2", "B3"], ["B3", "B4"], ["B1", "D1"], ["D1", "D2"], ["D2", "E2"], ["E2", "E1"], ["B3", "E2"]];
+// ===== SISTEMA BINARI + TAP-TO-MOVE + NPC =====
+
+// Nodi del grafo (coordinate sulla mappa originale 1183x1330)
+const NODES={"N1":[200,155],"N2":[350,155],"N3":[476,155],"N4":[610,155],"N5":[780,155],"N6":[965,155],"NE1":[1080,155],"NE2":[1080,290],"NE3":[1080,450],"W1":[70,210],"W2":[70,388],"W3":[70,525],"W4":[70,675],"W5":[70,820],"NW":[200,280],"C1":[136,580],"C2":[284,580],"C3":[442,580],"C4":[580,580],"C5":[702,580],"C6":[840,580],"C7":[980,580],"M1":[442,430],"M2":[580,430],"M3":[702,430],"M4":[580,520],"U1":[136,750],"U2":[284,750],"U3":[442,750],"U4":[702,750],"U5":[840,750],"U6":[980,750],"S1":[200,820],"S2":[355,820],"S3":[576,820],"S4":[760,820],"S5":[980,820],"B1":[200,960],"B2":[355,960],"B3":[576,1050],"B4":[760,1050],"D1":[200,1080],"D2":[200,1220],"E1":[580,1280],"E2":[580,1180]};
+const EDGES=[["N1","N2"],["N2","N3"],["N3","N4"],["N4","N5"],["N5","N6"],["N6","NE1"],["NE1","NE2"],["NE2","NE3"],["NE3","C7"],["W1","NW"],["NW","N1"],["W1","W2"],["W2","W3"],["W3","W4"],["W4","W5"],["W2","C1"],["W4","U1"],["W5","S1"],["N1","NW"],["N2","C2"],["N3","C3"],["N4","M1"],["N5","C5"],["N6","C7"],["C1","C2"],["C2","C3"],["C3","M1"],["M1","M2"],["M2","C4"],["C4","M3"],["M3","C5"],["C5","C6"],["C6","C7"],["M1","M4"],["M2","M4"],["M3","M4"],["C4","M4"],["C1","U1"],["C2","U2"],["C3","U3"],["C5","U4"],["C6","U5"],["C7","U6"],["U1","U2"],["U2","U3"],["U3","U4"],["U4","U5"],["U5","U6"],["U1","S1"],["U3","S2"],["U3","S3"],["U5","S4"],["U6","S5"],["S1","S2"],["S2","S3"],["S3","S4"],["S4","S5"],["S1","B1"],["S2","B2"],["S3","B3"],["S4","B4"],["B1","B2"],["B2","B3"],["B3","B4"],["B1","D1"],["D1","D2"],["D2","E2"],["E2","E1"],["B3","E2"]];
+
+// Adjacency list
 const ADJ={};
 Object.keys(NODES).forEach(n=>ADJ[n]=[]);
 EDGES.forEach(([a,b])=>{ADJ[a].push(b);ADJ[b].push(a);});
 
+// Stato omino
 const omino={x:580,y:520,node:'M4'};
-let moveInterval=null;
-let moveDir=null;
 
-function startMove(dir){
-  if(moveInterval)return;
-  moveDir=dir;
-  moveStep(dir);
-  moveInterval=setInterval(()=>moveStep(dir),150);
-}
-function stopMove(){
-  moveDir=null;
-  clearInterval(moveInterval);
-  moveInterval=null;
-}
-function moveStep(dir){
-  const cur=omino.node;
-  const [cx,cy]=NODES[cur];
-  let best=null,bestScore=-99999;
-  for(const nb of (ADJ[cur]||[])){
-    const [nx,ny]=NODES[nb];
-    const dx=nx-cx,dy=ny-cy;
-    let score=0;
-    if(dir==='up')    score=-dy-Math.abs(dx)*0.4;
-    if(dir==='down')  score= dy-Math.abs(dx)*0.4;
-    if(dir==='left')  score=-dx-Math.abs(dy)*0.4;
-    if(dir==='right') score= dx-Math.abs(dy)*0.4;
-    if(score>bestScore){bestScore=score;best=nb;}
+// ---- Disegna binari sul canvas ----
+function drawRails(){
+  const wrap=document.getElementById('map-wrap');
+  if(!wrap)return;
+  let canvas=document.getElementById('rail-canvas');
+  if(!canvas){
+    canvas=document.createElement('canvas');
+    canvas.id='rail-canvas';
+    canvas.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;';
+    wrap.insertBefore(canvas,wrap.firstChild);
   }
-  if(best&&bestScore>10){
-    omino.node=best;
-    omino.x=NODES[best][0];
-    omino.y=NODES[best][1];
-    updateOmino();
-  }
+  const img=document.getElementById('map-img-bg')||document.getElementById('map-img');
+  canvas.width=img?img.naturalWidth||1183:1183;
+  canvas.height=img?img.naturalHeight||1330:1330;
+
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,1183,1330);
+  ctx.strokeStyle='rgba(180,130,50,0.22)';
+  ctx.lineWidth=2.5;
+  ctx.lineCap='round';
+  EDGES.forEach(([a,b])=>{
+    const[ax,ay]=NODES[a],[bx,by]=NODES[b];
+    ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();
+  });
+  // Pallini agli incroci
+  ctx.fillStyle='rgba(180,130,50,0.18)';
+  Object.values(NODES).forEach(([x,y])=>{
+    ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill();
+  });
 }
+
+// ---- BFS tra nodi ----
+function bfs(start,end){
+  if(start===end)return[start];
+  const vis={[start]:true},queue=[[start,[start]]];
+  while(queue.length){
+    const[cur,path]=queue.shift();
+    for(const nb of(ADJ[cur]||[])){
+      if(nb===end)return[...path,nb];
+      if(!vis[nb]){vis[nb]=true;queue.push([nb,[...path,nb]]);}
+    }
+  }
+  return[start];
+}
+
+// ---- Nodo più vicino a coordinate mappa ----
+function nearestNode(x,y){
+  let best=null,bd=Infinity;
+  for(const[id,[nx,ny]]of Object.entries(NODES)){
+    const d=(x-nx)**2+(y-ny)**2;
+    if(d<bd){bd=d;best=id;}
+  }
+  return best;
+}
+
+// ---- Aggiorna posizione omino ----
 function updateOmino(){
   const el=document.getElementById('omino');
   if(!el)return;
   el.style.left=(omino.x*scaleX)+'px';
   el.style.top=(omino.y*scaleY)+'px';
 }
-document.getElementById('btn-azione').addEventListener('click',()=>{
-  let nearest=null,minDist=9999;
-  for(const d of DOORS){
-    const dist=Math.sqrt((omino.x-d.x)**2+(omino.y-d.y)**2);
-    if(dist<130&&dist<minDist){minDist=dist;nearest=d;}
-  }
-  if(nearest){handleDoor(nearest);}
-  else{toast('Avvicinati a un edificio');}
-});
+
+// ---- TAP-TO-MOVE: tocca la mappa, il pallino va al nodo più vicino ----
+function initTapMove(){
+  const wrap=document.getElementById('map-wrap');
+  if(!wrap)return;
+  wrap.addEventListener('pointerdown',e=>{
+    // Non triggera se tocca una porta
+    if(e.target.classList.contains('door')||e.target.classList.contains('door-body')||e.target.classList.contains('door-tip'))return;
+    e.stopPropagation();
+    const rect=wrap.getBoundingClientRect();
+    const relX=e.clientX-rect.left;
+    const relY=e.clientY-rect.top;
+    // Converti in coordinate mappa originale
+    const mapX=relX/scaleX;
+    const mapY=relY/scaleY;
+    const targetNode=nearestNode(mapX,mapY);
+    if(targetNode===omino.node)return;
+    // Snap immediato al nodo più vicino
+    omino.node=targetNode;
+    omino.x=NODES[targetNode][0];
+    omino.y=NODES[targetNode][1];
+    updateOmino();
+  });
+}
+
+// ============================================================
+// NPC ANIMATI sulla mappa
+// ============================================================
+const NPC_DEFS=[
+  {sym:'V',color:'#4a8a3a',node:'N2',speed:2200},  // soldato semplice verde
+  {sym:'V',color:'#4a8a3a',node:'C4',speed:2800},
+  {sym:'★',color:'#C9A84C',node:'U3',speed:3500},  // ufficiale oro
+  {sym:'★',color:'#C9A84C',node:'S3',speed:4200},
+  {sym:'V',color:'#3a5a8a',node:'B2',speed:2600},  // blu = altro reparto
+  {sym:'V',color:'#3a5a8a',node:'D1',speed:3100},
+  {sym:'✦',color:'rgba(200,80,80,0.8)',node:'M4',speed:3800}, // elemento speciale rosso
+  {sym:'◈',color:'rgba(180,150,80,0.7)',node:'NE2',speed:4500}, // elemento speciale oro
+];
+
+const npcs=NPC_DEFS.map(d=>({...d,x:NODES[d.node][0],y:NODES[d.node][1],timer:null}));
+
+// moveNpc rimossa - logica inline in initNpcs
+
+function updateNpcEl(i){
+  const npc=npcs[i];
+  const el=document.getElementById('npc-'+i);
+  if(!el)return;
+  el.style.left=(npc.x*scaleX-8)+'px';
+  el.style.top=(npc.y*scaleY-8)+'px';
+}
+
+function initNpcs(){
+  const wrap=document.getElementById('map-wrap');
+  if(!wrap)return;
+  npcs.forEach((npc,i)=>{
+    // Rimuovi se esistente
+    const old=document.getElementById('npc-'+i);
+    if(old)old.remove();
+    const el=document.createElement('div');
+    el.id='npc-'+i;
+    el.style.cssText=`position:absolute;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;color:${npc.color};pointer-events:none;z-index:25;transition:left ${npc.speed*0.8}ms ease,top ${npc.speed*0.8}ms ease;text-shadow:0 0 4px rgba(0,0,0,0.6);`;
+    el.textContent=npc.sym;
+    wrap.appendChild(el);
+    updateNpcEl(i);
+    // Movimento casuale periodico
+    npc.timer=setInterval(()=>{
+      const neighbors=ADJ[npc.node]||[];
+      if(!neighbors.length)return;
+      npc.node=neighbors[Math.floor(Math.random()*neighbors.length)];
+      npc.x=NODES[npc.node][0];
+      npc.y=NODES[npc.node][1];
+      updateNpcEl(i);
+    },npc.speed);
+  });
+}
 
 // ===== TOAST =====
 let tt=null;
@@ -947,6 +990,12 @@ bS.addEventListener('click',()=>{
   document.getElementById('screen-login').style.display='none';
   document.getElementById('screen-map').classList.add('show');
   switchTab('caserma');
+  setTimeout(()=>{
+    drawRails();
+    initTapMove();
+    initNpcs();
+    updateOmino();
+  },150);
   setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+c+'"'),500);
 });
 document.getElementById('bg-login').style.backgroundImage="url('bg.png?v=7')";
