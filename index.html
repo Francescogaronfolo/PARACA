@@ -5,22 +5,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>PARACA!</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@600;700&family=Lilita+One&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:'Rajdhani',sans-serif;}
-@media(orientation:landscape){
-  html{transform:rotate(-90deg);transform-origin:left top;width:100vh;height:100vw;position:fixed;top:100%;left:0;}
-}
+@media(orientation:landscape){html{transform:rotate(-90deg);transform-origin:left top;width:100vh;height:100vw;position:fixed;top:100%;left:0;}}
+@keyframes tp{0%,100%{color:#FFE033;text-shadow:3px 3px 0 #8b0000,-1px -1px 0 #8b0000,1px -1px 0 #8b0000,-1px 1px 0 #8b0000,5px 5px 0 rgba(0,0,0,0.3);}50%{color:#fff8cc;text-shadow:3px 3px 0 #8b0000,-1px -1px 0 #8b0000,1px -1px 0 #8b0000,-1px 1px 0 #8b0000,5px 5px 0 rgba(0,0,0,0.3);}}
+@keyframes mIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes goldshine{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+@keyframes eccshine{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+@keyframes torrepulse{0%,100%{opacity:1;}50%{opacity:0.2;}}
 
-/* ====== LOGIN ====== */
+/* LOGIN */
 #screen-login{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;}
 #bg-login{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;}
-#bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.38);}
+#bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.4);}
 #login-title{position:absolute;left:0;right:0;top:8%;text-align:center;z-index:2;pointer-events:none;}
-#login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(52px,14vw,110px);color:#7B1020;-webkit-text-stroke:2px #3d000a;line-height:1;animation:tp 4s ease-in-out infinite;}
-@keyframes tp{0%,100%{color:#FFE033;}50%{color:#FFF799;}}
-#popup{position:relative;z-index:2;background:rgba(235,226,206,0.92);border:2px solid rgba(123,16,32,0.4);border-radius:8px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
+#login-title h1{font-family:‘Lilita One’,cursive;font-size:clamp(52px,14vw,110px);color:#FFE033;-webkit-text-stroke:2px #8b0000;line-height:1;animation:tp 3s ease-in-out infinite;letter-spacing:3px;}
+#popup{position:relative;z-index:2;background:rgba(235,226,206,0.93);border:2px solid rgba(123,16,32,0.4);border-radius:10px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
 #popup::before,#popup::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
 #popup::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
@@ -34,208 +36,62 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 .finp::placeholder{color:rgba(80,30,30,0.3);font-weight:400;}
 #err-msg{font-size:9px;color:#7B1020;text-align:center;height:11px;margin-top:3px;opacity:0;transition:opacity .3s;}
 #err-msg.show{opacity:1;}
-#btn-start{width:100%;margin-top:12px;padding:11px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:17px;letter-spacing:6px;cursor:pointer;box-shadow:0 3px 12px rgba(123,16,32,0.35);}
-#btn-start:hover{background:#9B1828;}
-#btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;box-shadow:none;}
+#btn-start{width:100%;margin-top:12px;padding:11px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:17px;letter-spacing:6px;cursor:pointer;}
+#btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;}
 
-/* ====== SCHERMATA GIOCO ====== */
-#screen-map{
-position:fixed;inset:0;z-index:50;
-display:none;flex-direction:column;
-background:#f5f5f0;
-}
+/* GAME */
+#screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f5f5f0;}
 #screen-map.show{display:flex;}
-
-/* TOP BAR */
-#top-bar{flex-shrink:0;height:48px;background:#7B1020;border-bottom:none;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
-#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:28px;color:#FFE033;-webkit-text-stroke:3px #111;letter-spacing:3px;text-shadow:2px 2px 0 #111,-2px -2px 0 #111,2px -2px 0 #111,-2px 2px 0 #111,3px 3px 0 rgba(0,0,0,0.4);paint-order:stroke fill;animation:tp 4s ease-in-out infinite;}
-#top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(0,0,0,0.75);letter-spacing:3px;}
-
-/* TAB CONTENT */
+#top-bar{flex-shrink:0;height:50px;background:#7B1020;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
+#top-bar-title{font-family:‘Lilita One’,cursive;font-size:30px;color:#FFE033;-webkit-text-stroke:2px #8b0000;letter-spacing:3px;animation:tp 3s ease-in-out infinite;}
+#top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(255,255,255,0.7);letter-spacing:3px;}
 #tab-content{flex:1;min-height:0;overflow:hidden;position:relative;}
 
-/* ====== TAB CASERMA ====== */
-#tab-caserma{
-position:absolute;inset:0;display:none;
-flex-direction:column;align-items:center;
-background:linear-gradient(180deg,#e8a020 0%,#c97a10 100%);
-overflow-y:auto;
-}
+/* CASERMA */
+#tab-caserma{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;background:linear-gradient(180deg,#e8a020,#c97a10);overflow-y:auto;}
 #tab-caserma.active{display:flex;}
-
-/* Galleria */
 #gallery{flex-shrink:0;width:100%;padding:8px 8px 4px;display:flex;gap:6px;overflow-x:auto;}
-.gal-box{flex-shrink:0;width:68px;height:68px;background:rgba(255,255,255,0.18);border-radius:6px;border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-align:center;font-family:‘Rajdhani’,sans-serif;font-weight:700;overflow:hidden;}
-.gal-box img{width:100%;height:100%;object-fit:cover;}
-
-/* Mappa */
-#map-container{width:100%;flex-shrink:0;display:flex;justify-content:center;padding:0 4px;}
-#map-wrap{position:relative;display:inline-block;}
-#map-img{display:block;width:100%;max-width:500px;}
-
-/* Porte */
+.gal-box{flex-shrink:0;width:68px;height:68px;background:rgba(255,255,255,0.88);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:8px;color:rgba(120,80,20,0.5);letter-spacing:1px;text-align:center;font-family:‘Rajdhani’,sans-serif;font-weight:700;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.gal-box img,.gal-box video{width:100%;height:100%;object-fit:cover;}
+.cas-card{width:calc(100% - 16px);margin:0 8px 8px;background:rgba(255,255,255,0.9);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.cas-card-title{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#7B1020;letter-spacing:3px;line-height:1;}
+.cas-card-sub{font-size:8px;color:rgba(120,80,20,0.5);letter-spacing:2px;margin-top:2px;}
 .door{position:absolute;cursor:pointer;width:32px;height:32px;transform:translate(-50%,-50%);z-index:10;display:flex;align-items:center;justify-content:center;}
 .door-dot{width:9px;height:9px;border-radius:2px;background:#C9A84C;opacity:0.95;flex-shrink:0;}
 .door.locked .door-dot{background:#c0392b;}
-.door.torre .door-dot{background:rgba(255,80,80,0.9);border-radius:50%;border:2px solid #ff4444;box-shadow:0 0 10px #ff4444,0 0 20px rgba(255,60,60,0.7);animation:torrepulse 0.8s ease-in-out infinite;width:11px;height:11px;}
-@keyframes torrepulse{0%,100%{opacity:1;box-shadow:0 0 8px #ff4444,0 0 18px rgba(255,60,60,0.6);}50%{opacity:0.2;box-shadow:none;}}
+.door.torre .door-dot{background:rgba(255,80,80,0.9);border-radius:50%;border:2px solid #ff4444;box-shadow:0 0 10px #ff4444;animation:torrepulse 0.8s ease-in-out infinite;width:11px;height:11px;}
 .door-tip{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(10,8,5,0.92);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 6px;font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;color:#C9A84C;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
 .door:hover .door-tip,.door:active .door-tip{opacity:1;}
-
-/* Info e bottoni caserma */
-#caserma-info{width:100%;flex-shrink:0;display:flex;gap:6px;padding:6px 8px;}
 .info-pill{flex:1;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:5px 8px;text-align:center;}
 .info-pill .lbl{font-size:7px;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase;display:block;}
 .info-pill .val{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#fff;letter-spacing:2px;}
-#extra-buttons{width:100%;flex-shrink:0;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 8px 10px;}
 .ext-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:10px 8px;text-align:center;cursor:pointer;font-family:‘Rajdhani’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.85);text-transform:uppercase;}
-.ext-btn:active{background:rgba(255,255,255,0.25);}
 
-/* ====== TAB PROFILO ====== */
-#tab-profilo{
-position:absolute;inset:0;display:none;
-flex-direction:column;
-background:linear-gradient(160deg,#e8a020 0%,#c97a10 100%);
-overflow-y:auto;padding:12px;
-}
+/* PROFILO */
+#tab-profilo{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#e8a020,#c97a10);overflow-y:auto;padding:12px;}
 #tab-profilo.active{display:flex;}
-.profilo-header{background:rgba(255,255,255,0.92);border-radius:8px;border:1px solid rgba(220,200,160,0.4);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.profilo-header{background:rgba(255,255,255,0.92);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
 .avatar-circle{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
 .profilo-info .nome{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:2px;}
 .profilo-info .grado{font-size:10px;color:rgba(120,90,30,0.6);letter-spacing:3px;text-transform:uppercase;}
-.penta-card{background:#e0e0e0;border-radius:8px;border:1px solid rgba(0,0,0,0.12);padding:12px;margin-bottom:10px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.1);}
-.penta-title{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.6);margin-bottom:8px;}
-.squadra-card{background:rgba(255,255,255,0.92);border-radius:8px;border:1px solid rgba(220,200,160,0.4);padding:12px;margin-bottom:10px;}
+.penta-card{background:rgba(255,255,255,0.92);border-radius:14px;padding:12px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.penta-title{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:8px;}
+.squadra-card{background:rgba(255,255,255,0.92);border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
 .squadra-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;cursor:pointer;}
 .squadra-nome-display{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#7B1020;letter-spacing:2px;}
 .squadra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
-.carta-pg{background:rgba(255,255,255,0.92);border:1px solid rgba(180,130,30,0.3);border-radius:6px;overflow:hidden;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
-.carta-pg.elite{border:2px solid #b8b8b8;background:linear-gradient(160deg,#f0f0f0 0%,#e2e2e2 100%);box-shadow:0 2px 8px rgba(0,0,0,0.12);}
-.carta-pg.elite .carta-nome{color:#111;}
-.carta-pg.legio{border:2px solid #c8a830;background:linear-gradient(160deg,#fffbe8 0%,#fff3c0 50%,#fffbe8 100%);background-size:200% 200%;animation:goldshine 2.8s ease-in-out infinite;box-shadow:0 0 0 1px #e8c840,0 3px 16px rgba(220,180,40,0.5),0 0 24px rgba(255,210,50,0.2);}
-@keyframes goldshine{
-0%{background-position:0% 50%;box-shadow:0 0 0 1px #e8c840,0 3px 14px rgba(220,180,40,0.4),0 0 20px rgba(255,210,50,0.15);}
-50%{background-position:100% 50%;box-shadow:0 0 0 1px #f0d850,0 3px 20px rgba(240,200,50,0.7),0 0 32px rgba(255,220,60,0.35);}
-100%{background-position:0% 50%;box-shadow:0 0 0 1px #e8c840,0 3px 14px rgba(220,180,40,0.4),0 0 20px rgba(255,210,50,0.15);}
-}
+.carta-pg{background:rgba(255,255,255,0.92);border:1px solid rgba(180,130,30,0.3);border-radius:8px;overflow:hidden;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.carta-pg.elite{border:2px solid #b8b8b8;background:linear-gradient(160deg,#f0f0f0,#e2e2e2);}
+.carta-pg.legio{border:2px solid #c8a830;background:linear-gradient(160deg,#fffbe8,#fff3c0,#fffbe8);background-size:200% 200%;animation:goldshine 2.8s ease-in-out infinite;box-shadow:0 0 0 1px #e8c840,0 3px 16px rgba(220,180,40,0.4);}
+.carta-pg.ecce{border:2px solid #c040e0;background:linear-gradient(160deg,#fdf0ff,#f5d0ff,#fdf0ff);background-size:200% 200%;animation:eccshine 2.2s ease-in-out infinite;box-shadow:0 0 0 1px #d060f0,0 3px 18px rgba(180,40,220,0.45);}
 .carta-pg.legio .carta-nome{color:#6a4800;}
-.carta-pg.ecce{border:2px solid #c040e0;background:linear-gradient(160deg,#fdf0ff 0%,#f5d0ff 50%,#fdf0ff 100%);background-size:200% 200%;animation:eccshine 2.2s ease-in-out infinite;box-shadow:0 0 0 1px #d060f0,0 3px 18px rgba(180,40,220,0.55),0 0 30px rgba(220,80,255,0.25);}
-@keyframes eccshine{
-0%{background-position:0% 50%;box-shadow:0 0 0 1px #c040e0,0 3px 16px rgba(160,30,200,0.5),0 0 24px rgba(200,60,240,0.2);}
-50%{background-position:100% 50%;box-shadow:0 0 0 1px #e060ff,0 4px 24px rgba(200,50,255,0.8),0 0 40px rgba(240,100,255,0.4);}
-100%{background-position:0% 50%;box-shadow:0 0 0 1px #c040e0,0 3px 16px rgba(160,30,200,0.5),0 0 24px rgba(200,60,240,0.2);}
-}
 .carta-pg.ecce .carta-nome{color:#6a0080;}
 .carta-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:26px;}
 .carta-nome{font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
-/* ====== TAB ZAINO ====== */
-#tab-zaino{
-position:absolute;inset:0;display:none;
-flex-direction:column;
-background:linear-gradient(160deg,#2e2e2e 0%,#1a1a1a 100%);
-overflow-y:auto;padding:12px;
-}
+/* ZAINO */
+#tab-zaino{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#2e2e2e,#1a1a1a);overflow-y:auto;padding:12px;}
 #tab-zaino.active{display:flex;}
-.zaino-empty{text-align:center;padding:40px 20px;color:rgba(200,200,200,0.35);font-family:‘Rajdhani’,sans-serif;font-size:14px;letter-spacing:2px;}
-.zaino-title{font-family:‘Bebas Neue’,sans-serif;font-size:22px;color:rgba(200,200,200,0.5);letter-spacing:4px;text-align:center;margin-bottom:16px;}
-
-/* ====== BOTTOM TAB BAR — nuovo design Apple minimalista ====== */
-#tab-bar{
-flex-shrink:0;
-height:64px;
-background:#fff;
-border-top:1px solid rgba(0,0,0,0.07);
-display:flex;
-align-items:center;
-justify-content:space-around;
-padding:0 12px;
-z-index:200;
-gap:8px;
-}
-.tab-btn{
-flex:1;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-border:none;
-background:none;
-gap:0;
-padding:0;
-}
-.tab-btn-inner{
-width:100%;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-gap:4px;
-padding:8px 6px 7px;
-border-radius:14px;
-transition:background 0.15s;
-}
-.tab-btn.active .tab-btn-inner{
-background:rgba(123,16,32,0.09);
-}
-.tab-btn .tab-ico-wrap{
-width:28px;
-height:28px;
-display:flex;
-align-items:center;
-justify-content:center;
-}
-/* SVG icons in tab bar */
-.tab-btn .tab-svg{
-width:22px;height:22px;
-stroke:rgba(120,90,30,0.35);
-fill:none;
-stroke-width:1.7;
-stroke-linecap:round;
-stroke-linejoin:round;
-transition:stroke 0.15s;
-}
-.tab-btn.active .tab-svg{stroke:#7B1020;}
-.tab-btn .tab-lbl{
-font-family:‘Rajdhani’,sans-serif;
-font-size:8px;
-font-weight:700;
-letter-spacing:2px;
-text-transform:uppercase;
-color:rgba(120,90,30,0.35);
-transition:color 0.15s;
-}
-.tab-btn.active .tab-lbl{color:#7B1020;}
-
-/* Centro (Caserma) */
-.tab-center-new{
-flex:1;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-border:none;
-background:none;
-padding:0;
-gap:0;
-}
-.tab-center-new .tab-btn-inner{
-background:#7B1020;
-border-radius:14px;
-padding:8px 6px 7px;
-width:100%;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-gap:4px;
-}
-.tab-center-new .tab-svg{stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:22px;height:22px;}
-.tab-center-new .tab-lbl{font-family:‘Bebas Neue’,sans-serif;font-size:9px;letter-spacing:3px;color:#fff;}
-
-/* ====== ZAINO ====== */
 #zaino-tabs{display:flex;gap:4px;padding:0 0 10px;flex-shrink:0;overflow-x:auto;}
 .ztab{flex-shrink:0;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(200,200,200,0.5);text-transform:uppercase;cursor:pointer;}
 .ztab.active{background:rgba(255,255,255,0.2);color:#fff;border-color:rgba(255,255,255,0.35);}
@@ -247,11 +103,89 @@ gap:4px;
 .zaino-card-nome{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(200,200,200,0.7);text-align:center;padding:4px 3px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .zaino-card-cat{font-size:7px;color:rgba(150,150,150,0.45);text-align:center;padding-bottom:4px;letter-spacing:1px;text-transform:uppercase;}
 
-/* ====== MODAL EDIFICIO ====== */
+/* COMBATTIMENTO TAB */
+#tab-combattimento{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#0a0a1a,#1a0a2e);overflow-y:auto;}
+#tab-combattimento.active{display:flex;}
+#sfidanti-header{padding:16px 16px 8px;flex-shrink:0;}
+#sfidanti-header .sh-title{font-family:‘Lilita One’,cursive;font-size:26px;color:#FFE033;-webkit-text-stroke:1px #8b0000;letter-spacing:3px;}
+#sfidanti-header .sh-sub{font-size:9px;color:rgba(180,160,255,0.5);letter-spacing:3px;text-transform:uppercase;margin-top:3px;}
+#sfidanti-list{padding:0 12px 12px;display:flex;flex-direction:column;gap:10px;}
+.sfidante-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;cursor:pointer;position:relative;overflow:hidden;}
+.sfidante-card.selected{border-color:rgba(255,80,80,0.6);background:rgba(255,40,40,0.07);}
+.sf-lvl{position:absolute;top:12px;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:10px;letter-spacing:2px;padding:2px 8px;border-radius:20px;}
+.sf-lvl.easy{background:rgba(80,200,80,0.2);color:#80ff80;border:1px solid rgba(80,200,80,0.3);}
+.sf-lvl.med{background:rgba(255,180,0,0.2);color:#ffcc44;border:1px solid rgba(255,180,0,0.3);}
+.sf-lvl.hard{background:rgba(255,60,60,0.2);color:#ff8080;border:1px solid rgba(255,60,60,0.3);}
+.sf-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.sf-avatar{width:54px;height:54px;border-radius:10px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.sf-nome{font-family:‘Bebas Neue’,sans-serif;font-size:17px;color:#fff;letter-spacing:2px;}
+.sf-grado{font-size:8px;color:rgba(180,160,255,0.5);letter-spacing:2px;text-transform:uppercase;}
+.sf-mini-grid{display:flex;gap:4px;flex-wrap:wrap;}
+.sf-mini-card{width:30px;height:30px;border-radius:5px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.sf-mini-card img{width:100%;height:100%;object-fit:cover;}
+.btn-sfida{width:100%;margin-top:10px;padding:12px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:16px;letter-spacing:5px;cursor:pointer;}
+#future-modes{padding:0 12px 16px;}
+.future-card{background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.08);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.fc-ico{font-size:22px;opacity:0.35;}
+.fc-title{font-family:‘Bebas Neue’,sans-serif;font-size:14px;color:rgba(255,255,255,0.25);letter-spacing:3px;}
+.fc-sub{font-size:8px;color:rgba(255,255,255,0.12);letter-spacing:2px;text-transform:uppercase;}
+
+/* TAB BAR */
+#tab-bar{flex-shrink:0;height:64px;background:#fff;border-top:1px solid rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:space-around;padding:0 8px;z-index:200;gap:6px;}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;cursor:pointer;border:none;background:none;padding:0;}
+.tab-btn-inner{width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 4px 6px;border-radius:14px;transition:background .15s;}
+.tab-btn.active .tab-btn-inner{background:rgba(123,16,32,0.09);}
+.tab-btn .tab-ico-wrap{width:26px;height:26px;display:flex;align-items:center;justify-content:center;}
+.tab-btn .tab-svg{width:20px;height:20px;stroke:rgba(120,90,30,0.3);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s;}
+.tab-btn.active .tab-svg{stroke:#7B1020;}
+.tab-btn .tab-lbl{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.3);transition:color .15s;}
+.tab-btn.active .tab-lbl{color:#7B1020;}
+.tab-center-new{flex:1;display:flex;flex-direction:column;align-items:center;cursor:pointer;border:none;background:none;padding:0;}
+.tab-center-new .tab-btn-inner{background:#7B1020;border-radius:14px;padding:7px 4px 6px;width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.tab-center-new .tab-svg{stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:20px;height:20px;}
+.tab-center-new .tab-lbl{font-family:‘Bebas Neue’,sans-serif;font-size:9px;letter-spacing:3px;color:#fff;}
+
+/* BATTAGLIA SCREEN */
+#battaglia-screen{display:none;position:fixed;inset:0;z-index:800;background:#000;flex-direction:column;}
+#battaglia-screen.show{display:flex;}
+#batt-header{flex-shrink:0;height:44px;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid rgba(255,255,255,0.06);}
+#batt-header-left{display:flex;flex-direction:column;}
+#batt-map-name{font-family:‘Lilita One’,cursive;font-size:14px;color:#FFE033;letter-spacing:2px;}
+#batt-vs-label{font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:2px;}
+#batt-canvas-wrap{flex:1;position:relative;overflow:hidden;}
+#batt-canvas{display:block;width:100%;height:100%;}
+
+/* HUD battaglia */
+#batt-hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:6px 8px;pointer-events:none;z-index:5;}
+.hud-side{display:flex;flex-direction:column;gap:3px;width:46%;}
+.hud-side.right{align-items:flex-end;}
+.hud-unit-bar{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.55);border-radius:4px;padding:2px 5px;}
+.hud-unit-bar.right{flex-direction:row-reverse;}
+.hub-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.hub-dot.mine{background:#fff;}
+.hub-dot.enemy{background:#ff4444;}
+.hud-hp-wrap{flex:1;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;overflow:hidden;}
+.hud-hp-fill{height:100%;border-radius:2px;transition:width .3s;}
+.hud-name{font-family:‘Rajdhani’,sans-serif;font-size:7px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60px;}
+
+/* Bottom controls */
+#batt-bottom{flex-shrink:0;background:rgba(0,0,0,0.82);border-top:1px solid rgba(255,255,255,0.06);padding:8px 10px;display:flex;flex-direction:column;gap:6px;}
+#batt-status{font-family:‘Bebas Neue’,sans-serif;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:3px;text-align:center;}
+#batt-btn-row{display:flex;gap:8px;}
+#btn-avvia-batt{flex:1;padding:11px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:15px;letter-spacing:4px;cursor:pointer;}
+#btn-avvia-batt:disabled{background:rgba(100,100,100,0.3);color:rgba(255,255,255,0.3);}
+
+/* Risultato */
+#batt-result-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:20;}
+#batt-result-overlay.show{display:flex;}
+#br-title{font-family:‘Lilita One’,cursive;font-size:52px;}
+#br-sub{font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;color:rgba(255,255,255,0.45);}
+#br-btn{padding:11px 30px;background:#7B1020;border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
+
+/* MODALI */
 #modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.72);display:none;align-items:center;justify-content:center;}
 #modal.show{display:flex;}
-#mbox{background:#fff;border-radius:10px;padding:18px 20px;width:min(320px,88vw);position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.25);animation:mIn .18s ease;}
-@keyframes mIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#mbox{background:#fff;border-radius:12px;padding:18px 20px;width:min(320px,88vw);position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.25);animation:mIn .18s ease;}
 #m-ico{font-size:28px;text-align:center;margin-bottom:3px;}
 #m-tit{font-family:‘Bebas Neue’,sans-serif;font-size:21px;color:#7B1020;letter-spacing:4px;text-align:center;}
 #m-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.4);text-align:center;margin-bottom:8px;}
@@ -259,11 +193,8 @@ gap:4px;
 #m-quo{font-size:12px;color:#9B1020;font-style:italic;text-align:center;padding:5px 9px;border-left:3px solid #7B1020;margin-bottom:12px;background:rgba(123,16,32,0.05);}
 .mb{width:100%;padding:9px;margin-bottom:5px;border:none;border-radius:4px;cursor:pointer;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;}
 .mb-p{background:#7B1020;color:#fff;}
-.mb-p:hover{background:#9B1828;}
-.mb-s{background:#f0ece0;color:rgba(120,90,30,0.7);border:1px solid rgba(180,150,80,0.3);}
+.mb-s{background:#f0ece0;color:rgba(120,90,30,0.7);}
 #m-x{position:absolute;top:10px;right:12px;background:none;border:none;color:#bbb;font-size:18px;cursor:pointer;}
-
-/* ====== STATS MODAL ====== */
 #stats-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;}
 #stats-inner{background:#fff;border-radius:12px;padding:20px 24px;width:min(300px,88vw);position:relative;}
 #stats-inner h3{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:3px;text-align:center;margin-bottom:14px;}
@@ -272,57 +203,30 @@ gap:4px;
 .stat-val{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#C9A84C;}
 .stat-lbl{font-size:8px;letter-spacing:2px;color:rgba(120,90,30,0.5);text-transform:uppercase;}
 #s-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#bbb;font-size:18px;cursor:pointer;}
-
-/* ====== MODALI SOLDATO / COLLEZIONE ====== */
 #soldato-modal,#collezione-modal{display:none;position:fixed;inset:0;z-index:650;background:rgba(0,0,0,0.78);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
-
-/* ====== COLLEZIONE — swipe down per chiudere ====== */
-#collezione-modal{touch-action:pan-x;}
-#coll-sheet{
-background:#fff;
-border-radius:12px;
-width:min(380px,95vw);
-margin:auto;
-overflow:hidden;
-box-shadow:0 20px 60px rgba(0,0,0,0.4);
-transition:transform 0.2s ease;
-transform:translateY(0);
-}
-/* Handle visivo swipe */
-#coll-handle{
-height:28px;
-background:#7B1020;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:grab;
-}
-#coll-handle-bar{
-width:36px;height:4px;
-border-radius:2px;
-background:rgba(255,255,255,0.35);
-}
-
-/* ====== REPLACE MODAL ====== */
+#coll-sheet{background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+#coll-handle{height:28px;background:#7B1020;display:flex;align-items:center;justify-content:center;cursor:grab;}
+#coll-handle-bar{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,0.35);}
 #replace-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.82);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
 #replace-modal .rm-box{background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;}
 #replace-modal .rm-head{background:#7B1020;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;}
 #replace-modal .rm-title{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#fff;letter-spacing:3px;}
 #replace-modal .rm-sub{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;letter-spacing:1px;}
 #replace-modal .rm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;}
-.rm-card{border-radius:6px;overflow:hidden;cursor:pointer;border:1px solid rgba(180,130,30,0.3);background:#fff;transition:transform .1s;}
-.rm-card:active{transform:scale(0.96);}
+.rm-card{border-radius:6px;overflow:hidden;cursor:pointer;border:1px solid rgba(180,130,30,0.3);background:#fff;}
 .rm-card.locked-card{opacity:0.45;cursor:not-allowed;}
 .rm-card .rm-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:22px;}
 .rm-card .rm-name{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
-#toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:rgba(20,12,4,0.92);border-radius:4px;padding:8px 16px;color:#C9A84C;font-family:‘Rajdhani’,sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;z-index:700;max-width:82vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
+#gerarchia-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.85);align-items:flex-start;justify-content:center;overflow-y:auto;padding:0;}
+#gerarchia-card-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;}
+#mappa-modal{display:none;position:fixed;inset:0;z-index:500;background:#000;flex-direction:column;}
+#toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:rgba(20,12,4,0.92);border-radius:4px;padding:8px 16px;color:#C9A84C;font-family:‘Rajdhani’,sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;z-index:900;max-width:82vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
 </style>
 
 </head>
 <body>
 
-<!-- ===== LOGIN ===== -->
+<!-- LOGIN -->
 
 <div id="screen-login">
   <div id="bg-login"></div>
@@ -336,72 +240,62 @@ background:rgba(255,255,255,0.35);
   </div>
 </div>
 
-<!-- ===== SCHERMATA GIOCO ===== -->
+<!-- GIOCO -->
 
 <div id="screen-map">
-
-  <!-- TOP BAR -->
-
   <div id="top-bar">
     <div id="top-bar-title">PARACA!</div>
     <div id="top-bar-name">SOLDATO</div>
   </div>
-
-  <!-- TAB CONTENT -->
-
   <div id="tab-content">
 
 ```
-<!-- TAB CASERMA -->
+<!-- CASERMA -->
 <div id="tab-caserma">
   <div id="gallery">
-    <div class="gal-box" id="gal0" onclick="apriFoto(0)"><span id="gal0-lbl">FOTO<br>1</span><input type="file" id="file0" accept="image/*,video/*" style="display:none" onchange="caricaFoto(0,this)"></div>
-    <div class="gal-box" id="gal1" onclick="apriFoto(1)"><span id="gal1-lbl">FOTO<br>2</span><input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)"></div>
-    <div class="gal-box" id="gal2" onclick="apriFoto(2)"><span id="gal2-lbl">FOTO<br>3</span><input type="file" id="file2" accept="image/*,video/*" style="display:none" onchange="caricaFoto(2,this)"></div>
-    <div class="gal-box" id="gal3" onclick="apriFoto(3)"><span id="gal3-lbl">FOTO<br>4</span><input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)"></div>
-    <div class="gal-box" id="gal4" onclick="apriFoto(4)"><span id="gal4-lbl">FOTO<br>5</span><input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)"></div>
+    <div class="gal-box" id="gal0" onclick="apriFoto(0)"><span>FOTO<br>1</span><input type="file" id="file0" accept="image/*,video/*" style="display:none" onchange="caricaFoto(0,this)"></div>
+    <div class="gal-box" id="gal1" onclick="apriFoto(1)"><span>FOTO<br>2</span><input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)"></div>
+    <div class="gal-box" id="gal2" onclick="apriFoto(2)"><span>FOTO<br>3</span><input type="file" id="file2" accept="image/*,video/*" style="display:none" onchange="caricaFoto(2,this)"></div>
+    <div class="gal-box" id="gal3" onclick="apriFoto(3)"><span>FOTO<br>4</span><input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)"></div>
+    <div class="gal-box" id="gal4" onclick="apriFoto(4)"><span>FOTO<br>5</span><input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)"></div>
   </div>
-  <div onclick="openMappaModal()" style="width:calc(100% - 16px);margin:0 8px 8px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
-    <span style="font-size:26px;">🗺️</span>
-    <div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;line-height:1;">MAPPA</div>
-      <div style="font-size:8px;color:rgba(255,255,255,0.55);letter-spacing:2px;margin-top:2px;">Esplora la caserma</div>
-    </div>
-    <div style="margin-left:auto;font-size:18px;opacity:0.5;">›</div>
+  <div class="cas-card" onclick="openMappaModal()">
+    <span style="font-size:24px;">&#128506;</span>
+    <div><div class="cas-card-title">MAPPA</div><div class="cas-card-sub">Esplora la caserma</div></div>
+    <div style="margin-left:auto;font-size:18px;color:rgba(120,80,20,0.3);">&#8250;</div>
   </div>
   <div style="width:calc(100% - 16px);margin:0 8px 8px;display:flex;gap:8px;flex-shrink:0;">
-    <div onclick="openGerarchia()" style="flex:2;aspect-ratio:1;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.2);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);letter-spacing:3px;text-align:center;">GERARCHIA</div>
+    <div onclick="openGerarchia()" style="flex:1;background:rgba(255,255,255,0.9);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.07);gap:5px;">
+      <div style="font-size:22px;">&#11088;</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#7B1020;letter-spacing:3px;text-align:center;">GERARCHIA</div>
     </div>
-    <div id="video-box" onclick="apriVideo()" style="flex:3;aspect-ratio:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.15);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;overflow:hidden;position:relative;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-align:center;">VIDEO<br>CASERMA</div>
-      <input type="file" id="file-video" accept="video/*" style="display:none" onchange="caricaVideo(this)">
+    <div onclick="switchTab('combattimento')" style="flex:1;background:linear-gradient(135deg,#150820,#280a38);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;cursor:pointer;box-shadow:0 2px 14px rgba(100,0,200,0.2);gap:5px;border:1px solid rgba(150,80,255,0.18);">
+      <div style="font-size:22px;">&#9876;&#65039;</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#C9A84C;letter-spacing:3px;text-align:center;">COMBATTIMENTO</div>
     </div>
   </div>
-  <div onclick="toast('Classifica generale — presto!')" style="width:calc(100% - 16px);margin:0 8px 12px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
-    <span style="font-size:24px;">🏆</span>
+  <div onclick="toast('Classifica generale — presto!')" style="width:calc(100% - 16px);margin:0 8px 12px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+    <span style="font-size:24px;">&#127942;</span>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;">CLASSIFICA GENERALE</div>
-    <div style="margin-left:auto;font-size:18px;opacity:0.5;">›</div>
+    <div style="margin-left:auto;font-size:18px;color:rgba(255,255,255,0.4);">&#8250;</div>
   </div>
 </div>
 
-<!-- TAB PROFILO -->
+<!-- PROFILO -->
 <div id="tab-profilo">
   <div class="profilo-header">
-    <div class="avatar-circle">🪖</div>
+    <div class="avatar-circle">&#129686;</div>
     <div class="profilo-info">
       <div class="nome" id="p-nome">SOLDATO</div>
-      <div class="grado">Soldato Semplice • Giorno <span id="p-giorno">1</span></div>
+      <div class="grado">Soldato Semplice &bull; Giorno <span id="p-giorno">1</span></div>
     </div>
   </div>
   <div class="penta-card" onclick="toggleStats()">
-    <div class="penta-title">Statistiche — tocca per dettagli</div>
+    <div class="penta-title">Statistiche &mdash; tocca per dettagli</div>
     <svg viewBox="0 0 120 116" width="100" height="84" style="display:block;margin:0 auto 4px;">
-      <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.5"/>
-      <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(0,0,0,0.15)" stroke="rgba(0,0,0,0.65)" stroke-width="1.5"/>
-      <circle cx="60" cy="6" r="3" fill="#333"/><circle cx="114" cy="44" r="3" fill="#333"/>
-      <circle cx="94" cy="106" r="3" fill="#333"/><circle cx="26" cy="106" r="3" fill="#333"/>
-      <circle cx="6" cy="44" r="3" fill="#333"/>
+      <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>
+      <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(0,0,0,0.1)" stroke="rgba(0,0,0,0.5)" stroke-width="1.5"/>
+      <circle cx="60" cy="6" r="3" fill="#333"/><circle cx="114" cy="44" r="3" fill="#333"/><circle cx="94" cy="106" r="3" fill="#333"/><circle cx="26" cy="106" r="3" fill="#333"/><circle cx="6" cy="44" r="3" fill="#333"/>
     </svg>
   </div>
   <div class="squadra-card">
@@ -410,22 +304,22 @@ background:rgba(255,255,255,0.35);
         <div style="font-size:7px;letter-spacing:3px;color:rgba(120,90,30,0.45);text-transform:uppercase;">Squadra</div>
         <div class="squadra-nome-display" id="squadra-nome">SCEGLI NOME</div>
       </div>
-      <div style="font-size:16px;">✏️</div>
+      <div style="font-size:16px;">&#9999;&#65039;</div>
     </div>
     <div class="squadra-grid" id="squadra-grid"></div>
     <div onclick="openCollezione()" style="margin:10px 0 0;border-radius:8px;overflow:hidden;cursor:pointer;">
-      <div style="background:linear-gradient(135deg,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.15) 100%);border:1px solid rgba(255,255,255,0.2);height:56px;display:flex;align-items:center;justify-content:center;">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(255,255,255,0.85);">TUTTE LE TRUPPE</span>
+      <div style="background:rgba(0,0,0,0.08);height:50px;display:flex;align-items:center;justify-content:center;border-radius:8px;">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(80,40,10,0.6);">TUTTE LE TRUPPE</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- TAB ZAINO -->
+<!-- ZAINO -->
 <div id="tab-zaino">
   <div style="display:flex;flex-direction:column;height:100%;padding:10px 10px 0;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(200,200,200,0.6);letter-spacing:4px;margin-bottom:8px;flex-shrink:0;">ZAINO</div>
-    <input id="zaino-search" type="text" placeholder="🔍  Cerca equipaggiamento..." oninput="zainoRicerca=this.value;renderZaino()">
+    <input id="zaino-search" type="text" placeholder="Cerca equipaggiamento..." oninput="zainoRicerca=this.value;renderZaino()">
     <div id="zaino-tabs">
       <div class="ztab active" data-cat="tutto" onclick="setZainoCat('tutto')">Tutto</div>
       <div class="ztab" data-cat="armi" onclick="setZainoCat('armi')">Armi</div>
@@ -437,69 +331,93 @@ background:rgba(255,255,255,0.35);
     <div id="zaino-grid"></div>
   </div>
 </div>
+
+<!-- COMBATTIMENTO -->
+<div id="tab-combattimento">
+  <div id="sfidanti-header">
+    <div class="sh-title">&#9876;&#65039; COMBATTIMENTO</div>
+    <div class="sh-sub">Scegli il tuo avversario</div>
+  </div>
+  <div id="sfidanti-list"></div>
+  <div id="future-modes">
+    <div class="future-card">
+      <div class="fc-ico">&#127760;</div>
+      <div><div class="fc-title">SFIDA ONLINE</div><div class="fc-sub">Prossimamente</div></div>
+    </div>
+  </div>
+</div>
 ```
 
-  </div><!-- fine tab-content -->
+  </div>
 
-  <!-- BOTTOM TAB BAR — nuovo design minimalista Apple -->
+  <!-- TAB BAR -->
 
   <div id="tab-bar">
-    <!-- PROFILO -->
     <button class="tab-btn" id="tbtn-profilo" onclick="switchTab('profilo')">
       <div class="tab-btn-inner">
-        <div class="tab-ico-wrap">
-          <svg class="tab-svg" viewBox="0 0 24 24">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-        </div>
+        <div class="tab-ico-wrap"><svg class="tab-svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
         <span class="tab-lbl">Profilo</span>
       </div>
     </button>
-    <!-- CASERMA (centro) -->
     <button class="tab-center-new" id="tbtn-caserma" onclick="switchTab('caserma')">
       <div class="tab-btn-inner">
-        <div class="tab-ico-wrap">
-          <svg class="tab-svg" viewBox="0 0 24 24">
-            <rect x="3" y="10" width="18" height="11" rx="2"/>
-            <path d="M3 10l9-7 9 7"/>
-            <rect x="9" y="14" width="6" height="7" rx="1"/>
-          </svg>
-        </div>
+        <div class="tab-ico-wrap"><svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="11" rx="2"/><path d="M3 10l9-7 9 7"/><rect x="9" y="14" width="6" height="7" rx="1"/></svg></div>
         <span class="tab-lbl">Caserma</span>
       </div>
     </button>
-    <!-- ZAINO -->
     <button class="tab-btn" id="tbtn-zaino" onclick="switchTab('zaino')">
       <div class="tab-btn-inner">
-        <div class="tab-ico-wrap">
-          <svg class="tab-svg" viewBox="0 0 24 24">
-            <path d="M9 4a3 3 0 0 1 6 0"/>
-            <rect x="4" y="6" width="16" height="15" rx="3"/>
-            <path d="M4 11h16"/>
-          </svg>
-        </div>
+        <div class="tab-ico-wrap"><svg class="tab-svg" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 1 6 0"/><rect x="4" y="6" width="16" height="15" rx="3"/><path d="M4 11h16"/></svg></div>
         <span class="tab-lbl">Zaino</span>
       </div>
     </button>
   </div>
+</div>
 
-</div><!-- fine screen-map -->
+<!-- BATTAGLIA SCREEN - Canvas based -->
 
-<!-- MODAL MAPPA CASERMA -->
-
-<div id="mappa-modal" style="display:none;position:fixed;inset:0;z-index:500;background:#000;flex-direction:column;">
-  <div style="flex-shrink:0;height:46px;background:#7B1020;display:flex;align-items:center;justify-content:space-between;padding:0 12px;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">🗺️ CASERMA</div>
-    <button onclick="closeMappaModal()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">✕</button>
+<div id="battaglia-screen">
+  <div id="batt-header">
+    <div id="batt-header-left">
+      <div id="batt-map-name">VALLE PUNGIONE</div>
+      <div id="batt-vs-label">VS —</div>
+    </div>
+    <button onclick="closeBattaglia()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:22px;cursor:pointer;">&#10005;</button>
   </div>
-  <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;background:linear-gradient(180deg,#e8a020 0%,#c97a10 100%);">
+  <div id="batt-canvas-wrap">
+    <canvas id="batt-canvas"></canvas>
+    <div id="batt-hud">
+      <div class="hud-side" id="hud-mine"></div>
+      <div class="hud-side right" id="hud-enemy"></div>
+    </div>
+    <div id="batt-result-overlay">
+      <div id="br-title">VITTORIA!</div>
+      <div id="br-sub">Hai conquistato Valle Pungione</div>
+      <button id="br-btn" onclick="closeBattaglia()">TORNA INDIETRO</button>
+    </div>
+  </div>
+  <div id="batt-bottom">
+    <div id="batt-status">Premi COMBATTI per iniziare</div>
+    <div id="batt-btn-row">
+      <button id="btn-avvia-batt" onclick="avviaBattaglia()">&#9876;&#65039; COMBATTI!</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAPPA MODAL -->
+
+<div id="mappa-modal">
+  <div style="flex-shrink:0;height:46px;background:#7B1020;display:flex;align-items:center;justify-content:space-between;padding:0 12px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">&#128506; CASERMA</div>
+    <button onclick="closeMappaModal()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">&#10005;</button>
+  </div>
+  <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;background:linear-gradient(180deg,#e8a020,#c97a10);">
     <div id="map-container" style="width:100%;flex-shrink:0;display:flex;justify-content:center;padding:4px 4px 0;">
       <div id="map-wrap" style="position:relative;display:inline-block;">
         <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma" style="display:block;width:100%;max-width:500px;">
       </div>
     </div>
-    <div id="caserma-info" style="width:100%;display:flex;gap:6px;padding:6px 8px;flex-shrink:0;">
+    <div style="width:100%;display:flex;gap:6px;padding:6px 8px;flex-shrink:0;">
       <div class="info-pill"><span class="lbl">Giorno</span><span class="val" id="dv">1</span></div>
       <div class="info-pill"><span class="lbl">Grado</span><span class="val">Soldato</span></div>
     </div>
@@ -511,15 +429,15 @@ background:rgba(255,255,255,0.35);
   </div>
 </div>
 
-<!-- MODAL GERARCHIA -->
+<!-- GERARCHIA -->
 
-<div id="gerarchia-modal" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.85);align-items:flex-start;justify-content:center;overflow-y:auto;padding:0;">
+<div id="gerarchia-modal">
   <div style="background:#fff;width:100%;min-height:100%;position:relative;">
     <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">⭐ GERARCHIA</div>
-      <button onclick="closeGerarchia()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">✕</button>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">&#11088; GERARCHIA</div>
+      <button onclick="closeGerarchia()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">&#10005;</button>
     </div>
-    <div style="display:flex;height:8px;flex-shrink:0;">
+    <div style="display:flex;height:8px;">
       <div style="flex:1;background:#009246;"></div>
       <div style="flex:1;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;"></div>
       <div style="flex:1;background:#CE2B37;"></div>
@@ -527,225 +445,580 @@ background:rgba(255,255,255,0.35);
     <div id="gerarchia-piramide" style="padding:12px 10px 20px;display:flex;flex-direction:column;gap:6px;"></div>
   </div>
 </div>
-
-<!-- MODAL CARTA GERARCHIA (swipe orizzontale, tap fuori per chiudere, no X) -->
-
-<div id="gerarchia-card-modal" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;">
+<div id="gerarchia-card-modal">
   <div id="gc-box" style="background:#fff;border-radius:12px;width:min(340px,92vw);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);animation:mIn .2s ease;touch-action:pan-y;">
-    <!-- Swipe dots -->
     <div style="background:#7B1020;padding:8px;display:flex;justify-content:center;gap:6px;">
       <div id="gc-dot-0" style="width:6px;height:6px;border-radius:50%;background:#C9A84C;"></div>
       <div id="gc-dot-1" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);"></div>
     </div>
-    <!-- Pagina 0: carta -->
     <div id="gc-page-0">
-      <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;gap:12px;position:relative;">
-        <div id="gc-avatar" style="width:88px;height:88px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;overflow:hidden;">👤</div>
+      <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+        <div id="gc-avatar" style="width:88px;height:88px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;overflow:hidden;">&#128100;</div>
         <div>
-          <div id="gc-grado" style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:2px;">Grado</div>
-          <div id="gc-nome" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:2px;line-height:1.1;">NOME</div>
+          <div id="gc-grado" style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:2px;"></div>
+          <div id="gc-nome" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:2px;line-height:1.1;"></div>
         </div>
       </div>
       <div style="padding:14px 16px;">
         <div id="gc-ruolo" style="font-size:11px;color:#7B1020;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;"></div>
         <div id="gc-desc" style="font-size:13px;color:#555;line-height:1.5;"></div>
       </div>
-      <div style="padding:0 16px 10px;text-align:right;">
-        <span style="font-size:10px;color:rgba(120,90,30,0.45);letter-spacing:2px;">scorri › STORIA</span>
-      </div>
+      <div style="padding:0 16px 10px;text-align:right;"><span style="font-size:10px;color:rgba(120,90,30,0.4);letter-spacing:2px;">scorri &rsaquo; STORIA</span></div>
     </div>
-    <!-- Pagina 1: storia -->
     <div id="gc-page-1" style="display:none;">
-      <div style="background:#f8f4ec;padding:14px 16px;border-bottom:1px solid rgba(180,150,80,0.2);display:flex;align-items:center;gap:8px;">
+      <div style="background:#f8f4ec;padding:14px 16px;border-bottom:1px solid rgba(180,150,80,0.2);">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:#7B1020;letter-spacing:3px;">STORIA</div>
       </div>
-      <div style="padding:14px 16px;">
-        <div id="gc-storia" style="font-size:13px;color:#444;line-height:1.7;font-style:italic;"></div>
-      </div>
-      <div style="padding:0 16px 14px;text-align:center;">
-        <span style="font-size:10px;color:rgba(120,90,30,0.45);letter-spacing:2px;">scorri › per chiudere</span>
-      </div>
+      <div style="padding:14px 16px;"><div id="gc-storia" style="font-size:13px;color:#444;line-height:1.7;font-style:italic;"></div></div>
+      <div style="padding:0 16px 14px;text-align:center;"><span style="font-size:10px;color:rgba(120,90,30,0.4);letter-spacing:2px;">scorri &rsaquo; per chiudere</span></div>
     </div>
   </div>
 </div>
 
 <!-- MODAL EDIFICIO -->
 
-<div id="modal">
-  <div id="mbox">
-    <button id="m-x">✕</button>
-    <div id="m-ico"></div><div id="m-tit"></div><div id="m-sub"></div>
-    <div id="m-dsc"></div><div id="m-quo"></div><div id="m-act"></div>
+<div id="modal"><div id="mbox">
+  <button id="m-x">&#10005;</button>
+  <div id="m-ico"></div><div id="m-tit"></div><div id="m-sub"></div>
+  <div id="m-dsc"></div><div id="m-quo"></div><div id="m-act"></div>
+</div></div>
+
+<!-- STATS -->
+
+<div id="stats-modal"><div id="stats-inner">
+  <button id="s-close" onclick="toggleStats()">&#10005;</button>
+  <h3>STATISTICHE</h3>
+  <svg id="radar-chart" viewBox="0 0 200 200" width="180" height="180" style="display:block;margin:0 auto 10px;">
+    <polygon points="100,10 181,68 152,165 48,165 19,68" fill="none" stroke="#eee" stroke-width="1"/>
+    <polygon points="100,37 158,79 137,151 63,151 42,79" fill="none" stroke="#eee" stroke-width="1"/>
+    <polygon points="100,64 135,90 122,137 78,137 65,90" fill="none" stroke="#eee" stroke-width="1"/>
+    <line x1="100" y1="10" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/><line x1="181" y1="68" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+    <line x1="152" y1="165" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/><line x1="48" y1="165" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+    <line x1="19" y1="68" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+    <polygon id="radar-area" points="100,10 181,68 152,165 48,165 19,68" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="2"/>
+    <text x="100" y="6" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">FORZA</text>
+    <text x="190" y="70" text-anchor="start" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">QI</text>
+    <text x="162" y="178" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">MOTIV</text>
+    <text x="38" y="178" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">SPIRITO</text>
+    <text x="8" y="70" text-anchor="end" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">DI</text>
+  </svg>
+  <div class="stats-row">
+    <div class="stat-item"><div class="stat-val" id="s-for">10</div><div class="stat-lbl">FORZA</div></div>
+    <div class="stat-item"><div class="stat-val" id="s-qi">10</div><div class="stat-lbl">QI</div></div>
+    <div class="stat-item"><div class="stat-val" id="s-mot">10</div><div class="stat-lbl">MOTIV</div></div>
+    <div class="stat-item"><div class="stat-val" id="s-spi">10</div><div class="stat-lbl">SPIRITO</div></div>
+    <div class="stat-item"><div class="stat-val" id="s-di">10</div><div class="stat-lbl">DI</div></div>
   </div>
-</div>
+</div></div>
 
-<!-- STATS MODAL -->
+<!-- COLLEZIONE -->
 
-<div id="stats-modal">
-  <div id="stats-inner">
-    <button id="s-close" onclick="toggleStats()">✕</button>
-    <h3>STATISTICHE</h3>
-    <svg id="radar-chart" viewBox="0 0 200 200" width="180" height="180" style="display:block;margin:0 auto 10px;">
-      <polygon points="100,10 181,68 152,165 48,165 19,68" fill="none" stroke="#eee" stroke-width="1"/>
-      <polygon points="100,37 158,79 137,151 63,151 42,79" fill="none" stroke="#eee" stroke-width="1"/>
-      <polygon points="100,64 135,90 122,137 78,137 65,90" fill="none" stroke="#eee" stroke-width="1"/>
-      <line x1="100" y1="10" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
-      <line x1="181" y1="68" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
-      <line x1="152" y1="165" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
-      <line x1="48" y1="165" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
-      <line x1="19" y1="68" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
-      <polygon id="radar-area" points="100,10 181,68 152,165 48,165 19,68" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="2"/>
-      <text x="100" y="6" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">FORZA</text>
-      <text x="190" y="70" text-anchor="start" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">QI</text>
-      <text x="162" y="178" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">MOTIV</text>
-      <text x="38" y="178" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">SPIRITO</text>
-      <text x="8" y="70" text-anchor="end" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">DI</text>
-    </svg>
-    <div class="stats-row">
-      <div class="stat-item"><div class="stat-val" id="s-for">10</div><div class="stat-lbl">FORZA</div></div>
-      <div class="stat-item"><div class="stat-val" id="s-qi">10</div><div class="stat-lbl">QI</div></div>
-      <div class="stat-item"><div class="stat-val" id="s-mot">10</div><div class="stat-lbl">MOTIV</div></div>
-      <div class="stat-item"><div class="stat-val" id="s-spi">10</div><div class="stat-lbl">SPIRITO</div></div>
-      <div class="stat-item"><div class="stat-val" id="s-di">10</div><div class="stat-lbl">DI</div></div>
-    </div>
+<div id="collezione-modal"><div id="coll-sheet">
+  <div id="coll-handle"><div id="coll-handle-bar"></div></div>
+  <div style="background:#7B1020;padding:10px 16px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:3px;">COLLEZIONE TRUPPE</div>
   </div>
-</div>
+  <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
+</div></div>
 
-<!-- MODAL COLLEZIONE — swipe down per chiudere, no X -->
-
-<div id="collezione-modal">
-  <div id="coll-sheet">
-    <div id="coll-handle">
-      <div id="coll-handle-bar"></div>
-    </div>
-    <div style="background:#7B1020;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:3px;">COLLEZIONE TRUPPE</div>
-    </div>
-    <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
-  </div>
-</div>
-
-<!-- MODAL SOLDATO -->
+<!-- SOLDATO -->
 
 <div id="soldato-modal">
   <div style="background:#fff;border-radius:12px;width:min(340px,92vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:mIn .2s ease;">
     <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;gap:12px;position:relative;">
-      <button onclick="closeSoldato()" style="position:absolute;top:8px;right:10px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;">✕</button>
-      <div id="sm-avatar" style="width:64px;height:64px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;overflow:hidden;">👤</div>
+      <button onclick="closeSoldato()" style="position:absolute;top:8px;right:10px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;">&#10005;</button>
+      <div id="sm-avatar" style="width:64px;height:64px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;overflow:hidden;">&#128100;</div>
       <div>
-        <div id="sm-ruolo" style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:2px;">Ruolo</div>
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><div id="sm-nome" style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:2px;line-height:1;">SOLDATO</div><div id="sm-elite-badge" style="display:none;background:linear-gradient(135deg,#c0c0c0,#e0e0e0);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#111;">ELITE</div><div id="sm-legio-badge" style="display:none;background:linear-gradient(135deg,#d4a820,#f0cc50);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#5a3a00;animation:goldshine 2s ease-in-out infinite;">LEGIONARIO</div><div id="sm-ecce-badge" style="display:none;background:linear-gradient(135deg,#c040e0,#f060ff);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#fff;animation:eccshine 2s ease-in-out infinite;">ECCEZIONALE</div></div>
+        <div id="sm-ruolo" style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:2px;"></div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <div id="sm-nome" style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:2px;">SOLDATO</div>
+          <div id="sm-elite-badge" style="display:none;background:linear-gradient(135deg,#c0c0c0,#e0e0e0);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#111;">ELITE</div>
+          <div id="sm-legio-badge" style="display:none;background:linear-gradient(135deg,#d4a820,#f0cc50);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#5a3a00;animation:goldshine 2s ease-in-out infinite;">LEGIONARIO</div>
+          <div id="sm-ecce-badge" style="display:none;background:linear-gradient(135deg,#c040e0,#f060ff);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#fff;animation:eccshine 2s ease-in-out infinite;">ECCEZIONALE</div>
+        </div>
         <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
           <div style="font-size:9px;color:rgba(255,255,255,0.5);">LV</div>
           <div id="sm-lv" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;">1</div>
-          <div style="flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden;">
-            <div id="sm-xpbar" style="height:100%;background:#C9A84C;width:20%;border-radius:2px;"></div>
-          </div>
+          <div style="flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden;"><div id="sm-xpbar" style="height:100%;background:#C9A84C;width:20%;border-radius:2px;"></div></div>
         </div>
       </div>
     </div>
     <div style="padding:12px 14px;border-bottom:1px solid #f0ece0;">
-      <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Abilità</div>
+      <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Abilita e Statistiche Combattimento</div>
       <div id="sm-mosse" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"></div>
     </div>
     <div style="padding:12px 14px;">
-      <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Statistiche</div>
       <div style="display:flex;align-items:center;gap:12px;">
         <svg id="sm-radar" viewBox="0 0 120 116" width="90" height="87" style="flex-shrink:0;">
           <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="#eee" stroke-width="1.5"/>
           <polygon points="60,28 89,48 79,84 41,84 31,48" fill="none" stroke="#eee" stroke-width="1"/>
           <polygon id="sm-radar-poly" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1.5"/>
-          <circle cx="60" cy="6" r="2.5" fill="#C9A84C"/><circle cx="114" cy="44" r="2.5" fill="#C9A84C"/>
-          <circle cx="94" cy="106" r="2.5" fill="#C9A84C"/><circle cx="26" cy="106" r="2.5" fill="#C9A84C"/>
-          <circle cx="6" cy="44" r="2.5" fill="#C9A84C"/>
+          <circle cx="60" cy="6" r="2.5" fill="#C9A84C"/><circle cx="114" cy="44" r="2.5" fill="#C9A84C"/><circle cx="94" cy="106" r="2.5" fill="#C9A84C"/><circle cx="26" cy="106" r="2.5" fill="#C9A84C"/><circle cx="6" cy="44" r="2.5" fill="#C9A84C"/>
         </svg>
         <div style="flex:1;display:flex;flex-direction:column;gap:5px;" id="sm-stats-list"></div>
       </div>
     </div>
     <div style="padding:10px 14px 14px;">
-      <button id="sm-replace-btn" style="display:none;width:100%;padding:10px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;">⇄ SOSTITUISCI</button>
+      <button id="sm-replace-btn" style="display:none;width:100%;padding:10px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;">&#8644; SOSTITUISCI</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL SOSTITUZIONE CARTA -->
+<!-- REPLACE -->
 
-<div id="replace-modal">
-  <div class="rm-box">
-    <div class="rm-head">
-      <div>
-        <div class="rm-title">SOSTITUISCI CARTA</div>
-        <div class="rm-sub" id="rm-slot-label">Slot squadra</div>
-      </div>
-      <button onclick="closeReplace()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer;">✕</button>
-    </div>
-    <div class="rm-grid" id="rm-grid"></div>
+<div id="replace-modal"><div class="rm-box">
+  <div class="rm-head">
+    <div><div class="rm-title">SOSTITUISCI CARTA</div><div class="rm-sub" id="rm-slot-label"></div></div>
+    <button onclick="closeReplace()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer;">&#10005;</button>
   </div>
-</div>
+  <div class="rm-grid" id="rm-grid"></div>
+</div></div>
 
 <div id="toast"></div>
 
 <script>
+// ==================== DATI ====================
 const MW=1183,MH=1330;
 const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!","Non sei idoneo alla vita!","Ti devi muovere!","Sei massiccio cazzo!","Eccezzionale!","Serra piombo!","Jonny andiamo!","Weee naja!","Cagnaccio!","Vecchio!","Liberta per gli ultra!"];
 const player={nome:'',cognome:'',forza:10,spirito:10,di:10,motiv:10,qi:10,giorno:1};
 let scaleX=1,scaleY=1,currentTab='caserma';
 
+// Statistiche combattimento per truppa
+// hp, velocita(px/frame), precisione(0-1), danno, cadenza(ms tra colpi), tipo('fucile'|'mortaio')
+const TROOP_STATS={
+  normale:   {hp:60,  vel:0.4, prec:0.52, danno:8,  cadenza:1800, tipo:'fucile'},
+  elite:     {hp:100, vel:0.55,prec:0.72, danno:14, cadenza:1400, tipo:'fucile'},
+  legionario:{hp:140, vel:0.65,prec:0.82, danno:20, cadenza:1200, tipo:'fucile'},
+  eccezionale:{hp:200,vel:0.75,prec:0.92, danno:28, cadenza:900,  tipo:'fucile'},
+  mortaio:   {hp:80,  vel:0.3, prec:0.42, danno:45, cadenza:3500, tipo:'mortaio', mortaioRange:80}
+};
+
+const squadraData=[
+  {nome:'LACAN',ruolo:'Soldato Semplice',lv:1,xp:15,forza:11,qi:10,motiv:9,spirito:11,di:10,tipoTruppa:'normale',mosse:[{nome:'Fuoco Naja',atk:8},{nome:'Orientamento Assente',atk:4},{nome:'Esaurimento',atk:6},{nome:'Sigaretta Fichetta',atk:3}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/195A7AB0-5F41-4D88-8908-44BE45EB2339.png'},
+  {nome:'SONNY THE PARATROOPER',ruolo:'Soldato Semplice',lv:1,xp:20,forza:10,qi:11,motiv:14,spirito:12,di:10,tipoTruppa:'normale',mosse:[{nome:'Piegamenti',atk:7},{nome:'Fuga dalla Valle',atk:5},{nome:'Sputo Lontano',atk:6},{nome:'Passo del Leopardo',atk:9}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5180A3B8-0E69-45CB-A7D0-DF56A79B1343.png'},
+  {nome:'CAVADDU',ruolo:'Soldato Semplice',lv:1,xp:10,forza:12,qi:9,motiv:11,spirito:10,di:11,tipoTruppa:'normale',mosse:[{nome:'Scarpone Pesante',atk:10},{nome:'Braccio di Ferro',atk:8},{nome:'Mossa Alcolica',atk:6},{nome:'Sigaro Pesante',atk:5}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5858ECB1-25D9-4EB5-927E-5ADC6BD28D26.png'},
+  {nome:'HUGLY DIGGER',ruolo:'Soldato Semplice',lv:1,xp:8,forza:14,qi:8,motiv:10,spirito:9,di:12,tipoTruppa:'normale',mosse:[{nome:'Scava Tasso',atk:7},{nome:'Schaffo del Paraca',atk:12},{nome:'Bomba a Mano',atk:15},{nome:'Puzzo di Morte',atk:8}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C7A82DCE-09D3-45B2-A9B8-E77B8AB64BB7.png'},
+  {nome:'KASKOMATOM',ruolo:'Soldato Semplice',lv:1,xp:12,forza:10,qi:12,motiv:11,spirito:10,di:13,tipoTruppa:'normale',mosse:[{nome:'Tappacessi',atk:6},{nome:'Sturacessi',atk:6},{nome:'Multiuso',atk:9},{nome:'Forza del Monte',atk:11}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D423AE7B-E843-4B09-9722-AE44A25E1A43.png'},
+  {nome:'FUNNYBOY',ruolo:'Soldato Semplice',lv:1,xp:18,forza:9,qi:10,motiv:13,spirito:13,di:9,tipoTruppa:'normale',mosse:[{nome:'Fascino',atk:5},{nome:'Fantasma',atk:8},{nome:'Lupo Grigio',atk:10},{nome:'Graffio del Gattino',atk:7}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E314AAA3-3066-4467-9FFB-AFC02998F90D.png'},
+];
+const eliteData=[
+  {nome:'SOLDATO MOSTRO GIU GIU',ruolo:'Elite',lv:3,xp:45,forza:17,qi:9,motiv:14,spirito:12,di:15,tipoTruppa:'elite',mosse:[{nome:'Schaffo del Paraca',atk:18},{nome:'Bomba a Mano',atk:22},{nome:'Puzzo di Morte',atk:14},{nome:'Fuoco Naja',atk:16}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/938AC1FB-D867-4415-9396-721C033C8380.png',elite:true},
+  {nome:'BAU BAU',ruolo:'Elite',lv:3,xp:60,forza:15,qi:13,motiv:11,spirito:14,di:16,tipoTruppa:'elite',mosse:[{nome:'Lupo Grigio',atk:16},{nome:'Fantasma',atk:14},{nome:'Passo del Leopardo',atk:18},{nome:'Scava Tasso',atk:12}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DF448FA1-2FE5-4D32-B19A-0E737B6AE2F2.png',elite:true},
+  {nome:'MENDEL',ruolo:'Elite',lv:3,xp:55,forza:18,qi:11,motiv:13,spirito:10,di:14,tipoTruppa:'mortaio',mosse:[{nome:'Forza del Monte',atk:30},{nome:'Braccio di Ferro',atk:25},{nome:'Scarpone Pesante',atk:20},{nome:'Mortaio Pesante',atk:45}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C15ADB13-D46F-40E9-816C-584DE83F0D8D.png',elite:true},
+  {nome:'GATTUSARDU',ruolo:'Elite',lv:3,xp:50,forza:14,qi:15,motiv:16,spirito:13,di:17,tipoTruppa:'elite',mosse:[{nome:'Graffio del Gattino',atk:15},{nome:'Fascino',atk:12},{nome:'Mossa Alcolica',atk:14},{nome:'Sigaro Pesante',atk:10}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/BE59E4A0-977C-4003-ABC1-876453330D32.png',elite:true},
+  {nome:'DOMINIK',ruolo:'Elite',lv:3,xp:48,forza:13,qi:14,motiv:16,spirito:12,di:13,tipoTruppa:'elite',mosse:[{nome:'Mossa Alcolica',atk:14},{nome:'Fascino',atk:12},{nome:'Fuga dalla Valle',atk:16},{nome:'Sputo Lontano',atk:10}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8B8145C7-F9DE-4DE0-BC58-2F81A74CA4CE.png',elite:true},
+  {nome:'MACHO DIGGER',ruolo:'Elite',lv:3,xp:52,forza:19,qi:10,motiv:12,spirito:11,di:15,tipoTruppa:'elite',mosse:[{nome:'Scava Tasso',atk:16},{nome:'Braccio di Ferro',atk:18},{nome:'Scarpone Pesante',atk:14},{nome:'Forza del Monte',atk:20}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C5A990F4-89E0-48E5-9C74-648C2391D095.png',elite:true},
+];
+const tutteCarte=[...squadraData,...eliteData];
+const legioData=[
+  {nome:'FRANKIE BLUE',ruolo:'Legionario',lv:5,xp:80,forza:15,qi:17,motiv:14,spirito:16,di:18,tipoTruppa:'legionario',mosse:[{nome:'Fantasma',atk:22},{nome:'Passo del Leopardo',atk:24},{nome:'Orientamento Assente',atk:16},{nome:'Fuoco Naja',atk:20}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/82D42B3B-8AA0-4AB1-B4C3-0410AF76D752.png',legio:true},
+  {nome:'DECIO',ruolo:'Legionario',lv:5,xp:75,forza:17,qi:15,motiv:18,spirito:13,di:16,tipoTruppa:'legionario',mosse:[{nome:'Schaffo del Paraca',atk:24},{nome:'Bomba a Mano',atk:28},{nome:'Lupo Grigio',atk:20},{nome:'Forza del Monte',atk:22}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/7D62F215-1B50-40C9-B60B-E71D6B1D2E5E.png',legio:true},
+  {nome:'ARMANDO',ruolo:'Legionario',lv:5,xp:90,forza:16,qi:18,motiv:15,spirito:17,di:14,tipoTruppa:'legionario',mosse:[{nome:'Fantasma',atk:20},{nome:'Graffio del Gattino',atk:22},{nome:'Multiuso',atk:18},{nome:'Sturacessi',atk:16}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/1E90A1F2-E03F-4CCD-AA43-5A2E6268E21B.png',legio:true},
+  {nome:'DINAMITARO',ruolo:'Legionario',lv:5,xp:85,forza:18,qi:14,motiv:17,spirito:12,di:19,tipoTruppa:'mortaio',mosse:[{nome:'Bomba a Mano',atk:28},{nome:'Tappacessi',atk:18},{nome:'Scava Tasso',atk:20},{nome:'Mortaio Pesante',atk:55}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D4EB0AF0-9F22-4531-88C5-39A9DFE6F3DF.png',legio:true},
+  {nome:'FILUEFERRU',ruolo:'Legionario',lv:5,xp:88,forza:16,qi:13,motiv:19,spirito:17,di:15,tipoTruppa:'legionario',mosse:[{nome:'Fuoco Naja',atk:20},{nome:'Fuga dalla Valle',atk:22},{nome:'Fascino',atk:18},{nome:'Graffio del Gattino',atk:24}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/54926765-D9FF-4CE2-BFCA-BEA26D3A0DA1.png',legio:true},
+];
+tutteCarte.push(...legioData);
+const ecceData=[{nome:'GAAR',ruolo:'Eccezionale',lv:8,xp:99,forza:19,qi:19,motiv:20,spirito:18,di:20,tipoTruppa:'eccezionale',mosse:[{nome:'Fascino',atk:35},{nome:'Lupo Grigio',atk:30},{nome:'Schaffo del Paraca',atk:40},{nome:'Fuoco Naja',atk:28}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DA827B70-4C54-4CFC-B898-C7F675CAE15D.png',ecce:true}];
+tutteCarte.push(...ecceData);
+
+// ==================== SFIDANTI ====================
+const SFIDANTI=[
+  {id:0,nome:'VFI GENERICO MEDIO',grado:'Volontario in Ferma Iniziale',ico:'&#128528;',lvl:'easy',lvlLabel:'FACILE',pool:[...squadraData]},
+  {id:1,nome:'SERGENTE BRUCIAPELO',grado:'Sergente',ico:'&#128548;',lvl:'med',lvlLabel:'MEDIO',pool:[...squadraData,...eliteData]},
+  {id:2,nome:'TENENTE COLOMBRELLO',grado:'Tenente',ico:'&#128520;',lvl:'hard',lvlLabel:'DIFFICILE',pool:[...tutteCarte]},
+];
+let sfidanteSelezionato=null;
+let sfidanteCorrente=null;
+
+function shuffle(a){return[...a].sort(()=>Math.random()-0.5);}
+function getRandCards(pool,n){return shuffle(pool).slice(0,Math.min(n,pool.length));}
+
+function buildSfidanti(){
+  const list=document.getElementById('sfidanti-list');list.innerHTML='';
+  SFIDANTI.forEach(sf=>{
+    const prev=getRandCards(sf.pool,6);
+    const mini=prev.map(c=>`<div class="sf-mini-card">${c.img?`<img src="${c.img}">`:'&#128100;'}</div>`).join('');
+    const div=document.createElement('div');div.className='sfidante-card';div.id='sf-card-'+sf.id;
+    div.innerHTML=`<div class="sf-lvl ${sf.lvl}">${sf.lvlLabel}</div>
+      <div class="sf-top"><div class="sf-avatar">${sf.ico}</div>
+      <div><div class="sf-nome">${sf.nome}</div><div class="sf-grado">${sf.grado}</div></div></div>
+      <div class="sf-mini-grid">${mini}</div>`;
+    div.onclick=()=>selezionaSfidante(sf.id);
+    list.appendChild(div);
+  });
+}
+function selezionaSfidante(id){
+  const was=sfidanteSelezionato===id;
+  document.querySelectorAll('.sfidante-card').forEach(c=>{c.classList.remove('selected');const b=c.querySelector('.btn-sfida');if(b)b.remove();});
+  if(was){sfidanteSelezionato=null;return;}
+  sfidanteSelezionato=id;
+  document.getElementById('sf-card-'+id).classList.add('selected');
+  const btn=document.createElement('button');btn.className='btn-sfida';btn.innerHTML='&#9876;&#65039; SFIDA!';
+  btn.onclick=e=>{e.stopPropagation();apriBattaglia(id);};
+  document.getElementById('sf-card-'+id).appendChild(btn);
+}
+
+// ==================== BATTAGLIA CANVAS ====================
+let battleCanvas,battleCtx,battleImg,battleRunning=false,battleRaf=null;
+let myUnits=[],enemyUnits=[],bullets=[];
+let myTrench,enemyTrench;
+let gameOver=false;
+const UNIT_R=9; // raggio cerchietto
+const BULLET_R=2.5;
+const MORTAR_R=5;
+const MORTAR_LINE=0.38; // y relativa dove si piazza il mortaio (38% dall'alto per miei, 62% per nemici)
+
+function apriBattaglia(sfId){
+  sfidanteCorrente=SFIDANTI[sfId];
+  document.getElementById('batt-vs-label').textContent='VS '+sfidanteCorrente.nome;
+  document.getElementById('batt-result-overlay').classList.remove('show');
+  document.getElementById('btn-avvia-batt').disabled=false;
+  document.getElementById('batt-status').textContent='Premi COMBATTI per iniziare';
+  gameOver=false;myUnits=[];enemyUnits=[];bullets=[];
+  document.getElementById('battaglia-screen').classList.add('show');
+  initCanvas();
+}
+
+function initCanvas(){
+  battleCanvas=document.getElementById('batt-canvas');
+  const wrap=document.getElementById('batt-canvas-wrap');
+  battleCanvas.width=wrap.clientWidth;
+  battleCanvas.height=wrap.clientHeight;
+  battleCtx=battleCanvas.getContext('2d');
+
+  // Trincee: fasce orizzontali
+  const H=battleCanvas.height,W=battleCanvas.width;
+  myTrench={y1:H*0.78,y2:H*0.92}; // mia trincea in basso
+  enemyTrench={y1:H*0.08,y2:H*0.22}; // trincea nemica in alto
+
+  // Carica mappa
+  battleImg=new Image();
+  battleImg.crossOrigin='anonymous';
+  battleImg.src='https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CAFD0DBB-DC82-4F36-A214-F4E497AB5DB2.png';
+  battleImg.onload=()=>drawStatic();
+  drawStatic();
+}
+
+function drawStatic(){
+  if(!battleCtx)return;
+  const W=battleCanvas.width,H=battleCanvas.height;
+  battleCtx.clearRect(0,0,W,H);
+  // Mappa di sfondo
+  if(battleImg && battleImg.complete){
+    battleCtx.drawImage(battleImg,0,0,W,H);
+  } else {
+    battleCtx.fillStyle='#3a5a1a';battleCtx.fillRect(0,0,W,H);
+  }
+  // Overlay semitrasparente per leggibilita
+  battleCtx.fillStyle='rgba(0,0,0,0.18)';battleCtx.fillRect(0,0,W,H);
+  // Fasce trincea
+  battleCtx.fillStyle='rgba(80,50,10,0.45)';
+  battleCtx.fillRect(0,myTrench.y1,W,myTrench.y2-myTrench.y1);
+  battleCtx.fillRect(0,enemyTrench.y1,W,enemyTrench.y2-enemyTrench.y1);
+  // Bordo trincea
+  battleCtx.strokeStyle='rgba(200,160,80,0.7)';battleCtx.lineWidth=2;
+  battleCtx.strokeRect(0,myTrench.y1,W,myTrench.y2-myTrench.y1);
+  battleCtx.strokeRect(0,enemyTrench.y1,W,enemyTrench.y2-enemyTrench.y1);
+  // Label
+  battleCtx.font='bold 10px Rajdhani,sans-serif';
+  battleCtx.fillStyle='rgba(255,220,100,0.8)';battleCtx.textAlign='left';
+  battleCtx.fillText('TUA TRINCEA',8,myTrench.y1-4);
+  battleCtx.fillStyle='rgba(255,100,100,0.8)';
+  battleCtx.fillText('TRINCEA NEMICA',8,enemyTrench.y2+12);
+}
+
+function spawnUnits(){
+  const W=battleCanvas.width,H=battleCanvas.height;
+  const mieCard=squadraData.slice(0,6);
+  const nemCard=getRandCards(sfidanteCorrente.pool,6);
+
+  myUnits=mieCard.map((card,i)=>{
+    const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
+    return {
+      card,x:W*(0.12+i*0.14),y:(myTrench.y1+myTrench.y2)/2,
+      hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,danno:st.danno,
+      cadenza:st.cadenza,tipo:st.tipo,
+      lastShot:0,side:'mine',alive:true,
+      mortar:false,mortarDeployed:false,
+      targetY:enemyTrench.y2+UNIT_R,
+      imgEl:null
+    };
+  });
+
+  enemyUnits=nemCard.map((card,i)=>{
+    const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
+    return {
+      card,x:W*(0.12+i*0.14),y:(enemyTrench.y1+enemyTrench.y2)/2,
+      hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,danno:st.danno,
+      cadenza:st.cadenza,tipo:st.tipo,
+      lastShot:0,side:'enemy',alive:true,
+      mortar:false,mortarDeployed:false,
+      targetY:myTrench.y1-UNIT_R,
+      imgEl:null
+    };
+  });
+
+  // Precarica immagini
+  [...myUnits,...enemyUnits].forEach(u=>{
+    if(u.card.img){const img=new Image();img.crossOrigin='anonymous';img.src=u.card.img;u.imgEl=img;}
+  });
+
+  updateHUD();
+}
+
+function avviaBattaglia(){
+  if(battleRunning)return;
+  document.getElementById('btn-avvia-batt').disabled=true;
+  document.getElementById('batt-status').textContent='In corso — Valle Pungione';
+  spawnUnits();
+  battleRunning=true;
+  gameLoop();
+}
+
+let lastTime=0;
+function gameLoop(ts=0){
+  if(!battleRunning)return;
+  const dt=Math.min(ts-lastTime,50);lastTime=ts;
+  update(dt);
+  draw();
+  if(!gameOver)battleRaf=requestAnimationFrame(gameLoop);
+}
+
+function update(dt){
+  const now=performance.now();
+  const H=battleCanvas.height,W=battleCanvas.width;
+
+  // Aggiorna miei
+  myUnits.forEach(u=>{
+    if(!u.alive)return;
+    if(u.tipo==='mortaio'&&!u.mortarDeployed){
+      // Avanza fino alla linea mortaio
+      const lineY=H*MORTAR_LINE+20;
+      if(u.y>lineY){u.y-=u.vel*(dt/16);}
+      else{u.mortarDeployed=true;}
+    } else if(!u.mortarDeployed){
+      if(u.y>u.targetY) u.y-=u.vel*(dt/16);
+    }
+    // Sparo
+    if(now-u.lastShot>u.cadenza){
+      spara(u,enemyUnits,now);u.lastShot=now;
+    }
+  });
+
+  // Aggiorna nemici
+  enemyUnits.forEach(u=>{
+    if(!u.alive)return;
+    if(u.tipo==='mortaio'&&!u.mortarDeployed){
+      const lineY=H*(1-MORTAR_LINE)-20;
+      if(u.y<lineY){u.y+=u.vel*(dt/16);}
+      else{u.mortarDeployed=true;}
+    } else if(!u.mortarDeployed){
+      if(u.y<u.targetY) u.y+=u.vel*(dt/16);
+    }
+    if(now-u.lastShot>u.cadenza){
+      spara(u,myUnits,now);u.lastShot=now;
+    }
+  });
+
+  // Aggiorna proiettili
+  bullets.forEach(b=>{
+    b.x+=b.vx*(dt/16);b.y+=b.vy*(dt/16);
+    b.life-=dt;
+    if(b.life<=0){b.dead=true;return;}
+    // Collisione
+    const targets=b.side==='mine'?enemyUnits:myUnits;
+    targets.forEach(t=>{
+      if(!t.alive)return;
+      const dx=t.x-b.x,dy=t.y-b.y;
+      const hit=b.tipo==='mortaio'?
+        Math.sqrt(dx*dx+dy*dy)<MORTAR_R+UNIT_R+20:
+        Math.sqrt(dx*dx+dy*dy)<BULLET_R+UNIT_R;
+      if(hit){
+        if(Math.random()<b.prec){
+          t.hp-=b.danno;
+          if(t.hp<=0){t.alive=false;}
+        }
+        b.dead=true;
+      }
+    });
+  });
+  bullets=bullets.filter(b=>!b.dead);
+
+  // Check vittoria
+  const myAlive=myUnits.filter(u=>u.alive).length;
+  const emAlive=enemyUnits.filter(u=>u.alive).length;
+  // Conquista trincea: almeno 2 miei arrivati nella trincea nemica
+  const myCaptured=myUnits.filter(u=>u.alive&&u.y<=enemyTrench.y2+5).length;
+  const emCaptured=enemyUnits.filter(u=>u.alive&&u.y>=myTrench.y1-5).length;
+
+  if(myAlive===0||emCaptured>=2){endBattle(false);}
+  else if(emAlive===0||myCaptured>=2){endBattle(true);}
+
+  updateHUD();
+}
+
+function spara(shooter,targets,now){
+  const alive=targets.filter(t=>t.alive);
+  if(alive.length===0)return;
+  const target=alive[Math.floor(Math.random()*alive.length)];
+  const dx=target.x-shooter.x,dy=target.y-shooter.y;
+  const dist=Math.sqrt(dx*dx+dy*dy)||1;
+  // Aggiungi piccola variazione per mancate
+  const spread=shooter.tipo==='mortaio'?15:8;
+  const ox=(Math.random()-0.5)*spread,oy=(Math.random()-0.5)*spread;
+  const speed=shooter.tipo==='mortaio'?2.5:5;
+  bullets.push({
+    x:shooter.x,y:shooter.y,
+    vx:(dx/dist+ox/50)*speed,vy:(dy/dist+oy/50)*speed,
+    danno:shooter.danno,prec:shooter.prec,
+    side:shooter.side,tipo:shooter.tipo,
+    life:shooter.tipo==='mortaio'?2000:1200,dead:false
+  });
+}
+
+function draw(){
+  drawStatic();
+  const ctx=battleCtx;
+
+  // Proiettili
+  bullets.forEach(b=>{
+    if(b.tipo==='mortaio'){
+      ctx.beginPath();ctx.arc(b.x,b.y,MORTAR_R,0,Math.PI*2);
+      ctx.fillStyle='#2a1a0a';ctx.fill();
+      ctx.strokeStyle='rgba(255,150,0,0.7)';ctx.lineWidth=1.5;ctx.stroke();
+    } else {
+      ctx.beginPath();ctx.arc(b.x,b.y,BULLET_R,0,Math.PI*2);
+      ctx.fillStyle=b.side==='mine'?'rgba(255,255,255,0.9)':'rgba(255,80,80,0.9)';
+      ctx.fill();
+    }
+  });
+
+  // Unita nemiche
+  enemyUnits.forEach(u=>{if(u.alive)drawUnit(u,false);});
+  // Unita mie
+  myUnits.forEach(u=>{if(u.alive)drawUnit(u,true);});
+}
+
+function drawUnit(u,isMine){
+  const ctx=battleCtx;
+  const r=u.tipo==='mortaio'&&u.mortarDeployed?0:UNIT_R;
+
+  if(u.tipo==='mortaio'&&u.mortarDeployed){
+    // Quadrato mortaio
+    const size=16;
+    ctx.fillStyle='#1a0a05';
+    ctx.fillRect(u.x-size/2,u.y-size/2,size,size);
+    ctx.strokeStyle=isMine?'rgba(200,200,200,0.8)':'rgba(255,80,80,0.8)';
+    ctx.lineWidth=2;ctx.strokeRect(u.x-size/2,u.y-size/2,size,size);
+    // Canna
+    const cDir=isMine?-1:1;
+    ctx.beginPath();ctx.moveTo(u.x,u.y);ctx.lineTo(u.x,u.y+cDir*12);
+    ctx.strokeStyle='#888';ctx.lineWidth=3;ctx.stroke();
+  } else {
+    // Cerchietto
+    ctx.beginPath();ctx.arc(u.x,u.y,r,0,Math.PI*2);
+    ctx.fillStyle=isMine?'rgba(255,255,255,0.95)':'rgba(220,40,40,0.95)';
+    ctx.fill();
+    ctx.strokeStyle=isMine?'rgba(100,180,255,0.8)':'rgba(255,120,120,0.6)';
+    ctx.lineWidth=2;ctx.stroke();
+    // Faccina piccola se immagine disponibile
+    if(u.imgEl&&u.imgEl.complete&&u.imgEl.naturalWidth>0){
+      ctx.save();ctx.beginPath();ctx.arc(u.x,u.y,r-1.5,0,Math.PI*2);ctx.clip();
+      ctx.drawImage(u.imgEl,u.x-r+1.5,u.y-r+1.5,(r-1.5)*2,(r-1.5)*2);ctx.restore();
+    }
+  }
+
+  // Barra HP sopra
+  const bw=20,bh=3,bx=u.x-bw/2,by=u.y-UNIT_R-7;
+  ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(bx,by,bw,bh);
+  const hpPct=Math.max(0,u.hp/u.maxHp);
+  ctx.fillStyle=hpPct>0.5?'#44ff88':hpPct>0.25?'#ffcc00':'#ff4444';
+  ctx.fillRect(bx,by,bw*hpPct,bh);
+}
+
+function updateHUD(){
+  const mineDiv=document.getElementById('hud-mine');
+  const enemyDiv=document.getElementById('hud-enemy');
+  mineDiv.innerHTML=myUnits.map(u=>`
+    <div class="hud-unit-bar">
+      <div class="hub-dot mine"></div>
+      <div class="hud-name">${u.card.nome.split(' ')[0]}</div>
+      <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:${u.hp/u.maxHp>0.5?'#44ff88':u.hp/u.maxHp>0.25?'#ffcc00':'#ff4444'};"></div></div>
+    </div>`).join('');
+  enemyDiv.innerHTML=enemyUnits.map(u=>`
+    <div class="hud-unit-bar right">
+      <div class="hub-dot enemy"></div>
+      <div class="hud-name">${u.card.nome.split(' ')[0]}</div>
+      <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:#ff4444;"></div></div>
+    </div>`).join('');
+}
+
+function endBattle(vittoria){
+  gameOver=true;battleRunning=false;
+  if(battleRaf)cancelAnimationFrame(battleRaf);
+  const el=document.getElementById('batt-result-overlay');
+  document.getElementById('br-title').textContent=vittoria?'VITTORIA!':'SCONFITTA';
+  document.getElementById('br-title').style.color=vittoria?'#FFE033':'#ff5555';
+  document.getElementById('br-sub').textContent=vittoria?'Hai conquistato Valle Pungione':'Valle Pungione e\' ancora in mano nemica';
+  el.classList.add('show');
+}
+
+function closeBattaglia(){
+  battleRunning=false;gameOver=false;
+  if(battleRaf)cancelAnimationFrame(battleRaf);
+  document.getElementById('battaglia-screen').classList.remove('show');
+}
+
+// ==================== TAB ====================
 const DOORS=[
-  {id:"pal",  x:200,y:210,locked:false,ico:"💪",name:"PALESTRA",sub:"Allenamento",dsc:"Allenamento fisico.",quo:"Sei massiccio!",act:"train"},
-  {id:"spa",  x:350,y:190,locked:false,ico:"🍺",name:"SPACCIO",sub:"Bar / ristoro",dsc:"Zona ristoro.",quo:"Weee naja!",act:"bar"},
-  {id:"sup1", x:476,y:190,locked:false,ico:"✈️",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Area supporto avio.",quo:"Serra piombo!"},
-  {id:"edif", x:610,y:190,locked:false,ico:"🚧",name:"EDIFICIO DI RIPARAZIONE",sub:"Lavori",dsc:"Edificio in riparazione.",quo:"Cagnaccio!"},
-  {id:"comp2",x:780,y:200,locked:false,ico:"🪖",name:"2a COMPAGNIA",sub:"Compagnia",dsc:"Seconda compagnia.",quo:"Muti!",act:"battle"},
-  {id:"inf",  x:965,y:190,locked:false,ico:"🏥",name:"INFERMERIA",sub:"Sanita",dsc:"Infermeria.",quo:"Non sei idoneo alla vita!",act:"heal"},
-  {id:"men",  x:148,y:388,locked:false,ico:"🍽️",name:"MENSA",sub:"Vitto",dsc:"Mensa.",quo:"Non farti mangiare il cazzo dalle mosche!",act:"eat"},
-  {id:"cin",  x:133,y:525,locked:false,ico:"🎬",name:"CINEMA",sub:"Svago",dsc:"Cinema.",quo:"Liberta per gli ultra!"},
-  {id:"tem",  x:541,y:395,locked:false,ico:"🕍",name:"TEMPIO",sub:"Addestramento",dsc:"Tempio.",quo:"Non sei idoneo!",act:"battle"},
-  {id:"piaz", x:777,y:530,locked:false,ico:"🚩",name:"PIAZZALE MITICO",sub:"Adunata",dsc:"Piazzale.",quo:"Ti devi muovere!"},
-  {id:"mus",  x:990,y:368,locked:false,ico:"🏛️",name:"MUSEO AVIOTRUPPE",sub:"Museo",dsc:"Museo.",quo:"Eccezzionale!"},
-  {id:"uff",  x:136,y:675,locked:false,ico:"📋",name:"UFFICIO",sub:"Burocrazia",dsc:"Ufficio.",quo:"Stai a rapporto!"},
-  {id:"cmd",  x:284,y:675,locked:false,ico:"⭐",name:"COMANDO",sub:"Comando",dsc:"Comando.",quo:"Signorsi!",act:"battle"},
-  {id:"log",  x:442,y:675,locked:false,ico:"📦",name:"LOGISTICA",sub:"Magazzino",dsc:"Logistica.",quo:"Stai sul pezzo!"},
-  {id:"comp1",x:702,y:687,locked:false,ico:"🪖",name:"1a COMPAGNIA",sub:"Compagnia",dsc:"Prima compagnia.",quo:"Forza!",act:"battle"},
-  {id:"sup2", x:840,y:687,locked:false,ico:"✈️",name:"SUPPORTO AVIO 2",sub:"Supporto",dsc:"Supporto avio.",quo:"Serra piombo!"},
-  {id:"grd",  x:980,y:687,locked:true, ico:"🔒",name:"GUARDIE",sub:"Accesso riservato",dsc:"Checkpoint.",quo:"Accesso negato"},
-  {id:"asso", x:185,y:860,locked:false,ico:"🏅",name:"ASSO",sub:"Leggenda",dsc:"Asso.",quo:"Ogni tre...",act:"battle"},
-  {id:"torre",x:355,y:740,locked:false,ico:"🗽",name:"TORRE DEL PARACA",sub:"Torre",dsc:"Torre del Paraca.",quo:"IL TORNADO DI FUOCO",act:"battle"},
-  {id:"parch",x:576,y:726,locked:false,ico:"🚗",name:"PARCHEGGIO",sub:"Veicoli",dsc:"Parcheggio.",quo:"Vecchio!"},
-  {id:"arm",  x:165,y:1005,locked:true,ico:"🔫",name:"ARMERIA",sub:"Accesso vietato",dsc:"Armeria.",quo:"Non sei presente a te stesso!"},
-  {id:"dor",  x:140,y:1160,locked:false,ico:"🛏️",name:"DORMITORIO",sub:"Riposo",dsc:"Dormitorio.",quo:"Che giornata.",act:"sleep"},
-  {id:"torri",x:565,y:960, locked:false,ico:"🗼",name:"TORRI",sub:"Lancio",dsc:"Torri di lancio.",quo:"Minchia non era legato",act:"train"},
-  {id:"borgo",x:760,y:960, locked:false,ico:"🏘️",name:"BORGO BELLA NAJA",sub:"Area addestrativa",dsc:"Borgo Bella Naja.",quo:"Cane cane cane!"},
+  {id:"pal",x:200,y:210,locked:false,ico:"&#128170;",name:"PALESTRA",sub:"Allenamento",dsc:"Allenamento fisico.",quo:"Sei massiccio!",act:"train"},
+  {id:"spa",x:350,y:190,locked:false,ico:"&#127866;",name:"SPACCIO",sub:"Bar / ristoro",dsc:"Zona ristoro.",quo:"Weee naja!",act:"bar"},
+  {id:"sup1",x:476,y:190,locked:false,ico:"&#9992;&#65039;",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Area supporto avio.",quo:"Serra piombo!"},
+  {id:"edif",x:610,y:190,locked:false,ico:"&#128679;",name:"EDIFICIO DI RIPARAZIONE",sub:"Lavori",dsc:"Edificio in riparazione.",quo:"Cagnaccio!"},
+  {id:"comp2",x:780,y:200,locked:false,ico:"&#129686;",name:"2a COMPAGNIA",sub:"Compagnia",dsc:"Seconda compagnia.",quo:"Muti!",act:"battle"},
+  {id:"inf",x:965,y:190,locked:false,ico:"&#127973;",name:"INFERMERIA",sub:"Sanita",dsc:"Infermeria.",quo:"Non sei idoneo alla vita!",act:"heal"},
+  {id:"men",x:148,y:388,locked:false,ico:"&#127869;&#65039;",name:"MENSA",sub:"Vitto",dsc:"Mensa.",quo:"Non farti mangiare il cazzo dalle mosche!",act:"eat"},
+  {id:"cin",x:133,y:525,locked:false,ico:"&#127916;",name:"CINEMA",sub:"Svago",dsc:"Cinema.",quo:"Liberta per gli ultra!"},
+  {id:"tem",x:541,y:395,locked:false,ico:"&#128541;",name:"TEMPIO",sub:"Addestramento",dsc:"Tempio.",quo:"Non sei idoneo!",act:"battle"},
+  {id:"piaz",x:777,y:530,locked:false,ico:"&#128169;",name:"PIAZZALE MITICO",sub:"Adunata",dsc:"Piazzale.",quo:"Ti devi muovere!"},
+  {id:"mus",x:990,y:368,locked:false,ico:"&#127963;&#65039;",name:"MUSEO AVIOTRUPPE",sub:"Museo",dsc:"Museo.",quo:"Eccezzionale!"},
+  {id:"uff",x:136,y:675,locked:false,ico:"&#128203;",name:"UFFICIO",sub:"Burocrazia",dsc:"Ufficio.",quo:"Stai a rapporto!"},
+  {id:"cmd",x:284,y:675,locked:false,ico:"&#11088;",name:"COMANDO",sub:"Comando",dsc:"Comando.",quo:"Signorsi!",act:"battle"},
+  {id:"log",x:442,y:675,locked:false,ico:"&#128230;",name:"LOGISTICA",sub:"Magazzino",dsc:"Logistica.",quo:"Stai sul pezzo!"},
+  {id:"comp1",x:702,y:687,locked:false,ico:"&#129686;",name:"1a COMPAGNIA",sub:"Compagnia",dsc:"Prima compagnia.",quo:"Forza!",act:"battle"},
+  {id:"sup2",x:840,y:687,locked:false,ico:"&#9992;&#65039;",name:"SUPPORTO AVIO 2",sub:"Supporto",dsc:"Supporto avio.",quo:"Serra piombo!"},
+  {id:"grd",x:980,y:687,locked:true,ico:"&#128274;",name:"GUARDIE",sub:"Accesso riservato",dsc:"Checkpoint.",quo:"Accesso negato"},
+  {id:"asso",x:185,y:860,locked:false,ico:"&#127941;",name:"ASSO",sub:"Leggenda",dsc:"Asso.",quo:"Ogni tre...",act:"battle"},
+  {id:"torre",x:355,y:740,locked:false,ico:"&#128509;",name:"TORRE DEL PARACA",sub:"Torre",dsc:"Torre del Paraca.",quo:"IL TORNADO DI FUOCO",act:"battle"},
+  {id:"parch",x:576,y:726,locked:false,ico:"&#128663;",name:"PARCHEGGIO",sub:"Veicoli",dsc:"Parcheggio.",quo:"Vecchio!"},
+  {id:"arm",x:165,y:1005,locked:true,ico:"&#128299;",name:"ARMERIA",sub:"Accesso vietato",dsc:"Armeria.",quo:"Non sei presente a te stesso!"},
+  {id:"dor",x:140,y:1160,locked:false,ico:"&#128716;",name:"DORMITORIO",sub:"Riposo",dsc:"Dormitorio.",quo:"Che giornata.",act:"sleep"},
+  {id:"torri",x:565,y:960,locked:false,ico:"&#128956;",name:"TORRI",sub:"Lancio",dsc:"Torri di lancio.",quo:"Minchia non era legato",act:"train"},
+  {id:"borgo",x:760,y:960,locked:false,ico:"&#127968;",name:"BORGO BELLA NAJA",sub:"Area addestrativa",dsc:"Borgo Bella Naja.",quo:"Cane cane cane!"},
 ];
 
-// ===== TAB =====
 function switchTab(tab){
   currentTab=tab;
-  ['caserma','profilo','zaino'].forEach(t=>{
-    const el=document.getElementById('tab-'+t);
-    el.classList.toggle('active',t===tab);
-  });
+  ['caserma','profilo','zaino','combattimento'].forEach(t=>{const el=document.getElementById('tab-'+t);if(el)el.classList.toggle('active',t===tab);});
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  const btn=document.getElementById('tbtn-'+tab);
-  if(btn)btn.classList.add('active');
+  const btn=document.getElementById('tbtn-'+tab);if(btn)btn.classList.add('active');
   if(tab==='caserma')buildMap();
   if(tab==='profilo'){updateProfiloUI();buildSquadraGrid();}
   if(tab==='zaino')renderZaino();
+  if(tab==='combattimento')buildSfidanti();
 }
 
-// ===== MAPPA =====
 function buildMap(){
   const wrap=document.getElementById('map-wrap');if(!wrap)return;
+  const mc=document.getElementById('map-container');if(!mc)return;
   const img=document.getElementById('map-img');
-  const mw=Math.min(document.getElementById('map-container').clientWidth-8,500);
-  const mh=mw*(MH/MW);
+  const mw=Math.min(mc.clientWidth-8,500),mh=mw*(MH/MW);
   img.style.width=mw+'px';img.style.height=mh+'px';
   wrap.style.width=mw+'px';wrap.style.height=mh+'px';
   scaleX=mw/MW;scaleY=mh/MH;
   document.querySelectorAll('.door').forEach(e=>e.remove());
   DOORS.forEach(d=>{
-    const el=document.createElement('div');
-    el.className='door'+(d.locked?' locked':'');
+    const el=document.createElement('div');el.className='door'+(d.locked?' locked':'');
     if(d.id==='torre')el.classList.add('torre');
     el.style.left=(d.x*scaleX)+'px';el.style.top=(d.y*scaleY)+'px';
     const dot=document.createElement('div');dot.className='door-dot';
@@ -755,16 +1028,13 @@ function buildMap(){
     wrap.appendChild(el);
   });
 }
-
 function handleDoor(d){if(d.locked){toast('ACCESSO NEGATO');return;}openModal(d);}
 function openModal(d){
-  document.getElementById('m-ico').textContent=d.ico;
-  document.getElementById('m-tit').textContent=d.name;
-  document.getElementById('m-sub').textContent=d.sub;
-  document.getElementById('m-dsc').textContent=d.dsc;
+  document.getElementById('m-ico').innerHTML=d.ico;document.getElementById('m-tit').textContent=d.name;
+  document.getElementById('m-sub').textContent=d.sub;document.getElementById('m-dsc').textContent=d.dsc;
   document.getElementById('m-quo').textContent='"'+d.quo+'"';
   const act=document.getElementById('m-act');act.innerHTML='';
-  if(d.act==='battle')addBtn(act,'SFIDA',true,()=>{closeModal();toast('Sistema battaglia — in arrivo!');});
+  if(d.act==='battle')addBtn(act,'COMBATTI',true,()=>{closeModal();switchTab('combattimento');});
   if(d.act==='train')addBtn(act,'ALLENATI',true,()=>{closeModal();doTrain();});
   if(d.act==='sleep')addBtn(act,'DORMI (+1 giorno)',true,()=>{closeModal();doSleep();});
   if(d.act==='bar')addBtn(act,'ENTRA',true,()=>{closeModal();doBar();});
@@ -778,15 +1048,12 @@ function closeModal(){document.getElementById('modal').classList.remove('show');
 document.getElementById('m-x').onclick=closeModal;
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
 
-// ===== AZIONI =====
 function doTrain(){toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
 function doSleep(){player.giorno++;document.getElementById('dv').textContent=player.giorno;document.getElementById('p-giorno').textContent=player.giorno;toast('Hai dormito. Giorno '+player.giorno);}
 function doBar(){toast('"Weee naja! Cin cin soldato!"');}
 function doEat(){toast('"Non farti mangiare il cazzo dalle mosche!"');}
-function doHeal(){toast('"Riposa soldato. Domani si soffre di più."');}
-function updHud(){document.getElementById('dv').textContent=player.giorno;document.getElementById('p-giorno').textContent=player.giorno;updateRadarMini();}
+function doHeal(){toast('"Riposa soldato. Domani si soffre di piu."');}
 
-// ===== PROFILO =====
 function updateProfiloUI(){document.getElementById('p-nome').textContent=(player.nome+' '+player.cognome).toUpperCase();updateRadarMini();}
 function updateRadarMini(){
   const cx=60,cy=58,maxR=52,stats=[player.forza,player.qi,player.motiv,player.spirito,player.di];
@@ -794,13 +1061,7 @@ function updateRadarMini(){
   const pts=stats.map((v,i)=>{const r=(v/99)*maxR;return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];});
   const el=document.getElementById('radar-mini');if(el)el.setAttribute('points',pts.map(p=>p.join(',')).join(' '));
 }
-
-// ===== STATS =====
-function toggleStats(){
-  const m=document.getElementById('stats-modal');
-  if(m.style.display==='none'||!m.style.display){updateRadarFull();m.style.display='flex';}
-  else m.style.display='none';
-}
+function toggleStats(){const m=document.getElementById('stats-modal');if(m.style.display==='none'||!m.style.display){updateRadarFull();m.style.display='flex';}else m.style.display='none';}
 function updateRadarFull(){
   const cx=100,cy=100,maxR=90,stats=[player.forza,player.qi,player.motiv,player.spirito,player.di];
   const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
@@ -810,282 +1071,162 @@ function updateRadarFull(){
 }
 document.getElementById('stats-modal').addEventListener('click',e=>{if(e.target===document.getElementById('stats-modal'))toggleStats();});
 
-// ===== SQUADRA =====
-const squadraData=[
-  {nome:'LACAN',ruolo:'Soldato Semplice',lv:1,xp:15,forza:11,qi:10,motiv:9,spirito:11,di:10,mosse:['Fuoco Naja','Orientamento Assente','Esaurimento','Sigaretta Fichetta'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/195A7AB0-5F41-4D88-8908-44BE45EB2339.png'},
-  {nome:'SONNY THE PARATROOPER',ruolo:'Soldato Semplice',lv:1,xp:20,forza:10,qi:11,motiv:14,spirito:12,di:10,mosse:['Piegamenti','Fuga dalla Valle','Sputo Lontano','Passo del Leopardo'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5180A3B8-0E69-45CB-A7D0-DF56A79B1343.png'},
-  {nome:'CAVADDU',ruolo:'Soldato Semplice',lv:1,xp:10,forza:12,qi:9,motiv:11,spirito:10,di:11,mosse:['Scarpone Pesante','Braccio di Ferro','Mossa Alcolica','Sigaro Pesante'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5858ECB1-25D9-4EB5-927E-5ADC6BD28D26.png'},
-  {nome:'HUGLY DIGGER',ruolo:'Soldato Semplice',lv:1,xp:8,forza:14,qi:8,motiv:10,spirito:9,di:12,mosse:['Scava Tasso','Schaffo del Paraca','Bomba a Mano','Puzzo di Morte'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C7A82DCE-09D3-45B2-A9B8-E77B8AB64BB7.png'},
-  {nome:'KASKOMATOM',ruolo:'Soldato Semplice',lv:1,xp:12,forza:10,qi:12,motiv:11,spirito:10,di:13,mosse:['Tappacessi','Sturacessi','Multiuso','Forza del Monte'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D423AE7B-E843-4B09-9722-AE44A25E1A43.png'},
-  {nome:'FUNNYBOY',ruolo:'Soldato Semplice',lv:1,xp:18,forza:9,qi:10,motiv:13,spirito:13,di:9,mosse:['Fascino','Fantasma','Lupo Grigio','Graffio del Gattino'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E314AAA3-3066-4467-9FFB-AFC02998F90D.png'},
-];
-const eliteData=[
-  {nome:'SOLDATO MOSTRO GIU GIU',ruolo:'Elite',lv:3,xp:45,forza:17,qi:9,motiv:14,spirito:12,di:15,mosse:['Schaffo del Paraca','Bomba a Mano','Puzzo di Morte','Fuoco Naja'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/938AC1FB-D867-4415-9396-721C033C8380.png',elite:true},
-  {nome:'BAU BAU',ruolo:'Elite',lv:3,xp:60,forza:15,qi:13,motiv:11,spirito:14,di:16,mosse:['Lupo Grigio','Fantasma','Passo del Leopardo','Scava Tasso'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DF448FA1-2FE5-4D32-B19A-0E737B6AE2F2.png',elite:true},
-  {nome:'MENDEL',ruolo:'Elite',lv:3,xp:55,forza:18,qi:11,motiv:13,spirito:10,di:14,mosse:['Forza del Monte','Braccio di Ferro','Scarpone Pesante','Piegamenti'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C15ADB13-D46F-40E9-816C-584DE83F0D8D.png',elite:true},
-  {nome:'GATTUSARDU',ruolo:'Elite',lv:3,xp:50,forza:14,qi:15,motiv:16,spirito:13,di:17,mosse:['Graffio del Gattino','Fascino','Mossa Alcolica','Sigaro Pesante'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/BE59E4A0-977C-4003-ABC1-876453330D32.png',elite:true},
-  {nome:'DOMINIK',ruolo:'Elite',lv:3,xp:48,forza:13,qi:14,motiv:16,spirito:12,di:13,mosse:['Mossa Alcolica','Fascino','Fuga dalla Valle','Sputo Lontano'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8B8145C7-F9DE-4DE0-BC58-2F81A74CA4CE.png',elite:true},
-  {nome:'MACHO DIGGER',ruolo:'Elite',lv:3,xp:52,forza:19,qi:10,motiv:12,spirito:11,di:15,mosse:['Scava Tasso','Braccio di Ferro','Scarpone Pesante','Forza del Monte'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C5A990F4-89E0-48E5-9C74-648C2391D095.png',elite:true},
-];
-const tutteCarte=[...squadraData,...eliteData];
-
-const legioData=[
-  {nome:'FRANKIE BLUE',ruolo:'Legionario',lv:5,xp:80,forza:15,qi:17,motiv:14,spirito:16,di:18,mosse:['Fantasma','Passo del Leopardo','Orientamento Assente','Fuoco Naja'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/82D42B3B-8AA0-4AB1-B4C3-0410AF76D752.png',legio:true},
-  {nome:'DECIO',ruolo:'Legionario',lv:5,xp:75,forza:17,qi:15,motiv:18,spirito:13,di:16,mosse:['Schaffo del Paraca','Bomba a Mano','Lupo Grigio','Forza del Monte'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/7D62F215-1B50-40C9-B60B-E71D6B1D2E5E.png',legio:true},
-  {nome:'ARMANDO',ruolo:'Legionario',lv:5,xp:90,forza:16,qi:18,motiv:15,spirito:17,di:14,mosse:['Fantasma','Graffio del Gattino','Multiuso','Sturacessi'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/1E90A1F2-E03F-4CCD-AA43-5A2E6268E21B.png',legio:true},
-  {nome:'DINAMITARO',ruolo:'Legionario',lv:5,xp:85,forza:18,qi:14,motiv:17,spirito:12,di:19,mosse:['Bomba a Mano','Tappacessi','Scava Tasso','Schaffo del Paraca'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D4EB0AF0-9F22-4531-88C5-39A9DFE6F3DF.png',legio:true},
-  {nome:'FILUEFERRU',ruolo:'Legionario',lv:5,xp:88,forza:16,qi:13,motiv:19,spirito:17,di:15,mosse:['Fuoco Naja','Fuga dalla Valle','Fascino','Graffio del Gattino'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/54926765-D9FF-4CE2-BFCA-BEA26D3A0DA1.png',legio:true},
-];
-tutteCarte.push(...legioData);
-
-const ecceData=[
-  {nome:'GAAR',ruolo:'Eccezionale',lv:8,xp:99,forza:19,qi:19,motiv:20,spirito:18,di:20,mosse:['Fascino','Lupo Grigio','Schaffo del Paraca','Fuoco Naja'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DA827B70-4C54-4CFC-B898-C7F675CAE15D.png',ecce:true},
-];
-tutteCarte.push(...ecceData);
-
 function buildSquadraGrid(){
-  const grid=document.getElementById('squadra-grid');if(!grid)return;
-  grid.innerHTML='';
+  const grid=document.getElementById('squadra-grid');if(!grid)return;grid.innerHTML='';
   squadraData.forEach((s,i)=>{
-    const card=document.createElement('div');card.className='carta-pg';card.onclick=()=>openSoldato(i);
-    card.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤'}</div><div style="padding:3px 4px;"><div class="carta-nome">${s.nome}</div><div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div></div>`;
-    grid.appendChild(card);
+    const c=document.createElement('div');c.className='carta-pg';c.onclick=()=>openSoldato(i);
+    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'&#128100;'}</div><div style="padding:3px 4px;"><div class="carta-nome">${s.nome}</div><div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div></div>`;
+    grid.appendChild(c);
   });
 }
-
 function openCollezione(){
   const grid=document.getElementById('coll-grid');grid.innerHTML='';
   tutteCarte.forEach((s,i)=>{
-    const card=document.createElement('div');card.className='carta-pg'+(s.ecce?' ecce':s.elite?' elite':s.legio?' legio':'');card.onclick=()=>openSoldatoFromTutte(i);
-    const eliteBadge=s.elite?`<div style="font-size:6px;letter-spacing:2px;color:#7a8fa0;text-align:center;padding-bottom:3px;text-transform:uppercase;">★ ELITE</div>`:s.legio?`<div style="font-size:6px;letter-spacing:2px;color:#a07800;text-align:center;padding-bottom:3px;text-transform:uppercase;">✦ LEGIONARIO</div>`:s.ecce?`<div style="font-size:6px;letter-spacing:2px;color:#8a00aa;text-align:center;padding-bottom:3px;text-transform:uppercase;">⚡ ECCEZIONALE</div>`:""
-    card.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">`:'👤'}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${eliteBadge}</div>`;
-    grid.appendChild(card);
+    const c=document.createElement('div');c.className='carta-pg'+(s.ecce?' ecce':s.elite?' elite':s.legio?' legio':'');c.onclick=()=>openSoldatoFromTutte(i);
+    const badge=s.elite?`<div style="font-size:6px;letter-spacing:2px;color:#7a8fa0;text-align:center;padding-bottom:3px;text-transform:uppercase;">ELITE</div>`:s.legio?`<div style="font-size:6px;letter-spacing:2px;color:#a07800;text-align:center;padding-bottom:3px;text-transform:uppercase;">LEGIONARIO</div>`:s.ecce?`<div style="font-size:6px;letter-spacing:2px;color:#8a00aa;text-align:center;padding-bottom:3px;text-transform:uppercase;">ECCEZIONALE</div>`:'';
+    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">`:'&#128100;'}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${badge}</div>`;
+    grid.appendChild(c);
   });
-  const modal=document.getElementById('collezione-modal');
-  modal.style.display='flex';
-  // Reset position
+  document.getElementById('collezione-modal').style.display='flex';
   document.getElementById('coll-sheet').style.transform='translateY(0)';
+  document.getElementById('coll-sheet').style.transition='';
   initCollSwipe();
 }
 function closeCollezione(){document.getElementById('collezione-modal').style.display='none';}
-
-// ===== SWIPE DOWN per chiudere Collezione =====
 function initCollSwipe(){
-  const sheet=document.getElementById('coll-sheet');
-  const modal=document.getElementById('collezione-modal');
-  let startY=0,isDragging=false;
-
-  function onStart(e){
-    startY=e.touches?e.touches[0].clientY:e.clientY;
-    isDragging=true;
-    sheet.style.transition='none';
-  }
-  function onMove(e){
-    if(!isDragging)return;
-    const y=(e.touches?e.touches[0].clientY:e.clientY)-startY;
-    if(y>0){
-      sheet.style.transform=`translateY(${y}px)`;
-      if(e.cancelable)e.preventDefault();
-    }
-  }
-  function onEnd(e){
-    if(!isDragging)return;
-    isDragging=false;
-    const y=(e.changedTouches?e.changedTouches[0].clientY:e.clientY)-startY;
-    sheet.style.transition='transform 0.25s ease';
-    if(y>80){
-      sheet.style.transform='translateY(100%)';
-      setTimeout(()=>{
-        modal.style.display='none';
-        sheet.style.transform='translateY(0)';
-        sheet.style.transition='';
-      },250);
-    } else {
-      sheet.style.transform='translateY(0)';
-    }
-  }
-
-  // Rimuovi listener vecchi e aggiungi nuovi
-  const handle=document.getElementById('coll-handle');
-  handle.removeEventListener('touchstart',handle._ts);
-  handle.removeEventListener('touchmove',handle._tm);
-  handle.removeEventListener('touchend',handle._te);
-  handle._ts=onStart; handle._tm=onMove; handle._te=onEnd;
-  handle.addEventListener('touchstart',onStart,{passive:true});
-  handle.addEventListener('touchmove',onMove,{passive:false});
-  handle.addEventListener('touchend',onEnd,{passive:true});
-
-  // Anche tap fuori chiude
+  const sheet=document.getElementById('coll-sheet'),modal=document.getElementById('collezione-modal'),handle=document.getElementById('coll-handle');
+  let startY=0,dragging=false;
+  function onS(e){startY=e.touches[0].clientY;dragging=true;sheet.style.transition='none';}
+  function onM(e){if(!dragging)return;const y=e.touches[0].clientY-startY;if(y>0){sheet.style.transform=`translateY(${y}px)`;if(e.cancelable)e.preventDefault();}}
+  function onE(e){if(!dragging)return;dragging=false;const y=e.changedTouches[0].clientY-startY;sheet.style.transition='transform 0.25s ease';if(y>150){sheet.style.transform='translateY(100%)';setTimeout(()=>{modal.style.display='none';sheet.style.transform='translateY(0)';sheet.style.transition='';},250);}else sheet.style.transform='translateY(0)';}
+  handle.removeEventListener('touchstart',handle._s||null);handle.removeEventListener('touchmove',handle._m||null);handle.removeEventListener('touchend',handle._e||null);
+  handle._s=onS;handle._m=onM;handle._e=onE;
+  handle.addEventListener('touchstart',onS,{passive:true});handle.addEventListener('touchmove',onM,{passive:false});handle.addEventListener('touchend',onE,{passive:true});
   modal.onclick=e=>{if(e.target===modal)closeCollezione();};
 }
-
-function openSoldatoFromTutte(idx){ openSoldatoData(tutteCarte[idx]); }
-function openSoldato(idx){ openSoldatoData(squadraData[idx]); }
+function openSoldatoFromTutte(i){openSoldatoData(tutteCarte[i]);}
+function openSoldato(i){openSoldatoData(squadraData[i]);}
 function openSoldatoData(s){
   if(!s)return;
   document.getElementById('sm-nome').textContent=s.nome.toUpperCase();
   document.getElementById('sm-ruolo').textContent=s.ruolo;
-  const smb=document.getElementById('sm-elite-badge');
-  const sml=document.getElementById('sm-legio-badge');
-  if(smb)smb.style.display=s.elite?'inline-block':'none';
-  if(sml){sml.style.display=s.legio?'inline-block':'none';}
-  const sme=document.getElementById('sm-ecce-badge');if(sme)sme.style.display=s.ecce?'inline-block':'none';
+  document.getElementById('sm-elite-badge').style.display=s.elite?'inline-block':'none';
+  document.getElementById('sm-legio-badge').style.display=s.legio?'inline-block':'none';
+  document.getElementById('sm-ecce-badge').style.display=s.ecce?'inline-block':'none';
   document.getElementById('sm-lv').textContent=s.lv;
   document.getElementById('sm-xpbar').style.width=s.xp+'%';
-  document.getElementById('sm-avatar').innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:s.imgPending?'🔜':'👤';
-  document.getElementById('sm-mosse').innerHTML=s.mosse.map(m=>`<div style="background:#f0ece0;border:1px solid rgba(180,150,80,0.25);border-radius:6px;padding:7px 8px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#7B1020;letter-spacing:1px;">${m}</div></div>`).join('');
+  document.getElementById('sm-avatar').innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'&#128100;';
+  const st=TROOP_STATS[s.tipoTruppa]||TROOP_STATS.normale;
+  document.getElementById('sm-mosse').innerHTML=s.mosse.map(m=>`
+    <div style="background:#f0ece0;border:1px solid rgba(180,150,80,0.25);border-radius:6px;padding:6px 8px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;letter-spacing:1px;">${m.nome}</div>
+      <div style="font-size:9px;color:rgba(120,80,10,0.6);letter-spacing:1px;">ATK ${m.atk}</div>
+    </div>`).join('')+`
+    <div style="background:#e8f4e8;border:1px solid rgba(80,150,80,0.25);border-radius:6px;padding:6px 8px;grid-column:1/-1;">
+      <div style="font-size:8px;color:rgba(40,100,40,0.7);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;">Statistiche Combattimento</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:9px;color:#2a6a2a;"><b>HP</b> ${st.hp}</span>
+        <span style="font-size:9px;color:#2a6a2a;"><b>VEL</b> ${st.vel}</span>
+        <span style="font-size:9px;color:#2a6a2a;"><b>PREC</b> ${Math.round(st.prec*100)}%</span>
+        <span style="font-size:9px;color:#2a6a2a;"><b>DANNO</b> ${st.danno}</span>
+        <span style="font-size:9px;color:#2a6a2a;"><b>TIPO</b> ${st.tipo.toUpperCase()}</span>
+      </div>
+    </div>`;
   const cx=60,cy=58,maxR=52,stats=[s.forza,s.qi,s.motiv,s.spirito,s.di];
   const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
   const pts=stats.map((v,i)=>{const r=(v/20)*maxR;return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];});
   document.getElementById('sm-radar-poly').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
   const labels=['FORZA','QI','MOTIV','SPIRITO','DI'];
   document.getElementById('sm-stats-list').innerHTML=labels.map((l,i)=>`<div style="display:flex;align-items:center;gap:6px;"><div style="font-size:8px;color:rgba(120,90,30,0.5);width:36px;letter-spacing:1px;">${l}</div><div style="flex:1;height:5px;background:#f0ece0;border-radius:3px;overflow:hidden;"><div style="height:100%;background:#C9A84C;width:${(stats[i]/20)*100}%;border-radius:3px;"></div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;width:16px;text-align:right;">${stats[i]}</div></div>`).join('');
-  const replBtn=document.getElementById('sm-replace-btn');
-  if(replBtn){
-    const sqIdx=squadraData.indexOf(s);
-    if(sqIdx>=0){replBtn.style.display='block';replBtn.onclick=()=>{closeSoldato();openReplace(sqIdx);};}
-    else{replBtn.style.display='none';}
-  }
+  const rb=document.getElementById('sm-replace-btn');
+  if(rb){const si=squadraData.indexOf(s);if(si>=0){rb.style.display='block';rb.onclick=()=>{closeSoldato();openReplace(si);};}else rb.style.display='none';}
   document.getElementById('soldato-modal').style.display='flex';
 }
 function closeSoldato(){document.getElementById('soldato-modal').style.display='none';}
 document.getElementById('soldato-modal').addEventListener('click',e=>{if(e.target===document.getElementById('soldato-modal'))closeSoldato();});
-
 function rinominaSquadra(){const n=prompt('Nome della tua squadra:');if(n&&n.trim())document.getElementById('squadra-nome').textContent=n.trim().toUpperCase();}
 
-// ===== ZAINO =====
 const ZAINO_ITEMS=[
-  {nome:"Pistola Beretta M9",cat:"armi",ico:"🔫"},{nome:"Fucile AR70/90",cat:"armi",ico:"🔫"},{nome:"Fucile di Precisione",cat:"armi",ico:"🎯"},{nome:"Pistola a Salve",cat:"armi",ico:"🔫"},{nome:"Baionetta",cat:"armi",ico:"🗡️"},{nome:"Coltello Tattico",cat:"armi",ico:"🔪"},{nome:"Coltellino Multiuso",cat:"armi",ico:"🔪"},{nome:"Granata a Mano",cat:"armi",ico:"💣"},{nome:"Granata Fumogena",cat:"armi",ico:"💨"},
-  {nome:"Caricatore 5.56mm",cat:"munizionamento",ico:"🟡"},{nome:"Caricatore 9mm",cat:"munizionamento",ico:"🟡"},{nome:"Munizioni 7.62mm",cat:"munizionamento",ico:"🟠"},{nome:"Fumogeno Colorato",cat:"munizionamento",ico:"🔴"},{nome:"Bengala",cat:"munizionamento",ico:"🔆"},{nome:"Tracciante",cat:"munizionamento",ico:"⚡"},
-  {nome:"Kit Pronto Soccorso",cat:"risorse",ico:"🏥"},{nome:"Razione K",cat:"risorse",ico:"🥫"},{nome:"Borraccia Militare",cat:"risorse",ico:"💧"},{nome:"Accendino",cat:"risorse",ico:"🔥"},{nome:"Batteria Extra",cat:"risorse",ico:"🔋"},{nome:"Corda Tattica 15m",cat:"risorse",ico:"🪢"},{nome:"Laccio Emostatico",cat:"risorse",ico:"🩹"},{nome:"Cerotti Sterili",cat:"risorse",ico:"🩹"},{nome:"Morfina",cat:"risorse",ico:"💊"},
-  {nome:"Visore Notturno",cat:"gadget",ico:"👁️"},{nome:"Radio Ricetrasmittente",cat:"gadget",ico:"📻"},{nome:"Torcia Tattica",cat:"gadget",ico:"🔦"},{nome:"Bussola",cat:"gadget",ico:"🧭"},{nome:"Fischietto",cat:"gadget",ico:"📣"},{nome:"Binocolo",cat:"gadget",ico:"🔭"},{nome:"Occhiali da Poligono",cat:"gadget",ico:"🥽"},{nome:"Maschera Antigas",cat:"gadget",ico:"😷"},{nome:"Orologio Militare",cat:"gadget",ico:"⌚"},{nome:"Pinza Multiuso",cat:"gadget",ico:"🔧"},{nome:"Telefonino Cifrato",cat:"gadget",ico:"📱"},{nome:"Drone Tascabile",cat:"gadget",ico:"🚁"},
-  {nome:"Elmetto Ballistico",cat:"risorse",ico:"⛑️"},{nome:"Giubbotto Antiproiettile",cat:"risorse",ico:"🦺"},{nome:"Zaino ALICE 80L",cat:"risorse",ico:"🎒"},
-  {nome:"Mappa Topografica",cat:"mappe",ico:"🗺️"},{nome:"Mappa Stradale",cat:"mappe",ico:"🗺️"},{nome:"Carta Geografica DEM",cat:"mappe",ico:"📍"},{nome:"Piano Operativo",cat:"mappe",ico:"📄"},{nome:"Rilevamento GPS",cat:"mappe",ico:"📡"},
+  {nome:"Pistola Beretta M9",cat:"armi",ico:"&#128299;"},{nome:"Fucile AR70/90",cat:"armi",ico:"&#128299;"},{nome:"Fucile di Precisione",cat:"armi",ico:"&#127919;"},{nome:"Granata a Mano",cat:"armi",ico:"&#128163;"},{nome:"Granata Fumogena",cat:"armi",ico:"&#128168;"},{nome:"Baionetta",cat:"armi",ico:"&#128481;&#65039;"},
+  {nome:"Caricatore 5.56mm",cat:"munizionamento",ico:"&#128993;"},{nome:"Caricatore 9mm",cat:"munizionamento",ico:"&#128993;"},{nome:"Fumogeno Colorato",cat:"munizionamento",ico:"&#128308;"},{nome:"Bengala",cat:"munizionamento",ico:"&#128262;"},
+  {nome:"Kit Pronto Soccorso",cat:"risorse",ico:"&#127973;"},{nome:"Razione K",cat:"risorse",ico:"&#129483;"},{nome:"Borraccia Militare",cat:"risorse",ico:"&#128167;"},{nome:"Elmetto Ballistico",cat:"risorse",ico:"&#9937;"},{nome:"Giubbotto Antiproiettile",cat:"risorse",ico:"&#129470;"},{nome:"Zaino ALICE 80L",cat:"risorse",ico:"&#127920;"},
+  {nome:"Visore Notturno",cat:"gadget",ico:"&#128065;&#65039;"},{nome:"Radio Ricetrasmittente",cat:"gadget",ico:"&#128251;"},{nome:"Torcia Tattica",cat:"gadget",ico:"&#128294;"},{nome:"Bussola",cat:"gadget",ico:"&#129517;"},{nome:"Drone Tascabile",cat:"gadget",ico:"&#128641;"},{nome:"Orologio Militare",cat:"gadget",ico:"&#8987;"},
+  {nome:"Mappa Topografica",cat:"mappe",ico:"&#128506;"},{nome:"Piano Operativo",cat:"mappe",ico:"&#128196;"},{nome:"Rilevamento GPS",cat:"mappe",ico:"&#128225;"},{nome:"Codice Griglia NATO",cat:"mappe",ico:"&#128290;"},
 ];
 let zainoCatAttiva="tutto",zainoRicerca="";
 function renderZaino(){
   const grid=document.getElementById('zaino-grid');if(!grid)return;
-  let items=ZAINO_ITEMS.filter(it=>{
-    const catOk=zainoCatAttiva==="tutto"||it.cat===zainoCatAttiva;
-    const cercaOk=!zainoRicerca||it.nome.toLowerCase().includes(zainoRicerca.toLowerCase());
-    return catOk&&cercaOk;
-  });
+  const items=ZAINO_ITEMS.filter(it=>(zainoCatAttiva==="tutto"||it.cat===zainoCatAttiva)&&(!zainoRicerca||it.nome.toLowerCase().includes(zainoRicerca.toLowerCase())));
   grid.innerHTML=items.map(it=>`<div class="zaino-card"><div class="zaino-card-img">${it.ico}</div><div class="zaino-card-nome">${it.nome}</div><div class="zaino-card-cat">${it.cat}</div></div>`).join('');
 }
-function setZainoCat(cat){
-  zainoCatAttiva=cat;
-  document.querySelectorAll('.ztab').forEach(t=>t.classList.toggle('active',t.dataset.cat===cat));
-  renderZaino();
-}
+function setZainoCat(cat){zainoCatAttiva=cat;document.querySelectorAll('.ztab').forEach(t=>t.classList.toggle('active',t.dataset.cat===cat));renderZaino();}
 
-// ===== GALLERIA FOTO =====
 function apriFoto(i){document.getElementById('file'+i).click();}
 function caricaFoto(i,input){
   if(!input.files||!input.files[0])return;
-  const file=input.files[0];const url=URL.createObjectURL(file);
-  const box=document.getElementById('gal'+i);box.innerHTML='';
-  if(file.type.startsWith('video/')){
-    const v=document.createElement('video');v.src=url;v.style.cssText='width:100%;height:100%;object-fit:cover;';v.autoplay=true;v.muted=true;v.loop=true;v.playsInline=true;box.appendChild(v);
-  }else{
-    const img=document.createElement('img');img.src=url;img.style.cssText='width:100%;height:100%;object-fit:cover;';box.appendChild(img);
-  }
+  const file=input.files[0],url=URL.createObjectURL(file),box=document.getElementById('gal'+i);box.innerHTML='';
+  if(file.type.startsWith('video/')){const v=document.createElement('video');v.src=url;v.style.cssText='width:100%;height:100%;object-fit:cover;';v.autoplay=v.muted=v.loop=v.playsInline=true;box.appendChild(v);}
+  else{const img=document.createElement('img');img.src=url;img.style.cssText='width:100%;height:100%;object-fit:cover;';box.appendChild(img);}
   const inp=document.createElement('input');inp.type='file';inp.accept='image/*,video/*';inp.style.display='none';inp.id='file'+i;inp.onchange=function(){caricaFoto(i,this);};box.appendChild(inp);
 }
 
-// ===== SOSTITUZIONE CARTE SQUADRA =====
 let replaceSlotIdx=-1;
-function openReplace(slotIdx){
-  replaceSlotIdx=slotIdx;
-  const current=squadraData[slotIdx];
-  document.getElementById('rm-slot-label').textContent='Sostituisci: '+current.nome;
+function openReplace(idx){
+  replaceSlotIdx=idx;
+  document.getElementById('rm-slot-label').textContent='Sostituisci: '+squadraData[idx].nome;
   const grid=document.getElementById('rm-grid');grid.innerHTML='';
-  tutteCarte.forEach((s,i)=>{
-    const inSquad=squadraData.includes(s);
-    const card=document.createElement('div');
-    card.className='rm-card'+(inSquad?' locked-card':'');
-    card.innerHTML=`<div class="rm-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤'}</div><div class="rm-name">${s.nome}</div>`;
-    if(!inSquad){card.onclick=()=>confirmReplace(s);}else{card.title='Già in squadra';}
-    grid.appendChild(card);
+  tutteCarte.forEach(s=>{
+    const inSquad=squadraData.includes(s),c=document.createElement('div');c.className='rm-card'+(inSquad?' locked-card':'');
+    c.innerHTML=`<div class="rm-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'&#128100;'}</div><div class="rm-name">${s.nome}</div>`;
+    if(!inSquad)c.onclick=()=>confirmReplace(s);grid.appendChild(c);
   });
   document.getElementById('replace-modal').style.display='flex';
 }
-function confirmReplace(newCard){
-  if(replaceSlotIdx<0)return;
-  squadraData[replaceSlotIdx]=newCard;closeReplace();buildSquadraGrid();toast('Carta sostituita: '+newCard.nome);
-}
+function confirmReplace(nc){if(replaceSlotIdx<0)return;squadraData[replaceSlotIdx]=nc;closeReplace();buildSquadraGrid();toast('Sostituito: '+nc.nome);}
 function closeReplace(){document.getElementById('replace-modal').style.display='none';replaceSlotIdx=-1;}
 document.getElementById('replace-modal').addEventListener('click',e=>{if(e.target===document.getElementById('replace-modal'))closeReplace();});
 
-// ===== MAPPA MODAL =====
-function openMappaModal(){const m=document.getElementById('mappa-modal');m.style.display='flex';setTimeout(buildMap,80);}
+function openMappaModal(){document.getElementById('mappa-modal').style.display='flex';setTimeout(buildMap,80);}
 function closeMappaModal(){document.getElementById('mappa-modal').style.display='none';}
-function apriVideo(){document.getElementById('file-video').click();}
-function caricaVideo(input){
-  if(!input.files||!input.files[0])return;
-  const url=URL.createObjectURL(input.files[0]);
-  const box=document.getElementById('video-box');box.innerHTML='';
-  const v=document.createElement('video');v.src=url;v.style.cssText='width:100%;height:100%;object-fit:cover;';v.autoplay=true;v.muted=true;v.loop=true;v.playsInline=true;box.appendChild(v);
-}
 
-// ===== GERARCHIA =====
 const GERARCHIA=[
-  {grado:'Presidente della Repubblica',nome:'Gen. Arturo Ferrante',ruolo:'Capo Supremo delle Forze Armate',desc:'Massima autorità istituzionale sulle Forze Armate italiane.',storia:'Nato nel 1948 a Napoli, ha dedicato 40 anni al servizio dello Stato. Decorato tre volte, è considerato il simbolo dell\'istituzione repubblicana. Nei corridoi si dice che abbia dormito più notti in caserma che a casa propria. «Il soldato non smette mai di essere soldato», ripete sempre.',ico:'🇮🇹',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/735DA794-892E-488B-98A4-AF76DBB85282.png'},
-  {grado:'Ministro della Difesa',nome:'On. Cristina Valenti',ruolo:'Ministro della Difesa',desc:'Responsabile politica delle Forze Armate italiane.',storia:'Avvocata di professione, è diventata ministra a 48 anni. Figlia di un maresciallo dei carabinieri, ha sempre sentito il richiamo delle divise. Nei suoi discorsi cita spesso Sun Tzu. Nessuno sa se lo abbia letto davvero.',ico:'⚖️',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DBD4324C-62B1-4AD4-B505-7701ABB513C1.png'},
-  {grado:'Generale di Corpo d\'Armata',nome:'Gen. Marco Stelvio',ruolo:'Capo di Stato Maggiore della Difesa',desc:'Coordinamento strategico interforze.',storia:'Ha servito in tre teatri operativi internazionali. La cicatrice sul mento? "Non è interessante quanto sembra", risponde sempre. I subalterni lo chiamano Il Granito.',ico:'⭐',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C99AB79A-48BE-4B6A-8753-177B8AC73034.png'},
-  {grado:'Generale di Corpo d\'Armata',nome:'Gen. Bruno Laghetti',ruolo:'Capo di Stato Maggiore dell\'Esercito',desc:'Comando dell\'Esercito Italiano.',storia:'Ossessionato dalla logistica. Dice sempre: "Un esercito marcia sul ventre." Ha introdotto il caffè nelle cucine di campo. Rivoluzionario.',ico:'🎖️',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B8AFF5AC-11D8-447B-9DE5-EBBE1AE90AFD.png'},
-  {grado:'Generale di Divisione',nome:'Gen. Filippo Caruso',ruolo:'Comando Formazione, Specializzazione e Dottrina',desc:'Responsabile dell\'addestramento e della dottrina militare.',storia:'Ex istruttore di combattimento corpo a corpo. A 62 anni fa ancora 50 flessioni ogni mattina. I giovani ufficiali non riescono a stargli dietro.',ico:'📋',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E732C86E-3E18-4CEA-A0A7-F2214E42829C.png'},
-  {grado:'Generale di Brigata',nome:'Gen. Sandro Mura',ruolo:'Comandante Scuola di Fanteria',desc:'Formazione dei soldati di fanteria.',storia:'Laureato in filosofia prima di arruolarsi. Cita Platone durante le marce. I soldati lo adorano e lo odiano in egual misura.',ico:'🏫',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/410D289C-FD18-4A80-B538-03D7DE29F191.png'},
-  {grado:'Colonnello',nome:'Col. Pietro Savino',ruolo:'Comandante di Reggimento',desc:'Comanda il reggimento paracadutisti.',storia:'Ha saltato oltre 600 volte. La prima? "Avevo più paura della firma del congedo che del vuoto." Leggenda della caserma.',ico:'🦅',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8D04138C-985E-4FD5-98FC-1A90F93E191C.png'},
-  {grado:'Tenente Colonnello',nome:'Ten.Col. Andrea Beltrame',ruolo:'Comandante di Battaglione',desc:'Coordina le operazioni del battaglione.',storia:'Metodico al punto di essere ossessivo. Il suo piano d\'addestramento è stato copiato da tre altre unità. Non l\'ha presa bene.',ico:'📊',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CCDF1299-997D-411E-A7E2-FC02C9CE0F0B.png'},
-  {grado:'Capitano',nome:'Cap. Lucia Ferretti',ruolo:'Comandante di Compagnia',desc:'Comanda la compagnia operativa.',storia:'Prima donna al comando di una compagnia parà. Ha sentito ogni battuta possibile. Le ha archiviate tutte e le cita quando vuole demolire qualcuno moralmente.',ico:'⚡',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B3B7F323-84B9-4BA8-B47A-FD08A8B09C4D.png'},
-  {grado:'Tenente',nome:'Ten. Giacomo Volta',ruolo:'Comandante di Plotone',desc:'Il tuo diretto superiore.',storia:'Ha 26 anni e l\'aria di chi non ha ancora capito bene dove si trova. Ma quando si tratta di orientamento notturno, nessuno lo batte. Strano.',ico:'🔭',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/65112C3C-2917-48D6-A593-D169B8AB132E.png'},
+  {grado:'Presidente della Repubblica',nome:'Gen. Arturo Ferrante',ruolo:'Capo Supremo delle Forze Armate',desc:'Massima autorita istituzionale sulle Forze Armate italiane.',storia:'Nato nel 1948 a Napoli, ha dedicato 40 anni al servizio dello Stato. Decorato tre volte. Il soldato non smette mai di essere soldato.',ico:'&#127988;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/735DA794-892E-488B-98A4-AF76DBB85282.png'},
+  {grado:'Ministro della Difesa',nome:'On. Cristina Valenti',ruolo:'Ministro della Difesa',desc:'Responsabile politica delle Forze Armate italiane.',storia:'Avvocata di professione, e diventata ministra a 48 anni. Figlia di un maresciallo dei carabinieri. Nei suoi discorsi cita spesso Sun Tzu.',ico:'&#9878;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DBD4324C-62B1-4AD4-B505-7701ABB513C1.png'},
+  {grado:"Generale di Corpo d'Armata",nome:'Gen. Marco Stelvio',ruolo:'Capo di Stato Maggiore della Difesa',desc:'Coordinamento strategico interforze.',storia:'Ha servito in tre teatri operativi internazionali. I subalterni lo chiamano Il Granito.',ico:'&#11088;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C99AB79A-48BE-4B6A-8753-177B8AC73034.png'},
+  {grado:"Generale di Corpo d'Armata",nome:'Gen. Bruno Laghetti',ruolo:"Capo di Stato Maggiore dell'Esercito",desc:"Comando dell'Esercito Italiano.",storia:'Ossessionato dalla logistica. Un esercito marcia sul ventre.',ico:'&#127894;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B8AFF5AC-11D8-447B-9DE5-EBBE1AE90AFD.png'},
+  {grado:'Generale di Divisione',nome:'Gen. Filippo Caruso',ruolo:'Comando Formazione, Specializzazione e Dottrina',desc:"Responsabile dell'addestramento.",storia:'Ex istruttore di combattimento corpo a corpo. A 62 anni fa ancora 50 flessioni ogni mattina.',ico:'&#128203;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E732C86E-3E18-4CEA-A0A7-F2214E42829C.png'},
+  {grado:'Generale di Brigata',nome:'Gen. Sandro Mura',ruolo:'Comandante Scuola di Fanteria',desc:'Formazione dei soldati di fanteria.',storia:'Laureato in filosofia prima di arruolarsi. Cita Platone durante le marce.',ico:'&#127979;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/410D289C-FD18-4A80-B538-03D7DE29F191.png'},
+  {grado:'Colonnello',nome:'Col. Pietro Savino',ruolo:'Comandante di Reggimento',desc:'Comanda il reggimento paracadutisti.',storia:'Ha saltato oltre 600 volte. Avevo piu paura della firma del congedo che del vuoto.',ico:'&#129413;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8D04138C-985E-4FD5-98FC-1A90F93E191C.png'},
+  {grado:'Tenente Colonnello',nome:'Ten.Col. Andrea Beltrame',ruolo:'Comandante di Battaglione',desc:'Coordina le operazioni del battaglione.',storia:"Metodico al punto di essere ossessivo. Il suo piano d'addestramento e stato copiato da tre altre unita. Non l'ha presa bene.",ico:'&#128202;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CCDF1299-997D-411E-A7E2-FC02C9CE0F0B.png'},
+  {grado:'Capitano',nome:'Cap. Lucia Ferretti',ruolo:'Comandante di Compagnia',desc:'Comanda la compagnia operativa.',storia:'Prima donna al comando di una compagnia para. Ha sentito ogni battuta possibile. Le ha archiviate tutte.',ico:'&#9889;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B3B7F323-84B9-4BA8-B47A-FD08A8B09C4D.png'},
+  {grado:'Tenente',nome:'Ten. Giacomo Volta',ruolo:'Comandante di Plotone',desc:'Il tuo diretto superiore.',storia:"Ha 26 anni e l'aria di chi non ha ancora capito bene dove si trova. Ma quando si tratta di orientamento notturno, nessuno lo batte.",ico:'&#128301;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/65112C3C-2917-48D6-A593-D169B8AB132E.png'},
 ];
-
 function openGerarchia(){
-  const modal=document.getElementById('gerarchia-modal');
-  const pira=document.getElementById('gerarchia-piramide');
-  pira.innerHTML='';
+  const modal=document.getElementById('gerarchia-modal'),pira=document.getElementById('gerarchia-piramide');pira.innerHTML='';
   GERARCHIA.forEach((g,i)=>{
     const w=100-(i*(60/(GERARCHIA.length-1)));
     const div=document.createElement('div');
     div.style.cssText=`width:${w}%;margin:0 auto;background:linear-gradient(135deg,#7B1020,#a01828);border-radius:6px;padding:8px 10px;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 6px rgba(0,0,0,0.2);`;
     div.innerHTML=`<span style="font-size:16px;">${g.ico}</span><div style="flex:1;min-width:0;"><div style="font-family:'Bebas Neue',sans-serif;font-size:11px;color:#C9A84C;letter-spacing:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${g.nome}</div><div style="font-size:8px;color:rgba(255,255,255,0.6);letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${g.grado}</div></div>`;
-    div.onclick=()=>openGerarchiaCard(i);
-    pira.appendChild(div);
+    div.onclick=()=>openGerarchiaCard(i);pira.appendChild(div);
   });
   modal.style.display='flex';
 }
 function closeGerarchia(){document.getElementById('gerarchia-modal').style.display='none';}
-
 function openGerarchiaCard(idx){
   const g=GERARCHIA[idx];
-  document.getElementById('gc-nome').textContent=g.nome;
-  document.getElementById('gc-grado').textContent=g.grado;
-  document.getElementById('gc-ruolo').textContent=g.ruolo;
-  document.getElementById('gc-desc').textContent=g.desc;
+  document.getElementById('gc-nome').textContent=g.nome;document.getElementById('gc-grado').textContent=g.grado;
+  document.getElementById('gc-ruolo').textContent=g.ruolo;document.getElementById('gc-desc').textContent=g.desc;
   document.getElementById('gc-storia').textContent=g.storia;
-  document.getElementById('gc-avatar').innerHTML=g.img?`<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;">`:g.ico;
+  document.getElementById('gc-avatar').innerHTML=g.img?`<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;">`:'&#128100;';
   gcPage(0);
-  const modal=document.getElementById('gerarchia-card-modal');
-  modal.style.display='flex';
-  // Tap fuori → chiudi
+  const modal=document.getElementById('gerarchia-card-modal');modal.style.display='flex';
   modal.onclick=e=>{if(e.target===modal)closeGerarchiaCard();};
-  // Swipe orizzontale sul box
-  const box=document.getElementById('gc-box');
-  let gcSwipeX=0;
-  box.ontouchstart=e=>{gcSwipeX=e.touches[0].clientX;};
-  box.ontouchend=e=>{
-    const dx=e.changedTouches[0].clientX-gcSwipeX;
-    if(Math.abs(dx)>40){
-      const cur=document.getElementById('gc-page-1').style.display==='none'?0:1;
-      if(dx<0&&cur===0)gcPage(1);
-      else if(dx>0&&cur===1)gcPage(0);
-      else if(dx>0&&cur===0)closeGerarchiaCard();
-    }
-  };
+  const box=document.getElementById('gc-box');let sx=0;
+  box.ontouchstart=e=>{sx=e.touches[0].clientX;};
+  box.ontouchend=e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){const cur=document.getElementById('gc-page-1').style.display==='none'?0:1;if(dx<0&&cur===0)gcPage(1);else if(dx>0&&cur===1)gcPage(0);else if(dx>0&&cur===0)closeGerarchiaCard();}};
 }
 function closeGerarchiaCard(){document.getElementById('gerarchia-card-modal').style.display='none';}
-
 function gcPage(p){
   document.getElementById('gc-page-0').style.display=p===0?'block':'none';
   document.getElementById('gc-page-1').style.display=p===1?'block':'none';
@@ -1093,19 +1234,16 @@ function gcPage(p){
   document.getElementById('gc-dot-1').style.background=p===1?'#C9A84C':'rgba(255,255,255,0.3)';
 }
 
-// ===== TOAST =====
 let tt=null;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';if(tt)clearTimeout(tt);tt=setTimeout(()=>t.style.opacity='0',2800);}
 
-// ===== LOGIN =====
 const inN=document.getElementById('inp-nome'),inC=document.getElementById('inp-cogn'),bS=document.getElementById('btn-start');
 function chk(){bS.disabled=!(inN.value.trim()&&inC.value.trim());document.getElementById('err-msg').classList.remove('show');}
 inN.addEventListener('input',chk);inC.addEventListener('input',chk);
 inN.addEventListener('keydown',e=>{if(e.key==='Enter')inC.focus();});
 inC.addEventListener('keydown',e=>{if(e.key==='Enter'&&!bS.disabled)bS.click();});
 bS.addEventListener('click',()=>{
-  const n=inN.value.trim(),c=inC.value.trim();
-  if(!n||!c){document.getElementById('err-msg').classList.add('show');return;}
+  const n=inN.value.trim(),c=inC.value.trim();if(!n||!c){document.getElementById('err-msg').classList.add('show');return;}
   player.nome=n;player.cognome=c;
   document.getElementById('top-bar-name').textContent='SOLDATO '+c.toUpperCase();
   document.getElementById('screen-login').style.display='none';
