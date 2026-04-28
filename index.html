@@ -558,7 +558,36 @@ const DOORS=[
   {id:"torri",x:565,y:960, locked:false,ico:"🗼",name:"TORRI",                 sub:"Lancio",           dsc:"Torri di lancio.",                quo:"Minchia non era legato",                   act:"train"},
   {id:"borgo",x:760,y:960, locked:false,ico:"🏘️",name:"BORGO BELLA NAJA",      sub:"Area addestrativa",dsc:"Borgo Bella Naja.",               quo:"Cane cane cane cane!"                                },
 ];
+// ===== DEBUG STRADE (VISUALIZZAZIONE) =====
+let SHOW_ROADS = true;
 
+// Strade disegnate a mano (iniziale, da sistemare insieme)
+const ROADS = [
+  {
+    id:"top",
+    points:[
+      [120,310],[250,305],[400,300],[550,295],[700,295],[860,300],[1020,310]
+    ]
+  },
+  {
+    id:"middle",
+    points:[
+      [120,500],[260,495],[420,490],[580,488],[740,490],[900,495],[1040,505]
+    ]
+  },
+  {
+    id:"lower",
+    points:[
+      [120,640],[260,635],[420,630],[580,628],[740,630],[900,635],[1040,645]
+    ]
+  },
+  {
+    id:"bottom",
+    points:[
+      [120,770],[260,760],[420,750],[580,748],[740,750],[900,760],[1040,770]
+    ]
+  }
+];
 // ===== TAB SWITCHING =====
 function switchTab(tab){
   currentTab=tab;
@@ -997,7 +1026,39 @@ function initNpcs(){
     setTimeout(()=>startNpcWalk(i),i*400+200);
   });
 }
+function drawRoads(){
+  if(!SHOW_ROADS) return;
 
+  const wrap = document.getElementById("map-wrap");
+
+  let svg = document.getElementById("road-debug");
+  if(svg) svg.remove();
+
+  svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("id","road-debug");
+  svg.setAttribute("viewBox",`0 0 ${MW} ${MH}`);
+  svg.style.cssText = "position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;";
+
+  ROADS.forEach(r=>{
+    for(let i=0;i<r.points.length-1;i++){
+      const a = r.points[i];
+      const b = r.points[i+1];
+
+      const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1",a[0]);
+      line.setAttribute("y1",a[1]);
+      line.setAttribute("x2",b[0]);
+      line.setAttribute("y2",b[1]);
+      line.setAttribute("stroke","rgba(255,255,255,0.5)");
+      line.setAttribute("stroke-width","6");
+      line.setAttribute("stroke-linecap","round");
+
+      svg.appendChild(line);
+    }
+  });
+
+  wrap.insertBefore(svg, wrap.firstChild);
+}
 // ===== TOAST =====
 let tt=null;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';if(tt)clearTimeout(tt);tt=setTimeout(()=>t.style.opacity='0',2800);}
