@@ -19,7 +19,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 #bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.38);}
 #login-title{position:absolute;left:0;right:0;top:8%;text-align:center;z-index:2;pointer-events:none;}
 #login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(52px,14vw,110px);color:#7B1020;-webkit-text-stroke:2px #3d000a;line-height:1;animation:tp 4s ease-in-out infinite;}
-@keyframes tp{0%,100%{color:#7B1020;}50%{color:#9B1828;}}
+@keyframes tp{0%,100%{color:#C9A84C;}50%{color:#e8c050;}}
 #popup{position:relative;z-index:2;background:rgba(235,226,206,0.92);border:2px solid rgba(123,16,32,0.4);border-radius:8px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
 #popup::before,#popup::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
@@ -48,7 +48,7 @@ background:#f5f5f0;
 
 /* TOP BAR */
 #top-bar{flex-shrink:0;height:48px;background:#7B1020;border-bottom:none;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
-#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:26px;color:#C9A84C;-webkit-text-stroke:1px #7a5a00;letter-spacing:2px;}
+#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:26px;color:#C9A84C;-webkit-text-stroke:1px #7a5a00;letter-spacing:2px;animation:tp 4s ease-in-out infinite;}
 #top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(0,0,0,0.75);letter-spacing:3px;}
 
 /* TAB CONTENT — cresce tra top-bar e tab-bar */
@@ -74,10 +74,10 @@ overflow-y:auto;
 #map-img{display:block;width:100%;max-width:500px;}
 
 /* Porte */
-.door{position:absolute;cursor:pointer;width:9px;height:9px;transform:translate(-50%,-50%);z-index:10;}
-.door-dot{width:100%;height:100%;border-radius:2px;background:#C9A84C;opacity:0.95;}
+.door{position:absolute;cursor:pointer;width:32px;height:32px;transform:translate(-50%,-50%);z-index:10;display:flex;align-items:center;justify-content:center;}
+.door-dot{width:9px;height:9px;border-radius:2px;background:#C9A84C;opacity:0.95;flex-shrink:0;}
 .door.locked .door-dot{background:#c0392b;}
-.door.torre .door-dot{background:transparent;border-radius:50%;border:2px solid #3a8fff;box-shadow:0 0 7px rgba(58,143,255,0.8);animation:torrepulse 2s ease-in-out infinite;}
+.door.torre .door-dot{background:transparent;border-radius:50%;border:2px solid #3a8fff;box-shadow:0 0 7px rgba(58,143,255,0.8);animation:torrepulse 2s ease-in-out infinite;width:12px;height:12px;}
 @keyframes torrepulse{0%,100%{box-shadow:0 0 4px rgba(58,143,255,0.5);}50%{box-shadow:0 0 12px rgba(58,143,255,1);}}
 .door-tip{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(10,8,5,0.92);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 6px;font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;color:#C9A84C;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
 .door:hover .door-tip,.door:active .door-tip{opacity:1;}
@@ -103,8 +103,8 @@ overflow-y:auto;padding:12px;
 .avatar-circle{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
 .profilo-info .nome{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:2px;}
 .profilo-info .grado{font-size:10px;color:rgba(120,90,30,0.6);letter-spacing:3px;text-transform:uppercase;}
-.penta-card{background:rgba(80,80,80,0.25);border-radius:8px;border:1px solid rgba(0,0,0,0.15);padding:12px;margin-bottom:10px;cursor:pointer;}
-.penta-title{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.7);margin-bottom:8px;}
+.penta-card{background:#e0e0e0;border-radius:8px;border:1px solid rgba(0,0,0,0.12);padding:12px;margin-bottom:10px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.1);}
+.penta-title{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.6);margin-bottom:8px;}
 .squadra-card{background:rgba(255,255,255,0.92);border-radius:8px;border:1px solid rgba(220,200,160,0.4);padding:12px;margin-bottom:10px;}
 .squadra-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;cursor:pointer;}
 .squadra-nome-display{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#7B1020;letter-spacing:2px;}
@@ -212,6 +212,19 @@ z-index:200;
 #soldato-modal,#collezione-modal{display:none;position:fixed;inset:0;z-index:650;background:rgba(0,0,0,0.78);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
 
 /* ====== TOAST ====== */
+
+#replace-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.82);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
+#replace-modal .rm-box{background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;}
+#replace-modal .rm-head{background:#7B1020;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;}
+#replace-modal .rm-title{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#fff;letter-spacing:3px;}
+#replace-modal .rm-sub{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;letter-spacing:1px;}
+#replace-modal .rm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;}
+.rm-card{border-radius:6px;overflow:hidden;cursor:pointer;border:1px solid rgba(180,130,30,0.3);background:#fff;transition:transform .1s;}
+.rm-card:active{transform:scale(0.96);}
+.rm-card.locked-card{opacity:0.45;cursor:not-allowed;}
+.rm-card .rm-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.rm-card .rm-name{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
 #toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:rgba(20,12,4,0.92);border-radius:4px;padding:8px 16px;color:#C9A84C;font-family:‘Rajdhani’,sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;z-index:700;max-width:82vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
 </style>
 
@@ -285,11 +298,11 @@ z-index:200;
   <div class="penta-card" onclick="toggleStats()">
     <div class="penta-title">Statistiche — tocca per dettagli</div>
     <svg viewBox="0 0 120 116" width="100" height="84" style="display:block;margin:0 auto 4px;">
-      <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(180,150,80,0.25)" stroke-width="1.5"/>
-      <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(201,168,76,0.2)" stroke="#C9A84C" stroke-width="1.5"/>
-      <circle cx="60" cy="6" r="3" fill="#C9A84C"/><circle cx="114" cy="44" r="3" fill="#C9A84C"/>
-      <circle cx="94" cy="106" r="3" fill="#C9A84C"/><circle cx="26" cy="106" r="3" fill="#C9A84C"/>
-      <circle cx="6" cy="44" r="3" fill="#C9A84C"/>
+      <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.5"/>
+      <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(0,0,0,0.15)" stroke="rgba(0,0,0,0.65)" stroke-width="1.5"/>
+      <circle cx="60" cy="6" r="3" fill="#333"/><circle cx="114" cy="44" r="3" fill="#333"/>
+      <circle cx="94" cy="106" r="3" fill="#333"/><circle cx="26" cy="106" r="3" fill="#333"/>
+      <circle cx="6" cy="44" r="3" fill="#333"/>
     </svg>
   </div>
   <div class="squadra-card">
@@ -439,6 +452,21 @@ z-index:200;
         <div style="flex:1;display:flex;flex-direction:column;gap:5px;" id="sm-stats-list"></div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- MODAL SOSTITUZIONE CARTA -->
+
+<div id="replace-modal">
+  <div class="rm-box">
+    <div class="rm-head">
+      <div>
+        <div class="rm-title">SOSTITUISCI CARTA</div>
+        <div class="rm-sub" id="rm-slot-label">Slot squadra</div>
+      </div>
+      <button onclick="closeReplace()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer;">✕</button>
+    </div>
+    <div class="rm-grid" id="rm-grid"></div>
   </div>
 </div>
 
@@ -651,6 +679,17 @@ function openSoldatoData(s){
   document.getElementById('sm-radar-poly').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
   const labels=['FORZA','QI','MOTIV','SPIRITO','DI'];
   document.getElementById('sm-stats-list').innerHTML=labels.map((l,i)=>`<div style="display:flex;align-items:center;gap:6px;"><div style="font-size:8px;color:rgba(120,90,30,0.5);width:36px;letter-spacing:1px;">${l}</div><div style="flex:1;height:5px;background:#f0ece0;border-radius:3px;overflow:hidden;"><div style="height:100%;background:#C9A84C;width:${(stats[i]/20)*100}%;border-radius:3px;"></div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;width:16px;text-align:right;">${stats[i]}</div></div>`).join('');
+  // Tasto sostituisci (solo se carta nella squadra)
+  const replBtn=document.getElementById('sm-replace-btn');
+  if(replBtn){
+    const sqIdx=squadraData.indexOf(s);
+    if(sqIdx>=0){
+      replBtn.style.display='block';
+      replBtn.onclick=()=>{closeSoldato();openReplace(sqIdx);};
+    } else {
+      replBtn.style.display='none';
+    }
+  }
   document.getElementById('soldato-modal').style.display='flex';
 }
 function closeSoldato(){document.getElementById('soldato-modal').style.display='none';}
@@ -772,6 +811,49 @@ function caricaFoto(i, input){
   inp.id='file'+i; inp.onchange=function(){caricaFoto(i,this);};
   box.appendChild(inp);
 }
+
+
+// ===== SOSTITUZIONE CARTE SQUADRA =====
+let replaceSlotIdx = -1;
+
+function openReplace(slotIdx){
+  replaceSlotIdx = slotIdx;
+  const current = squadraData[slotIdx];
+  document.getElementById('rm-slot-label').textContent = 'Sostituisci: ' + current.nome;
+  const grid = document.getElementById('rm-grid');
+  grid.innerHTML = '';
+  // Mostra tutte le carte disponibili (non già in squadra)
+  tutteCarte.forEach((s, i) => {
+    const inSquad = squadraData.includes(s);
+    const card = document.createElement('div');
+    card.className = 'rm-card' + (inSquad ? ' locked-card' : '');
+    card.innerHTML = `<div class="rm-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤'}</div><div class="rm-name">${s.nome}</div>`;
+    if(!inSquad){
+      card.onclick = () => confirmReplace(s);
+    } else {
+      card.title = 'Già in squadra';
+    }
+    grid.appendChild(card);
+  });
+  document.getElementById('replace-modal').style.display = 'flex';
+}
+
+function confirmReplace(newCard){
+  if(replaceSlotIdx < 0) return;
+  squadraData[replaceSlotIdx] = newCard;
+  closeReplace();
+  buildSquadraGrid();
+  toast('Carta sostituita: ' + newCard.nome);
+}
+
+function closeReplace(){
+  document.getElementById('replace-modal').style.display = 'none';
+  replaceSlotIdx = -1;
+}
+
+document.getElementById('replace-modal').addEventListener('click', e => {
+  if(e.target === document.getElementById('replace-modal')) closeReplace();
+});
 
 // ===== TOAST =====
 let tt=null;
