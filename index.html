@@ -51,7 +51,7 @@ background:#f5f5f0;
 #top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:28px;color:#FFE033;-webkit-text-stroke:3px #111;letter-spacing:3px;text-shadow:2px 2px 0 #111,-2px -2px 0 #111,2px -2px 0 #111,-2px 2px 0 #111,3px 3px 0 rgba(0,0,0,0.4);paint-order:stroke fill;animation:tp 4s ease-in-out infinite;}
 #top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(0,0,0,0.75);letter-spacing:3px;}
 
-/* TAB CONTENT — cresce tra top-bar e tab-bar */
+/* TAB CONTENT */
 #tab-content{flex:1;min-height:0;overflow:hidden;position:relative;}
 
 /* ====== TAB CASERMA ====== */
@@ -112,33 +112,20 @@ overflow-y:auto;padding:12px;
 .carta-pg{background:rgba(255,255,255,0.92);border:1px solid rgba(180,130,30,0.3);border-radius:6px;overflow:hidden;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
 .carta-pg.elite{border:2px solid #b8b8b8;background:linear-gradient(160deg,#f0f0f0 0%,#e2e2e2 100%);box-shadow:0 2px 8px rgba(0,0,0,0.12);}
 .carta-pg.elite .carta-nome{color:#111;}
-.carta-pg.legio{
-border:2px solid #c8a830;
-background:linear-gradient(160deg,#fffbe8 0%,#fff3c0 50%,#fffbe8 100%);
-background-size:200% 200%;
-animation:goldshine 2.8s ease-in-out infinite;
-box-shadow:0 0 0 1px #e8c840,0 3px 16px rgba(220,180,40,0.5),0 0 24px rgba(255,210,50,0.2);
-}
+.carta-pg.legio{border:2px solid #c8a830;background:linear-gradient(160deg,#fffbe8 0%,#fff3c0 50%,#fffbe8 100%);background-size:200% 200%;animation:goldshine 2.8s ease-in-out infinite;box-shadow:0 0 0 1px #e8c840,0 3px 16px rgba(220,180,40,0.5),0 0 24px rgba(255,210,50,0.2);}
 @keyframes goldshine{
 0%{background-position:0% 50%;box-shadow:0 0 0 1px #e8c840,0 3px 14px rgba(220,180,40,0.4),0 0 20px rgba(255,210,50,0.15);}
 50%{background-position:100% 50%;box-shadow:0 0 0 1px #f0d850,0 3px 20px rgba(240,200,50,0.7),0 0 32px rgba(255,220,60,0.35);}
 100%{background-position:0% 50%;box-shadow:0 0 0 1px #e8c840,0 3px 14px rgba(220,180,40,0.4),0 0 20px rgba(255,210,50,0.15);}
 }
 .carta-pg.legio .carta-nome{color:#6a4800;}
-.carta-pg.ecce{
-border:2px solid #c040e0;
-background:linear-gradient(160deg,#fdf0ff 0%,#f5d0ff 50%,#fdf0ff 100%);
-background-size:200% 200%;
-animation:eccshine 2.2s ease-in-out infinite;
-box-shadow:0 0 0 1px #d060f0,0 3px 18px rgba(180,40,220,0.55),0 0 30px rgba(220,80,255,0.25);
-}
+.carta-pg.ecce{border:2px solid #c040e0;background:linear-gradient(160deg,#fdf0ff 0%,#f5d0ff 50%,#fdf0ff 100%);background-size:200% 200%;animation:eccshine 2.2s ease-in-out infinite;box-shadow:0 0 0 1px #d060f0,0 3px 18px rgba(180,40,220,0.55),0 0 30px rgba(220,80,255,0.25);}
 @keyframes eccshine{
 0%{background-position:0% 50%;box-shadow:0 0 0 1px #c040e0,0 3px 16px rgba(160,30,200,0.5),0 0 24px rgba(200,60,240,0.2);}
 50%{background-position:100% 50%;box-shadow:0 0 0 1px #e060ff,0 4px 24px rgba(200,50,255,0.8),0 0 40px rgba(240,100,255,0.4);}
 100%{background-position:0% 50%;box-shadow:0 0 0 1px #c040e0,0 3px 16px rgba(160,30,200,0.5),0 0 24px rgba(200,60,240,0.2);}
 }
 .carta-pg.ecce .carta-nome{color:#6a0080;}
-
 .carta-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:26px;}
 .carta-nome{font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
@@ -153,22 +140,100 @@ overflow-y:auto;padding:12px;
 .zaino-empty{text-align:center;padding:40px 20px;color:rgba(200,200,200,0.35);font-family:‘Rajdhani’,sans-serif;font-size:14px;letter-spacing:2px;}
 .zaino-title{font-family:‘Bebas Neue’,sans-serif;font-size:22px;color:rgba(200,200,200,0.5);letter-spacing:4px;text-align:center;margin-bottom:16px;}
 
-/* ====== BOTTOM TAB BAR ====== */
+/* ====== BOTTOM TAB BAR — nuovo design Apple minimalista ====== */
 #tab-bar{
-flex-shrink:0;height:58px;
+flex-shrink:0;
+height:64px;
 background:#fff;
-border-top:1px solid rgba(180,150,80,0.2);
-display:flex;align-items:stretch;
+border-top:1px solid rgba(0,0,0,0.07);
+display:flex;
+align-items:center;
+justify-content:space-around;
+padding:0 12px;
 z-index:200;
+gap:8px;
 }
-.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;gap:2px;}
-.tab-btn .tab-ico{font-size:20px;}
-.tab-btn .tab-lbl{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.45);}
+.tab-btn{
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+border:none;
+background:none;
+gap:0;
+padding:0;
+}
+.tab-btn-inner{
+width:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:4px;
+padding:8px 6px 7px;
+border-radius:14px;
+transition:background 0.15s;
+}
+.tab-btn.active .tab-btn-inner{
+background:rgba(123,16,32,0.09);
+}
+.tab-btn .tab-ico-wrap{
+width:28px;
+height:28px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+/* SVG icons in tab bar */
+.tab-btn .tab-svg{
+width:22px;height:22px;
+stroke:rgba(120,90,30,0.35);
+fill:none;
+stroke-width:1.7;
+stroke-linecap:round;
+stroke-linejoin:round;
+transition:stroke 0.15s;
+}
+.tab-btn.active .tab-svg{stroke:#7B1020;}
+.tab-btn .tab-lbl{
+font-family:‘Rajdhani’,sans-serif;
+font-size:8px;
+font-weight:700;
+letter-spacing:2px;
+text-transform:uppercase;
+color:rgba(120,90,30,0.35);
+transition:color 0.15s;
+}
 .tab-btn.active .tab-lbl{color:#7B1020;}
-.tab-btn.active .tab-ico{filter:drop-shadow(0 0 3px rgba(123,16,32,0.4));}
-.tab-center{flex:1.2;background:#7B1020;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;}
-.tab-center .tab-ico{font-size:22px;}
-.tab-center .tab-lbl{font-family:‘Bebas Neue’,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.85);}
+
+/* Centro (Caserma) */
+.tab-center-new{
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+border:none;
+background:none;
+padding:0;
+gap:0;
+}
+.tab-center-new .tab-btn-inner{
+background:#7B1020;
+border-radius:14px;
+padding:8px 6px 7px;
+width:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:4px;
+}
+.tab-center-new .tab-svg{stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:22px;height:22px;}
+.tab-center-new .tab-lbl{font-family:‘Bebas Neue’,sans-serif;font-size:9px;letter-spacing:3px;color:#fff;}
 
 /* ====== ZAINO ====== */
 #zaino-tabs{display:flex;gap:4px;padding:0 0 10px;flex-shrink:0;overflow-x:auto;}
@@ -211,8 +276,34 @@ z-index:200;
 /* ====== MODALI SOLDATO / COLLEZIONE ====== */
 #soldato-modal,#collezione-modal{display:none;position:fixed;inset:0;z-index:650;background:rgba(0,0,0,0.78);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
 
-/* ====== TOAST ====== */
+/* ====== COLLEZIONE — swipe down per chiudere ====== */
+#collezione-modal{touch-action:pan-x;}
+#coll-sheet{
+background:#fff;
+border-radius:12px;
+width:min(380px,95vw);
+margin:auto;
+overflow:hidden;
+box-shadow:0 20px 60px rgba(0,0,0,0.4);
+transition:transform 0.2s ease;
+transform:translateY(0);
+}
+/* Handle visivo swipe */
+#coll-handle{
+height:28px;
+background:#7B1020;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:grab;
+}
+#coll-handle-bar{
+width:36px;height:4px;
+border-radius:2px;
+background:rgba(255,255,255,0.35);
+}
 
+/* ====== REPLACE MODAL ====== */
 #replace-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.82);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
 #replace-modal .rm-box{background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;}
 #replace-modal .rm-head{background:#7B1020;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;}
@@ -263,7 +354,6 @@ z-index:200;
 ```
 <!-- TAB CASERMA -->
 <div id="tab-caserma">
-  <!-- 5 FOTO -->
   <div id="gallery">
     <div class="gal-box" id="gal0" onclick="apriFoto(0)"><span id="gal0-lbl">FOTO<br>1</span><input type="file" id="file0" accept="image/*,video/*" style="display:none" onchange="caricaFoto(0,this)"></div>
     <div class="gal-box" id="gal1" onclick="apriFoto(1)"><span id="gal1-lbl">FOTO<br>2</span><input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)"></div>
@@ -271,8 +361,6 @@ z-index:200;
     <div class="gal-box" id="gal3" onclick="apriFoto(3)"><span id="gal3-lbl">FOTO<br>4</span><input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)"></div>
     <div class="gal-box" id="gal4" onclick="apriFoto(4)"><span id="gal4-lbl">FOTO<br>5</span><input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)"></div>
   </div>
-
-  <!-- RIQUADRO MAPPA -->
   <div onclick="openMappaModal()" style="width:calc(100% - 16px);margin:0 8px 8px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
     <span style="font-size:26px;">🗺️</span>
     <div>
@@ -281,8 +369,6 @@ z-index:200;
     </div>
     <div style="margin-left:auto;font-size:18px;opacity:0.5;">›</div>
   </div>
-
-  <!-- RIGA GERARCHIA (2×2) + VIDEO (3×3) -->
   <div style="width:calc(100% - 16px);margin:0 8px 8px;display:flex;gap:8px;flex-shrink:0;">
     <div onclick="openGerarchia()" style="flex:2;aspect-ratio:1;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.2);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);letter-spacing:3px;text-align:center;">GERARCHIA</div>
@@ -292,8 +378,6 @@ z-index:200;
       <input type="file" id="file-video" accept="video/*" style="display:none" onchange="caricaVideo(this)">
     </div>
   </div>
-
-  <!-- CLASSIFICA -->
   <div onclick="toast('Classifica generale — presto!')" style="width:calc(100% - 16px);margin:0 8px 12px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
     <span style="font-size:24px;">🏆</span>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;">CLASSIFICA GENERALE</div>
@@ -357,26 +441,50 @@ z-index:200;
 
   </div><!-- fine tab-content -->
 
-  <!-- BOTTOM TAB BAR — sempre visibile sotto -->
+  <!-- BOTTOM TAB BAR — nuovo design minimalista Apple -->
 
   <div id="tab-bar">
+    <!-- PROFILO -->
     <button class="tab-btn" id="tbtn-profilo" onclick="switchTab('profilo')">
-      <span class="tab-ico">👤</span>
-      <span class="tab-lbl">Profilo</span>
+      <div class="tab-btn-inner">
+        <div class="tab-ico-wrap">
+          <svg class="tab-svg" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </div>
+        <span class="tab-lbl">Profilo</span>
+      </div>
     </button>
-    <button class="tab-center" id="tbtn-caserma" onclick="switchTab('caserma')">
-      <span class="tab-ico">🏛️</span>
-      <span class="tab-lbl">Caserma</span>
+    <!-- CASERMA (centro) -->
+    <button class="tab-center-new" id="tbtn-caserma" onclick="switchTab('caserma')">
+      <div class="tab-btn-inner">
+        <div class="tab-ico-wrap">
+          <svg class="tab-svg" viewBox="0 0 24 24">
+            <rect x="3" y="10" width="18" height="11" rx="2"/>
+            <path d="M3 10l9-7 9 7"/>
+            <rect x="9" y="14" width="6" height="7" rx="1"/>
+          </svg>
+        </div>
+        <span class="tab-lbl">Caserma</span>
+      </div>
     </button>
+    <!-- ZAINO -->
     <button class="tab-btn" id="tbtn-zaino" onclick="switchTab('zaino')">
-      <span class="tab-ico">🎒</span>
-      <span class="tab-lbl">Zaino</span>
+      <div class="tab-btn-inner">
+        <div class="tab-ico-wrap">
+          <svg class="tab-svg" viewBox="0 0 24 24">
+            <path d="M9 4a3 3 0 0 1 6 0"/>
+            <rect x="4" y="6" width="16" height="15" rx="3"/>
+            <path d="M4 11h16"/>
+          </svg>
+        </div>
+        <span class="tab-lbl">Zaino</span>
+      </div>
     </button>
   </div>
 
 </div><!-- fine screen-map -->
-
-<!-- MODAL EDIFICIO -->
 
 <!-- MODAL MAPPA CASERMA -->
 
@@ -407,36 +515,32 @@ z-index:200;
 
 <div id="gerarchia-modal" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.85);align-items:flex-start;justify-content:center;overflow-y:auto;padding:0;">
   <div style="background:#fff;width:100%;min-height:100%;position:relative;">
-    <!-- Header -->
     <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">⭐ GERARCHIA</div>
       <button onclick="closeGerarchia()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">✕</button>
     </div>
-    <!-- Tricolore -->
     <div style="display:flex;height:8px;flex-shrink:0;">
       <div style="flex:1;background:#009246;"></div>
-      <div style="flex:1;background:#fff;"></div>
+      <div style="flex:1;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;"></div>
       <div style="flex:1;background:#CE2B37;"></div>
     </div>
-    <!-- Piramide -->
     <div id="gerarchia-piramide" style="padding:12px 10px 20px;display:flex;flex-direction:column;gap:6px;"></div>
   </div>
 </div>
 
-<!-- MODAL CARTA GERARCHIA (con swipe storia) -->
+<!-- MODAL CARTA GERARCHIA (swipe orizzontale, tap fuori per chiudere, no X) -->
 
 <div id="gerarchia-card-modal" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:12px;width:min(340px,92vw);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);animation:mIn .2s ease;">
+  <div id="gc-box" style="background:#fff;border-radius:12px;width:min(340px,92vw);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);animation:mIn .2s ease;touch-action:pan-y;">
     <!-- Swipe dots -->
     <div style="background:#7B1020;padding:8px;display:flex;justify-content:center;gap:6px;">
       <div id="gc-dot-0" style="width:6px;height:6px;border-radius:50%;background:#C9A84C;"></div>
-      <div id="gc-dot-1" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;" onclick="gcPage(1)"></div>
+      <div id="gc-dot-1" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);"></div>
     </div>
     <!-- Pagina 0: carta -->
     <div id="gc-page-0">
       <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;gap:12px;position:relative;">
-        <button onclick="closeGerarchiaCard()" style="position:absolute;top:8px;right:10px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;">✕</button>
-        <div id="gc-avatar" style="width:64px;height:64px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;overflow:hidden;">👤</div>
+        <div id="gc-avatar" style="width:88px;height:88px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;overflow:hidden;">👤</div>
         <div>
           <div id="gc-grado" style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:2px;">Grado</div>
           <div id="gc-nome" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:2px;line-height:1.1;">NOME</div>
@@ -446,25 +550,26 @@ z-index:200;
         <div id="gc-ruolo" style="font-size:11px;color:#7B1020;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;"></div>
         <div id="gc-desc" style="font-size:13px;color:#555;line-height:1.5;"></div>
       </div>
-      <div style="padding:0 16px 8px;text-align:right;">
-        <span onclick="gcPage(1)" style="font-size:11px;color:rgba(120,90,30,0.5);letter-spacing:2px;cursor:pointer;">STORIA ›</span>
+      <div style="padding:0 16px 10px;text-align:right;">
+        <span style="font-size:10px;color:rgba(120,90,30,0.45);letter-spacing:2px;">scorri › STORIA</span>
       </div>
     </div>
     <!-- Pagina 1: storia -->
     <div id="gc-page-1" style="display:none;">
       <div style="background:#f8f4ec;padding:14px 16px;border-bottom:1px solid rgba(180,150,80,0.2);display:flex;align-items:center;gap:8px;">
-        <span onclick="gcPage(0)" style="font-size:18px;cursor:pointer;color:rgba(120,90,30,0.5);">‹</span>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:#7B1020;letter-spacing:3px;">STORIA</div>
       </div>
       <div style="padding:14px 16px;">
         <div id="gc-storia" style="font-size:13px;color:#444;line-height:1.7;font-style:italic;"></div>
       </div>
-      <div style="padding:0 16px 16px;text-align:center;">
-        <button onclick="closeGerarchiaCard()" style="padding:8px 24px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;cursor:pointer;">CHIUDI</button>
+      <div style="padding:0 16px 14px;text-align:center;">
+        <span style="font-size:10px;color:rgba(120,90,30,0.45);letter-spacing:2px;">scorri › per chiudere</span>
       </div>
     </div>
   </div>
 </div>
+
+<!-- MODAL EDIFICIO -->
 
 <div id="modal">
   <div id="mbox">
@@ -506,13 +611,15 @@ z-index:200;
   </div>
 </div>
 
-<!-- MODAL COLLEZIONE -->
+<!-- MODAL COLLEZIONE — swipe down per chiudere, no X -->
 
 <div id="collezione-modal">
-  <div style="background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
-    <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+  <div id="coll-sheet">
+    <div id="coll-handle">
+      <div id="coll-handle-bar"></div>
+    </div>
+    <div style="background:#7B1020;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:3px;">COLLEZIONE TRUPPE</div>
-      <button onclick="closeCollezione()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer;">✕</button>
     </div>
     <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
   </div>
@@ -722,8 +829,6 @@ const eliteData=[
 ];
 const tutteCarte=[...squadraData,...eliteData];
 
-
-// Carte Legionario (oro)
 const legioData=[
   {nome:'FRANKIE BLUE',ruolo:'Legionario',lv:5,xp:80,forza:15,qi:17,motiv:14,spirito:16,di:18,mosse:['Fantasma','Passo del Leopardo','Orientamento Assente','Fuoco Naja'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/82D42B3B-8AA0-4AB1-B4C3-0410AF76D752.png',legio:true},
   {nome:'DECIO',ruolo:'Legionario',lv:5,xp:75,forza:17,qi:15,motiv:18,spirito:13,di:16,mosse:['Schaffo del Paraca','Bomba a Mano','Lupo Grigio','Forza del Monte'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/7D62F215-1B50-40C9-B60B-E71D6B1D2E5E.png',legio:true},
@@ -731,8 +836,8 @@ const legioData=[
   {nome:'DINAMITARO',ruolo:'Legionario',lv:5,xp:85,forza:18,qi:14,motiv:17,spirito:12,di:19,mosse:['Bomba a Mano','Tappacessi','Scava Tasso','Schaffo del Paraca'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D4EB0AF0-9F22-4531-88C5-39A9DFE6F3DF.png',legio:true},
   {nome:'FILUEFERRU',ruolo:'Legionario',lv:5,xp:88,forza:16,qi:13,motiv:19,spirito:17,di:15,mosse:['Fuoco Naja','Fuga dalla Valle','Fascino','Graffio del Gattino'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/54926765-D9FF-4CE2-BFCA-BEA26D3A0DA1.png',legio:true},
 ];
-
 tutteCarte.push(...legioData);
+
 const ecceData=[
   {nome:'GAAR',ruolo:'Eccezionale',lv:8,xp:99,forza:19,qi:19,motiv:20,spirito:18,di:20,mosse:['Fascino','Lupo Grigio','Schaffo del Paraca','Fuoco Naja'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DA827B70-4C54-4CFC-B898-C7F675CAE15D.png',ecce:true},
 ];
@@ -756,16 +861,66 @@ function openCollezione(){
     card.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">`:'👤'}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${eliteBadge}</div>`;
     grid.appendChild(card);
   });
-  document.getElementById('collezione-modal').style.display='flex';
+  const modal=document.getElementById('collezione-modal');
+  modal.style.display='flex';
+  // Reset position
+  document.getElementById('coll-sheet').style.transform='translateY(0)';
+  initCollSwipe();
 }
 function closeCollezione(){document.getElementById('collezione-modal').style.display='none';}
 
-function openSoldatoFromTutte(idx){
-  openSoldatoData(tutteCarte[idx]);
+// ===== SWIPE DOWN per chiudere Collezione =====
+function initCollSwipe(){
+  const sheet=document.getElementById('coll-sheet');
+  const modal=document.getElementById('collezione-modal');
+  let startY=0,isDragging=false;
+
+  function onStart(e){
+    startY=e.touches?e.touches[0].clientY:e.clientY;
+    isDragging=true;
+    sheet.style.transition='none';
+  }
+  function onMove(e){
+    if(!isDragging)return;
+    const y=(e.touches?e.touches[0].clientY:e.clientY)-startY;
+    if(y>0){
+      sheet.style.transform=`translateY(${y}px)`;
+      if(e.cancelable)e.preventDefault();
+    }
+  }
+  function onEnd(e){
+    if(!isDragging)return;
+    isDragging=false;
+    const y=(e.changedTouches?e.changedTouches[0].clientY:e.clientY)-startY;
+    sheet.style.transition='transform 0.25s ease';
+    if(y>80){
+      sheet.style.transform='translateY(100%)';
+      setTimeout(()=>{
+        modal.style.display='none';
+        sheet.style.transform='translateY(0)';
+        sheet.style.transition='';
+      },250);
+    } else {
+      sheet.style.transform='translateY(0)';
+    }
+  }
+
+  // Rimuovi listener vecchi e aggiungi nuovi
+  const handle=document.getElementById('coll-handle');
+  handle.removeEventListener('touchstart',handle._ts);
+  handle.removeEventListener('touchmove',handle._tm);
+  handle.removeEventListener('touchend',handle._te);
+  handle._ts=onStart; handle._tm=onMove; handle._te=onEnd;
+  handle.addEventListener('touchstart',onStart,{passive:true});
+  handle.addEventListener('touchmove',onMove,{passive:false});
+  handle.addEventListener('touchend',onEnd,{passive:true});
+
+  // Anche tap fuori chiude
+  modal.onclick=e=>{if(e.target===modal)closeCollezione();};
 }
-function openSoldato(idx){
-  openSoldatoData(squadraData[idx]);
-}
+
+function openSoldatoFromTutte(idx){ openSoldatoData(tutteCarte[idx]); }
+function openSoldato(idx){ openSoldatoData(squadraData[idx]); }
 function openSoldatoData(s){
   if(!s)return;
   document.getElementById('sm-nome').textContent=s.nome.toUpperCase();
@@ -785,258 +940,157 @@ function openSoldatoData(s){
   document.getElementById('sm-radar-poly').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
   const labels=['FORZA','QI','MOTIV','SPIRITO','DI'];
   document.getElementById('sm-stats-list').innerHTML=labels.map((l,i)=>`<div style="display:flex;align-items:center;gap:6px;"><div style="font-size:8px;color:rgba(120,90,30,0.5);width:36px;letter-spacing:1px;">${l}</div><div style="flex:1;height:5px;background:#f0ece0;border-radius:3px;overflow:hidden;"><div style="height:100%;background:#C9A84C;width:${(stats[i]/20)*100}%;border-radius:3px;"></div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;width:16px;text-align:right;">${stats[i]}</div></div>`).join('');
-  // Tasto sostituisci (solo se carta nella squadra)
   const replBtn=document.getElementById('sm-replace-btn');
   if(replBtn){
     const sqIdx=squadraData.indexOf(s);
-    if(sqIdx>=0){
-      replBtn.style.display='block';
-      replBtn.onclick=()=>{closeSoldato();openReplace(sqIdx);};
-    } else {
-      replBtn.style.display='none';
-    }
+    if(sqIdx>=0){replBtn.style.display='block';replBtn.onclick=()=>{closeSoldato();openReplace(sqIdx);};}
+    else{replBtn.style.display='none';}
   }
   document.getElementById('soldato-modal').style.display='flex';
 }
 function closeSoldato(){document.getElementById('soldato-modal').style.display='none';}
-document.getElementById('collezione-modal').addEventListener('click',e=>{if(e.target===document.getElementById('collezione-modal'))closeCollezione();});
 document.getElementById('soldato-modal').addEventListener('click',e=>{if(e.target===document.getElementById('soldato-modal'))closeSoldato();});
 
 function rinominaSquadra(){const n=prompt('Nome della tua squadra:');if(n&&n.trim())document.getElementById('squadra-nome').textContent=n.trim().toUpperCase();}
 
-
-const ZAINO_ITEMS = [
-  // ARMI
-  {nome:"Pistola Beretta M9",cat:"armi",ico:"🔫",img:null},
-  {nome:"Fucile AR70/90",cat:"armi",ico:"🔫",img:null},
-  {nome:"Fucile di Precisione",cat:"armi",ico:"🎯",img:null},
-  {nome:"Pistola a Salve",cat:"armi",ico:"🔫",img:null},
-  {nome:"Baionetta",cat:"armi",ico:"🗡️",img:null},
-  {nome:"Coltello Tattico",cat:"armi",ico:"🔪",img:null},
-  {nome:"Coltellino Multiuso",cat:"armi",ico:"🔪",img:null},
-  {nome:"Granata a Mano",cat:"armi",ico:"💣",img:null},
-  {nome:"Granata Fumogena",cat:"armi",ico:"💨",img:null},
-  // MUNIZIONAMENTO
-  {nome:"Caricatore 5.56mm",cat:"munizionamento",ico:"🟡",img:null},
-  {nome:"Caricatore 9mm",cat:"munizionamento",ico:"🟡",img:null},
-  {nome:"Munizioni 7.62mm",cat:"munizionamento",ico:"🟠",img:null},
-  {nome:"Fumogeno Colorato",cat:"munizionamento",ico:"🔴",img:null},
-  {nome:"Bengala",cat:"munizionamento",ico:"🔆",img:null},
-  {nome:"Tracciante",cat:"munizionamento",ico:"⚡",img:null},
-  // RISORSE
-  {nome:"Kit Pronto Soccorso",cat:"risorse",ico:"🏥",img:null},
-  {nome:"Razione K",cat:"risorse",ico:"🥫",img:null},
-  {nome:"Borraccia Militare",cat:"risorse",ico:"💧",img:null},
-  {nome:"Accendino",cat:"risorse",ico:"🔥",img:null},
-  {nome:"Batteria Extra",cat:"risorse",ico:"🔋",img:null},
-  {nome:"Corda Tattica 15m",cat:"risorse",ico:"🪢",img:null},
-  {nome:"Laccio Emostatico",cat:"risorse",ico:"🩹",img:null},
-  {nome:"Cerotti Sterili",cat:"risorse",ico:"🩹",img:null},
-  {nome:"Morfina",cat:"risorse",ico:"💊",img:null},
-  // GADGET
-  {nome:"Visore Notturno",cat:"gadget",ico:"👁️",img:null},
-  {nome:"Radio Ricetrasmittente",cat:"gadget",ico:"📻",img:null},
-  {nome:"Torcia Tattica",cat:"gadget",ico:"🔦",img:null},
-  {nome:"Bussola",cat:"gadget",ico:"🧭",img:null},
-  {nome:"Fischietto",cat:"gadget",ico:"📣",img:null},
-  {nome:"Binocolo",cat:"gadget",ico:"🔭",img:null},
-  {nome:"Occhiali da Poligono",cat:"gadget",ico:"🥽",img:null},
-  {nome:"Maschera Antigas",cat:"gadget",ico:"😷",img:null},
-  {nome:"Orologio Militare",cat:"gadget",ico:"⌚",img:null},
-  {nome:"Pinza Multiuso",cat:"gadget",ico:"🔧",img:null},
-  {nome:"Telefonino Cifrato",cat:"gadget",ico:"📱",img:null},
-  {nome:"Drone Tascabile",cat:"gadget",ico:"🚁",img:null},
-  // EQUIPAGGIAMENTO
-  {nome:"Elmetto Ballistico",cat:"risorse",ico:"⛑️",img:null},
-  {nome:"Giubbotto Antiproiettile",cat:"risorse",ico:"🦺",img:null},
-  {nome:"Piastre Protettive",cat:"risorse",ico:"🛡️",img:null},
-  {nome:"Combat Jacket",cat:"risorse",ico:"🧥",img:null},
-  {nome:"Stivali Anfibi",cat:"risorse",ico:"👢",img:null},
-  {nome:"Guanti Tattici",cat:"risorse",ico:"🧤",img:null},
-  {nome:"Maschera Aviatore",cat:"gadget",ico:"🥽",img:null},
-  {nome:"Zaino ALICE 80L",cat:"risorse",ico:"🎒",img:null},
-  {nome:"Porta Caricatori",cat:"risorse",ico:"🟤",img:null},
-  // MAPPE
-  {nome:"Mappa Topografica",cat:"mappe",ico:"🗺️",img:null},
-  {nome:"Mappa Stradale",cat:"mappe",ico:"🗺️",img:null},
-  {nome:"Carta Geografica DEM",cat:"mappe",ico:"📍",img:null},
-  {nome:"Tavola Schematica Base",cat:"mappe",ico:"📋",img:null},
-  {nome:"Mappa Stella Polare",cat:"mappe",ico:"⭐",img:null},
-  {nome:"Foto Aerea Settore",cat:"mappe",ico:"🛰️",img:null},
-  {nome:"Codice Griglia NATO",cat:"mappe",ico:"🔢",img:null},
-  {nome:"Piano Operativo",cat:"mappe",ico:"📄",img:null},
-  {nome:"Rilevamento GPS",cat:"mappe",ico:"📡",img:null},
+// ===== ZAINO =====
+const ZAINO_ITEMS=[
+  {nome:"Pistola Beretta M9",cat:"armi",ico:"🔫"},{nome:"Fucile AR70/90",cat:"armi",ico:"🔫"},{nome:"Fucile di Precisione",cat:"armi",ico:"🎯"},{nome:"Pistola a Salve",cat:"armi",ico:"🔫"},{nome:"Baionetta",cat:"armi",ico:"🗡️"},{nome:"Coltello Tattico",cat:"armi",ico:"🔪"},{nome:"Coltellino Multiuso",cat:"armi",ico:"🔪"},{nome:"Granata a Mano",cat:"armi",ico:"💣"},{nome:"Granata Fumogena",cat:"armi",ico:"💨"},
+  {nome:"Caricatore 5.56mm",cat:"munizionamento",ico:"🟡"},{nome:"Caricatore 9mm",cat:"munizionamento",ico:"🟡"},{nome:"Munizioni 7.62mm",cat:"munizionamento",ico:"🟠"},{nome:"Fumogeno Colorato",cat:"munizionamento",ico:"🔴"},{nome:"Bengala",cat:"munizionamento",ico:"🔆"},{nome:"Tracciante",cat:"munizionamento",ico:"⚡"},
+  {nome:"Kit Pronto Soccorso",cat:"risorse",ico:"🏥"},{nome:"Razione K",cat:"risorse",ico:"🥫"},{nome:"Borraccia Militare",cat:"risorse",ico:"💧"},{nome:"Accendino",cat:"risorse",ico:"🔥"},{nome:"Batteria Extra",cat:"risorse",ico:"🔋"},{nome:"Corda Tattica 15m",cat:"risorse",ico:"🪢"},{nome:"Laccio Emostatico",cat:"risorse",ico:"🩹"},{nome:"Cerotti Sterili",cat:"risorse",ico:"🩹"},{nome:"Morfina",cat:"risorse",ico:"💊"},
+  {nome:"Visore Notturno",cat:"gadget",ico:"👁️"},{nome:"Radio Ricetrasmittente",cat:"gadget",ico:"📻"},{nome:"Torcia Tattica",cat:"gadget",ico:"🔦"},{nome:"Bussola",cat:"gadget",ico:"🧭"},{nome:"Fischietto",cat:"gadget",ico:"📣"},{nome:"Binocolo",cat:"gadget",ico:"🔭"},{nome:"Occhiali da Poligono",cat:"gadget",ico:"🥽"},{nome:"Maschera Antigas",cat:"gadget",ico:"😷"},{nome:"Orologio Militare",cat:"gadget",ico:"⌚"},{nome:"Pinza Multiuso",cat:"gadget",ico:"🔧"},{nome:"Telefonino Cifrato",cat:"gadget",ico:"📱"},{nome:"Drone Tascabile",cat:"gadget",ico:"🚁"},
+  {nome:"Elmetto Ballistico",cat:"risorse",ico:"⛑️"},{nome:"Giubbotto Antiproiettile",cat:"risorse",ico:"🦺"},{nome:"Zaino ALICE 80L",cat:"risorse",ico:"🎒"},
+  {nome:"Mappa Topografica",cat:"mappe",ico:"🗺️"},{nome:"Mappa Stradale",cat:"mappe",ico:"🗺️"},{nome:"Carta Geografica DEM",cat:"mappe",ico:"📍"},{nome:"Piano Operativo",cat:"mappe",ico:"📄"},{nome:"Rilevamento GPS",cat:"mappe",ico:"📡"},
 ];
-const ZAINO_CATS = ["tutto","armi","munizionamento","risorse","gadget","mappe"];
-let zainoCatAttiva = "tutto";
-let zainoRicerca = "";
-
+let zainoCatAttiva="tutto",zainoRicerca="";
 function renderZaino(){
-  const grid = document.getElementById('zaino-grid');
-  if(!grid) return;
-  let items = ZAINO_ITEMS.filter(it => {
-    const catOk = zainoCatAttiva === "tutto" || it.cat === zainoCatAttiva;
-    const cercaOk = !zainoRicerca || it.nome.toLowerCase().includes(zainoRicerca.toLowerCase());
-    return catOk && cercaOk;
+  const grid=document.getElementById('zaino-grid');if(!grid)return;
+  let items=ZAINO_ITEMS.filter(it=>{
+    const catOk=zainoCatAttiva==="tutto"||it.cat===zainoCatAttiva;
+    const cercaOk=!zainoRicerca||it.nome.toLowerCase().includes(zainoRicerca.toLowerCase());
+    return catOk&&cercaOk;
   });
-  grid.innerHTML = items.map(it => `
-    <div class="zaino-card">
-      <div class="zaino-card-img">${it.ico}</div>
-      <div class="zaino-card-nome">${it.nome}</div>
-      <div class="zaino-card-cat">${it.cat}</div>
-    </div>`).join('');
+  grid.innerHTML=items.map(it=>`<div class="zaino-card"><div class="zaino-card-img">${it.ico}</div><div class="zaino-card-nome">${it.nome}</div><div class="zaino-card-cat">${it.cat}</div></div>`).join('');
 }
 function setZainoCat(cat){
-  zainoCatAttiva = cat;
-  document.querySelectorAll('.ztab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+  zainoCatAttiva=cat;
+  document.querySelectorAll('.ztab').forEach(t=>t.classList.toggle('active',t.dataset.cat===cat));
   renderZaino();
 }
 
-
 // ===== GALLERIA FOTO =====
-function apriFoto(i){ document.getElementById('file'+i).click(); }
-function caricaFoto(i, input){
-  if(!input.files||!input.files[0]) return;
-  const file = input.files[0];
-  const url = URL.createObjectURL(file);
-  const box = document.getElementById('gal'+i);
-  box.innerHTML = '';
+function apriFoto(i){document.getElementById('file'+i).click();}
+function caricaFoto(i,input){
+  if(!input.files||!input.files[0])return;
+  const file=input.files[0];const url=URL.createObjectURL(file);
+  const box=document.getElementById('gal'+i);box.innerHTML='';
   if(file.type.startsWith('video/')){
-    const v = document.createElement('video');
-    v.src=url; v.style.cssText='width:100%;height:100%;object-fit:cover;';
-    v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true;
-    box.appendChild(v);
-  } else {
-    const img = document.createElement('img');
-    img.src=url; img.style.cssText='width:100%;height:100%;object-fit:cover;';
-    box.appendChild(img);
+    const v=document.createElement('video');v.src=url;v.style.cssText='width:100%;height:100%;object-fit:cover;';v.autoplay=true;v.muted=true;v.loop=true;v.playsInline=true;box.appendChild(v);
+  }else{
+    const img=document.createElement('img');img.src=url;img.style.cssText='width:100%;height:100%;object-fit:cover;';box.appendChild(img);
   }
-  // Aggiungi input file di nuovo (nascosto)
-  const inp = document.createElement('input');
-  inp.type='file'; inp.accept='image/*,video/*'; inp.style.display='none';
-  inp.id='file'+i; inp.onchange=function(){caricaFoto(i,this);};
-  box.appendChild(inp);
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*,video/*';inp.style.display='none';inp.id='file'+i;inp.onchange=function(){caricaFoto(i,this);};box.appendChild(inp);
 }
-
 
 // ===== SOSTITUZIONE CARTE SQUADRA =====
-let replaceSlotIdx = -1;
-
+let replaceSlotIdx=-1;
 function openReplace(slotIdx){
-  replaceSlotIdx = slotIdx;
-  const current = squadraData[slotIdx];
-  document.getElementById('rm-slot-label').textContent = 'Sostituisci: ' + current.nome;
-  const grid = document.getElementById('rm-grid');
-  grid.innerHTML = '';
-  // Mostra tutte le carte disponibili (non già in squadra)
-  tutteCarte.forEach((s, i) => {
-    const inSquad = squadraData.includes(s);
-    const card = document.createElement('div');
-    card.className = 'rm-card' + (inSquad ? ' locked-card' : '');
-    card.innerHTML = `<div class="rm-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤'}</div><div class="rm-name">${s.nome}</div>`;
-    if(!inSquad){
-      card.onclick = () => confirmReplace(s);
-    } else {
-      card.title = 'Già in squadra';
-    }
+  replaceSlotIdx=slotIdx;
+  const current=squadraData[slotIdx];
+  document.getElementById('rm-slot-label').textContent='Sostituisci: '+current.nome;
+  const grid=document.getElementById('rm-grid');grid.innerHTML='';
+  tutteCarte.forEach((s,i)=>{
+    const inSquad=squadraData.includes(s);
+    const card=document.createElement('div');
+    card.className='rm-card'+(inSquad?' locked-card':'');
+    card.innerHTML=`<div class="rm-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤'}</div><div class="rm-name">${s.nome}</div>`;
+    if(!inSquad){card.onclick=()=>confirmReplace(s);}else{card.title='Già in squadra';}
     grid.appendChild(card);
   });
-  document.getElementById('replace-modal').style.display = 'flex';
+  document.getElementById('replace-modal').style.display='flex';
 }
-
 function confirmReplace(newCard){
-  if(replaceSlotIdx < 0) return;
-  squadraData[replaceSlotIdx] = newCard;
-  closeReplace();
-  buildSquadraGrid();
-  toast('Carta sostituita: ' + newCard.nome);
+  if(replaceSlotIdx<0)return;
+  squadraData[replaceSlotIdx]=newCard;closeReplace();buildSquadraGrid();toast('Carta sostituita: '+newCard.nome);
 }
+function closeReplace(){document.getElementById('replace-modal').style.display='none';replaceSlotIdx=-1;}
+document.getElementById('replace-modal').addEventListener('click',e=>{if(e.target===document.getElementById('replace-modal'))closeReplace();});
 
-function closeReplace(){
-  document.getElementById('replace-modal').style.display = 'none';
-  replaceSlotIdx = -1;
-}
-
-document.getElementById('replace-modal').addEventListener('click', e => {
-  if(e.target === document.getElementById('replace-modal')) closeReplace();
-});
-
-
-function openMappaModal(){
-  const m = document.getElementById('mappa-modal');
-  m.style.display = 'flex';
-  setTimeout(buildMap, 80);
-}
-function closeMappaModal(){
-  document.getElementById('mappa-modal').style.display = 'none';
-}
-
-function apriVideo(){
-  document.getElementById('file-video').click();
-}
+// ===== MAPPA MODAL =====
+function openMappaModal(){const m=document.getElementById('mappa-modal');m.style.display='flex';setTimeout(buildMap,80);}
+function closeMappaModal(){document.getElementById('mappa-modal').style.display='none';}
+function apriVideo(){document.getElementById('file-video').click();}
 function caricaVideo(input){
-  if(!input.files||!input.files[0]) return;
-  const url = URL.createObjectURL(input.files[0]);
-  const box = document.getElementById('video-box');
-  box.innerHTML = '';
-  const v = document.createElement('video');
-  v.src=url; v.style.cssText='width:100%;height:100%;object-fit:cover;';
-  v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true;
-  box.appendChild(v);
+  if(!input.files||!input.files[0])return;
+  const url=URL.createObjectURL(input.files[0]);
+  const box=document.getElementById('video-box');box.innerHTML='';
+  const v=document.createElement('video');v.src=url;v.style.cssText='width:100%;height:100%;object-fit:cover;';v.autoplay=true;v.muted=true;v.loop=true;v.playsInline=true;box.appendChild(v);
 }
-
 
 // ===== GERARCHIA =====
-const GERARCHIA = [
-  {grado:'Presidente della Repubblica', nome:'Gen. Arturo Ferrante', ruolo:'Capo Supremo delle Forze Armate', desc:'Massima autorità istituzionale sulle Forze Armate italiane.', storia:'Nato nel 1948 a Napoli, ha dedicato 40 anni al servizio dello Stato. Decorato tre volte, è considerato il simbolo dell\'istituzione repubblicana. Nei corridoi si dice che abbia dormito più notti in caserma che a casa propria. «Il soldato non smette mai di essere soldato», ripete sempre.', ico:'🇮🇹', img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/735DA794-892E-488B-98A4-AF76DBB85282.png'},
-  {grado:'Ministro della Difesa', nome:'On. Cristina Valenti', ruolo:'Ministro della Difesa', desc:'Responsabile politica delle Forze Armate italiane.', storia:'Avvocata di professione, è diventata ministra a 48 anni. Figlia di un maresciallo dei carabinieri, ha sempre sentito il richiamo delle divise. Nei suoi discorsi cita spesso Sun Tzu. Nessuno sa se lo abbia letto davvero.', ico:'⚖️', img:null},
-  {grado:'Generale di Corpo d\'Armata', nome:'Gen. Marco Stelvio', ruolo:'Capo di Stato Maggiore della Difesa', desc:'Coordinamento strategico interforze.', storia:'Ha servito in tre teatri operativi internazionali. La cicatrice sul mento? "Non è interessante quanto sembra", risponde sempre. I subalterni lo chiamano Il Granito.', ico:'⭐', img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C99AB79A-48BE-4B6A-8753-177B8AC73034.png'},
-  {grado:'Generale di Corpo d\'Armata', nome:'Gen. Bruno Laghetti', ruolo:'Capo di Stato Maggiore dell\'Esercito', desc:'Comando dell\'Esercito Italiano.', storia:'Ossessionato dalla logistica. Dice sempre: "Un esercito marcia sul ventre." Ha introdotto il caffè nelle cucine di campo. Rivoluzionario.', ico:'🎖️', img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B8AFF5AC-11D8-447B-9DE5-EBBE1AE90AFD.png'},
-  {grado:'Generale di Divisione', nome:'Gen. Filippo Caruso', ruolo:'Comando Formazione, Specializzazione e Dottrina', desc:'Responsabile dell\'addestramento e della dottrina militare.', storia:'Ex istruttore di combattimento corpo a corpo. A 62 anni fa ancora 50 flessioni ogni mattina. I giovani ufficiali non riescono a stargli dietro.', ico:'📋', img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E732C86E-3E18-4CEA-A0A7-F2214E42829C.png'},
-  {grado:'Generale di Brigata', nome:'Gen. Sandro Mura', ruolo:'Comandante Scuola di Fanteria', desc:'Formazione dei soldati di fanteria.', storia:'Laureato in filosofia prima di arruolarsi. Cita Platone durante le marce. I soldati lo adorano e lo odiano in egual misura.', ico:'🏫', img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/410D289C-FD18-4A80-B538-03D7DE29F191.png'},
-  {grado:'Colonnello', nome:'Col. Pietro Savino', ruolo:'Comandante di Reggimento', desc:'Comanda il reggimento paracadutisti.', storia:'Ha saltato oltre 600 volte. La prima? "Avevo più paura della firma del congedo che del vuoto." Leggenda della caserma.', ico:'🦅', img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8D04138C-985E-4FD5-98FC-1A90F93E191C.png'},
-  {grado:'Tenente Colonnello', nome:'Ten.Col. Andrea Beltrame', ruolo:'Comandante di Battaglione', desc:'Coordina le operazioni del battaglione.', storia:'Metodico al punto di essere ossessivo. Il suo piano d\'addestramento è stato copiato da tre altre unità. Non l\'ha presa bene.', ico:'📊', img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CCDF1299-997D-411E-PENDING.png'},
-  {grado:'Capitano', nome:'Cap. Lucia Ferretti', ruolo:'Comandante di Compagnia', desc:'Comanda la compagnia operativa.', storia:'Prima donna al comando di una compagnia parà. Ha sentito ogni battuta possibile. Le ha archiviate tutte e le cita quando vuole demolire qualcuno moralmente.', ico:'⚡', img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B3B7F323-84B9-4BA8-B47A-FD08A8B09C4D.png'},
-  {grado:'Tenente', nome:'Ten. Giacomo Volta', ruolo:'Comandante di Plotone', desc:'Il tuo diretto superiore.', storia:'Ha 26 anni e l\'aria di chi non ha ancora capito bene dove si trova. Ma quando si tratta di orientamento notturno, nessuno lo batte. Strano.', ico:'🔭', img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/65112C3C-2917-48D6-A593-D169B8AB132E.png'},
+const GERARCHIA=[
+  {grado:'Presidente della Repubblica',nome:'Gen. Arturo Ferrante',ruolo:'Capo Supremo delle Forze Armate',desc:'Massima autorità istituzionale sulle Forze Armate italiane.',storia:'Nato nel 1948 a Napoli, ha dedicato 40 anni al servizio dello Stato. Decorato tre volte, è considerato il simbolo dell\'istituzione repubblicana. Nei corridoi si dice che abbia dormito più notti in caserma che a casa propria. «Il soldato non smette mai di essere soldato», ripete sempre.',ico:'🇮🇹',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/735DA794-892E-488B-98A4-AF76DBB85282.png'},
+  {grado:'Ministro della Difesa',nome:'On. Cristina Valenti',ruolo:'Ministro della Difesa',desc:'Responsabile politica delle Forze Armate italiane.',storia:'Avvocata di professione, è diventata ministra a 48 anni. Figlia di un maresciallo dei carabinieri, ha sempre sentito il richiamo delle divise. Nei suoi discorsi cita spesso Sun Tzu. Nessuno sa se lo abbia letto davvero.',ico:'⚖️',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DBD4324C-62B1-4AD4-B505-7701ABB513C1.png'},
+  {grado:'Generale di Corpo d\'Armata',nome:'Gen. Marco Stelvio',ruolo:'Capo di Stato Maggiore della Difesa',desc:'Coordinamento strategico interforze.',storia:'Ha servito in tre teatri operativi internazionali. La cicatrice sul mento? "Non è interessante quanto sembra", risponde sempre. I subalterni lo chiamano Il Granito.',ico:'⭐',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C99AB79A-48BE-4B6A-8753-177B8AC73034.png'},
+  {grado:'Generale di Corpo d\'Armata',nome:'Gen. Bruno Laghetti',ruolo:'Capo di Stato Maggiore dell\'Esercito',desc:'Comando dell\'Esercito Italiano.',storia:'Ossessionato dalla logistica. Dice sempre: "Un esercito marcia sul ventre." Ha introdotto il caffè nelle cucine di campo. Rivoluzionario.',ico:'🎖️',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B8AFF5AC-11D8-447B-9DE5-EBBE1AE90AFD.png'},
+  {grado:'Generale di Divisione',nome:'Gen. Filippo Caruso',ruolo:'Comando Formazione, Specializzazione e Dottrina',desc:'Responsabile dell\'addestramento e della dottrina militare.',storia:'Ex istruttore di combattimento corpo a corpo. A 62 anni fa ancora 50 flessioni ogni mattina. I giovani ufficiali non riescono a stargli dietro.',ico:'📋',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E732C86E-3E18-4CEA-A0A7-F2214E42829C.png'},
+  {grado:'Generale di Brigata',nome:'Gen. Sandro Mura',ruolo:'Comandante Scuola di Fanteria',desc:'Formazione dei soldati di fanteria.',storia:'Laureato in filosofia prima di arruolarsi. Cita Platone durante le marce. I soldati lo adorano e lo odiano in egual misura.',ico:'🏫',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/410D289C-FD18-4A80-B538-03D7DE29F191.png'},
+  {grado:'Colonnello',nome:'Col. Pietro Savino',ruolo:'Comandante di Reggimento',desc:'Comanda il reggimento paracadutisti.',storia:'Ha saltato oltre 600 volte. La prima? "Avevo più paura della firma del congedo che del vuoto." Leggenda della caserma.',ico:'🦅',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8D04138C-985E-4FD5-98FC-1A90F93E191C.png'},
+  {grado:'Tenente Colonnello',nome:'Ten.Col. Andrea Beltrame',ruolo:'Comandante di Battaglione',desc:'Coordina le operazioni del battaglione.',storia:'Metodico al punto di essere ossessivo. Il suo piano d\'addestramento è stato copiato da tre altre unità. Non l\'ha presa bene.',ico:'📊',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CCDF1299-997D-411E-A7E2-FC02C9CE0F0B.png'},
+  {grado:'Capitano',nome:'Cap. Lucia Ferretti',ruolo:'Comandante di Compagnia',desc:'Comanda la compagnia operativa.',storia:'Prima donna al comando di una compagnia parà. Ha sentito ogni battuta possibile. Le ha archiviate tutte e le cita quando vuole demolire qualcuno moralmente.',ico:'⚡',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B3B7F323-84B9-4BA8-B47A-FD08A8B09C4D.png'},
+  {grado:'Tenente',nome:'Ten. Giacomo Volta',ruolo:'Comandante di Plotone',desc:'Il tuo diretto superiore.',storia:'Ha 26 anni e l\'aria di chi non ha ancora capito bene dove si trova. Ma quando si tratta di orientamento notturno, nessuno lo batte. Strano.',ico:'🔭',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/65112C3C-2917-48D6-A593-D169B8AB132E.png'},
 ];
 
 function openGerarchia(){
-  const modal = document.getElementById('gerarchia-modal');
-  const pira = document.getElementById('gerarchia-piramide');
-  pira.innerHTML = '';
-  GERARCHIA.forEach((g, i) => {
-    const livello = i;
-    const maxW = 100;
-    const minW = 40;
-    const w = maxW - (livello * (maxW - minW) / (GERARCHIA.length - 1));
-    const div = document.createElement('div');
-    div.style.cssText = `width:${w}%;margin:0 auto;background:linear-gradient(135deg,#7B1020,#a01828);border-radius:6px;padding:8px 10px;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 6px rgba(0,0,0,0.2);`;
-    div.innerHTML = `<span style="font-size:16px;">${g.ico}</span><div style="flex:1;min-width:0;"><div style="font-family:'Bebas Neue',sans-serif;font-size:11px;color:#C9A84C;letter-spacing:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${g.nome}</div><div style="font-size:8px;color:rgba(255,255,255,0.6);letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${g.grado}</div></div>`;
-    div.onclick = () => openGerarchiaCard(i);
+  const modal=document.getElementById('gerarchia-modal');
+  const pira=document.getElementById('gerarchia-piramide');
+  pira.innerHTML='';
+  GERARCHIA.forEach((g,i)=>{
+    const w=100-(i*(60/(GERARCHIA.length-1)));
+    const div=document.createElement('div');
+    div.style.cssText=`width:${w}%;margin:0 auto;background:linear-gradient(135deg,#7B1020,#a01828);border-radius:6px;padding:8px 10px;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 6px rgba(0,0,0,0.2);`;
+    div.innerHTML=`<span style="font-size:16px;">${g.ico}</span><div style="flex:1;min-width:0;"><div style="font-family:'Bebas Neue',sans-serif;font-size:11px;color:#C9A84C;letter-spacing:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${g.nome}</div><div style="font-size:8px;color:rgba(255,255,255,0.6);letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${g.grado}</div></div>`;
+    div.onclick=()=>openGerarchiaCard(i);
     pira.appendChild(div);
   });
-  modal.style.display = 'flex';
+  modal.style.display='flex';
 }
-function closeGerarchia(){ document.getElementById('gerarchia-modal').style.display = 'none'; }
+function closeGerarchia(){document.getElementById('gerarchia-modal').style.display='none';}
 
 function openGerarchiaCard(idx){
-  const g = GERARCHIA[idx];
-  document.getElementById('gc-nome').textContent = g.nome;
-  document.getElementById('gc-grado').textContent = g.grado;
-  document.getElementById('gc-ruolo').textContent = g.ruolo;
-  document.getElementById('gc-desc').textContent = g.desc;
-  document.getElementById('gc-storia').textContent = g.storia;
-  document.getElementById('gc-avatar').innerHTML = g.img ? `<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;">` : g.ico;
+  const g=GERARCHIA[idx];
+  document.getElementById('gc-nome').textContent=g.nome;
+  document.getElementById('gc-grado').textContent=g.grado;
+  document.getElementById('gc-ruolo').textContent=g.ruolo;
+  document.getElementById('gc-desc').textContent=g.desc;
+  document.getElementById('gc-storia').textContent=g.storia;
+  document.getElementById('gc-avatar').innerHTML=g.img?`<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;">`:g.ico;
   gcPage(0);
-  document.getElementById('gerarchia-card-modal').style.display = 'flex';
+  const modal=document.getElementById('gerarchia-card-modal');
+  modal.style.display='flex';
+  // Tap fuori → chiudi
+  modal.onclick=e=>{if(e.target===modal)closeGerarchiaCard();};
+  // Swipe orizzontale sul box
+  const box=document.getElementById('gc-box');
+  let gcSwipeX=0;
+  box.ontouchstart=e=>{gcSwipeX=e.touches[0].clientX;};
+  box.ontouchend=e=>{
+    const dx=e.changedTouches[0].clientX-gcSwipeX;
+    if(Math.abs(dx)>40){
+      const cur=document.getElementById('gc-page-1').style.display==='none'?0:1;
+      if(dx<0&&cur===0)gcPage(1);
+      else if(dx>0&&cur===1)gcPage(0);
+      else if(dx>0&&cur===0)closeGerarchiaCard();
+    }
+  };
 }
-function closeGerarchiaCard(){ document.getElementById('gerarchia-card-modal').style.display = 'none'; }
+function closeGerarchiaCard(){document.getElementById('gerarchia-card-modal').style.display='none';}
 
 function gcPage(p){
-  document.getElementById('gc-page-0').style.display = p===0?'block':'none';
-  document.getElementById('gc-page-1').style.display = p===1?'block':'none';
-  document.getElementById('gc-dot-0').style.background = p===0?'#C9A84C':'rgba(255,255,255,0.3)';
-  document.getElementById('gc-dot-1').style.background = p===1?'#C9A84C':'rgba(255,255,255,0.3)';
+  document.getElementById('gc-page-0').style.display=p===0?'block':'none';
+  document.getElementById('gc-page-1').style.display=p===1?'block':'none';
+  document.getElementById('gc-dot-0').style.background=p===0?'#C9A84C':'rgba(255,255,255,0.3)';
+  document.getElementById('gc-dot-1').style.background=p===1?'#C9A84C':'rgba(255,255,255,0.3)';
 }
 
 // ===== TOAST =====
