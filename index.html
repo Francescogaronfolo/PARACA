@@ -47,7 +47,7 @@ animation:tp 4s ease-in-out infinite;
 #btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;box-shadow:none;}
 
 /* ====== GIOCO ====== */
-#screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f5f5f0;}
+#screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f5f5f0;height:100%;}
 #screen-map.show{display:flex;}
 
 /* TOP BAR */
@@ -71,7 +71,7 @@ font-size:11px;color:rgba(120,90,30,0.7);letter-spacing:3px;
 }
 
 /* TAB CONTENT */
-#tab-content{flex:1;overflow:hidden;position:relative;}
+#tab-content{flex:1;overflow:hidden;position:relative;min-height:0;}
 
 /* ===== TAB CASERMA ===== */
 #tab-caserma{
@@ -114,7 +114,7 @@ padding:0 4px;
 #map-img{display:block;width:100%;max-width:500px;}
 
 /* Puntini */
-.door{position:absolute;cursor:pointer;width:14px;height:14px;transform:translate(-50%,-50%);z-index:10;}
+.door{position:absolute;cursor:pointer;width:9px;height:9px;transform:translate(-50%,-50%);z-index:10;}
 
 .door-dot{width:100%;height:100%;border-radius:3px;background:#C9A84C;opacity:0.92;}
 .door.locked .door-dot{background:#c0392b;}
@@ -210,13 +210,7 @@ cursor:pointer;
 .zaino-empty{text-align:center;padding:40px 20px;color:rgba(120,90,30,0.4);font-family:‘Rajdhani’,sans-serif;font-size:14px;letter-spacing:2px;}
 
 /* ===== BOTTOM TAB BAR ===== */
-#tab-bar{
-flex-shrink:0;height:56px;
-background:#fff;
-border-top:1px solid rgba(180,150,80,0.25);
-display:flex;align-items:stretch;
-z-index:200;
-}
+#tab-bar{flex-shrink:0;height:58px;background:#fff;border-top:2px solid rgba(180,150,80,0.3);display:flex;align-items:stretch;z-index:200;position:relative;}
 .tab-btn{
 flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
 cursor:pointer;border:none;background:none;gap:2px;
@@ -577,7 +571,6 @@ function buildMap(){
   scaleX=mw/MW; scaleY=mh/MH;
 
   document.querySelectorAll('.door').forEach(e=>e.remove());
-  drawRoads();
   DOORS.forEach(d=>{
     const el=document.createElement('div');
     el.className='door'+(d.locked?' locked':'');
@@ -590,7 +583,6 @@ function buildMap(){
     el.addEventListener('pointerdown',e=>{e.stopPropagation();handleDoor(d);});
     wrap.appendChild(el);
   });
-  initNpcs();
 }
 
 function handleDoor(d){
@@ -810,256 +802,6 @@ function rinominaSquadra(){
   if(nome&&nome.trim()) document.getElementById('squadra-nome').textContent=nome.trim().toUpperCase();
 }
 
-// ===== SISTEMA STRADE ANIMATE =====
-// Polyline che seguono le strade reali della mappa in prospettiva (1183x1330)
-// Ogni strada è una sequenza di punti [x,y] da sinistra a destra / alto a basso
-// MOSTRA_DEBUG=true per vedere i cerchi di calibrazione
-
-let MOSTRA_DEBUG = false;
-
-const ROADS = [
-  // STRADA ALTA (davanti agli edifici nord: palestra, spaccio, supporto, riparazioni, 2a comp, infermeria)
-  { id:"nord", points:[
-    [165,345],[290,340],[420,336],[555,333],[685,333],[820,337],[958,344],[1048,352]
-  ]},
-  // STRADA CENTRALE (davanti a mensa/cinema, tempio, piazzale, museo)
-  { id:"centrale", points:[
-    [155,515],[280,510],[415,507],[550,504],[685,506],[820,512],[960,522],[1068,535]
-  ]},
-  // STRADA UFFICI (davanti a ufficio, comando, logistica, 1a comp, supporto2, guardie)
-  { id:"uffici", points:[
-    [150,663],[278,658],[415,653],[552,650],[692,654],[832,663],[972,678],[1062,693]
-  ]},
-  // STRADA SUD (davanti ad asso, torre, parcheggio)
-  { id:"sud", points:[
-    [168,793],[295,783],[425,776],[558,773],[692,780],[828,793],[950,813]
-  ]},
-  // STRADA BASSA (armeria, dormitorio, torri, borgo)
-  { id:"bassa", points:[
-    [162,940],[290,930],[425,922],[560,918],[695,923],[828,935],[950,952]
-  ]},
-
-  // VERTICALE SINISTRA (palestra -> mensa -> cinema -> ufficio -> asso -> armeria -> dormitorio)
-  { id:"v_sinistra", points:[
-    [207,345],[207,430],[207,515],[202,600],[197,665],[192,730],[187,795],[183,940],[178,1060],[174,1170]
-  ]},
-  // VERTICALE 2 (spaccio -> comando -> torre)
-  { id:"v_spaccio", points:[
-    [325,340],[322,430],[318,515],[314,600],[310,663],[306,730],[302,795]
-  ]},
-  // VERTICALE 3 (sup.avio -> tempio -> logistica -> torre/parcheggio)
-  { id:"v_logistica", points:[
-    [500,335],[503,420],[507,510],[511,595],[515,653],[518,730],[521,795]
-  ]},
-  // VERTICALE 4 (riparazioni -> piazzale -> 1a comp -> parcheggio -> torri)
-  { id:"v_centrale", points:[
-    [615,333],[613,420],[611,508],[609,595],[607,655],[605,725],[603,795],[601,940]
-  ]},
-  // VERTICALE 5 (2a comp -> piazzale/museo -> supporto2 -> borgo)
-  { id:"v_destra", points:[
-    [730,333],[733,420],[736,510],[739,600],[742,660],[745,730],[748,800],[751,945]
-  ]},
-  // VERTICALE EST (infermeria -> museo -> guardie)
-  { id:"v_est", points:[
-    [955,344],[950,430],[944,520],[940,610],[938,680],[946,750],[954,820]
-  ]},
-];
-
-// ---- Disegna strade (SVG overlay) ----
-function drawRoads(){
-  const wrap = document.getElementById("map-wrap");
-  if(!wrap) return;
-
-  const old = document.getElementById("road-svg");
-  if(old) old.remove();
-
-  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
-  svg.id = "road-svg";
-  svg.setAttribute("viewBox", `0 0 ${MW} ${MH}`);
-  svg.style.cssText = "position:absolute;inset:0;width:100%;height:100%;z-index:8;pointer-events:none;";
-
-  // Linee strade
-  ROADS.forEach(r => {
-    for(let i = 0; i < r.points.length-1; i++){
-      const [ax,ay] = r.points[i];
-      const [bx,by] = r.points[i+1];
-      const line = document.createElementNS("http://www.w3.org/2000/svg","line");
-      line.setAttribute("x1",ax); line.setAttribute("y1",ay);
-      line.setAttribute("x2",bx); line.setAttribute("y2",by);
-      line.setAttribute("stroke","rgba(255,255,255,0.18)");
-      line.setAttribute("stroke-width","3");
-      line.setAttribute("stroke-linecap","round");
-      svg.appendChild(line);
-    }
-
-    // Debug: cerchi blu sui punti
-    if(MOSTRA_DEBUG){
-      r.points.forEach(([px,py]) => {
-        const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
-        c.setAttribute("cx",px); c.setAttribute("cy",py); c.setAttribute("r","7");
-        c.setAttribute("fill","rgba(0,120,255,0.8)");
-        svg.appendChild(c);
-      });
-    }
-  });
-
-  wrap.appendChild(svg);
-}
-
-// ---- Calcola punto più vicino sulle strade (per ancorare gli NPC) ----
-function nearestRoadPoint(x, y){
-  let best = null, bestD = Infinity;
-  ROADS.forEach(r => {
-    for(let i = 0; i < r.points.length-1; i++){
-      const [ax,ay] = r.points[i], [bx,by] = r.points[i+1];
-      const dx = bx-ax, dy = by-ay, len2 = dx*dx+dy*dy;
-      const t = Math.max(0, Math.min(1, ((x-ax)*dx+(y-ay)*dy)/len2));
-      const px = ax+t*dx, py = ay+t*dy;
-      const d = Math.hypot(x-px, y-py);
-      if(d < bestD){ bestD=d; best={x:px,y:py,road:r.id,seg:i,t}; }
-    }
-  });
-  return best;
-}
-
-// ---- Avanza lungo una strada di una certa distanza ----
-function advanceOnRoad(roadId, segIdx, t, dist){
-  const road = ROADS.find(r=>r.id===roadId);
-  if(!road) return null;
-  const pts = road.points;
-  let i = segIdx;
-  let curT = t;
-  let remaining = dist;
-
-  while(remaining > 0 && i < pts.length-1){
-    const [ax,ay] = pts[i], [bx,by] = pts[i+1];
-    const segLen = Math.hypot(bx-ax, by-ay);
-    const distToEnd = segLen * (1-curT);
-
-    if(remaining <= distToEnd){
-      curT += remaining/segLen;
-      const nx = ax + curT*(bx-ax);
-      const ny = ay + curT*(by-ay);
-      return {x:nx, y:ny, road:roadId, seg:i, t:curT, done:false};
-    } else {
-      remaining -= distToEnd;
-      i++;
-      curT = 0;
-    }
-  }
-  // Fine strada — torna a inizio
-  return {x:pts[0][0], y:pts[0][1], road:roadId, seg:0, t:0, done:true};
-}
-
-// ============================================================
-// NPC ANIMATI — si muovono autonomamente lungo le strade
-// ============================================================
-const NPC_CONFIGS = [
-  // Soldatini verdi (fanteria)
-  {sym:"V", color:"rgba(80,200,80,0.9)",  road:"nord",      speed:28, startT:0.0},
-  {sym:"V", color:"rgba(80,200,80,0.9)",  road:"nord",      speed:22, startT:0.5},
-  {sym:"V", color:"rgba(80,200,80,0.85)", road:"centrale",  speed:25, startT:0.2},
-  {sym:"V", color:"rgba(80,200,80,0.85)", road:"uffici",    speed:30, startT:0.7},
-  // Soldatini blu (altro reparto)
-  {sym:"V", color:"rgba(80,140,220,0.9)", road:"v_sinistra",speed:20, startT:0.1},
-  {sym:"V", color:"rgba(80,140,220,0.9)", road:"v_centrale",speed:24, startT:0.4},
-  // Stelle oro (ufficiali)
-  {sym:"★", color:"rgba(220,180,40,0.95)",road:"centrale",  speed:15, startT:0.8},
-  {sym:"★", color:"rgba(220,180,40,0.95)",road:"v_destra",  speed:18, startT:0.3},
-  // Diamanti rossi (elementi speciali)
-  {sym:"◆", color:"rgba(220,80,80,0.85)", road:"sud",       speed:12, startT:0.5},
-  {sym:"◆", color:"rgba(220,80,80,0.85)", road:"bassa",     speed:14, startT:0.2},
-  // Puntini scuri (guardie)
-  {sym:"●", color:"rgba(60,40,20,0.6)",   road:"v_est",     speed:10, startT:0.0},
-  {sym:"●", color:"rgba(60,40,20,0.6)",   road:"v_spaccio", speed:16, startT:0.6},
-];
-
-let npcState = [];
-let npcAnimFrame = null;
-let npcLastTime = 0;
-
-function initNpcs(){
-  const wrap = document.getElementById("map-wrap");
-  if(!wrap) return;
-
-  // Rimuovi NPC esistenti
-  wrap.querySelectorAll(".npc-dot").forEach(e=>e.remove());
-  npcState = [];
-
-  NPC_CONFIGS.forEach((cfg, i) => {
-    const road = ROADS.find(r=>r.id===cfg.road);
-    if(!road) return;
-
-    // Posizione iniziale lungo la strada
-    const totalLen = roadLength(road);
-    const startDist = totalLen * cfg.startT;
-    const pos = advanceOnRoad(cfg.road, 0, 0, startDist) ||
-                {x:road.points[0][0], y:road.points[0][1], road:cfg.road, seg:0, t:0};
-
-    const el = document.createElement("div");
-    el.className = "npc-dot";
-    el.style.cssText = `position:absolute;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold;color:${cfg.color};pointer-events:none;z-index:25;text-shadow:0 0 4px rgba(0,0,0,0.7);transform:translate(-50%,-50%);`;
-    el.textContent = cfg.sym;
-    wrap.appendChild(el);
-
-    npcState.push({
-      el, road:cfg.road, seg:pos.seg||0, t:pos.t||0,
-      x:pos.x, y:pos.y, speed:cfg.speed,
-      dir: Math.random() > 0.3 ? 1 : -1  // direzione casuale (avanti/indietro)
-    });
-
-    el.style.left = (pos.x * scaleX) + "px";
-    el.style.top  = (pos.y * scaleY) + "px";
-  });
-
-  if(npcAnimFrame) cancelAnimationFrame(npcAnimFrame);
-  npcLastTime = performance.now();
-  animateNpcs(npcLastTime);
-}
-
-function roadLength(road){
-  let len = 0;
-  for(let i=0; i<road.points.length-1; i++){
-    const [ax,ay]=road.points[i],[bx,by]=road.points[i+1];
-    len += Math.hypot(bx-ax,by-ay);
-  }
-  return len;
-}
-
-function animateNpcs(now){
-  npcAnimFrame = requestAnimationFrame(animateNpcs);
-  const dt = Math.min((now - npcLastTime)/1000, 0.1); // secondi, max 100ms
-  npcLastTime = now;
-
-  npcState.forEach(npc => {
-    const dist = npc.speed * dt * npc.dir;
-    const result = advanceOnRoad(npc.road, npc.seg, npc.t, Math.abs(dist));
-
-    if(!result || result.done){
-      // Inverti direzione alla fine/inizio strada
-      npc.dir *= -1;
-      const road = ROADS.find(r=>r.id===npc.road);
-      if(road){
-        if(npc.dir > 0){ npc.seg=0; npc.t=0; npc.x=road.points[0][0]; npc.y=road.points[0][1]; }
-        else { npc.seg=road.points.length-2; npc.t=1; const p=road.points[road.points.length-1]; npc.x=p[0]; npc.y=p[1]; }
-      }
-    } else {
-      npc.seg = result.seg; npc.t = result.t;
-      npc.x = result.x;    npc.y = result.y;
-    }
-
-    npc.el.style.left = (npc.x * scaleX) + "px";
-    npc.el.style.top  = (npc.y * scaleY) + "px";
-  });
-}
-
-// ---- Aggiorna posizioni NPC dopo resize ----
-function updateNpcPositions(){
-  npcState.forEach(npc => {
-    npc.el.style.left = (npc.x * scaleX) + "px";
-    npc.el.style.top  = (npc.y * scaleY) + "px";
-  });
-}
 
 // ===== TOAST =====
 let tt=null;
@@ -1079,12 +821,6 @@ bS.addEventListener('click',()=>{
   document.getElementById('screen-login').style.display='none';
   document.getElementById('screen-map').classList.add('show');
   switchTab('caserma');
-  setTimeout(()=>{
-    drawRails();
-    initTapMove();
-    initNpcs();
-    updateOmino();
-  },150);
   setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+c+'"'),500);
 });
 document.getElementById('bg-login').style.backgroundImage="url('bg.png?v=7')";
