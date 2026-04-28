@@ -431,13 +431,12 @@ cursor:pointer;border:none;
       </div>
       <div style="font-size:16px;">✏️</div>
     </div>
-    <div class="squadra-grid">
-      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 1</div></div>
-      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 2</div></div>
-      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 3</div></div>
-      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 4</div></div>
-      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 5</div></div>
-      <div class="carta-pg"><div class="carta-img">👤</div><div class="carta-nome">Soldato 6</div></div>
+    <div class="squadra-grid" id="squadra-grid"></div>
+    <!-- RIQUADRO COLLEZIONE -->
+    <div id="btn-collezione" onclick="openCollezione()" style="margin:10px 4px 4px;border-radius:10px;overflow:hidden;cursor:pointer;border:2px solid rgba(123,16,32,0.2);background:rgba(123,16,32,0.04);display:flex;align-items:center;justify-content:center;min-height:70px;transition:background .15s;">
+      <div id="coll-img-wrap" style="width:100%;height:70px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#7B1020 0%,#C9A84C 100%);">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:4px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.4);">TUTTE LE CARTE</span>
+      </div>
     </div>
   </div>
 </div>
@@ -515,6 +514,65 @@ cursor:pointer;border:none;
   </div>
 </div>
 
+<!-- MODAL SCHEDA SOLDATO -->
+
+<!-- MODAL COLLEZIONE CARTE -->
+
+<div id="collezione-modal" style="display:none;position:fixed;inset:0;z-index:650;background:rgba(0,0,0,0.8);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;">
+  <div style="background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+    <!-- Header -->
+    <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:3px;">COLLEZIONE CARTE</div>
+      <button onclick="closeCollezione()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer;">✕</button>
+    </div>
+    <!-- Griglia -->
+    <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
+  </div>
+</div>
+
+<div id="soldato-modal" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.7);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;">
+  <div style="background:#fff;border-radius:12px;width:min(340px,92vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:mIn .2s ease;">
+    <!-- Header con foto e info base -->
+    <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;gap:12px;position:relative;">
+      <button onclick="closeSoldato()" style="position:absolute;top:8px;right:10px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;">✕</button>
+      <div id="sm-avatar" style="width:64px;height:64px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;overflow:hidden;">👤</div>
+      <div>
+        <div id="sm-ruolo" style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:2px;">Ruolo</div>
+        <div id="sm-nome" style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:2px;line-height:1;">SOLDATO</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+          <div style="font-size:9px;color:rgba(255,255,255,0.5);">LV</div>
+          <div id="sm-lv" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;">1</div>
+          <div style="flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden;">
+            <div id="sm-xpbar" style="height:100%;background:#C9A84C;width:20%;border-radius:2px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Mosse / Abilità stile Pokemon -->
+    <div style="padding:12px 14px;border-bottom:1px solid #f0ece0;">
+      <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Abilità</div>
+      <div id="sm-mosse" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"></div>
+    </div>
+    <!-- Pentagono statistiche -->
+    <div style="padding:12px 14px;">
+      <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Statistiche</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg id="sm-radar" viewBox="0 0 120 116" width="90" height="87" style="flex-shrink:0;">
+          <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="#eee" stroke-width="1.5"/>
+          <polygon points="60,28 89,48 79,84 41,84 31,48" fill="none" stroke="#eee" stroke-width="1"/>
+          <polygon id="sm-radar-poly" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1.5"/>
+          <circle cx="60" cy="6" r="2.5" fill="#C9A84C"/>
+          <circle cx="114" cy="44" r="2.5" fill="#C9A84C"/>
+          <circle cx="94" cy="106" r="2.5" fill="#C9A84C"/>
+          <circle cx="26" cy="106" r="2.5" fill="#C9A84C"/>
+          <circle cx="6" cy="44" r="2.5" fill="#C9A84C"/>
+        </svg>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px;" id="sm-stats-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -562,7 +620,7 @@ function switchTab(tab){
   const btn=document.getElementById('tbtn-'+tab);
   if(btn)btn.classList.add('active');
   if(tab==='caserma') buildMap();
-  if(tab==='profilo') updateProfiloUI();
+  if(tab==='profilo'){updateProfiloUI();buildSquadraGrid();}
 }
 
 // ===== BUILD MAP =====
@@ -671,6 +729,141 @@ function updateRadarFull(){
 }
 document.getElementById('stats-modal').addEventListener('click',e=>{if(e.target===document.getElementById('stats-modal'))toggleStats();});
 
+
+// ===== SQUADRA DATA =====
+const squadraData = [
+  {
+    nome:'LACAN', ruolo:'Soldato Semplice', lv:1, xp:15,
+    forza:11, qi:10, motiv:9, spirito:11, di:10,
+    mosse:['Fuoco Naja','Orientamento Assente','Esaurimento','Sigaretta Fichetta'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/195A7AB0-5F41-4D88-8908-44BE45EB2339.png'
+  },
+  {
+    nome:'SONNY THE PARATROOPER', ruolo:'Soldato Semplice', lv:1, xp:20,
+    forza:10, qi:11, motiv:14, spirito:12, di:10,
+    mosse:['Piegamenti','Fuga dalla Valle','Sputo Lontano','Passo del Leopardo'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5180A3B8-0E69-45CB-A7D0-DF56A79B1343.png'
+  },
+  {
+    nome:'CAVADDU', ruolo:'Soldato Semplice', lv:1, xp:10,
+    forza:12, qi:9, motiv:11, spirito:10, di:11,
+    mosse:['Scarpone Pesante','Braccio di Ferro','Mossa Alcolica','Sigaro Pesante'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5858ECB1-25D9-4EB5-927E-5ADC6BD28D26.png'
+  },
+  {
+    nome:'HUGLY DIGGER', ruolo:'Soldato Semplice', lv:1, xp:8,
+    forza:14, qi:8, motiv:10, spirito:9, di:12,
+    mosse:['Scava Tasso','Schaffo del Paraca','Bomba a Mano','Puzzo di Morte'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C7A82DCE-09D3-45B2-A9B8-E77B8AB64BB7.png'
+  },
+  {
+    nome:'KASKOMATOM', ruolo:'Soldato Semplice', lv:1, xp:12,
+    forza:10, qi:12, motiv:11, spirito:10, di:13,
+    mosse:['Tappacessi','Sturacessi','Multiuso','Forza del Monte'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D423AE7B-E843-4B09-9722-AE44A25E1A43.png'
+  },
+  {
+    nome:'FUNNYBOY', ruolo:'Soldato Semplice', lv:1, xp:18,
+    forza:9, qi:10, motiv:13, spirito:13, di:9,
+    mosse:['Fascino','Fantasma','Lupo Grigio','Graffio del Gattino'],
+    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E314AAA3-3066-4467-9FFB-AFC02998F90D.png'
+  },
+];
+
+
+
+// ===== TUTTE LE CARTE (array espandibile) =====
+const tutteCarte = [...squadraData];
+// In futuro: aggiungere altre carte qui con push o ampliando l'array
+
+// ===== POPUP COLLEZIONE =====
+function openCollezione(){
+  const modal = document.getElementById('collezione-modal');
+  if(!modal) return;
+  const grid = document.getElementById('coll-grid');
+  grid.innerHTML = '';
+  tutteCarte.forEach((s,i)=>{
+    const card = document.createElement('div');
+    card.className = 'carta-pg';
+    card.style.cursor = 'pointer';
+    card.onclick = ()=> openSoldato(i < squadraData.length ? i : 0);
+    card.innerHTML = `
+      <div class="carta-img">${s.img ? `<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">` : '👤'}</div>
+      <div style="padding:3px 4px;">
+        <div class="carta-nome" style="font-size:9px;">${s.nome}</div>
+        <div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  modal.style.display = 'flex';
+}
+function closeCollezione(){
+  document.getElementById('collezione-modal').style.display = 'none';
+}
+
+function buildSquadraGrid(){
+  const grid=document.getElementById('squadra-grid');
+  if(!grid)return;
+  grid.innerHTML='';
+  squadraData.forEach((s,i)=>{
+    const card=document.createElement('div');
+    card.className='carta-pg';
+    card.onclick=()=>openSoldato(i);
+    card.innerHTML=`
+      <div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤'}</div>
+      <div style="padding:3px 4px;">
+        <div class="carta-nome">${s.nome}</div>
+        <div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openSoldato(idx){
+  const s=squadraData[idx];
+  document.getElementById('sm-nome').textContent=s.nome.toUpperCase();
+  document.getElementById('sm-ruolo').textContent=s.ruolo;
+  document.getElementById('sm-lv').textContent=s.lv;
+  document.getElementById('sm-xpbar').style.width=(s.xp)+'%';
+  // Avatar
+  const av=document.getElementById('sm-avatar');
+  av.innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤';
+  // Mosse
+  const mosseEl=document.getElementById('sm-mosse');
+  mosseEl.innerHTML=s.mosse.map(m=>`
+    <div style="background:#f0ece0;border:1px solid rgba(180,150,80,0.25);border-radius:6px;padding:7px 8px;text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#7B1020;letter-spacing:1px;">${m}</div>
+    </div>`).join('');
+  // Radar
+  const cx=60,cy=58,maxR=52;
+  const stats=[s.forza,s.qi,s.motiv,s.spirito,s.di];
+  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
+  const pts=stats.map((v,i)=>{const r=(v/20)*maxR;return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];});
+  document.getElementById('sm-radar-poly').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+  // Stats list
+  const labels=['FORZA','QI','MOTIV','SPIRITO','DI'];
+  document.getElementById('sm-stats-list').innerHTML=labels.map((l,i)=>`
+    <div style="display:flex;align-items:center;gap:6px;">
+      <div style="font-size:8px;color:rgba(120,90,30,0.5);width:36px;letter-spacing:1px;">${l}</div>
+      <div style="flex:1;height:5px;background:#f0ece0;border-radius:3px;overflow:hidden;">
+        <div style="height:100%;background:#C9A84C;width:${(stats[i]/20)*100}%;border-radius:3px;"></div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;width:16px;text-align:right;">${stats[i]}</div>
+    </div>`).join('');
+
+  document.getElementById('soldato-modal').style.display='flex';
+}
+
+function closeSoldato(){
+  document.getElementById('soldato-modal').style.display='none';
+}
+document.getElementById('collezione-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('collezione-modal'))closeCollezione();
+});
+document.getElementById('soldato-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('soldato-modal'))closeSoldato();
+});
+
 // ===== SQUADRA =====
 function rinominaSquadra(){
   const nome=prompt('Nome della tua squadra:');
@@ -678,72 +871,62 @@ function rinominaSquadra(){
 }
 
 // ===== OMINO + FRECCE =====
-const omino = {
-  // Posizione iniziale: ingresso caserma (in coordinate mappa originale)
-  x: 580, y: 720,
-  speed: 18  // px per step sulla mappa originale
-};
+const NODES={"N1": [200, 155], "N2": [350, 155], "N3": [476, 155], "N4": [610, 155], "N5": [780, 155], "N6": [965, 155], "NE1": [1080, 155], "NE2": [1080, 290], "NE3": [1080, 450], "W1": [70, 210], "W2": [70, 388], "W3": [70, 525], "W4": [70, 675], "W5": [70, 820], "NW": [200, 280], "C1": [136, 580], "C2": [284, 580], "C3": [442, 580], "C4": [580, 580], "C5": [702, 580], "C6": [840, 580], "C7": [980, 580], "M1": [442, 430], "M2": [580, 430], "M3": [702, 430], "M4": [580, 520], "U1": [136, 750], "U2": [284, 750], "U3": [442, 750], "U4": [702, 750], "U5": [840, 750], "U6": [980, 750], "S1": [200, 820], "S2": [355, 820], "S3": [576, 820], "S4": [760, 820], "S5": [980, 820], "B1": [200, 960], "B2": [355, 960], "B3": [576, 1050], "B4": [760, 1050], "D1": [200, 1080], "D2": [200, 1220], "E1": [580, 1280], "E2": [580, 1180]};
+const EDGES=[["N1", "N2"], ["N2", "N3"], ["N3", "N4"], ["N4", "N5"], ["N5", "N6"], ["N6", "NE1"], ["NE1", "NE2"], ["NE2", "NE3"], ["NE3", "C7"], ["W1", "NW"], ["NW", "N1"], ["W1", "W2"], ["W2", "W3"], ["W3", "W4"], ["W4", "W5"], ["W2", "C1"], ["W4", "U1"], ["W5", "S1"], ["N1", "NW"], ["N2", "C2"], ["N3", "C3"], ["N4", "M1"], ["N5", "C5"], ["N6", "C7"], ["C1", "C2"], ["C2", "C3"], ["C3", "M1"], ["M1", "M2"], ["M2", "C4"], ["C4", "M3"], ["M3", "C5"], ["C5", "C6"], ["C6", "C7"], ["M1", "M4"], ["M2", "M4"], ["M3", "M4"], ["C4", "M4"], ["C1", "U1"], ["C2", "U2"], ["C3", "U3"], ["C5", "U4"], ["C6", "U5"], ["C7", "U6"], ["U1", "U2"], ["U2", "U3"], ["U3", "U4"], ["U4", "U5"], ["U5", "U6"], ["U1", "S1"], ["U3", "S2"], ["U3", "S3"], ["U5", "S4"], ["U6", "S5"], ["S1", "S2"], ["S2", "S3"], ["S3", "S4"], ["S4", "S5"], ["S1", "B1"], ["S2", "B2"], ["S3", "B3"], ["S4", "B4"], ["B1", "B2"], ["B2", "B3"], ["B3", "B4"], ["B1", "D1"], ["D1", "D2"], ["D2", "E2"], ["E2", "E1"], ["B3", "E2"]];
+const ADJ={};
+Object.keys(NODES).forEach(n=>ADJ[n]=[]);
+EDGES.forEach(([a,b])=>{ADJ[a].push(b);ADJ[b].push(a);});
 
-let moveInterval = null;
-let moveDir = null;
+const omino={x:580,y:520,node:'M4'};
+let moveInterval=null;
+let moveDir=null;
 
 function startMove(dir){
-  moveDir = dir;
-  if(moveInterval) return;
-  moveInterval = setInterval(()=>{
-    if(!moveDir) return;
-    const step = omino.speed;
-    if(moveDir==='up')    omino.y = Math.max(0,    omino.y - step);
-    if(moveDir==='down')  omino.y = Math.min(MH,   omino.y + step);
-    if(moveDir==='left')  omino.x = Math.max(0,    omino.x - step);
-    if(moveDir==='right') omino.x = Math.min(MW,   omino.x + step);
-    updateOmino();
-    checkNearDoor();
-  }, 120);
+  if(moveInterval)return;
+  moveDir=dir;
+  moveStep(dir);
+  moveInterval=setInterval(()=>moveStep(dir),150);
 }
-
 function stopMove(){
-  moveDir = null;
+  moveDir=null;
   clearInterval(moveInterval);
-  moveInterval = null;
+  moveInterval=null;
 }
-
+function moveStep(dir){
+  const cur=omino.node;
+  const [cx,cy]=NODES[cur];
+  let best=null,bestScore=-99999;
+  for(const nb of (ADJ[cur]||[])){
+    const [nx,ny]=NODES[nb];
+    const dx=nx-cx,dy=ny-cy;
+    let score=0;
+    if(dir==='up')    score=-dy-Math.abs(dx)*0.4;
+    if(dir==='down')  score= dy-Math.abs(dx)*0.4;
+    if(dir==='left')  score=-dx-Math.abs(dy)*0.4;
+    if(dir==='right') score= dx-Math.abs(dy)*0.4;
+    if(score>bestScore){bestScore=score;best=nb;}
+  }
+  if(best&&bestScore>10){
+    omino.node=best;
+    omino.x=NODES[best][0];
+    omino.y=NODES[best][1];
+    updateOmino();
+  }
+}
 function updateOmino(){
-  const el = document.getElementById('omino');
-  if(!el) return;
-  el.style.left = (omino.x * scaleX) + 'px';
-  el.style.top  = (omino.y * scaleY) + 'px';
+  const el=document.getElementById('omino');
+  if(!el)return;
+  el.style.left=(omino.x*scaleX)+'px';
+  el.style.top=(omino.y*scaleY)+'px';
 }
-
-function checkNearDoor(){
-  const threshold = 60;
+document.getElementById('btn-azione').addEventListener('click',()=>{
+  let nearest=null,minDist=9999;
   for(const d of DOORS){
-    const dx = Math.abs(omino.x - d.x);
-    const dy = Math.abs(omino.y - d.y);
-    if(dx < threshold && dy < threshold){
-      // Evidenzia il nome edificio vicino
-      return;
-    }
+    const dist=Math.sqrt((omino.x-d.x)**2+(omino.y-d.y)**2);
+    if(dist<130&&dist<minDist){minDist=dist;nearest=d;}
   }
-}
-
-// Tasto AZIONE: apre edificio vicino
-document.getElementById('btn-azione').addEventListener('click', ()=>{
-  const threshold = 80;
-  let nearest = null;
-  let minDist = 9999;
-  for(const d of DOORS){
-    const dist = Math.sqrt(Math.pow(omino.x-d.x,2)+Math.pow(omino.y-d.y,2));
-    if(dist < threshold && dist < minDist){
-      minDist = dist;
-      nearest = d;
-    }
-  }
-  if(nearest){
-    handleDoor(nearest);
-  } else {
-    toast('Avvicinati a un edificio');
-  }
+  if(nearest){handleDoor(nearest);}
+  else{toast('Avvicinati a un edificio');}
 });
 
 // ===== TOAST =====
