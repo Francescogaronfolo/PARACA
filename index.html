@@ -322,7 +322,7 @@ cursor:pointer;border:none;
   <!-- Mappa centrata -->
   <div id="map-container">
     <div id="map-wrap">
-      <img id="map-img-bg" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
+      <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
       <div id="omino"></div>
     </div>
   </div>
@@ -845,7 +845,7 @@ function drawRails(){
     canvas.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;';
     wrap.insertBefore(canvas,wrap.firstChild);
   }
-  const img=document.getElementById('map-img-bg')||document.getElementById('map-img');
+  const img=document.getElementById('map-img');
   canvas.width=img?img.naturalWidth||1183:1183;
   canvas.height=img?img.naturalHeight||1330:1330;
 
