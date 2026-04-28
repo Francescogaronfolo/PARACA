@@ -19,7 +19,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 #bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.38);}
 #login-title{position:absolute;left:0;right:0;top:8%;text-align:center;z-index:2;pointer-events:none;}
 #login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(52px,14vw,110px);color:#7B1020;-webkit-text-stroke:2px #3d000a;line-height:1;animation:tp 4s ease-in-out infinite;}
-@keyframes tp{0%,100%{color:#C9A84C;}50%{color:#f0d060;}}
+@keyframes tp{0%,100%{color:#FFD700;}50%{color:#FFF176;}}
 #popup{position:relative;z-index:2;background:rgba(235,226,206,0.92);border:2px solid rgba(123,16,32,0.4);border-radius:8px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
 #popup::before,#popup::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
@@ -48,7 +48,7 @@ background:#f5f5f0;
 
 /* TOP BAR */
 #top-bar{flex-shrink:0;height:48px;background:#7B1020;border-bottom:none;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
-#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:26px;color:#C9A84C;-webkit-text-stroke:2px #7a5000;letter-spacing:2px;text-shadow:0 2px 0 rgba(0,0,0,0.3),0 0 12px rgba(201,168,76,0.4);animation:tp 4s ease-in-out infinite;}
+#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:28px;color:#FFD700;-webkit-text-stroke:3px #8B4500;letter-spacing:3px;text-shadow:3px 3px 0 #8B4500,-1px -1px 0 #8B4500,1px -1px 0 #8B4500,-1px 1px 0 #8B4500;animation:tp 4s ease-in-out infinite;}
 #top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(0,0,0,0.75);letter-spacing:3px;}
 
 /* TAB CONTENT — cresce tra top-bar e tab-bar */
@@ -77,8 +77,8 @@ overflow-y:auto;
 .door{position:absolute;cursor:pointer;width:32px;height:32px;transform:translate(-50%,-50%);z-index:10;display:flex;align-items:center;justify-content:center;}
 .door-dot{width:9px;height:9px;border-radius:2px;background:#C9A84C;opacity:0.95;flex-shrink:0;}
 .door.locked .door-dot{background:#c0392b;}
-.door.torre .door-dot{background:transparent;border-radius:50%;border:2px solid #3a8fff;box-shadow:0 0 7px rgba(58,143,255,0.8);animation:torrepulse 2s ease-in-out infinite;width:12px;height:12px;}
-@keyframes torrepulse{0%,100%{box-shadow:0 0 4px rgba(58,143,255,0.5);}50%{box-shadow:0 0 12px rgba(58,143,255,1);}}
+.door.torre .door-dot{background:#c0392b;border-radius:3px;border:none;box-shadow:0 0 8px rgba(220,50,50,0.9),0 0 16px rgba(220,50,50,0.5);animation:torrepulse 2s ease-in-out infinite;width:9px;height:9px;}
+@keyframes torrepulse{0%,100%{box-shadow:0 0 6px rgba(220,50,50,0.7),0 0 3px rgba(255,80,80,0.4);}50%{box-shadow:0 0 14px rgba(255,80,80,1),0 0 28px rgba(220,50,50,0.6);}}
 .door-tip{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(10,8,5,0.92);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 6px;font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;color:#C9A84C;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
 .door:hover .door-tip,.door:active .door-tip{opacity:1;}
 
@@ -263,27 +263,43 @@ z-index:200;
 ```
 <!-- TAB CASERMA -->
 <div id="tab-caserma">
+  <!-- 5 FOTO -->
   <div id="gallery">
     <div class="gal-box" id="gal0" onclick="apriFoto(0)"><span id="gal0-lbl">FOTO<br>1</span><input type="file" id="file0" accept="image/*,video/*" style="display:none" onchange="caricaFoto(0,this)"></div>
     <div class="gal-box" id="gal1" onclick="apriFoto(1)"><span id="gal1-lbl">FOTO<br>2</span><input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)"></div>
     <div class="gal-box" id="gal2" onclick="apriFoto(2)"><span id="gal2-lbl">FOTO<br>3</span><input type="file" id="file2" accept="image/*,video/*" style="display:none" onchange="caricaFoto(2,this)"></div>
     <div class="gal-box" id="gal3" onclick="apriFoto(3)"><span id="gal3-lbl">FOTO<br>4</span><input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)"></div>
-<div class="gal-box" id="gal4" onclick="apriFoto(4)"><span id="gal4-lbl">FOTO<br>5</span><input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)"></div>
+    <div class="gal-box" id="gal4" onclick="apriFoto(4)"><span id="gal4-lbl">FOTO<br>5</span><input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)"></div>
   </div>
-  <div id="map-container">
-    <div id="map-wrap">
-      <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma">
+
+  <!-- RIQUADRO MAPPA -->
+  <div onclick="openMappaModal()" style="width:calc(100% - 16px);margin:0 8px 8px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+    <span style="font-size:26px;">🗺️</span>
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;line-height:1;">MAPPA</div>
+      <div style="font-size:8px;color:rgba(255,255,255,0.55);letter-spacing:2px;margin-top:2px;">Esplora la caserma</div>
+    </div>
+    <div style="margin-left:auto;font-size:18px;opacity:0.5;">›</div>
+  </div>
+
+  <!-- RIGA GERARCHIA (2×2) + VIDEO (3×3) -->
+  <div style="width:calc(100% - 16px);margin:0 8px 8px;display:flex;gap:8px;flex-shrink:0;">
+    <div onclick="toast('Gerarchia — presto!')" style="flex:2;aspect-ratio:1;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.2);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;">
+      <span style="font-size:26px;">⭐</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#fff;letter-spacing:3px;text-align:center;">GERARCHIA</div>
+    </div>
+    <div id="video-box" onclick="apriVideo()" style="flex:3;aspect-ratio:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.15);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;overflow:hidden;position:relative;">
+      <span style="font-size:28px;">🎬</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:2px;text-align:center;">VIDEO<br>CASERMA</div>
+      <input type="file" id="file-video" accept="video/*" style="display:none" onchange="caricaVideo(this)">
     </div>
   </div>
-  <div id="caserma-info">
-    <div class="info-pill"><span class="lbl">Giorno</span><span class="val" id="dv">1</span></div>
-    <div class="info-pill"><span class="lbl">Grado</span><span class="val">Soldato</span></div>
-  </div>
-  <div id="extra-buttons">
-    <div class="ext-btn" onclick="toast('Linea di comando — presto!')">Linea di Comando</div>
-    <div class="ext-btn" onclick="toast('Plotone — presto!')">Plotone</div>
-    <div class="ext-btn" onclick="toast('Missioni — presto!')">Missioni</div>
-    <div class="ext-btn" onclick="toast('Archivio — presto!')">Archivio</div>
+
+  <!-- CLASSIFICA -->
+  <div onclick="toast('Classifica generale — presto!')" style="width:calc(100% - 16px);margin:0 8px 12px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+    <span style="font-size:24px;">🏆</span>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;">CLASSIFICA GENERALE</div>
+    <div style="margin-left:auto;font-size:18px;opacity:0.5;">›</div>
   </div>
 </div>
 
@@ -363,6 +379,31 @@ z-index:200;
 </div><!-- fine screen-map -->
 
 <!-- MODAL EDIFICIO -->
+
+<!-- MODAL MAPPA CASERMA -->
+
+<div id="mappa-modal" style="display:none;position:fixed;inset:0;z-index:500;background:#000;flex-direction:column;">
+  <div style="flex-shrink:0;height:46px;background:#7B1020;display:flex;align-items:center;justify-content:space-between;padding:0 12px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">🗺️ CASERMA</div>
+    <button onclick="closeMappaModal()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">✕</button>
+  </div>
+  <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;background:linear-gradient(180deg,#e8a020 0%,#c97a10 100%);">
+    <div id="map-container" style="width:100%;flex-shrink:0;display:flex;justify-content:center;padding:4px 4px 0;">
+      <div id="map-wrap" style="position:relative;display:inline-block;">
+        <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma" style="display:block;width:100%;max-width:500px;">
+      </div>
+    </div>
+    <div id="caserma-info" style="width:100%;display:flex;gap:6px;padding:6px 8px;flex-shrink:0;">
+      <div class="info-pill"><span class="lbl">Giorno</span><span class="val" id="dv">1</span></div>
+      <div class="info-pill"><span class="lbl">Grado</span><span class="val">Soldato</span></div>
+    </div>
+    <div style="width:100%;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 8px 10px;flex-shrink:0;">
+      <div class="ext-btn" onclick="toast('Linea di comando — presto!')">Linea di Comando</div>
+      <div class="ext-btn" onclick="toast('Plotone — presto!')">Plotone</div>
+      <div class="ext-btn" onclick="toast('Missioni — presto!')">Missioni</div>
+    </div>
+  </div>
+</div>
 
 <div id="modal">
   <div id="mbox">
@@ -858,6 +899,30 @@ function closeReplace(){
 document.getElementById('replace-modal').addEventListener('click', e => {
   if(e.target === document.getElementById('replace-modal')) closeReplace();
 });
+
+
+function openMappaModal(){
+  const m = document.getElementById('mappa-modal');
+  m.style.display = 'flex';
+  setTimeout(buildMap, 80);
+}
+function closeMappaModal(){
+  document.getElementById('mappa-modal').style.display = 'none';
+}
+
+function apriVideo(){
+  document.getElementById('file-video').click();
+}
+function caricaVideo(input){
+  if(!input.files||!input.files[0]) return;
+  const url = URL.createObjectURL(input.files[0]);
+  const box = document.getElementById('video-box');
+  box.innerHTML = '';
+  const v = document.createElement('video');
+  v.src=url; v.style.cssText='width:100%;height:100%;object-fit:cover;';
+  v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true;
+  box.appendChild(v);
+}
 
 // ===== TOAST =====
 let tt=null;
