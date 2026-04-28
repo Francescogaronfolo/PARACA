@@ -820,11 +820,46 @@ function rinominaSquadra(){
   if(nome&&nome.trim()) document.getElementById('squadra-nome').textContent=nome.trim().toUpperCase();
 }
 
-// ===== SISTEMA BINARI + TAP-TO-MOVE + NPC =====
+// ===== SISTEMA FERROVIARIO =====
+// Nodi sulle strade della mappa (1183x1330)
+// MODIFICA le coordinate [x,y] per calibrare sulla tua mappa
+const NODES={
+  // STRADA NORD (fila alta edifici)
+  "N1":[200,155],"N2":[350,155],"N3":[476,155],"N4":[610,155],"N5":[780,155],"N6":[965,155],
+  // EST NORD (bordo destra)
+  "NE1":[1080,155],"NE2":[1080,290],"NE3":[1080,450],
+  // BORDO OVEST
+  "W1":[70,210],"W2":[70,388],"W3":[70,525],"W4":[70,675],"W5":[70,820],"NW":[200,280],
+  // CORRIDOIO CENTRALE ORIZZONTALE
+  "C1":[136,580],"C2":[284,580],"C3":[442,580],"C4":[580,580],"C5":[702,580],"C6":[840,580],"C7":[980,580],
+  // ZONA PIAZZALE CENTRALE
+  "M1":[442,430],"M2":[580,430],"M3":[702,430],"M4":[580,520],
+  // STRADA UFFICI
+  "U1":[136,750],"U2":[284,750],"U3":[442,750],"U4":[702,750],"U5":[840,750],"U6":[980,750],
+  // ZONA SUD
+  "S1":[200,820],"S2":[355,820],"S3":[576,820],"S4":[760,820],"S5":[980,820],
+  // ZONA BASSA
+  "B1":[200,960],"B2":[355,960],"B3":[576,1050],"B4":[760,1050],
+  // DORMITORI E ENTRATA
+  "D1":[200,1080],"D2":[200,1220],"E1":[580,1280],"E2":[580,1180]
+};
 
-// Nodi del grafo (coordinate sulla mappa originale 1183x1330)
-const NODES={"N1":[200,155],"N2":[350,155],"N3":[476,155],"N4":[610,155],"N5":[780,155],"N6":[965,155],"NE1":[1080,155],"NE2":[1080,290],"NE3":[1080,450],"W1":[70,210],"W2":[70,388],"W3":[70,525],"W4":[70,675],"W5":[70,820],"NW":[200,280],"C1":[136,580],"C2":[284,580],"C3":[442,580],"C4":[580,580],"C5":[702,580],"C6":[840,580],"C7":[980,580],"M1":[442,430],"M2":[580,430],"M3":[702,430],"M4":[580,520],"U1":[136,750],"U2":[284,750],"U3":[442,750],"U4":[702,750],"U5":[840,750],"U6":[980,750],"S1":[200,820],"S2":[355,820],"S3":[576,820],"S4":[760,820],"S5":[980,820],"B1":[200,960],"B2":[355,960],"B3":[576,1050],"B4":[760,1050],"D1":[200,1080],"D2":[200,1220],"E1":[580,1280],"E2":[580,1180]};
-const EDGES=[["N1","N2"],["N2","N3"],["N3","N4"],["N4","N5"],["N5","N6"],["N6","NE1"],["NE1","NE2"],["NE2","NE3"],["NE3","C7"],["W1","NW"],["NW","N1"],["W1","W2"],["W2","W3"],["W3","W4"],["W4","W5"],["W2","C1"],["W4","U1"],["W5","S1"],["N1","NW"],["N2","C2"],["N3","C3"],["N4","M1"],["N5","C5"],["N6","C7"],["C1","C2"],["C2","C3"],["C3","M1"],["M1","M2"],["M2","C4"],["C4","M3"],["M3","C5"],["C5","C6"],["C6","C7"],["M1","M4"],["M2","M4"],["M3","M4"],["C4","M4"],["C1","U1"],["C2","U2"],["C3","U3"],["C5","U4"],["C6","U5"],["C7","U6"],["U1","U2"],["U2","U3"],["U3","U4"],["U4","U5"],["U5","U6"],["U1","S1"],["U3","S2"],["U3","S3"],["U5","S4"],["U6","S5"],["S1","S2"],["S2","S3"],["S3","S4"],["S4","S5"],["S1","B1"],["S2","B2"],["S3","B3"],["S4","B4"],["B1","B2"],["B2","B3"],["B3","B4"],["B1","D1"],["D1","D2"],["D2","E2"],["E2","E1"],["B3","E2"]];
+const EDGES=[
+  ["N1","N2"],["N2","N3"],["N3","N4"],["N4","N5"],["N5","N6"],["N6","NE1"],
+  ["NE1","NE2"],["NE2","NE3"],["NE3","C7"],
+  ["W1","NW"],["NW","N1"],["W1","W2"],["W2","W3"],["W3","W4"],["W4","W5"],
+  ["W2","C1"],["W4","U1"],["W5","S1"],
+  ["N2","C2"],["N3","C3"],["N4","M1"],["N5","C5"],["N6","C7"],
+  ["C1","C2"],["C2","C3"],["C3","M1"],["M1","M2"],["M2","C4"],["C4","M3"],["M3","C5"],["C5","C6"],["C6","C7"],
+  ["M1","M4"],["M2","M4"],["M3","M4"],["C4","M4"],
+  ["C1","U1"],["C2","U2"],["C3","U3"],["C5","U4"],["C6","U5"],["C7","U6"],
+  ["U1","U2"],["U2","U3"],["U3","U4"],["U4","U5"],["U5","U6"],
+  ["U1","S1"],["U3","S2"],["U3","S3"],["U5","S4"],["U6","S5"],
+  ["S1","S2"],["S2","S3"],["S3","S4"],["S4","S5"],
+  ["S1","B1"],["S2","B2"],["S3","B3"],["S4","B4"],
+  ["B1","B2"],["B2","B3"],["B3","B4"],
+  ["B1","D1"],["D1","D2"],["D2","E2"],["E2","E1"],["B3","E2"]
+];
 
 // Adjacency list
 const ADJ={};
@@ -832,40 +867,45 @@ Object.keys(NODES).forEach(n=>ADJ[n]=[]);
 EDGES.forEach(([a,b])=>{ADJ[a].push(b);ADJ[b].push(a);});
 
 // Stato omino
-const omino={x:580,y:520,node:'M4'};
+const omino={x:580,y:520,node:"M4"};
+let walkPath=[];   // percorso corrente
+let walkStep=0;    // indice passo corrente
+let walkTimer=null;// timer animazione
 
-// ---- Disegna binari sul canvas ----
+// ---- Disegna binari (linea unica sottile color sabbia) ----
 function drawRails(){
-  const wrap=document.getElementById('map-wrap');
+  const wrap=document.getElementById("map-wrap");
   if(!wrap)return;
-  let canvas=document.getElementById('rail-canvas');
+  let canvas=document.getElementById("rail-canvas");
   if(!canvas){
-    canvas=document.createElement('canvas');
-    canvas.id='rail-canvas';
-    canvas.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;';
+    canvas=document.createElement("canvas");
+    canvas.id="rail-canvas";
+    canvas.style.cssText="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;";
     wrap.insertBefore(canvas,wrap.firstChild);
   }
-  const img=document.getElementById('map-img');
-  canvas.width=img?img.naturalWidth||1183:1183;
-  canvas.height=img?img.naturalHeight||1330:1330;
-
-  const ctx=canvas.getContext('2d');
-  ctx.clearRect(0,0,1183,1330);
-  ctx.strokeStyle='rgba(180,130,50,0.22)';
-  ctx.lineWidth=2.5;
-  ctx.lineCap='round';
+  const img=document.getElementById("map-img");
+  const iw=img?img.naturalWidth:1183;
+  const ih=img?img.naturalHeight:1330;
+  canvas.width=iw; canvas.height=ih;
+  const ctx=canvas.getContext("2d");
+  ctx.clearRect(0,0,iw,ih);
+  // Linea strada — sottile, colore sabbia scuro semi-trasparente
+  ctx.strokeStyle="rgba(160,120,60,0.28)";
+  ctx.lineWidth=3;
+  ctx.lineCap="round";
+  ctx.lineJoin="round";
   EDGES.forEach(([a,b])=>{
     const[ax,ay]=NODES[a],[bx,by]=NODES[b];
     ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();
   });
-  // Pallini agli incroci
-  ctx.fillStyle='rgba(180,130,50,0.18)';
+  // Piccoli nodi agli incroci
+  ctx.fillStyle="rgba(160,120,60,0.20)";
   Object.values(NODES).forEach(([x,y])=>{
-    ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(x,y,2.5,0,Math.PI*2);ctx.fill();
   });
 }
 
-// ---- BFS tra nodi ----
+// ---- BFS per trovare percorso tra due nodi ----
 function bfs(start,end){
   if(start===end)return[start];
   const vis={[start]:true},queue=[[start,[start]]];
@@ -879,7 +919,7 @@ function bfs(start,end){
   return[start];
 }
 
-// ---- Nodo più vicino a coordinate mappa ----
+// ---- Nodo più vicino a tap ----
 function nearestNode(x,y){
   let best=null,bd=Infinity;
   for(const[id,[nx,ny]]of Object.entries(NODES)){
@@ -889,86 +929,109 @@ function nearestNode(x,y){
   return best;
 }
 
-// ---- Aggiorna posizione omino ----
+// ---- Aggiorna posizione omino sullo schermo ----
 function updateOmino(){
-  const el=document.getElementById('omino');
+  const el=document.getElementById("omino");
   if(!el)return;
-  el.style.left=(omino.x*scaleX)+'px';
-  el.style.top=(omino.y*scaleY)+'px';
+  el.style.left=(omino.x*scaleX)+"px";
+  el.style.top=(omino.y*scaleY)+"px";
 }
 
-// ---- TAP-TO-MOVE: tocca la mappa, il pallino va al nodo più vicino ----
+// ---- Animazione percorso: omino cammina nodo per nodo ----
+function walkTo(targetNode){
+  if(walkTimer)clearInterval(walkTimer);
+  walkPath=bfs(omino.node,targetNode);
+  walkStep=0;
+  if(walkPath.length<=1)return;
+  const STEP_MS=320; // millisecondi per nodo — più alto = più lento
+  walkTimer=setInterval(()=>{
+    walkStep++;
+    if(walkStep>=walkPath.length){
+      clearInterval(walkTimer);walkTimer=null;return;
+    }
+    const node=walkPath[walkStep];
+    omino.node=node;
+    omino.x=NODES[node][0];
+    omino.y=NODES[node][1];
+    updateOmino();
+  },STEP_MS);
+}
+
+// ---- TAP sulla mappa: avvia percorso animato ----
 function initTapMove(){
-  const wrap=document.getElementById('map-wrap');
+  const wrap=document.getElementById("map-wrap");
   if(!wrap)return;
-  wrap.addEventListener('pointerdown',e=>{
-    // Non triggera se tocca una porta
-    if(e.target.classList.contains('door')||e.target.classList.contains('door-body')||e.target.classList.contains('door-tip'))return;
+  wrap.addEventListener("pointerdown",e=>{
+    if(e.target.classList.contains("door")||
+       e.target.classList.contains("door-dot")||
+       e.target.classList.contains("door-tip"))return;
     e.stopPropagation();
     const rect=wrap.getBoundingClientRect();
-    const relX=e.clientX-rect.left;
-    const relY=e.clientY-rect.top;
-    // Converti in coordinate mappa originale
-    const mapX=relX/scaleX;
-    const mapY=relY/scaleY;
-    const targetNode=nearestNode(mapX,mapY);
-    if(targetNode===omino.node)return;
-    // Snap immediato al nodo più vicino
-    omino.node=targetNode;
-    omino.x=NODES[targetNode][0];
-    omino.y=NODES[targetNode][1];
-    updateOmino();
+    const mapX=(e.clientX-rect.left)/scaleX;
+    const mapY=(e.clientY-rect.top)/scaleY;
+    const target=nearestNode(mapX,mapY);
+    if(target&&target!==omino.node) walkTo(target);
   });
 }
 
-// ============================================================
-// NPC ANIMATI sulla mappa
-// ============================================================
+// ---- NPC: 7 simboli che si muovono casualmente sui binari ----
 const NPC_DEFS=[
-  {sym:'V',color:'#4a8a3a',node:'N2',speed:2200},  // soldato semplice verde
-  {sym:'V',color:'#4a8a3a',node:'C4',speed:2800},
-  {sym:'★',color:'#C9A84C',node:'U3',speed:3500},  // ufficiale oro
-  {sym:'★',color:'#C9A84C',node:'S3',speed:4200},
-  {sym:'V',color:'#3a5a8a',node:'B2',speed:2600},  // blu = altro reparto
-  {sym:'V',color:'#3a5a8a',node:'D1',speed:3100},
-  {sym:'✦',color:'rgba(200,80,80,0.8)',node:'M4',speed:3800}, // elemento speciale rosso
-  {sym:'◈',color:'rgba(180,150,80,0.7)',node:'NE2',speed:4500}, // elemento speciale oro
+  {sym:"V",color:"rgba(60,140,60,0.85)",   node:"N2", ms:2800},
+  {sym:"V",color:"rgba(60,140,60,0.85)",   node:"U3", ms:3400},
+  {sym:"V",color:"rgba(60,100,180,0.8)",   node:"S3", ms:2600},
+  {sym:"V",color:"rgba(60,100,180,0.8)",   node:"D1", ms:3100},
+  {sym:"★",color:"rgba(200,160,40,0.9)",   node:"C4", ms:4200},
+  {sym:"★",color:"rgba(200,160,40,0.9)",   node:"B2", ms:3800},
+  {sym:"◆",color:"rgba(180,80,80,0.75)",   node:"NE2",ms:5000},
 ];
 
-const npcs=NPC_DEFS.map(d=>({...d,x:NODES[d.node][0],y:NODES[d.node][1],timer:null}));
-
-// moveNpc rimossa - logica inline in initNpcs
+const npcs=NPC_DEFS.map((d,i)=>({...d,x:NODES[d.node][0],y:NODES[d.node][1],path:[],step:0,timer:null}));
 
 function updateNpcEl(i){
   const npc=npcs[i];
-  const el=document.getElementById('npc-'+i);
+  const el=document.getElementById("npc-"+i);
   if(!el)return;
-  el.style.left=(npc.x*scaleX-8)+'px';
-  el.style.top=(npc.y*scaleY-8)+'px';
+  el.style.left=(npc.x*scaleX-7)+"px";
+  el.style.top=(npc.y*scaleY-7)+"px";
+}
+
+function startNpcWalk(i){
+  const npc=npcs[i];
+  // Scegli destinazione casuale
+  const nodeKeys=Object.keys(NODES);
+  const dest=nodeKeys[Math.floor(Math.random()*nodeKeys.length)];
+  npc.path=bfs(npc.node,dest);
+  npc.step=0;
+  if(npc.timer)clearInterval(npc.timer);
+  npc.timer=setInterval(()=>{
+    npc.step++;
+    if(npc.step>=npc.path.length){
+      clearInterval(npc.timer);
+      // Pausa breve poi riparte
+      setTimeout(()=>startNpcWalk(i), 800+Math.random()*1200);
+      return;
+    }
+    const nd=npc.path[npc.step];
+    npc.node=nd;
+    npc.x=NODES[nd][0];
+    npc.y=NODES[nd][1];
+    updateNpcEl(i);
+  },npc.ms);
 }
 
 function initNpcs(){
-  const wrap=document.getElementById('map-wrap');
+  const wrap=document.getElementById("map-wrap");
   if(!wrap)return;
   npcs.forEach((npc,i)=>{
-    // Rimuovi se esistente
-    const old=document.getElementById('npc-'+i);
+    const old=document.getElementById("npc-"+i);
     if(old)old.remove();
-    const el=document.createElement('div');
-    el.id='npc-'+i;
-    el.style.cssText=`position:absolute;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;color:${npc.color};pointer-events:none;z-index:25;transition:left ${npc.speed*0.8}ms ease,top ${npc.speed*0.8}ms ease;text-shadow:0 0 4px rgba(0,0,0,0.6);`;
+    const el=document.createElement("div");
+    el.id="npc-"+i;
+    el.style.cssText=`position:absolute;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold;color:${npc.color};pointer-events:none;z-index:25;transition:left ${npc.ms*0.85}ms linear,top ${npc.ms*0.85}ms linear;text-shadow:0 0 3px rgba(0,0,0,0.5);`;
     el.textContent=npc.sym;
     wrap.appendChild(el);
     updateNpcEl(i);
-    // Movimento casuale periodico
-    npc.timer=setInterval(()=>{
-      const neighbors=ADJ[npc.node]||[];
-      if(!neighbors.length)return;
-      npc.node=neighbors[Math.floor(Math.random()*neighbors.length)];
-      npc.x=NODES[npc.node][0];
-      npc.y=NODES[npc.node][1];
-      updateNpcEl(i);
-    },npc.speed);
+    setTimeout(()=>startNpcWalk(i), i*600);
   });
 }
 
