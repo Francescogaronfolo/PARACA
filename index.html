@@ -5,12 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>PARACA!</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@600;700&family=Lilita+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:'Rajdhani',sans-serif;}
 @media(orientation:landscape){html{transform:rotate(-90deg);transform-origin:left top;width:100vh;height:100vw;position:fixed;top:100%;left:0;}}
-@keyframes tp{0%,100%{color:#FFE033;text-shadow:3px 3px 0 #8b0000,-1px -1px 0 #8b0000,1px -1px 0 #8b0000,-1px 1px 0 #8b0000,5px 5px 0 rgba(0,0,0,0.3);}50%{color:#fff8cc;text-shadow:3px 3px 0 #8b0000,-1px -1px 0 #8b0000,1px -1px 0 #8b0000,-1px 1px 0 #8b0000,5px 5px 0 rgba(0,0,0,0.3);}}
+@keyframes tp{0%,100%{color:#FFE033;}50%{color:#FFF799;}}
 @keyframes mIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes goldshine{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
 @keyframes eccshine{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
@@ -21,7 +21,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 #bg-login{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;}
 #bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.4);}
 #login-title{position:absolute;left:0;right:0;top:8%;text-align:center;z-index:2;pointer-events:none;}
-#login-title h1{font-family:‘Lilita One’,cursive;font-size:clamp(52px,14vw,110px);color:#FFE033;-webkit-text-stroke:2px #8b0000;line-height:1;animation:tp 3s ease-in-out infinite;letter-spacing:3px;}
+#login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(52px,14vw,110px);color:#FFE033;-webkit-text-stroke:2px #3d000a;line-height:1;animation:tp 4s ease-in-out infinite;}
 #popup{position:relative;z-index:2;background:rgba(235,226,206,0.93);border:2px solid rgba(123,16,32,0.4);border-radius:10px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
 #popup::before,#popup::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
@@ -43,7 +43,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 #screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f5f5f0;}
 #screen-map.show{display:flex;}
 #top-bar{flex-shrink:0;height:50px;background:#7B1020;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
-#top-bar-title{font-family:‘Lilita One’,cursive;font-size:30px;color:#FFE033;-webkit-text-stroke:2px #8b0000;letter-spacing:3px;animation:tp 3s ease-in-out infinite;}
+#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:28px;color:#FFE033;-webkit-text-stroke:3px #111;letter-spacing:3px;text-shadow:2px 2px 0 #111,-2px -2px 0 #111,2px -2px 0 #111,-2px 2px 0 #111,3px 3px 0 rgba(0,0,0,0.4);animation:tp 4s ease-in-out infinite;}
 #top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(255,255,255,0.7);letter-spacing:3px;}
 #tab-content{flex:1;min-height:0;overflow:hidden;position:relative;}
 
@@ -107,7 +107,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 #tab-combattimento{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#0a0a1a,#1a0a2e);overflow-y:auto;}
 #tab-combattimento.active{display:flex;}
 #sfidanti-header{padding:16px 16px 8px;flex-shrink:0;}
-#sfidanti-header .sh-title{font-family:‘Lilita One’,cursive;font-size:26px;color:#FFE033;-webkit-text-stroke:1px #8b0000;letter-spacing:3px;}
+#sfidanti-header .sh-title{font-family:‘Black Han Sans’,sans-serif;font-size:24px;color:#FFE033;-webkit-text-stroke:2px #111;letter-spacing:3px;text-shadow:2px 2px 0 #111,3px 3px 0 rgba(0,0,0,0.4);animation:tp 4s ease-in-out infinite;}
 #sfidanti-header .sh-sub{font-size:9px;color:rgba(180,160,255,0.5);letter-spacing:3px;text-transform:uppercase;margin-top:3px;}
 #sfidanti-list{padding:0 12px 12px;display:flex;flex-direction:column;gap:10px;}
 .sfidante-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;cursor:pointer;position:relative;overflow:hidden;}
@@ -117,7 +117,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 .sf-lvl.med{background:rgba(255,180,0,0.2);color:#ffcc44;border:1px solid rgba(255,180,0,0.3);}
 .sf-lvl.hard{background:rgba(255,60,60,0.2);color:#ff8080;border:1px solid rgba(255,60,60,0.3);}
 .sf-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.sf-avatar{width:54px;height:54px;border-radius:10px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.sf-avatar{width:54px;height:54px;border-radius:10px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;font-family:‘Bebas Neue’,sans-serif;color:#C9A84C;letter-spacing:1px;}
 .sf-nome{font-family:‘Bebas Neue’,sans-serif;font-size:17px;color:#fff;letter-spacing:2px;}
 .sf-grado{font-size:8px;color:rgba(180,160,255,0.5);letter-spacing:2px;text-transform:uppercase;}
 .sf-mini-grid{display:flex;gap:4px;flex-wrap:wrap;}
@@ -145,40 +145,32 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 .tab-center-new .tab-svg{stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:20px;height:20px;}
 .tab-center-new .tab-lbl{font-family:‘Bebas Neue’,sans-serif;font-size:9px;letter-spacing:3px;color:#fff;}
 
-/* BATTAGLIA SCREEN */
+/* BATTAGLIA */
 #battaglia-screen{display:none;position:fixed;inset:0;z-index:800;background:#000;flex-direction:column;}
 #battaglia-screen.show{display:flex;}
 #batt-header{flex-shrink:0;height:44px;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid rgba(255,255,255,0.06);}
-#batt-header-left{display:flex;flex-direction:column;}
-#batt-map-name{font-family:‘Lilita One’,cursive;font-size:14px;color:#FFE033;letter-spacing:2px;}
-#batt-vs-label{font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:2px;}
+#batt-map-name{font-family:‘Black Han Sans’,sans-serif;font-size:16px;color:#FFE033;-webkit-text-stroke:1px #111;letter-spacing:2px;animation:tp 4s ease-in-out infinite;}
+#batt-vs-label{font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:2px;font-family:‘Bebas Neue’,sans-serif;}
 #batt-canvas-wrap{flex:1;position:relative;overflow:hidden;}
 #batt-canvas{display:block;width:100%;height:100%;}
-
-/* HUD battaglia */
-#batt-hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:6px 8px;pointer-events:none;z-index:5;}
-.hud-side{display:flex;flex-direction:column;gap:3px;width:46%;}
+#batt-hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:5px 6px;pointer-events:none;z-index:5;}
+.hud-side{display:flex;flex-direction:column;gap:2px;width:46%;}
 .hud-side.right{align-items:flex-end;}
-.hud-unit-bar{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.55);border-radius:4px;padding:2px 5px;}
+.hud-unit-bar{display:flex;align-items:center;gap:3px;background:rgba(0,0,0,0.55);border-radius:4px;padding:2px 4px;}
 .hud-unit-bar.right{flex-direction:row-reverse;}
-.hub-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.hub-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .hub-dot.mine{background:#fff;}
 .hub-dot.enemy{background:#ff4444;}
-.hud-hp-wrap{flex:1;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;overflow:hidden;}
+.hud-hp-wrap{flex:1;height:3px;background:rgba(255,255,255,0.12);border-radius:2px;overflow:hidden;}
 .hud-hp-fill{height:100%;border-radius:2px;transition:width .3s;}
-.hud-name{font-family:‘Rajdhani’,sans-serif;font-size:7px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60px;}
-
-/* Bottom controls */
+.hud-name{font-family:‘Rajdhani’,sans-serif;font-size:7px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55px;}
 #batt-bottom{flex-shrink:0;background:rgba(0,0,0,0.82);border-top:1px solid rgba(255,255,255,0.06);padding:8px 10px;display:flex;flex-direction:column;gap:6px;}
 #batt-status{font-family:‘Bebas Neue’,sans-serif;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:3px;text-align:center;}
-#batt-btn-row{display:flex;gap:8px;}
-#btn-avvia-batt{flex:1;padding:11px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:15px;letter-spacing:4px;cursor:pointer;}
+#btn-avvia-batt{width:100%;padding:11px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:15px;letter-spacing:4px;cursor:pointer;}
 #btn-avvia-batt:disabled{background:rgba(100,100,100,0.3);color:rgba(255,255,255,0.3);}
-
-/* Risultato */
 #batt-result-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:20;}
 #batt-result-overlay.show{display:flex;}
-#br-title{font-family:‘Lilita One’,cursive;font-size:52px;}
+#br-title{font-family:‘Black Han Sans’,sans-serif;font-size:52px;-webkit-text-stroke:2px #111;animation:tp 4s ease-in-out infinite;}
 #br-sub{font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;color:rgba(255,255,255,0.45);}
 #br-btn{padding:11px 30px;background:#7B1020;border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
 
@@ -274,7 +266,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
       <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#C9A84C;letter-spacing:3px;text-align:center;">COMBATTIMENTO</div>
     </div>
   </div>
-  <div onclick="toast('Classifica generale — presto!')" style="width:calc(100% - 16px);margin:0 8px 12px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+  <div onclick="toast('Classifica generale — presto!')" style="width:calc(100% - 16px);margin:0 8px 12px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
     <span style="font-size:24px;">&#127942;</span>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;">CLASSIFICA GENERALE</div>
     <div style="margin-left:auto;font-size:18px;color:rgba(255,255,255,0.4);">&#8250;</div>
@@ -335,7 +327,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 <!-- COMBATTIMENTO -->
 <div id="tab-combattimento">
   <div id="sfidanti-header">
-    <div class="sh-title">&#9876;&#65039; COMBATTIMENTO</div>
+    <div class="sh-title">COMBATTIMENTO</div>
     <div class="sh-sub">Scegli il tuo avversario</div>
   </div>
   <div id="sfidanti-list"></div>
@@ -374,11 +366,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
   </div>
 </div>
 
-<!-- BATTAGLIA SCREEN - Canvas based -->
+<!-- BATTAGLIA -->
 
 <div id="battaglia-screen">
   <div id="batt-header">
-    <div id="batt-header-left">
+    <div>
       <div id="batt-map-name">VALLE PUNGIONE</div>
       <div id="batt-vs-label">VS —</div>
     </div>
@@ -398,9 +390,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
   </div>
   <div id="batt-bottom">
     <div id="batt-status">Premi COMBATTI per iniziare</div>
-    <div id="batt-btn-row">
-      <button id="btn-avvia-batt" onclick="avviaBattaglia()">&#9876;&#65039; COMBATTI!</button>
-    </div>
+    <button id="btn-avvia-batt" onclick="startBattle()">COMBATTI!</button>
   </div>
 </div>
 
@@ -408,7 +398,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 
 <div id="mappa-modal">
   <div style="flex-shrink:0;height:46px;background:#7B1020;display:flex;align-items:center;justify-content:space-between;padding:0 12px;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">&#128506; CASERMA</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">CASERMA</div>
     <button onclick="closeMappaModal()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">&#10005;</button>
   </div>
   <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;background:linear-gradient(180deg,#e8a020,#c97a10);">
@@ -434,7 +424,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 <div id="gerarchia-modal">
   <div style="background:#fff;width:100%;min-height:100%;position:relative;">
     <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">&#11088; GERARCHIA</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">GERARCHIA</div>
       <button onclick="closeGerarchia()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">&#10005;</button>
     </div>
     <div style="display:flex;height:8px;">
@@ -475,20 +465,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
   </div>
 </div>
 
-<!-- MODAL EDIFICIO -->
-
 <div id="modal"><div id="mbox">
   <button id="m-x">&#10005;</button>
   <div id="m-ico"></div><div id="m-tit"></div><div id="m-sub"></div>
   <div id="m-dsc"></div><div id="m-quo"></div><div id="m-act"></div>
 </div></div>
 
-<!-- STATS -->
-
 <div id="stats-modal"><div id="stats-inner">
   <button id="s-close" onclick="toggleStats()">&#10005;</button>
   <h3>STATISTICHE</h3>
-  <svg id="radar-chart" viewBox="0 0 200 200" width="180" height="180" style="display:block;margin:0 auto 10px;">
+  <svg viewBox="0 0 200 200" width="180" height="180" style="display:block;margin:0 auto 10px;">
     <polygon points="100,10 181,68 152,165 48,165 19,68" fill="none" stroke="#eee" stroke-width="1"/>
     <polygon points="100,37 158,79 137,151 63,151 42,79" fill="none" stroke="#eee" stroke-width="1"/>
     <polygon points="100,64 135,90 122,137 78,137 65,90" fill="none" stroke="#eee" stroke-width="1"/>
@@ -511,8 +497,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
   </div>
 </div></div>
 
-<!-- COLLEZIONE -->
-
 <div id="collezione-modal"><div id="coll-sheet">
   <div id="coll-handle"><div id="coll-handle-bar"></div></div>
   <div style="background:#7B1020;padding:10px 16px;">
@@ -520,8 +504,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
   </div>
   <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
 </div></div>
-
-<!-- SOLDATO -->
 
 <div id="soldato-modal">
   <div style="background:#fff;border-radius:12px;width:min(340px,92vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:mIn .2s ease;">
@@ -544,7 +526,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
       </div>
     </div>
     <div style="padding:12px 14px;border-bottom:1px solid #f0ece0;">
-      <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Abilita e Statistiche Combattimento</div>
+      <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Abilita e Statistiche</div>
       <div id="sm-mosse" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"></div>
     </div>
     <div style="padding:12px 14px;">
@@ -559,12 +541,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
       </div>
     </div>
     <div style="padding:10px 14px 14px;">
-      <button id="sm-replace-btn" style="display:none;width:100%;padding:10px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;">&#8644; SOSTITUISCI</button>
+      <button id="sm-replace-btn" style="display:none;width:100%;padding:10px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;">SOSTITUISCI</button>
     </div>
   </div>
 </div>
-
-<!-- REPLACE -->
 
 <div id="replace-modal"><div class="rm-box">
   <div class="rm-head">
@@ -577,20 +557,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 <div id="toast"></div>
 
 <script>
-// ==================== DATI ====================
 const MW=1183,MH=1330;
 const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!","Non sei idoneo alla vita!","Ti devi muovere!","Sei massiccio cazzo!","Eccezzionale!","Serra piombo!","Jonny andiamo!","Weee naja!","Cagnaccio!","Vecchio!","Liberta per gli ultra!"];
 const player={nome:'',cognome:'',forza:10,spirito:10,di:10,motiv:10,qi:10,giorno:1};
 let scaleX=1,scaleY=1,currentTab='caserma';
 
-// Statistiche combattimento per truppa
-// hp, velocita(px/frame), precisione(0-1), danno, cadenza(ms tra colpi), tipo('fucile'|'mortaio')
 const TROOP_STATS={
-  normale:   {hp:60,  vel:0.4, prec:0.52, danno:8,  cadenza:1800, tipo:'fucile'},
-  elite:     {hp:100, vel:0.55,prec:0.72, danno:14, cadenza:1400, tipo:'fucile'},
-  legionario:{hp:140, vel:0.65,prec:0.82, danno:20, cadenza:1200, tipo:'fucile'},
-  eccezionale:{hp:200,vel:0.75,prec:0.92, danno:28, cadenza:900,  tipo:'fucile'},
-  mortaio:   {hp:80,  vel:0.3, prec:0.42, danno:45, cadenza:3500, tipo:'mortaio', mortaioRange:80}
+  normale:    {hp:60,  vel:0.5, prec:0.52, danno:8,  cadenza:1800, tipo:'fucile'},
+  elite:      {hp:100, vel:0.6, prec:0.72, danno:14, cadenza:1400, tipo:'fucile'},
+  legionario: {hp:140, vel:0.7, prec:0.82, danno:20, cadenza:1200, tipo:'fucile'},
+  eccezionale:{hp:200, vel:0.8, prec:0.92, danno:28, cadenza:900,  tipo:'fucile'},
+  mortaio:    {hp:80,  vel:0.3, prec:0.42, danno:50, cadenza:3500, tipo:'mortaio'}
 };
 
 const squadraData=[
@@ -604,7 +581,7 @@ const squadraData=[
 const eliteData=[
   {nome:'SOLDATO MOSTRO GIU GIU',ruolo:'Elite',lv:3,xp:45,forza:17,qi:9,motiv:14,spirito:12,di:15,tipoTruppa:'elite',mosse:[{nome:'Schaffo del Paraca',atk:18},{nome:'Bomba a Mano',atk:22},{nome:'Puzzo di Morte',atk:14},{nome:'Fuoco Naja',atk:16}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/938AC1FB-D867-4415-9396-721C033C8380.png',elite:true},
   {nome:'BAU BAU',ruolo:'Elite',lv:3,xp:60,forza:15,qi:13,motiv:11,spirito:14,di:16,tipoTruppa:'elite',mosse:[{nome:'Lupo Grigio',atk:16},{nome:'Fantasma',atk:14},{nome:'Passo del Leopardo',atk:18},{nome:'Scava Tasso',atk:12}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DF448FA1-2FE5-4D32-B19A-0E737B6AE2F2.png',elite:true},
-  {nome:'MENDEL',ruolo:'Elite',lv:3,xp:55,forza:18,qi:11,motiv:13,spirito:10,di:14,tipoTruppa:'mortaio',mosse:[{nome:'Forza del Monte',atk:30},{nome:'Braccio di Ferro',atk:25},{nome:'Scarpone Pesante',atk:20},{nome:'Mortaio Pesante',atk:45}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C15ADB13-D46F-40E9-816C-584DE83F0D8D.png',elite:true},
+  {nome:'MENDEL',ruolo:'Elite',lv:3,xp:55,forza:18,qi:11,motiv:13,spirito:10,di:14,tipoTruppa:'mortaio',mosse:[{nome:'Forza del Monte',atk:30},{nome:'Braccio di Ferro',atk:25},{nome:'Scarpone Pesante',atk:20},{nome:'Mortaio Pesante',atk:50}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C15ADB13-D46F-40E9-816C-584DE83F0D8D.png',elite:true},
   {nome:'GATTUSARDU',ruolo:'Elite',lv:3,xp:50,forza:14,qi:15,motiv:16,spirito:13,di:17,tipoTruppa:'elite',mosse:[{nome:'Graffio del Gattino',atk:15},{nome:'Fascino',atk:12},{nome:'Mossa Alcolica',atk:14},{nome:'Sigaro Pesante',atk:10}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/BE59E4A0-977C-4003-ABC1-876453330D32.png',elite:true},
   {nome:'DOMINIK',ruolo:'Elite',lv:3,xp:48,forza:13,qi:14,motiv:16,spirito:12,di:13,tipoTruppa:'elite',mosse:[{nome:'Mossa Alcolica',atk:14},{nome:'Fascino',atk:12},{nome:'Fuga dalla Valle',atk:16},{nome:'Sputo Lontano',atk:10}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8B8145C7-F9DE-4DE0-BC58-2F81A74CA4CE.png',elite:true},
   {nome:'MACHO DIGGER',ruolo:'Elite',lv:3,xp:52,forza:19,qi:10,motiv:12,spirito:11,di:15,tipoTruppa:'elite',mosse:[{nome:'Scava Tasso',atk:16},{nome:'Braccio di Ferro',atk:18},{nome:'Scarpone Pesante',atk:14},{nome:'Forza del Monte',atk:20}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C5A990F4-89E0-48E5-9C74-648C2391D095.png',elite:true},
@@ -621,15 +598,13 @@ tutteCarte.push(...legioData);
 const ecceData=[{nome:'GAAR',ruolo:'Eccezionale',lv:8,xp:99,forza:19,qi:19,motiv:20,spirito:18,di:20,tipoTruppa:'eccezionale',mosse:[{nome:'Fascino',atk:35},{nome:'Lupo Grigio',atk:30},{nome:'Schaffo del Paraca',atk:40},{nome:'Fuoco Naja',atk:28}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DA827B70-4C54-4CFC-B898-C7F675CAE15D.png',ecce:true}];
 tutteCarte.push(...ecceData);
 
-// ==================== SFIDANTI ====================
+// ===== SFIDANTI =====
 const SFIDANTI=[
-  {id:0,nome:'VFI GENERICO MEDIO',grado:'Volontario in Ferma Iniziale',ico:'&#128528;',lvl:'easy',lvlLabel:'FACILE',pool:[...squadraData]},
-  {id:1,nome:'SERGENTE BRUCIAPELO',grado:'Sergente',ico:'&#128548;',lvl:'med',lvlLabel:'MEDIO',pool:[...squadraData,...eliteData]},
-  {id:2,nome:'TENENTE COLOMBRELLO',grado:'Tenente',ico:'&#128520;',lvl:'hard',lvlLabel:'DIFFICILE',pool:[...tutteCarte]},
+  {id:0,nome:'VFI GENERICO MEDIO',grado:'Volontario in Ferma Iniziale',lvl:'easy',lvlLabel:'FACILE',pool:[...squadraData]},
+  {id:1,nome:'SERGENTE BRUCIAPELO',grado:'Sergente',lvl:'med',lvlLabel:'MEDIO',pool:[...squadraData,...eliteData]},
+  {id:2,nome:'TENENTE COLOMBRELLO',grado:'Tenente',lvl:'hard',lvlLabel:'DIFFICILE',pool:[...tutteCarte]},
 ];
-let sfidanteSelezionato=null;
-let sfidanteCorrente=null;
-
+let sfidanteSelezionato=null,sfidanteCorrente=null;
 function shuffle(a){return[...a].sort(()=>Math.random()-0.5);}
 function getRandCards(pool,n){return shuffle(pool).slice(0,Math.min(n,pool.length));}
 
@@ -637,36 +612,40 @@ function buildSfidanti(){
   const list=document.getElementById('sfidanti-list');list.innerHTML='';
   SFIDANTI.forEach(sf=>{
     const prev=getRandCards(sf.pool,6);
-    const mini=prev.map(c=>`<div class="sf-mini-card">${c.img?`<img src="${c.img}">`:'&#128100;'}</div>`).join('');
+    const mini=prev.map(c=>`<div class="sf-mini-card">${c.img?`<img src="${c.img}">`:'S'}</div>`).join('');
     const div=document.createElement('div');div.className='sfidante-card';div.id='sf-card-'+sf.id;
+    // Iniziali nome come avatar senza emoji
+    const initials=sf.nome.split(' ').map(w=>w[0]).slice(0,2).join('');
     div.innerHTML=`<div class="sf-lvl ${sf.lvl}">${sf.lvlLabel}</div>
-      <div class="sf-top"><div class="sf-avatar">${sf.ico}</div>
-      <div><div class="sf-nome">${sf.nome}</div><div class="sf-grado">${sf.grado}</div></div></div>
+      <div class="sf-top">
+        <div class="sf-avatar">${initials}</div>
+        <div><div class="sf-nome">${sf.nome}</div><div class="sf-grado">${sf.grado}</div></div>
+      </div>
       <div class="sf-mini-grid">${mini}</div>`;
     div.onclick=()=>selezionaSfidante(sf.id);
     list.appendChild(div);
   });
 }
+
 function selezionaSfidante(id){
   const was=sfidanteSelezionato===id;
   document.querySelectorAll('.sfidante-card').forEach(c=>{c.classList.remove('selected');const b=c.querySelector('.btn-sfida');if(b)b.remove();});
   if(was){sfidanteSelezionato=null;return;}
   sfidanteSelezionato=id;
   document.getElementById('sf-card-'+id).classList.add('selected');
-  const btn=document.createElement('button');btn.className='btn-sfida';btn.innerHTML='&#9876;&#65039; SFIDA!';
+  const btn=document.createElement('button');btn.className='btn-sfida';btn.textContent='SFIDA!';
   btn.onclick=e=>{e.stopPropagation();apriBattaglia(id);};
   document.getElementById('sf-card-'+id).appendChild(btn);
 }
 
-// ==================== BATTAGLIA CANVAS ====================
-let battleCanvas,battleCtx,battleImg,battleRunning=false,battleRaf=null;
+// ===== BATTAGLIA CANVAS =====
+const BATTLE_MAP='https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CAFD0DBB-DC82-4F36-A214-F4E497AB5DB2.png';
+const UNIT_R=9,BULLET_R=2.5,MORTAR_SZ=14;
+let bCanvas,bCtx,bImg,bImgLoaded=false;
 let myUnits=[],enemyUnits=[],bullets=[];
-let myTrench,enemyTrench;
-let gameOver=false;
-const UNIT_R=9; // raggio cerchietto
-const BULLET_R=2.5;
-const MORTAR_R=5;
-const MORTAR_LINE=0.38; // y relativa dove si piazza il mortaio (38% dall'alto per miei, 62% per nemici)
+let myTrenchY,enemyTrenchY; // y centrali delle trincee
+let myTrenchTop,myTrenchBot,enemyTrenchTop,enemyTrenchBot;
+let battleRunning=false,gameOver=false,battleRaf=null,lastTime=0;
 
 function apriBattaglia(sfId){
   sfidanteCorrente=SFIDANTI[sfId];
@@ -674,278 +653,267 @@ function apriBattaglia(sfId){
   document.getElementById('batt-result-overlay').classList.remove('show');
   document.getElementById('btn-avvia-batt').disabled=false;
   document.getElementById('batt-status').textContent='Premi COMBATTI per iniziare';
-  gameOver=false;myUnits=[];enemyUnits=[];bullets=[];
+  gameOver=false;battleRunning=false;myUnits=[];enemyUnits=[];bullets=[];
+  if(battleRaf){cancelAnimationFrame(battleRaf);battleRaf=null;}
   document.getElementById('battaglia-screen').classList.add('show');
   initCanvas();
 }
 
 function initCanvas(){
-  battleCanvas=document.getElementById('batt-canvas');
+  bCanvas=document.getElementById('batt-canvas');
   const wrap=document.getElementById('batt-canvas-wrap');
-  battleCanvas.width=wrap.clientWidth;
-  battleCanvas.height=wrap.clientHeight;
-  battleCtx=battleCanvas.getContext('2d');
+  bCanvas.width=wrap.clientWidth;
+  bCanvas.height=wrap.clientHeight;
+  bCtx=bCanvas.getContext('2d');
+  const H=bCanvas.height,W=bCanvas.width;
+  // Trincee: in basso mia, in alto nemica
+  // Basate sulla mappa: trincea in alto ~10-22%, in basso ~78-90%
+  myTrenchTop=H*0.79;myTrenchBot=H*0.91;
+  enemyTrenchTop=H*0.09;enemyTrenchBot=H*0.21;
+  myTrenchY=(myTrenchTop+myTrenchBot)/2;
+  enemyTrenchY=(enemyTrenchTop+enemyTrenchBot)/2;
 
-  // Trincee: fasce orizzontali
-  const H=battleCanvas.height,W=battleCanvas.width;
-  myTrench={y1:H*0.78,y2:H*0.92}; // mia trincea in basso
-  enemyTrench={y1:H*0.08,y2:H*0.22}; // trincea nemica in alto
-
-  // Carica mappa
-  battleImg=new Image();
-  battleImg.crossOrigin='anonymous';
-  battleImg.src='https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CAFD0DBB-DC82-4F36-A214-F4E497AB5DB2.png';
-  battleImg.onload=()=>drawStatic();
-  drawStatic();
+  if(!bImg){
+    bImg=new Image();bImg.crossOrigin='anonymous';
+    bImg.onload=()=>{bImgLoaded=true;drawStatic();};
+    bImg.onerror=()=>{bImgLoaded=false;drawStatic();};
+    bImg.src=BATTLE_MAP;
+  } else {
+    drawStatic();
+  }
 }
 
 function drawStatic(){
-  if(!battleCtx)return;
-  const W=battleCanvas.width,H=battleCanvas.height;
-  battleCtx.clearRect(0,0,W,H);
-  // Mappa di sfondo
-  if(battleImg && battleImg.complete){
-    battleCtx.drawImage(battleImg,0,0,W,H);
+  if(!bCtx)return;
+  const W=bCanvas.width,H=bCanvas.height;
+  bCtx.clearRect(0,0,W,H);
+  if(bImgLoaded&&bImg.complete&&bImg.naturalWidth>0){
+    bCtx.drawImage(bImg,0,0,W,H);
   } else {
-    battleCtx.fillStyle='#3a5a1a';battleCtx.fillRect(0,0,W,H);
+    // Fallback campo verde
+    bCtx.fillStyle='#4a7a1a';bCtx.fillRect(0,0,W,H);
+    // Sentiero centrale
+    bCtx.fillStyle='#c8a850';bCtx.fillRect(W*0.3,0,W*0.18,H);
   }
-  // Overlay semitrasparente per leggibilita
-  battleCtx.fillStyle='rgba(0,0,0,0.18)';battleCtx.fillRect(0,0,W,H);
+  // Overlay leggero per leggibilita
+  bCtx.fillStyle='rgba(0,0,0,0.15)';bCtx.fillRect(0,0,W,H);
   // Fasce trincea
-  battleCtx.fillStyle='rgba(80,50,10,0.45)';
-  battleCtx.fillRect(0,myTrench.y1,W,myTrench.y2-myTrench.y1);
-  battleCtx.fillRect(0,enemyTrench.y1,W,enemyTrench.y2-enemyTrench.y1);
+  bCtx.fillStyle='rgba(60,35,5,0.4)';
+  bCtx.fillRect(0,myTrenchTop,W,myTrenchBot-myTrenchTop);
+  bCtx.fillRect(0,enemyTrenchTop,W,enemyTrenchBot-enemyTrenchTop);
   // Bordo trincea
-  battleCtx.strokeStyle='rgba(200,160,80,0.7)';battleCtx.lineWidth=2;
-  battleCtx.strokeRect(0,myTrench.y1,W,myTrench.y2-myTrench.y1);
-  battleCtx.strokeRect(0,enemyTrench.y1,W,enemyTrench.y2-enemyTrench.y1);
+  bCtx.strokeStyle='rgba(200,160,60,0.65)';bCtx.lineWidth=2;
+  bCtx.strokeRect(1,myTrenchTop,W-2,myTrenchBot-myTrenchTop);
+  bCtx.strokeRect(1,enemyTrenchTop,W-2,enemyTrenchBot-enemyTrenchTop);
   // Label
-  battleCtx.font='bold 10px Rajdhani,sans-serif';
-  battleCtx.fillStyle='rgba(255,220,100,0.8)';battleCtx.textAlign='left';
-  battleCtx.fillText('TUA TRINCEA',8,myTrench.y1-4);
-  battleCtx.fillStyle='rgba(255,100,100,0.8)';
-  battleCtx.fillText('TRINCEA NEMICA',8,enemyTrench.y2+12);
+  bCtx.font='bold 9px Rajdhani,sans-serif';bCtx.textAlign='left';
+  bCtx.fillStyle='rgba(255,220,80,0.85)';bCtx.fillText('TUA TRINCEA',6,myTrenchTop-3);
+  bCtx.fillStyle='rgba(255,80,80,0.85)';bCtx.fillText('TRINCEA NEMICA',6,enemyTrenchBot+11);
 }
 
 function spawnUnits(){
-  const W=battleCanvas.width,H=battleCanvas.height;
+  const W=bCanvas.width;
   const mieCard=squadraData.slice(0,6);
   const nemCard=getRandCards(sfidanteCorrente.pool,6);
+  const spacing=W/7;
 
   myUnits=mieCard.map((card,i)=>{
     const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
-    return {
-      card,x:W*(0.12+i*0.14),y:(myTrench.y1+myTrench.y2)/2,
-      hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,danno:st.danno,
-      cadenza:st.cadenza,tipo:st.tipo,
-      lastShot:0,side:'mine',alive:true,
-      mortar:false,mortarDeployed:false,
-      targetY:enemyTrench.y2+UNIT_R,
-      imgEl:null
-    };
+    const img=new Image();img.crossOrigin='anonymous';if(card.img)img.src=card.img;
+    return{card,x:spacing*(i+1),y:myTrenchY,hp:st.hp,maxHp:st.hp,
+      vel:st.vel,prec:st.prec,danno:st.danno,cadenza:st.cadenza,tipo:st.tipo,
+      lastShot:0,side:'mine',alive:true,mortarDeployed:false,imgEl:img};
   });
-
   enemyUnits=nemCard.map((card,i)=>{
     const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
-    return {
-      card,x:W*(0.12+i*0.14),y:(enemyTrench.y1+enemyTrench.y2)/2,
-      hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,danno:st.danno,
-      cadenza:st.cadenza,tipo:st.tipo,
-      lastShot:0,side:'enemy',alive:true,
-      mortar:false,mortarDeployed:false,
-      targetY:myTrench.y1-UNIT_R,
-      imgEl:null
-    };
+    const img=new Image();img.crossOrigin='anonymous';if(card.img)img.src=card.img;
+    return{card,x:spacing*(i+1),y:enemyTrenchY,hp:st.hp,maxHp:st.hp,
+      vel:st.vel,prec:st.prec,danno:st.danno,cadenza:st.cadenza,tipo:st.tipo,
+      lastShot:0,side:'enemy',alive:true,mortarDeployed:false,imgEl:img};
   });
-
-  // Precarica immagini
-  [...myUnits,...enemyUnits].forEach(u=>{
-    if(u.card.img){const img=new Image();img.crossOrigin='anonymous';img.src=u.card.img;u.imgEl=img;}
-  });
-
   updateHUD();
 }
 
-function avviaBattaglia(){
+function startBattle(){
   if(battleRunning)return;
   document.getElementById('btn-avvia-batt').disabled=true;
-  document.getElementById('batt-status').textContent='In corso — Valle Pungione';
+  document.getElementById('batt-status').textContent='Valle Pungione — In corso';
   spawnUnits();
-  battleRunning=true;
-  gameLoop();
+  battleRunning=true;lastTime=performance.now();
+  battleRaf=requestAnimationFrame(gameLoop);
 }
 
-let lastTime=0;
-function gameLoop(ts=0){
+function gameLoop(ts){
   if(!battleRunning)return;
   const dt=Math.min(ts-lastTime,50);lastTime=ts;
-  update(dt);
-  draw();
+  update(dt);draw();
   if(!gameOver)battleRaf=requestAnimationFrame(gameLoop);
+}
+
+function getFrontEnemy(unit){
+  // Restituisce il nemico piu vicino nella direzione di marcia
+  const targets=unit.side==='mine'?enemyUnits:myUnits;
+  const alive=targets.filter(t=>t.alive);
+  if(!alive.length)return null;
+  // Il piu vicino in Y
+  return alive.reduce((a,b)=>{
+    const da=Math.abs(unit.y-a.y),db=Math.abs(unit.y-b.y);return da<db?a:b;
+  });
 }
 
 function update(dt){
   const now=performance.now();
-  const H=battleCanvas.height,W=battleCanvas.width;
+  const H=bCanvas.height;
+  const MORTAR_LINE_MINE=H*0.55;    // miei mortai si fermano qui
+  const MORTAR_LINE_ENEMY=H*0.45;   // nemici mortai si fermano qui
 
-  // Aggiorna miei
-  myUnits.forEach(u=>{
+  [...myUnits,...enemyUnits].forEach(u=>{
     if(!u.alive)return;
-    if(u.tipo==='mortaio'&&!u.mortarDeployed){
-      // Avanza fino alla linea mortaio
-      const lineY=H*MORTAR_LINE+20;
-      if(u.y>lineY){u.y-=u.vel*(dt/16);}
-      else{u.mortarDeployed=true;}
-    } else if(!u.mortarDeployed){
-      if(u.y>u.targetY) u.y-=u.vel*(dt/16);
+    const isMine=u.side==='mine';
+    const targets=isMine?enemyUnits:myUnits;
+    const aliveTargets=targets.filter(t=>t.alive);
+
+    // Trova il nemico piu vicino in y
+    const closest=aliveTargets.length?aliveTargets.reduce((a,b)=>
+      Math.abs(u.y-(isMine?a.y:a.y))<Math.abs(u.y-(isMine?b.y:b.y))?a:b
+    ):null;
+
+    // Logica movimento: bloccarsi se c'e un nemico vivo davanti abbastanza vicino
+    const STOP_DIST=80; // px di distanza a cui si fermano e sparano
+    let blocked=false;
+    if(closest){
+      const dy=closest.y-u.y;
+      // "Davanti" = nella direzione di marcia
+      const inFront=isMine?(dy<0):(dy>0);
+      if(inFront&&Math.abs(dy)<STOP_DIST)blocked=true;
     }
+
+    // Movimento mortaio
+    if(u.tipo==='mortaio'&&!u.mortarDeployed){
+      const line=isMine?MORTAR_LINE_MINE:MORTAR_LINE_ENEMY;
+      const arrived=isMine?(u.y<=line):(u.y>=line);
+      if(!arrived&&!blocked){u.y+=isMine?-u.vel*(dt/16):u.vel*(dt/16);}
+      else{u.mortarDeployed=true;}
+    } else if(!u.mortarDeployed&&!blocked){
+      // Avanza verso la trincea nemica
+      const targetY=isMine?enemyTrenchY:myTrenchY;
+      const dy=targetY-u.y;
+      if(Math.abs(dy)>2)u.y+=Math.sign(dy)*u.vel*(dt/16);
+    }
+
     // Sparo
-    if(now-u.lastShot>u.cadenza){
-      spara(u,enemyUnits,now);u.lastShot=now;
-    }
-  });
-
-  // Aggiorna nemici
-  enemyUnits.forEach(u=>{
-    if(!u.alive)return;
-    if(u.tipo==='mortaio'&&!u.mortarDeployed){
-      const lineY=H*(1-MORTAR_LINE)-20;
-      if(u.y<lineY){u.y+=u.vel*(dt/16);}
-      else{u.mortarDeployed=true;}
-    } else if(!u.mortarDeployed){
-      if(u.y<u.targetY) u.y+=u.vel*(dt/16);
-    }
-    if(now-u.lastShot>u.cadenza){
-      spara(u,myUnits,now);u.lastShot=now;
+    if(now-u.lastShot>u.cadenza&&aliveTargets.length){
+      spara(u,aliveTargets,now);u.lastShot=now;
     }
   });
 
   // Aggiorna proiettili
   bullets.forEach(b=>{
-    b.x+=b.vx*(dt/16);b.y+=b.vy*(dt/16);
-    b.life-=dt;
+    b.x+=b.vx*(dt/16);b.y+=b.vy*(dt/16);b.life-=dt;
     if(b.life<=0){b.dead=true;return;}
-    // Collisione
-    const targets=b.side==='mine'?enemyUnits:myUnits;
-    targets.forEach(t=>{
+    const tgts=b.side==='mine'?enemyUnits:myUnits;
+    tgts.forEach(t=>{
       if(!t.alive)return;
-      const dx=t.x-b.x,dy=t.y-b.y;
-      const hit=b.tipo==='mortaio'?
-        Math.sqrt(dx*dx+dy*dy)<MORTAR_R+UNIT_R+20:
-        Math.sqrt(dx*dx+dy*dy)<BULLET_R+UNIT_R;
-      if(hit){
-        if(Math.random()<b.prec){
-          t.hp-=b.danno;
-          if(t.hp<=0){t.alive=false;}
-        }
+      const dx=t.x-b.x,dy=t.y-b.y,dist=Math.sqrt(dx*dx+dy*dy);
+      const hr=b.tipo==='mortaio'?MORTAR_SZ+UNIT_R:BULLET_R+UNIT_R;
+      if(dist<hr){
+        if(Math.random()<b.prec){t.hp-=b.danno;if(t.hp<=0)t.alive=false;}
         b.dead=true;
       }
     });
   });
   bullets=bullets.filter(b=>!b.dead);
 
-  // Check vittoria
+  // Controllo fine partita
   const myAlive=myUnits.filter(u=>u.alive).length;
   const emAlive=enemyUnits.filter(u=>u.alive).length;
-  // Conquista trincea: almeno 2 miei arrivati nella trincea nemica
-  const myCaptured=myUnits.filter(u=>u.alive&&u.y<=enemyTrench.y2+5).length;
-  const emCaptured=enemyUnits.filter(u=>u.alive&&u.y>=myTrench.y1-5).length;
-
-  if(myAlive===0||emCaptured>=2){endBattle(false);}
-  else if(emAlive===0||myCaptured>=2){endBattle(true);}
+  // Conquista: unita arrivate nella trincea avversaria
+  const myCaptured=myUnits.filter(u=>u.alive&&u.y<=enemyTrenchBot+4).length;
+  const emCaptured=enemyUnits.filter(u=>u.alive&&u.y>=myTrenchTop-4).length;
+  if(myAlive===0||emCaptured>=2)endBattle(false);
+  else if(emAlive===0||myCaptured>=2)endBattle(true);
 
   updateHUD();
 }
 
 function spara(shooter,targets,now){
-  const alive=targets.filter(t=>t.alive);
-  if(alive.length===0)return;
-  const target=alive[Math.floor(Math.random()*alive.length)];
-  const dx=target.x-shooter.x,dy=target.y-shooter.y;
-  const dist=Math.sqrt(dx*dx+dy*dy)||1;
-  // Aggiungi piccola variazione per mancate
-  const spread=shooter.tipo==='mortaio'?15:8;
-  const ox=(Math.random()-0.5)*spread,oy=(Math.random()-0.5)*spread;
-  const speed=shooter.tipo==='mortaio'?2.5:5;
+  const target=targets[Math.floor(Math.random()*targets.length)];
+  const dx=target.x-shooter.x,dy=target.y-shooter.y,dist=Math.sqrt(dx*dx+dy*dy)||1;
+  const speed=shooter.tipo==='mortaio'?2.8:5.5;
+  const spread=shooter.tipo==='mortaio'?18:9;
+  const ox=(Math.random()-0.5)*spread/50,oy=(Math.random()-0.5)*spread/50;
   bullets.push({
     x:shooter.x,y:shooter.y,
-    vx:(dx/dist+ox/50)*speed,vy:(dy/dist+oy/50)*speed,
+    vx:(dx/dist+ox)*speed,vy:(dy/dist+oy)*speed,
     danno:shooter.danno,prec:shooter.prec,
     side:shooter.side,tipo:shooter.tipo,
-    life:shooter.tipo==='mortaio'?2000:1200,dead:false
+    life:shooter.tipo==='mortaio'?2200:1300,dead:false
   });
 }
 
 function draw(){
   drawStatic();
-  const ctx=battleCtx;
-
   // Proiettili
   bullets.forEach(b=>{
+    bCtx.beginPath();
     if(b.tipo==='mortaio'){
-      ctx.beginPath();ctx.arc(b.x,b.y,MORTAR_R,0,Math.PI*2);
-      ctx.fillStyle='#2a1a0a';ctx.fill();
-      ctx.strokeStyle='rgba(255,150,0,0.7)';ctx.lineWidth=1.5;ctx.stroke();
+      bCtx.arc(b.x,b.y,MORTAR_SZ/2,0,Math.PI*2);
+      bCtx.fillStyle='#1a0a00';bCtx.fill();
+      bCtx.strokeStyle='rgba(255,140,0,0.8)';bCtx.lineWidth=1.5;bCtx.stroke();
     } else {
-      ctx.beginPath();ctx.arc(b.x,b.y,BULLET_R,0,Math.PI*2);
-      ctx.fillStyle=b.side==='mine'?'rgba(255,255,255,0.9)':'rgba(255,80,80,0.9)';
-      ctx.fill();
+      bCtx.arc(b.x,b.y,BULLET_R,0,Math.PI*2);
+      bCtx.fillStyle=b.side==='mine'?'rgba(255,255,255,0.92)':'rgba(255,60,60,0.92)';
+      bCtx.fill();
     }
   });
-
-  // Unita nemiche
-  enemyUnits.forEach(u=>{if(u.alive)drawUnit(u,false);});
-  // Unita mie
-  myUnits.forEach(u=>{if(u.alive)drawUnit(u,true);});
+  // Unita
+  enemyUnits.forEach(u=>{if(u.alive)drawUnit(u);});
+  myUnits.forEach(u=>{if(u.alive)drawUnit(u);});
 }
 
-function drawUnit(u,isMine){
-  const ctx=battleCtx;
-  const r=u.tipo==='mortaio'&&u.mortarDeployed?0:UNIT_R;
-
+function drawUnit(u){
+  const isMine=u.side==='mine';
   if(u.tipo==='mortaio'&&u.mortarDeployed){
-    // Quadrato mortaio
-    const size=16;
-    ctx.fillStyle='#1a0a05';
-    ctx.fillRect(u.x-size/2,u.y-size/2,size,size);
-    ctx.strokeStyle=isMine?'rgba(200,200,200,0.8)':'rgba(255,80,80,0.8)';
-    ctx.lineWidth=2;ctx.strokeRect(u.x-size/2,u.y-size/2,size,size);
+    // Quadrato mortaio scuro
+    const s=MORTAR_SZ;
+    bCtx.fillStyle='#100800';
+    bCtx.fillRect(u.x-s/2,u.y-s/2,s,s);
+    bCtx.strokeStyle=isMine?'rgba(200,200,200,0.8)':'rgba(255,80,80,0.8)';
+    bCtx.lineWidth=2;bCtx.strokeRect(u.x-s/2,u.y-s/2,s,s);
     // Canna
-    const cDir=isMine?-1:1;
-    ctx.beginPath();ctx.moveTo(u.x,u.y);ctx.lineTo(u.x,u.y+cDir*12);
-    ctx.strokeStyle='#888';ctx.lineWidth=3;ctx.stroke();
+    bCtx.beginPath();bCtx.moveTo(u.x,u.y);
+    bCtx.lineTo(u.x,u.y+(isMine?-13:13));
+    bCtx.strokeStyle='#666';bCtx.lineWidth=3;bCtx.stroke();
   } else {
-    // Cerchietto
-    ctx.beginPath();ctx.arc(u.x,u.y,r,0,Math.PI*2);
-    ctx.fillStyle=isMine?'rgba(255,255,255,0.95)':'rgba(220,40,40,0.95)';
-    ctx.fill();
-    ctx.strokeStyle=isMine?'rgba(100,180,255,0.8)':'rgba(255,120,120,0.6)';
-    ctx.lineWidth=2;ctx.stroke();
-    // Faccina piccola se immagine disponibile
+    // Cerchio
+    bCtx.beginPath();bCtx.arc(u.x,u.y,UNIT_R,0,Math.PI*2);
+    bCtx.fillStyle=isMine?'rgba(255,255,255,0.95)':'rgba(210,30,30,0.95)';
+    bCtx.fill();
+    bCtx.strokeStyle=isMine?'rgba(120,200,255,0.7)':'rgba(255,120,120,0.6)';
+    bCtx.lineWidth=1.8;bCtx.stroke();
+    // Immagine dentro cerchio
     if(u.imgEl&&u.imgEl.complete&&u.imgEl.naturalWidth>0){
-      ctx.save();ctx.beginPath();ctx.arc(u.x,u.y,r-1.5,0,Math.PI*2);ctx.clip();
-      ctx.drawImage(u.imgEl,u.x-r+1.5,u.y-r+1.5,(r-1.5)*2,(r-1.5)*2);ctx.restore();
+      bCtx.save();bCtx.beginPath();bCtx.arc(u.x,u.y,UNIT_R-1.5,0,Math.PI*2);bCtx.clip();
+      bCtx.drawImage(u.imgEl,u.x-UNIT_R+1.5,u.y-UNIT_R+1.5,(UNIT_R-1.5)*2,(UNIT_R-1.5)*2);
+      bCtx.restore();
     }
   }
-
-  // Barra HP sopra
-  const bw=20,bh=3,bx=u.x-bw/2,by=u.y-UNIT_R-7;
-  ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(bx,by,bw,bh);
-  const hpPct=Math.max(0,u.hp/u.maxHp);
-  ctx.fillStyle=hpPct>0.5?'#44ff88':hpPct>0.25?'#ffcc00':'#ff4444';
-  ctx.fillRect(bx,by,bw*hpPct,bh);
+  // Barra HP
+  const bw=18,bh=3,bx=u.x-bw/2,by=u.y-UNIT_R-6;
+  bCtx.fillStyle='rgba(0,0,0,0.5)';bCtx.fillRect(bx,by,bw,bh);
+  const p=Math.max(0,u.hp/u.maxHp);
+  bCtx.fillStyle=p>0.5?'#44ff88':p>0.25?'#ffcc00':'#ff4444';
+  bCtx.fillRect(bx,by,bw*p,bh);
 }
 
 function updateHUD(){
-  const mineDiv=document.getElementById('hud-mine');
-  const enemyDiv=document.getElementById('hud-enemy');
-  mineDiv.innerHTML=myUnits.map(u=>`
+  document.getElementById('hud-mine').innerHTML=myUnits.map(u=>`
     <div class="hud-unit-bar">
       <div class="hub-dot mine"></div>
       <div class="hud-name">${u.card.nome.split(' ')[0]}</div>
       <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:${u.hp/u.maxHp>0.5?'#44ff88':u.hp/u.maxHp>0.25?'#ffcc00':'#ff4444'};"></div></div>
     </div>`).join('');
-  enemyDiv.innerHTML=enemyUnits.map(u=>`
+  document.getElementById('hud-enemy').innerHTML=enemyUnits.map(u=>`
     <div class="hud-unit-bar right">
       <div class="hub-dot enemy"></div>
       <div class="hud-name">${u.card.nome.split(' ')[0]}</div>
@@ -953,14 +921,13 @@ function updateHUD(){
     </div>`).join('');
 }
 
-function endBattle(vittoria){
+function endBattle(win){
   gameOver=true;battleRunning=false;
   if(battleRaf)cancelAnimationFrame(battleRaf);
-  const el=document.getElementById('batt-result-overlay');
-  document.getElementById('br-title').textContent=vittoria?'VITTORIA!':'SCONFITTA';
-  document.getElementById('br-title').style.color=vittoria?'#FFE033':'#ff5555';
-  document.getElementById('br-sub').textContent=vittoria?'Hai conquistato Valle Pungione':'Valle Pungione e\' ancora in mano nemica';
-  el.classList.add('show');
+  document.getElementById('br-title').textContent=win?'VITTORIA!':'SCONFITTA';
+  document.getElementById('br-title').style.color=win?'#FFE033':'#ff5555';
+  document.getElementById('br-sub').textContent=win?'Hai conquistato Valle Pungione':'Valle Pungione resta in mano nemica';
+  document.getElementById('batt-result-overlay').classList.add('show');
 }
 
 function closeBattaglia(){
@@ -969,7 +936,7 @@ function closeBattaglia(){
   document.getElementById('battaglia-screen').classList.remove('show');
 }
 
-// ==================== TAB ====================
+// ===== TAB =====
 const DOORS=[
   {id:"pal",x:200,y:210,locked:false,ico:"&#128170;",name:"PALESTRA",sub:"Allenamento",dsc:"Allenamento fisico.",quo:"Sei massiccio!",act:"train"},
   {id:"spa",x:350,y:190,locked:false,ico:"&#127866;",name:"SPACCIO",sub:"Bar / ristoro",dsc:"Zona ristoro.",quo:"Weee naja!",act:"bar"},
@@ -1075,7 +1042,7 @@ function buildSquadraGrid(){
   const grid=document.getElementById('squadra-grid');if(!grid)return;grid.innerHTML='';
   squadraData.forEach((s,i)=>{
     const c=document.createElement('div');c.className='carta-pg';c.onclick=()=>openSoldato(i);
-    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'&#128100;'}</div><div style="padding:3px 4px;"><div class="carta-nome">${s.nome}</div><div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div></div>`;
+    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'S'}</div><div style="padding:3px 4px;"><div class="carta-nome">${s.nome}</div><div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div></div>`;
     grid.appendChild(c);
   });
 }
@@ -1084,7 +1051,7 @@ function openCollezione(){
   tutteCarte.forEach((s,i)=>{
     const c=document.createElement('div');c.className='carta-pg'+(s.ecce?' ecce':s.elite?' elite':s.legio?' legio':'');c.onclick=()=>openSoldatoFromTutte(i);
     const badge=s.elite?`<div style="font-size:6px;letter-spacing:2px;color:#7a8fa0;text-align:center;padding-bottom:3px;text-transform:uppercase;">ELITE</div>`:s.legio?`<div style="font-size:6px;letter-spacing:2px;color:#a07800;text-align:center;padding-bottom:3px;text-transform:uppercase;">LEGIONARIO</div>`:s.ecce?`<div style="font-size:6px;letter-spacing:2px;color:#8a00aa;text-align:center;padding-bottom:3px;text-transform:uppercase;">ECCEZIONALE</div>`:'';
-    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">`:'&#128100;'}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${badge}</div>`;
+    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">`:'S'}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${badge}</div>`;
     grid.appendChild(c);
   });
   document.getElementById('collezione-modal').style.display='flex';
@@ -1115,16 +1082,16 @@ function openSoldatoData(s){
   document.getElementById('sm-ecce-badge').style.display=s.ecce?'inline-block':'none';
   document.getElementById('sm-lv').textContent=s.lv;
   document.getElementById('sm-xpbar').style.width=s.xp+'%';
-  document.getElementById('sm-avatar').innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'&#128100;';
+  document.getElementById('sm-avatar').innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'S';
   const st=TROOP_STATS[s.tipoTruppa]||TROOP_STATS.normale;
   document.getElementById('sm-mosse').innerHTML=s.mosse.map(m=>`
     <div style="background:#f0ece0;border:1px solid rgba(180,150,80,0.25);border-radius:6px;padding:6px 8px;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;letter-spacing:1px;">${m.nome}</div>
       <div style="font-size:9px;color:rgba(120,80,10,0.6);letter-spacing:1px;">ATK ${m.atk}</div>
     </div>`).join('')+`
-    <div style="background:#e8f4e8;border:1px solid rgba(80,150,80,0.25);border-radius:6px;padding:6px 8px;grid-column:1/-1;">
+    <div style="background:#e8f4e8;border:1px solid rgba(80,150,80,0.2);border-radius:6px;padding:6px 8px;grid-column:1/-1;margin-top:2px;">
       <div style="font-size:8px;color:rgba(40,100,40,0.7);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;">Statistiche Combattimento</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <span style="font-size:9px;color:#2a6a2a;"><b>HP</b> ${st.hp}</span>
         <span style="font-size:9px;color:#2a6a2a;"><b>VEL</b> ${st.vel}</span>
         <span style="font-size:9px;color:#2a6a2a;"><b>PREC</b> ${Math.round(st.prec*100)}%</span>
@@ -1177,7 +1144,7 @@ function openReplace(idx){
   const grid=document.getElementById('rm-grid');grid.innerHTML='';
   tutteCarte.forEach(s=>{
     const inSquad=squadraData.includes(s),c=document.createElement('div');c.className='rm-card'+(inSquad?' locked-card':'');
-    c.innerHTML=`<div class="rm-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'&#128100;'}</div><div class="rm-name">${s.nome}</div>`;
+    c.innerHTML=`<div class="rm-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'S'}</div><div class="rm-name">${s.nome}</div>`;
     if(!inSquad)c.onclick=()=>confirmReplace(s);grid.appendChild(c);
   });
   document.getElementById('replace-modal').style.display='flex';
@@ -1190,16 +1157,16 @@ function openMappaModal(){document.getElementById('mappa-modal').style.display='
 function closeMappaModal(){document.getElementById('mappa-modal').style.display='none';}
 
 const GERARCHIA=[
-  {grado:'Presidente della Repubblica',nome:'Gen. Arturo Ferrante',ruolo:'Capo Supremo delle Forze Armate',desc:'Massima autorita istituzionale sulle Forze Armate italiane.',storia:'Nato nel 1948 a Napoli, ha dedicato 40 anni al servizio dello Stato. Decorato tre volte. Il soldato non smette mai di essere soldato.',ico:'&#127988;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/735DA794-892E-488B-98A4-AF76DBB85282.png'},
-  {grado:'Ministro della Difesa',nome:'On. Cristina Valenti',ruolo:'Ministro della Difesa',desc:'Responsabile politica delle Forze Armate italiane.',storia:'Avvocata di professione, e diventata ministra a 48 anni. Figlia di un maresciallo dei carabinieri. Nei suoi discorsi cita spesso Sun Tzu.',ico:'&#9878;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DBD4324C-62B1-4AD4-B505-7701ABB513C1.png'},
-  {grado:"Generale di Corpo d'Armata",nome:'Gen. Marco Stelvio',ruolo:'Capo di Stato Maggiore della Difesa',desc:'Coordinamento strategico interforze.',storia:'Ha servito in tre teatri operativi internazionali. I subalterni lo chiamano Il Granito.',ico:'&#11088;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C99AB79A-48BE-4B6A-8753-177B8AC73034.png'},
+  {grado:'Presidente della Repubblica',nome:'Gen. Arturo Ferrante',ruolo:'Capo Supremo delle Forze Armate',desc:'Massima autorita istituzionale.',storia:'Nato nel 1948 a Napoli, ha dedicato 40 anni al servizio dello Stato.',ico:'&#127988;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/735DA794-892E-488B-98A4-AF76DBB85282.png'},
+  {grado:'Ministro della Difesa',nome:'On. Cristina Valenti',ruolo:'Ministro della Difesa',desc:'Responsabile politica delle Forze Armate.',storia:'Avvocata, ministra a 48 anni. Nei discorsi cita Sun Tzu. Nessuno sa se lo abbia letto.',ico:'&#9878;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DBD4324C-62B1-4AD4-B505-7701ABB513C1.png'},
+  {grado:"Generale di Corpo d'Armata",nome:'Gen. Marco Stelvio',ruolo:'Capo di Stato Maggiore della Difesa',desc:'Coordinamento strategico interforze.',storia:'Ha servito in tre teatri operativi. I subalterni lo chiamano Il Granito.',ico:'&#11088;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C99AB79A-48BE-4B6A-8753-177B8AC73034.png'},
   {grado:"Generale di Corpo d'Armata",nome:'Gen. Bruno Laghetti',ruolo:"Capo di Stato Maggiore dell'Esercito",desc:"Comando dell'Esercito Italiano.",storia:'Ossessionato dalla logistica. Un esercito marcia sul ventre.',ico:'&#127894;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B8AFF5AC-11D8-447B-9DE5-EBBE1AE90AFD.png'},
-  {grado:'Generale di Divisione',nome:'Gen. Filippo Caruso',ruolo:'Comando Formazione, Specializzazione e Dottrina',desc:"Responsabile dell'addestramento.",storia:'Ex istruttore di combattimento corpo a corpo. A 62 anni fa ancora 50 flessioni ogni mattina.',ico:'&#128203;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E732C86E-3E18-4CEA-A0A7-F2214E42829C.png'},
-  {grado:'Generale di Brigata',nome:'Gen. Sandro Mura',ruolo:'Comandante Scuola di Fanteria',desc:'Formazione dei soldati di fanteria.',storia:'Laureato in filosofia prima di arruolarsi. Cita Platone durante le marce.',ico:'&#127979;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/410D289C-FD18-4A80-B538-03D7DE29F191.png'},
+  {grado:'Generale di Divisione',nome:'Gen. Filippo Caruso',ruolo:'Comando Formazione e Dottrina',desc:"Responsabile dell'addestramento.",storia:'A 62 anni fa ancora 50 flessioni ogni mattina.',ico:'&#128203;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E732C86E-3E18-4CEA-A0A7-F2214E42829C.png'},
+  {grado:'Generale di Brigata',nome:'Gen. Sandro Mura',ruolo:'Comandante Scuola di Fanteria',desc:'Formazione dei soldati.',storia:'Laureato in filosofia. Cita Platone durante le marce.',ico:'&#127979;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/410D289C-FD18-4A80-B538-03D7DE29F191.png'},
   {grado:'Colonnello',nome:'Col. Pietro Savino',ruolo:'Comandante di Reggimento',desc:'Comanda il reggimento paracadutisti.',storia:'Ha saltato oltre 600 volte. Avevo piu paura della firma del congedo che del vuoto.',ico:'&#129413;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8D04138C-985E-4FD5-98FC-1A90F93E191C.png'},
-  {grado:'Tenente Colonnello',nome:'Ten.Col. Andrea Beltrame',ruolo:'Comandante di Battaglione',desc:'Coordina le operazioni del battaglione.',storia:"Metodico al punto di essere ossessivo. Il suo piano d'addestramento e stato copiato da tre altre unita. Non l'ha presa bene.",ico:'&#128202;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CCDF1299-997D-411E-A7E2-FC02C9CE0F0B.png'},
-  {grado:'Capitano',nome:'Cap. Lucia Ferretti',ruolo:'Comandante di Compagnia',desc:'Comanda la compagnia operativa.',storia:'Prima donna al comando di una compagnia para. Ha sentito ogni battuta possibile. Le ha archiviate tutte.',ico:'&#9889;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B3B7F323-84B9-4BA8-B47A-FD08A8B09C4D.png'},
-  {grado:'Tenente',nome:'Ten. Giacomo Volta',ruolo:'Comandante di Plotone',desc:'Il tuo diretto superiore.',storia:"Ha 26 anni e l'aria di chi non ha ancora capito bene dove si trova. Ma quando si tratta di orientamento notturno, nessuno lo batte.",ico:'&#128301;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/65112C3C-2917-48D6-A593-D169B8AB132E.png'},
+  {grado:'Tenente Colonnello',nome:'Ten.Col. Andrea Beltrame',ruolo:'Comandante di Battaglione',desc:'Coordina le operazioni del battaglione.',storia:"Metodico al punto di essere ossessivo. Il suo piano d'addestramento e stato copiato da tre unita.",ico:'&#128202;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CCDF1299-997D-411E-A7E2-FC02C9CE0F0B.png'},
+  {grado:'Capitano',nome:'Cap. Lucia Ferretti',ruolo:'Comandante di Compagnia',desc:'Comanda la compagnia operativa.',storia:'Prima donna al comando di una compagnia para. Ha archiviate tutte le battute.',ico:'&#9889;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B3B7F323-84B9-4BA8-B47A-FD08A8B09C4D.png'},
+  {grado:'Tenente',nome:'Ten. Giacomo Volta',ruolo:'Comandante di Plotone',desc:'Il tuo diretto superiore.',storia:"Ha 26 anni. Ma in orientamento notturno nessuno lo batte.",ico:'&#128301;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/65112C3C-2917-48D6-A593-D169B8AB132E.png'},
 ];
 function openGerarchia(){
   const modal=document.getElementById('gerarchia-modal'),pira=document.getElementById('gerarchia-piramide');pira.innerHTML='';
@@ -1218,7 +1185,7 @@ function openGerarchiaCard(idx){
   document.getElementById('gc-nome').textContent=g.nome;document.getElementById('gc-grado').textContent=g.grado;
   document.getElementById('gc-ruolo').textContent=g.ruolo;document.getElementById('gc-desc').textContent=g.desc;
   document.getElementById('gc-storia').textContent=g.storia;
-  document.getElementById('gc-avatar').innerHTML=g.img?`<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;">`:'&#128100;';
+  document.getElementById('gc-avatar').innerHTML=g.img?`<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;">`:'U';
   gcPage(0);
   const modal=document.getElementById('gerarchia-card-modal');modal.style.display='flex';
   modal.onclick=e=>{if(e.target===modal)closeGerarchiaCard();};
