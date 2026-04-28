@@ -47,15 +47,11 @@ background:#f5f5f0;
 #screen-map.show{display:flex;}
 
 /* TOP BAR */
-#top-bar{
-flex-shrink:0;height:46px;
-background:#fff;
-border-bottom:1px solid rgba(180,150,80,0.25);
-display:flex;align-items:center;justify-content:center;
-position:relative;padding:0 12px;z-index:300;
-}
-#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:26px;color:#7B1020;-webkit-text-stroke:1px #3d000a;letter-spacing:2px;}
-#top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(120,90,30,0.7);letter-spacing:3px;}
+#top-bar{flex-shrink:0;height:56px;background:url(“https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/4D69F042-C985-44F1-A409-84C09A4B3FEA.png”) center/cover no-repeat;border-bottom:none;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
+#top-bar::before{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.45);z-index:0;}
+#top-bar>*{position:relative;z-index:1;}
+#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:26px;color:#fff;-webkit-text-stroke:1px rgba(0,0,0,0.4);letter-spacing:2px;text-shadow:0 1px 6px rgba(0,0,0,0.5);}
+#top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(255,255,255,0.75);letter-spacing:3px;}
 
 /* TAB CONTENT — cresce tra top-bar e tab-bar */
 #tab-content{flex:1;min-height:0;overflow:hidden;position:relative;}
@@ -601,7 +597,7 @@ const legioData=[
   {nome:'DECIO',ruolo:'Legionario',lv:5,xp:75,forza:17,qi:15,motiv:18,spirito:13,di:16,mosse:['Schaffo del Paraca','Bomba a Mano','Lupo Grigio','Forza del Monte'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/7D62F215-1B50-40C9-B60B-E71D6B1D2E5E.png',legio:true},
   {nome:'ARMANDO',ruolo:'Legionario',lv:5,xp:90,forza:16,qi:18,motiv:15,spirito:17,di:14,mosse:['Fantasma','Graffio del Gattino','Multiuso','Sturacessi'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/1E90A1F2-E03F-4CCD-AA43-5A2E6268E21B.png',legio:true},
   {nome:'DINAMITARO',ruolo:'Legionario',lv:5,xp:85,forza:18,qi:14,motiv:17,spirito:12,di:19,mosse:['Bomba a Mano','Tappacessi','Scava Tasso','Schaffo del Paraca'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D4EB0AF0-9F22-4531-88C5-39A9DFE6F3DF.png',legio:true},
-  {nome:'FILUEFERRU',ruolo:'Legionario',lv:5,xp:88,forza:16,qi:13,motiv:19,spirito:17,di:15,mosse:['Fuoco Naja','Fuga dalla Valle','Fascino','Graffio del Gattino'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/54926765-D9FF-4CE2-BFCA-B....png',legio:true},
+  {nome:'FILUEFERRU',ruolo:'Legionario',lv:5,xp:88,forza:16,qi:13,motiv:19,spirito:17,di:15,mosse:['Fuoco Naja','Fuga dalla Valle','Fascino','Graffio del Gattino'],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/54926765-D9FF-4CE2-BFCA-BEA26D3A0DA1.png',legio:true},
 ];
 
 tutteCarte.push(...legioData);
@@ -623,7 +619,7 @@ function buildSquadraGrid(){
 function openCollezione(){
   const grid=document.getElementById('coll-grid');grid.innerHTML='';
   tutteCarte.forEach((s,i)=>{
-    const card=document.createElement('div');card.className='carta-pg'+(s.ecce?' ecce':s.elite?' elite':s.legio?' legio':'');card.onclick=()=>openSoldato(i<squadraData.length?i:0);
+    const card=document.createElement('div');card.className='carta-pg'+(s.ecce?' ecce':s.elite?' elite':s.legio?' legio':'');card.onclick=()=>openSoldatoFromTutte(i);
     const eliteBadge=s.elite?`<div style="font-size:6px;letter-spacing:2px;color:#7a8fa0;text-align:center;padding-bottom:3px;text-transform:uppercase;">★ ELITE</div>`:s.legio?`<div style="font-size:6px;letter-spacing:2px;color:#a07800;text-align:center;padding-bottom:3px;text-transform:uppercase;">✦ LEGIONARIO</div>`:s.ecce?`<div style="font-size:6px;letter-spacing:2px;color:#8a00aa;text-align:center;padding-bottom:3px;text-transform:uppercase;">⚡ ECCEZIONALE</div>`:""
     card.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">`:'👤'}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${eliteBadge}</div>`;
     grid.appendChild(card);
@@ -632,8 +628,14 @@ function openCollezione(){
 }
 function closeCollezione(){document.getElementById('collezione-modal').style.display='none';}
 
+function openSoldatoFromTutte(idx){
+  openSoldatoData(tutteCarte[idx]);
+}
 function openSoldato(idx){
-  const s=squadraData[idx];
+  openSoldatoData(squadraData[idx]);
+}
+function openSoldatoData(s){
+  if(!s)return;
   document.getElementById('sm-nome').textContent=s.nome.toUpperCase();
   document.getElementById('sm-ruolo').textContent=s.ruolo;
   const smb=document.getElementById('sm-elite-badge');
@@ -643,7 +645,7 @@ function openSoldato(idx){
   const sme=document.getElementById('sm-ecce-badge');if(sme)sme.style.display=s.ecce?'inline-block':'none';
   document.getElementById('sm-lv').textContent=s.lv;
   document.getElementById('sm-xpbar').style.width=s.xp+'%';
-  document.getElementById('sm-avatar').innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'👤';
+  document.getElementById('sm-avatar').innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:s.imgPending?'🔜':'👤';
   document.getElementById('sm-mosse').innerHTML=s.mosse.map(m=>`<div style="background:#f0ece0;border:1px solid rgba(180,150,80,0.25);border-radius:6px;padding:7px 8px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#7B1020;letter-spacing:1px;">${m}</div></div>`).join('');
   const cx=60,cy=58,maxR=52,stats=[s.forza,s.qi,s.motiv,s.spirito,s.di];
   const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
