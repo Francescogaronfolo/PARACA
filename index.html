@@ -822,44 +822,9 @@ function rinominaSquadra(){
 
 // ===== SISTEMA FERROVIARIO =====
 // Nodi sulle strade della mappa (1183x1330)
-// MODIFICA le coordinate [x,y] per calibrare sulla tua mappa
-const NODES={
-  // STRADA NORD (fila alta edifici)
-  "N1":[200,155],"N2":[350,155],"N3":[476,155],"N4":[610,155],"N5":[780,155],"N6":[965,155],
-  // EST NORD (bordo destra)
-  "NE1":[1080,155],"NE2":[1080,290],"NE3":[1080,450],
-  // BORDO OVEST
-  "W1":[70,210],"W2":[70,388],"W3":[70,525],"W4":[70,675],"W5":[70,820],"NW":[200,280],
-  // CORRIDOIO CENTRALE ORIZZONTALE
-  "C1":[136,580],"C2":[284,580],"C3":[442,580],"C4":[580,580],"C5":[702,580],"C6":[840,580],"C7":[980,580],
-  // ZONA PIAZZALE CENTRALE
-  "M1":[442,430],"M2":[580,430],"M3":[702,430],"M4":[580,520],
-  // STRADA UFFICI
-  "U1":[136,750],"U2":[284,750],"U3":[442,750],"U4":[702,750],"U5":[840,750],"U6":[980,750],
-  // ZONA SUD
-  "S1":[200,820],"S2":[355,820],"S3":[576,820],"S4":[760,820],"S5":[980,820],
-  // ZONA BASSA
-  "B1":[200,960],"B2":[355,960],"B3":[576,1050],"B4":[760,1050],
-  // DORMITORI E ENTRATA
-  "D1":[200,1080],"D2":[200,1220],"E1":[580,1280],"E2":[580,1180]
-};
-
-const EDGES=[
-  ["N1","N2"],["N2","N3"],["N3","N4"],["N4","N5"],["N5","N6"],["N6","NE1"],
-  ["NE1","NE2"],["NE2","NE3"],["NE3","C7"],
-  ["W1","NW"],["NW","N1"],["W1","W2"],["W2","W3"],["W3","W4"],["W4","W5"],
-  ["W2","C1"],["W4","U1"],["W5","S1"],
-  ["N2","C2"],["N3","C3"],["N4","M1"],["N5","C5"],["N6","C7"],
-  ["C1","C2"],["C2","C3"],["C3","M1"],["M1","M2"],["M2","C4"],["C4","M3"],["M3","C5"],["C5","C6"],["C6","C7"],
-  ["M1","M4"],["M2","M4"],["M3","M4"],["C4","M4"],
-  ["C1","U1"],["C2","U2"],["C3","U3"],["C5","U4"],["C6","U5"],["C7","U6"],
-  ["U1","U2"],["U2","U3"],["U3","U4"],["U4","U5"],["U5","U6"],
-  ["U1","S1"],["U3","S2"],["U3","S3"],["U5","S4"],["U6","S5"],
-  ["S1","S2"],["S2","S3"],["S3","S4"],["S4","S5"],
-  ["S1","B1"],["S2","B2"],["S3","B3"],["S4","B4"],
-  ["B1","B2"],["B2","B3"],["B3","B4"],
-  ["B1","D1"],["D1","D2"],["D2","E2"],["E2","E1"],["B3","E2"]
-];
+// Seguono il tracciato disegnato da Franco
+const NODES={"N1": [230, 300], "N2": [395, 300], "N3": [520, 300], "N4": [655, 300], "N5": [790, 300], "N6": [960, 300], "C1": [230, 500], "C2": [395, 500], "C3": [520, 500], "C4": [655, 500], "C5": [790, 500], "C6": [960, 500], "U1": [230, 625], "U2": [395, 625], "U3": [520, 625], "U4": [655, 625], "U5": [790, 625], "U6": [960, 625], "S1": [230, 730], "S2": [395, 730], "S3": [655, 730], "S4": [790, 730], "B1": [230, 875], "B2": [395, 875], "B3": [655, 875], "B4": [790, 875], "T1": [520, 400], "P1": [655, 400], "P2": [655, 450]};
+const EDGES=[["N1", "N2"], ["N2", "N3"], ["N3", "N4"], ["N4", "N5"], ["N5", "N6"], ["C1", "C2"], ["C2", "C3"], ["C3", "C4"], ["C4", "C5"], ["C5", "C6"], ["U1", "U2"], ["U2", "U3"], ["U3", "U4"], ["U4", "U5"], ["U5", "U6"], ["S1", "S2"], ["S3", "S4"], ["B1", "B2"], ["B3", "B4"], ["N1", "C1"], ["C1", "U1"], ["U1", "S1"], ["S1", "B1"], ["N2", "C2"], ["C2", "U2"], ["U2", "S2"], ["S2", "B2"], ["N3", "T1"], ["T1", "C3"], ["C3", "U3"], ["N4", "P1"], ["P1", "P2"], ["P2", "C4"], ["C4", "U4"], ["U4", "S3"], ["S3", "B3"], ["N5", "C5"], ["C5", "U5"], ["U5", "S4"], ["S4", "B4"], ["N6", "C6"], ["C6", "U6"], ["C2", "T1"], ["T1", "P1"], ["U3", "S2"], ["U3", "S3"], ["S2", "S3"], ["B2", "B3"], ["B3", "B4"]];
 
 // Adjacency list
 const ADJ={};
@@ -867,12 +832,12 @@ Object.keys(NODES).forEach(n=>ADJ[n]=[]);
 EDGES.forEach(([a,b])=>{ADJ[a].push(b);ADJ[b].push(a);});
 
 // Stato omino
-const omino={x:580,y:520,node:"M4"};
-let walkPath=[];   // percorso corrente
-let walkStep=0;    // indice passo corrente
-let walkTimer=null;// timer animazione
+const omino={x:655,y:500,node:"C4"};
+let walkPath=[];
+let walkStep=0;
+let walkTimer=null;
 
-// ---- Disegna binari (linea unica sottile color sabbia) ----
+// ---- Disegna binari ----
 function drawRails(){
   const wrap=document.getElementById("map-wrap");
   if(!wrap)return;
@@ -884,28 +849,26 @@ function drawRails(){
     wrap.insertBefore(canvas,wrap.firstChild);
   }
   const img=document.getElementById("map-img");
-  const iw=img?img.naturalWidth:1183;
-  const ih=img?img.naturalHeight:1330;
-  canvas.width=iw; canvas.height=ih;
+  canvas.width=img?img.naturalWidth:1183;
+  canvas.height=img?img.naturalHeight:1330;
   const ctx=canvas.getContext("2d");
-  ctx.clearRect(0,0,iw,ih);
-  // Linea strada — sottile, colore sabbia scuro semi-trasparente
-  ctx.strokeStyle="rgba(160,120,60,0.28)";
-  ctx.lineWidth=3;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle="rgba(255,255,255,0.22)";
+  ctx.lineWidth=2.5;
   ctx.lineCap="round";
   ctx.lineJoin="round";
   EDGES.forEach(([a,b])=>{
     const[ax,ay]=NODES[a],[bx,by]=NODES[b];
     ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();
   });
-  // Piccoli nodi agli incroci
-  ctx.fillStyle="rgba(160,120,60,0.20)";
+  // Nodi
+  ctx.fillStyle="rgba(255,255,255,0.18)";
   Object.values(NODES).forEach(([x,y])=>{
-    ctx.beginPath();ctx.arc(x,y,2.5,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill();
   });
 }
 
-// ---- BFS per trovare percorso tra due nodi ----
+// ---- BFS ----
 function bfs(start,end){
   if(start===end)return[start];
   const vis={[start]:true},queue=[[start,[start]]];
@@ -919,7 +882,7 @@ function bfs(start,end){
   return[start];
 }
 
-// ---- Nodo più vicino a tap ----
+// ---- Nodo più vicino al tap ----
 function nearestNode(x,y){
   let best=null,bd=Infinity;
   for(const[id,[nx,ny]]of Object.entries(NODES)){
@@ -929,7 +892,7 @@ function nearestNode(x,y){
   return best;
 }
 
-// ---- Aggiorna posizione omino sullo schermo ----
+// ---- Aggiorna posizione omino ----
 function updateOmino(){
   const el=document.getElementById("omino");
   if(!el)return;
@@ -937,17 +900,21 @@ function updateOmino(){
   el.style.top=(omino.y*scaleY)+"px";
 }
 
-// ---- Animazione percorso: omino cammina nodo per nodo ----
+// ---- Animazione fluida: interpolazione CSS transition ----
 function walkTo(targetNode){
   if(walkTimer)clearInterval(walkTimer);
   walkPath=bfs(omino.node,targetNode);
   walkStep=0;
   if(walkPath.length<=1)return;
-  const STEP_MS=320; // millisecondi per nodo — più alto = più lento
+  const el=document.getElementById("omino");
+  const STEP_MS=480; // ms per nodo — lento e cadenzato
+  if(el)el.style.transition=`left ${STEP_MS}ms linear,top ${STEP_MS}ms linear`;
   walkTimer=setInterval(()=>{
     walkStep++;
     if(walkStep>=walkPath.length){
-      clearInterval(walkTimer);walkTimer=null;return;
+      clearInterval(walkTimer);walkTimer=null;
+      if(el)el.style.transition="";
+      return;
     }
     const node=walkPath[walkStep];
     omino.node=node;
@@ -957,7 +924,7 @@ function walkTo(targetNode){
   },STEP_MS);
 }
 
-// ---- TAP sulla mappa: avvia percorso animato ----
+// ---- TAP sulla mappa ----
 function initTapMove(){
   const wrap=document.getElementById("map-wrap");
   if(!wrap)return;
@@ -970,22 +937,21 @@ function initTapMove(){
     const mapX=(e.clientX-rect.left)/scaleX;
     const mapY=(e.clientY-rect.top)/scaleY;
     const target=nearestNode(mapX,mapY);
-    if(target&&target!==omino.node) walkTo(target);
+    if(target&&target!==omino.node)walkTo(target);
   });
 }
 
-// ---- NPC: 7 simboli che si muovono casualmente sui binari ----
+// ---- NPC animati ----
 const NPC_DEFS=[
-  {sym:"V",color:"rgba(60,140,60,0.85)",   node:"N2", ms:2800},
-  {sym:"V",color:"rgba(60,140,60,0.85)",   node:"U3", ms:3400},
-  {sym:"V",color:"rgba(60,100,180,0.8)",   node:"S3", ms:2600},
-  {sym:"V",color:"rgba(60,100,180,0.8)",   node:"D1", ms:3100},
-  {sym:"★",color:"rgba(200,160,40,0.9)",   node:"C4", ms:4200},
-  {sym:"★",color:"rgba(200,160,40,0.9)",   node:"B2", ms:3800},
-  {sym:"◆",color:"rgba(180,80,80,0.75)",   node:"NE2",ms:5000},
+  {sym:"V",color:"rgba(80,180,80,0.9)",  node:"N2",ms:500},
+  {sym:"V",color:"rgba(80,180,80,0.9)",  node:"U4",ms:600},
+  {sym:"V",color:"rgba(80,130,200,0.85)",node:"S3",ms:550},
+  {sym:"V",color:"rgba(80,130,200,0.85)",node:"B1",ms:480},
+  {sym:"★",color:"rgba(220,180,40,0.95)",node:"C3",ms:700},
+  {sym:"★",color:"rgba(220,180,40,0.95)",node:"N5",ms:750},
+  {sym:"◆",color:"rgba(200,80,80,0.8)",  node:"T1",ms:900},
 ];
-
-const npcs=NPC_DEFS.map((d,i)=>({...d,x:NODES[d.node][0],y:NODES[d.node][1],path:[],step:0,timer:null}));
+const npcs=NPC_DEFS.map(d=>({...d,x:NODES[d.node][0],y:NODES[d.node][1],path:[],step:0,timer:null}));
 
 function updateNpcEl(i){
   const npc=npcs[i];
@@ -997,24 +963,22 @@ function updateNpcEl(i){
 
 function startNpcWalk(i){
   const npc=npcs[i];
-  // Scegli destinazione casuale
-  const nodeKeys=Object.keys(NODES);
-  const dest=nodeKeys[Math.floor(Math.random()*nodeKeys.length)];
+  const keys=Object.keys(NODES);
+  const dest=keys[Math.floor(Math.random()*keys.length)];
   npc.path=bfs(npc.node,dest);
   npc.step=0;
   if(npc.timer)clearInterval(npc.timer);
+  const el=document.getElementById("npc-"+i);
+  if(el)el.style.transition=`left ${npc.ms*0.9}ms linear,top ${npc.ms*0.9}ms linear`;
   npc.timer=setInterval(()=>{
     npc.step++;
     if(npc.step>=npc.path.length){
-      clearInterval(npc.timer);
-      // Pausa breve poi riparte
-      setTimeout(()=>startNpcWalk(i), 800+Math.random()*1200);
+      clearInterval(npc.timer);npc.timer=null;
+      setTimeout(()=>startNpcWalk(i),600+Math.random()*1000);
       return;
     }
     const nd=npc.path[npc.step];
-    npc.node=nd;
-    npc.x=NODES[nd][0];
-    npc.y=NODES[nd][1];
+    npc.node=nd;npc.x=NODES[nd][0];npc.y=NODES[nd][1];
     updateNpcEl(i);
   },npc.ms);
 }
@@ -1023,15 +987,14 @@ function initNpcs(){
   const wrap=document.getElementById("map-wrap");
   if(!wrap)return;
   npcs.forEach((npc,i)=>{
-    const old=document.getElementById("npc-"+i);
-    if(old)old.remove();
+    const old=document.getElementById("npc-"+i);if(old)old.remove();
     const el=document.createElement("div");
     el.id="npc-"+i;
-    el.style.cssText=`position:absolute;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold;color:${npc.color};pointer-events:none;z-index:25;transition:left ${npc.ms*0.85}ms linear,top ${npc.ms*0.85}ms linear;text-shadow:0 0 3px rgba(0,0,0,0.5);`;
+    el.style.cssText=`position:absolute;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold;color:${npc.color};pointer-events:none;z-index:25;text-shadow:0 0 4px rgba(0,0,0,0.6);`;
     el.textContent=npc.sym;
     wrap.appendChild(el);
     updateNpcEl(i);
-    setTimeout(()=>startNpcWalk(i), i*600);
+    setTimeout(()=>startNpcWalk(i),i*400+200);
   });
 }
 
