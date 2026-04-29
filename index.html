@@ -646,299 +646,557 @@ function selezionaSfidante(id){
   document.getElementById('sf-card-'+id).appendChild(btn);
 }
 
-/* ===== BATTAGLIA ===== */
+/* ===== BATTAGLIA - NUOVO SISTEMA TATTICO ===== */
+
 const BATTLE_MAP='https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CAFD0DBB-DC82-4F36-A214-F4E497AB5DB2.png';
-const UNIT_R=9,BULLET_R=2.5,MORTAR_SZ=14;
-const WATER_X_RATIO=0.38; // zona acqua: x < 38% larghezza = vietata
+
 let bCanvas,bCtx,bImg,bImgLoaded=false;
 let myUnits=[],enemyUnits=[],bullets=[];
 let battleRunning=false,gameOver=false,battleRaf=null,lastTime=0;
-let pairs=[],selectedPairIdx=-1;
-// Trincee (2 per lato): definite in initCanvas
-let myTrenches=[],enemyTrenches=[];
+let selectedUnit=null,dragUnit=null;
+let selectedTactic='sbalzo_alternato';
+let enemyTactic='sbalzo_alternato';
+
+const UNIT_R=10;
+const BULLET_R=2.5;
+
+const TACTICS=[
+  'sbalzo_alternato',
+  'sbalzo_successivo',
+  'tre_avanzano_tre_coprono',
+  'quattro_avanzano_due_coprono',
+  'due_avanzano_quattro_coprono',
+  'coppia_avanza_coppia_copre'
+];
+
+const ROLE_STATS={
+  rifleman:{label:'Fuciliere',hp:80,vel:0.55,prec:0.55,danno:9,cadenza:1500,range:230},
+  machinegunner:{label:'Mitragliere',hp:90,vel:0.42,prec:0.45,danno:7,cadenza:700,range:240},
+  marksman:{label:'Tiratore scelto',hp:75,vel:0.45,prec:0.75,danno:16,cadenza:1800,range:310},
+  sniper:{label:'Sniper',hp:65,vel:0.32,prec:0.88,danno:26,cadenza:2600,range:380},
+  mortarman:{label:'Mortaista',hp:70,vel:0.28,prec:0.45,danno:42,cadenza:3600,range:360},
+  medic:{label:'Combat Medic',hp:75,vel:0.50,prec:0.45,danno:5,cadenza:1600,range:190,heal:0.035},
+  tanker:{label:'Carrista',hp:180,vel:0.22,prec:0.55,danno:32,cadenza:2600,range:300}
+};
+
+function assignRole(card,i){
+  if(card.tipoTruppa==='mortaio') return 'mortarman';
+  const roles=['rifleman','rifleman','machinegunner','marksman','medic','sniper'];
+  if(card.legio||card.ecce) return i%2===0?'marksman':'sniper';
+  return roles[i%roles.length];
+}
+
+function getUnitStroke(card){
+  if(card.ecce) return {color:'#ff00ff',width:3.5};
+  if(card.legio) return {color:'#FFD700',width:3.5};
+  if(card.elite) return {color:'#bfc0c0',width:3};
+  return {color:'rgba(120,200,255,0.75)',width:2};
+}
+
+let tacticalZones={
+  water:[],
+  myTrenches:[],
+  enemyTrenches:[],
+  vegetation:[]
+};
 
 function apriBattaglia(sfId){
   sfidanteCorrente=SFIDANTI[sfId];
+  enemyTactic=TACTICS[Math.floor(Math.random()*TACTICS.length)];
+
   document.getElementById('batt-vs-label').textContent='VS '+sfidanteCorrente.nome;
   document.getElementById('batt-result-overlay').classList.remove('show');
   document.getElementById('btn-avvia-batt').disabled=false;
-  document.getElementById('batt-status').textContent='Seleziona coppia poi AVANZA o FUOCO';
-  gameOver=false;battleRunning=false;myUnits=[];enemyUnits=[];bullets=[];pairs=[];selectedPairIdx=-1;
-  if(battleRaf){cancelAnimationFrame(battleRaf);battleRaf=null;}
+  document.getElementById('batt-status').textContent='Schiera le truppe, scegli tattica e premi INIZIA';
+
+  gameOver=false;
+  battleRunning=false;
+  selectedUnit=null;
+  dragUnit=null;
+  myUnits=[];
+  enemyUnits=[];
+  bullets=[];
+
+  if(battleRaf){
+    cancelAnimationFrame(battleRaf);
+    battleRaf=null;
+  }
+
   document.getElementById('batt-pair-panel').classList.remove('show');
   document.getElementById('batt-action-row').classList.remove('show');
   document.getElementById('battaglia-screen').classList.add('show');
+
   initCanvas();
 }
 
 function initCanvas(){
   bCanvas=document.getElementById('batt-canvas');
   const wrap=document.getElementById('batt-canvas-wrap');
-  bCanvas.width=wrap.clientWidth;bCanvas.height=wrap.clientHeight;
+
+  bCanvas.width=wrap.clientWidth;
+  bCanvas.height=wrap.clientHeight;
   bCtx=bCanvas.getContext('2d');
-  const W=bCanvas.width,H=bCanvas.height;
-  // 2 trincee mie (in basso): una centro-destra, una destra
-  myTrenches=[
-    {x1:W*0.40,y1:H*0.80,x2:W*0.70,y2:H*0.91},
-    {x1:W*0.72,y1:H*0.80,x2:W*0.98,y2:H*0.91},
-  ];
-  // 2 trincee nemiche (in alto): una centro, una centro-destra
-  enemyTrenches=[
-    {x1:W*0.40,y1:H*0.09,x2:W*0.70,y2:H*0.20},
-    {x1:W*0.72,y1:H*0.09,x2:W*0.98,y2:H*0.20},
-  ];
+
+  setupZones();
+
   if(!bImg){
-    bImg=new Image();bImg.crossOrigin='anonymous';
-    bImg.onload=()=>{bImgLoaded=true;spawnUnits();drawAll();};
-    bImg.onerror=()=>{bImgLoaded=false;spawnUnits();drawAll();};
+    bImg=new Image();
+    bImg.crossOrigin='anonymous';
+    bImg.onload=()=>{
+      bImgLoaded=true;
+      spawnUnits();
+      drawAll();
+    };
+    bImg.onerror=()=>{
+      bImgLoaded=false;
+      spawnUnits();
+      drawAll();
+    };
     bImg.src=BATTLE_MAP;
-  } else {spawnUnits();drawAll();}
+  }else{
+    spawnUnits();
+    drawAll();
+  }
+
+  bCanvas.onpointerdown=canvasDown;
+  bCanvas.onpointermove=canvasMove;
+  bCanvas.onpointerup=canvasUp;
+}
+
+function setupZones(){
+  const W=bCanvas.width,H=bCanvas.height;
+
+  tacticalZones.water=[
+    {x1:0,y1:0,x2:W*0.34,y2:H}
+  ];
+
+  tacticalZones.myTrenches=[
+    {x1:W*0.37,y1:H*0.78,x2:W*0.66,y2:H*0.89,type:'trincea'},
+    {x1:W*0.69,y1:H*0.78,x2:W*0.97,y2:H*0.89,type:'trincea'}
+  ];
+
+  tacticalZones.enemyTrenches=[
+    {x1:W*0.37,y1:H*0.10,x2:W*0.66,y2:H*0.21,type:'trincea'},
+    {x1:W*0.69,y1:H*0.10,x2:W*0.97,y2:H*0.21,type:'trincea'}
+  ];
+
+  tacticalZones.vegetation=[
+    {x1:W*0.39,y1:H*0.34,x2:W*0.58,y2:H*0.47,type:'vegetazione'},
+    {x1:W*0.62,y1:H*0.35,x2:W*0.82,y2:H*0.49,type:'vegetazione'},
+    {x1:W*0.42,y1:H*0.53,x2:W*0.61,y2:H*0.66,type:'vegetazione'},
+    {x1:W*0.65,y1:H*0.52,x2:W*0.86,y2:H*0.67,type:'vegetazione'}
+  ];
+}
+
+function pointInRect(x,y,r){
+  return x>=r.x1&&x<=r.x2&&y>=r.y1&&y<=r.y2;
+}
+
+function getCoverType(x,y){
+  if(tacticalZones.myTrenches.some(r=>pointInRect(x,y,r))) return 'trincea';
+  if(tacticalZones.enemyTrenches.some(r=>pointInRect(x,y,r))) return 'trincea';
+  if(tacticalZones.vegetation.some(r=>pointInRect(x,y,r))) return 'vegetazione';
+  return 'aperto';
+}
+
+function isWater(x,y){
+  return tacticalZones.water.some(r=>pointInRect(x,y,r));
+}
+
+function isValidPlacement(u,x,y){
+  if(isWater(x,y)) return false;
+
+  if(u.side==='mine'){
+    return tacticalZones.myTrenches.some(r=>pointInRect(x,y,r)) ||
+           tacticalZones.vegetation.some(r=>pointInRect(x,y,r));
+  }
+
+  return tacticalZones.enemyTrenches.some(r=>pointInRect(x,y,r)) ||
+         tacticalZones.vegetation.some(r=>pointInRect(x,y,r));
 }
 
 function spawnUnits(){
-  const W=bCanvas.width;
   const mieCards=squadraData.slice(0,6);
   const emCards=getRandCards(sfidanteCorrente.pool,6);
-  const myInits=getInitials(mieCards);
-  const emInits=getInitials(emCards);
-  // Miei: 3 nella trincea 0, 3 nella trincea 1
+
   myUnits=mieCards.map((card,i)=>{
-    const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
-    const tr=myTrenches[i<3?0:1];
+    const role=assignRole(card,i);
+    const st=ROLE_STATS[role];
+    const tr=tacticalZones.myTrenches[i<3?0:1];
     const x=tr.x1+((i%3)+0.5)*(tr.x2-tr.x1)/3;
     const y=(tr.y1+tr.y2)/2;
-    return{card,x,y,startX:x,startY:y,hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,danno:st.danno,
-      cadenza:st.cadenza,tipo:st.tipo,lastShot:0,side:'mine',alive:true,
-      initials:myInits[i],covering:false,trenchIdx:i<3?0:1,inTrench:true,moving:false};
+
+    return{
+      card,role,
+      x,y,targetX:x,targetY:y,
+      hp:st.hp,maxHp:st.hp,
+      vel:st.vel,prec:st.prec,danno:st.danno,cadenza:st.cadenza,range:st.range,
+      side:'mine',
+      alive:true,
+      covering:false,
+      moving:false,
+      lastShot:0,
+      coverType:'trincea',
+      group:i<3?'alpha':'bravo',
+      stepPhase:0
+    };
   });
+
   enemyUnits=emCards.map((card,i)=>{
-    const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
-    const tr=enemyTrenches[i<3?0:1];
+    const role=assignRole(card,i);
+    const st=ROLE_STATS[role];
+    const tr=tacticalZones.enemyTrenches[i<3?0:1];
     const x=tr.x1+((i%3)+0.5)*(tr.x2-tr.x1)/3;
     const y=(tr.y1+tr.y2)/2;
-    return{card,x,y,hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,danno:st.danno,
-      cadenza:st.cadenza,tipo:st.tipo,lastShot:0,side:'enemy',alive:true,
-      initials:emInits[i],covering:false,trenchIdx:i<3?0:1};
+
+    return{
+      card,role,
+      x,y,targetX:x,targetY:y,
+      hp:st.hp,maxHp:st.hp,
+      vel:st.vel,prec:st.prec,danno:st.danno,cadenza:st.cadenza,range:st.range,
+      side:'enemy',
+      alive:true,
+      covering:false,
+      moving:false,
+      lastShot:0,
+      coverType:'trincea',
+      group:i<3?'alpha':'bravo',
+      stepPhase:0
+    };
   });
-  // 3 coppie mie
-  pairs=[
-    {units:[myUnits[0],myUnits[1]],label:'COPPIA A',covering:false},
-    {units:[myUnits[2],myUnits[3]],label:'COPPIA B',covering:false},
-    {units:[myUnits[4],myUnits[5]],label:'COPPIA C',covering:false},
-  ];
-  updateHUD();buildPairPanel();
-  document.getElementById('batt-pair-panel').classList.add('show');
-  document.getElementById('batt-action-row').classList.add('show');
+
+  updateHUD();
 }
 
-function buildPairPanel(){
-  const grid=document.getElementById('batt-pair-grid');grid.innerHTML='';
-  pairs.forEach((p,i)=>{
-    const alive=p.units.filter(u=>u.alive);if(!alive.length)return;
-    const btn=document.createElement('div');
-    btn.className='pair-btn'+(selectedPairIdx===i?' selected-pair':'')+(p.covering?' covering':'');
-    const dots=p.units.map(u=>`<div class="pair-dot" style="background:${u.alive?'rgba(255,255,255,0.85)':'rgba(255,255,255,0.2)'};"></div>`).join('');
-    const st=p.covering?'<span style="font-size:8px;color:#80ff80;">COPERTURA</span>':'<span style="font-size:8px;color:rgba(255,255,255,0.25);">IN ATTESA</span>';
-    btn.innerHTML=`<div class="pair-dots">${dots}</div><div class="pair-lbl">${p.label}</div>${st}`;
-    btn.onclick=()=>{selectedPairIdx=i;buildPairPanel();document.getElementById('batt-status').textContent=p.label+' selezionata';};
-    grid.appendChild(btn);
-  });
+function canvasDown(e){
+  if(battleRunning) return;
+
+  const p=getCanvasPos(e);
+  selectedUnit=findUnitAt(p.x,p.y,myUnits);
+
+  if(selectedUnit){
+    dragUnit=selectedUnit;
+    showUnitCard(selectedUnit);
+    drawAll();
+  }else{
+    selectedUnit=null;
+    hideUnitCard();
+    drawAll();
+  }
 }
 
-function clampToWaterBoundary(x){
-  return Math.max(bCanvas.width*WATER_X_RATIO+UNIT_R,x);
-}
+function canvasMove(e){
+  if(!dragUnit || battleRunning) return;
 
-function eseguiAvanza(){
-  if(selectedPairIdx<0){toast('Seleziona una coppia prima');return;}
-  const p=pairs[selectedPairIdx];
-  const alive=p.units.filter(u=>u.alive);if(!alive.length)return;
-  const mover=alive[0];
-  const cover=alive[1];
-  // Trincea nemica target: stessa colonna
-  const tTr=enemyTrenches[mover.trenchIdx];
-  // Calcola posizione target dentro la trincea nemica
-  const tx=mover.x; // mantieni x approssimativa
-  const ty=(tTr.y1+tTr.y2)/2;
-  // Sbalzo: avanza del 35% della distanza rimanente
-  const dy=ty-mover.y,dx=tx-mover.x;
-  const newX=clampToWaterBoundary(mover.x+dx*0.35);
-  const newY=mover.y+dy*0.35;
-  // Non superare la trincea nemica y
-  mover.x=newX;mover.y=Math.max(tTr.y2,newY);
-  // Se arrivato alla trincea nemica, fermati dentro
-  if(newY<=tTr.y2+4){mover.y=ty;mover.inTrench=true;}
-  if(cover){cover.covering=true;p.covering=false;}
-  document.getElementById('batt-status').textContent=p.label+': '+mover.initials+' avanza';
-  if(!battleRunning){battleRunning=true;lastTime=performance.now();battleRaf=requestAnimationFrame(gameLoop);}
-  buildPairPanel();drawAll();
-}
+  const p=getCanvasPos(e);
 
-function eseguiCopertura(){
-  if(selectedPairIdx<0){toast('Seleziona una coppia prima');return;}
-  const p=pairs[selectedPairIdx];
-  p.covering=true;p.units.forEach(u=>{if(u.alive)u.covering=true;});
-  document.getElementById('batt-status').textContent=p.label+': copertura attiva';
-  if(!battleRunning){battleRunning=true;lastTime=performance.now();battleRaf=requestAnimationFrame(gameLoop);}
-  buildPairPanel();drawAll();
-}
+  if(isValidPlacement(dragUnit,p.x,p.y)){
+    dragUnit.x=p.x;
+    dragUnit.y=p.y;
+    dragUnit.targetX=p.x;
+    dragUnit.targetY=p.y;
+    dragUnit.coverType=getCoverType(p.x,p.y);
+  }
 
-function eseguiFire(){
-  if(selectedPairIdx<0){toast('Seleziona una coppia prima');return;}
-  const now=performance.now();
-  pairs[selectedPairIdx].units.forEach(u=>{
-    if(!u.alive)return;
-    const t=enemyUnits.filter(e=>e.alive);
-    if(t.length){spara(u,t,now);u.lastShot=now;}
-  });
-  if(!battleRunning){battleRunning=true;lastTime=performance.now();battleRaf=requestAnimationFrame(gameLoop);}
   drawAll();
 }
 
+function canvasUp(){
+  dragUnit=null;
+}
+
+function getCanvasPos(e){
+  const r=bCanvas.getBoundingClientRect();
+  return{
+    x:(e.clientX-r.left)*(bCanvas.width/r.width),
+    y:(e.clientY-r.top)*(bCanvas.height/r.height)
+  };
+}
+
+function findUnitAt(x,y,list){
+  for(let i=list.length-1;i>=0;i--){
+    const u=list[i];
+    if(!u.alive) continue;
+    if(Math.hypot(u.x-x,u.y-y)<=18) return u;
+  }
+  return null;
+}
+
+function showUnitCard(u){
+  document.getElementById('batt-status').textContent=
+    u.card.nome+' — '+ROLE_STATS[u.role].label+' — copertura: '+u.coverType;
+}
+
+function hideUnitCard(){
+  document.getElementById('batt-status').textContent='Schiera le truppe, scegli tattica e premi INIZIA';
+}
+
 function startBattle(){
+  battleRunning=true;
+  selectedUnit=null;
+  dragUnit=null;
   document.getElementById('btn-avvia-batt').disabled=true;
-  if(!battleRunning){battleRunning=true;lastTime=performance.now();battleRaf=requestAnimationFrame(gameLoop);}
+
+  prepareTactic(myUnits,selectedTactic,'mine');
+  prepareTactic(enemyUnits,enemyTactic,'enemy');
+
+  lastTime=performance.now();
+  battleRaf=requestAnimationFrame(gameLoop);
+}
+
+function prepareTactic(units,tactic,side){
+  units.forEach((u,i)=>{
+    u.covering=false;
+    u.moving=false;
+    u.stepPhase=0;
+  });
+
+  const alive=units.filter(u=>u.alive);
+
+  if(tactic==='sbalzo_alternato'){
+    alive.forEach((u,i)=>{
+      u.moving=i<3;
+      u.covering=i>=3;
+    });
+  }
+
+  if(tactic==='sbalzo_successivo'){
+    alive.forEach((u,i)=>{
+      u.moving=i%2===0;
+      u.covering=i%2!==0;
+    });
+  }
+
+  if(tactic==='tre_avanzano_tre_coprono'){
+    alive.forEach((u,i)=>{
+      u.moving=i<3;
+      u.covering=i>=3;
+    });
+  }
+
+  if(tactic==='quattro_avanzano_due_coprono'){
+    alive.forEach((u,i)=>{
+      u.moving=i<4;
+      u.covering=i>=4;
+    });
+  }
+
+  if(tactic==='due_avanzano_quattro_coprono'){
+    alive.forEach((u,i)=>{
+      u.moving=i<2;
+      u.covering=i>=2;
+    });
+  }
+
+  if(tactic==='coppia_avanza_coppia_copre'){
+    alive.forEach((u,i)=>{
+      u.moving=i<2;
+      u.covering=i>=2&&i<4;
+    });
+  }
+
+  assignTargets(units,side);
+}
+
+function assignTargets(units,side){
+  const targetZones=side==='mine'
+    ? [...tacticalZones.vegetation,...tacticalZones.enemyTrenches]
+    : [...tacticalZones.vegetation,...tacticalZones.myTrenches];
+
+  const dir=side==='mine'?-1:1;
+
+  units.forEach((u,i)=>{
+    if(!u.alive) return;
+
+    if(u.role==='sniper'){
+      const veg=tacticalZones.vegetation[i%tacticalZones.vegetation.length];
+      u.targetX=veg.x1+(veg.x2-veg.x1)*0.5;
+      u.targetY=veg.y1+(veg.y2-veg.y1)*0.5;
+      return;
+    }
+
+    const z=targetZones[i%targetZones.length];
+    u.targetX=z.x1+(0.25+0.18*(i%3))*(z.x2-z.x1);
+    u.targetY=z.y1+(0.35+0.18*(i%2))*(z.y2-z.y1);
+
+    if(isWater(u.targetX,u.targetY)){
+      u.targetX=bCanvas.width*0.38;
+    }
+  });
 }
 
 function gameLoop(ts){
-  if(!battleRunning)return;
-  const dt=Math.min(ts-lastTime,50);lastTime=ts;
-  updateAuto(dt);drawAll();
-  if(!gameOver)battleRaf=requestAnimationFrame(gameLoop);
+  if(!battleRunning) return;
+
+  const dt=Math.min(ts-lastTime,50);
+  lastTime=ts;
+
+  updateBattle(dt);
+  drawAll();
+
+  if(!gameOver) battleRaf=requestAnimationFrame(gameLoop);
 }
 
-function updateAuto(dt){
-  const now=performance.now();
-  const W=bCanvas.width;
-  // Nemici avanzano automaticamente verso trincee mie
-  enemyUnits.forEach((u,i)=>{
-    if(!u.alive)return;
-    const tTr=myTrenches[u.trenchIdx];
-    const tx=u.x,ty=(tTr.y1+tTr.y2)/2;
-    const dy=ty-u.y,dist=Math.abs(dy);
-    const nearMine=myUnits.filter(m=>m.alive).some(m=>Math.hypot(u.x-m.x,u.y-m.y)<65);
-    if(!nearMine&&dist>4){
-      const newX=clampToWaterBoundary(u.x);u.x=newX;
-      u.y+=Math.sign(dy)*u.vel*(dt/16);
+function updateBattle(dt){
+  moveUnits(myUnits,dt);
+  moveUnits(enemyUnits,dt);
+
+  autoFire(myUnits,enemyUnits);
+  autoFire(enemyUnits,myUnits);
+
+  medicHeal(myUnits,dt);
+  medicHeal(enemyUnits,dt);
+
+  updateBullets(dt);
+  updateHUD();
+  checkBattleEnd();
+}
+
+function moveUnits(units,dt){
+  units.forEach(u=>{
+    if(!u.alive||!u.moving) return;
+
+    const dx=u.targetX-u.x;
+    const dy=u.targetY-u.y;
+    const dist=Math.hypot(dx,dy);
+
+    if(dist<3){
+      u.moving=false;
+      u.covering=true;
+      u.coverType=getCoverType(u.x,u.y);
+      return;
     }
-    if(now-u.lastShot>u.cadenza){
-      const tgts=myUnits.filter(m=>m.alive);
-      if(tgts.length){spara(u,tgts,now);u.lastShot=now;}
+
+    const speed=u.vel*(dt/16);
+    const nx=u.x+(dx/dist)*speed;
+    const ny=u.y+(dy/dist)*speed;
+
+    if(!isWater(nx,ny)){
+      u.x=nx;
+      u.y=ny;
+      u.coverType=getCoverType(u.x,u.y);
     }
   });
-  // Auto-fuoco miei in copertura
-  pairs.forEach(p=>{
-    if(!p.covering)return;
-    p.units.forEach(u=>{
-      if(!u.alive)return;
-      if(now-u.lastShot>u.cadenza){
-        const tgts=enemyUnits.filter(e=>e.alive);
-        if(tgts.length){spara(u,tgts,now);u.lastShot=now;}
+}
+
+function autoFire(shooters,targets){
+  const now=performance.now();
+
+  shooters.forEach(u=>{
+    if(!u.alive) return;
+    if(now-u.lastShot<u.cadenza) return;
+
+    const valid=targets
+      .filter(t=>t.alive)
+      .map(t=>({t,d:Math.hypot(t.x-u.x,t.y-u.y)}))
+      .filter(o=>o.d<=u.range)
+      .sort((a,b)=>a.d-b.d);
+
+    if(!valid.length) return;
+
+    shoot(u,valid[0].t);
+    u.lastShot=now;
+  });
+}
+
+function shoot(shooter,target){
+  const dx=target.x-shooter.x;
+  const dy=target.y-shooter.y;
+  const d=Math.hypot(dx,dy)||1;
+
+  const speed=shooter.role==='mortarman'?3:6;
+
+  bullets.push({
+    x:shooter.x,
+    y:shooter.y,
+    vx:(dx/d)*speed,
+    vy:(dy/d)*speed,
+    shooter,
+    target,
+    side:shooter.side,
+    danno:shooter.danno,
+    prec:shooter.prec,
+    role:shooter.role,
+    life:1500,
+    dead:false
+  });
+}
+
+function updateBullets(dt){
+  bullets.forEach(b=>{
+    b.x+=b.vx*(dt/16);
+    b.y+=b.vy*(dt/16);
+    b.life-=dt;
+
+    if(b.life<=0){
+      b.dead=true;
+      return;
+    }
+
+    const targets=b.side==='mine'?enemyUnits:myUnits;
+
+    targets.forEach(t=>{
+      if(!t.alive) return;
+
+      const hitR=b.role==='mortarman'?18:UNIT_R+3;
+
+      if(Math.hypot(t.x-b.x,t.y-b.y)<=hitR){
+        if(Math.random()<b.prec){
+          let damage=b.danno;
+
+          if(t.coverType==='trincea') damage*=0.10;
+          if(t.coverType==='vegetazione') damage*=0.30;
+          if(t.covering) damage*=0.65;
+
+          t.hp-=damage;
+
+          if(t.hp<=0){
+            t.hp=0;
+            t.alive=false;
+          }
+        }
+
+        b.dead=true;
       }
     });
   });
-  // Proiettili
-  bullets.forEach(b=>{
-    b.x+=b.vx*(dt/16);b.y+=b.vy*(dt/16);b.life-=dt;
-    if(b.life<=0){b.dead=true;return;}
-    const tgts=b.side==='mine'?enemyUnits:myUnits;
-    tgts.forEach(t=>{
-      if(!t.alive)return;
-      const dx=t.x-b.x,dy=t.y-b.y;
-      const hr=b.tipo==='mortaio'?MORTAR_SZ/2+UNIT_R:BULLET_R+UNIT_R;
-      if(dx*dx+dy*dy<hr*hr){if(Math.random()<b.prec){t.hp-=b.danno;if(t.hp<=0)t.alive=false;}b.dead=true;}
+
+  bullets=bullets.filter(b=>!b.dead);
+}
+
+function medicHeal(units,dt){
+  units.forEach(m=>{
+    if(!m.alive||m.role!=='medic') return;
+
+    units.forEach(u=>{
+      if(!u.alive||u===m) return;
+      if(Math.hypot(u.x-m.x,u.y-m.y)<75){
+        u.hp=Math.min(u.maxHp,u.hp+(ROLE_STATS.medic.heal*dt));
+      }
     });
   });
-  bullets=bullets.filter(b=>!b.dead);
-  // Check fine
-  const myAlive=myUnits.filter(u=>u.alive).length;
-  const emAlive=enemyUnits.filter(u=>u.alive).length;
-  // Vittoria mia: 2+ unita mie nella trincea nemica
-  let myCap=myUnits.filter(u=>u.alive&&enemyTrenches.some(tr=>u.x>=tr.x1&&u.x<=tr.x2&&u.y>=tr.y1&&u.y<=tr.y2)).length;
-  // Sconfitta: 2+ nemici nella trincea mia
-  let emCap=enemyUnits.filter(u=>u.alive&&myTrenches.some(tr=>u.x>=tr.x1&&u.x<=tr.x2&&u.y>=tr.y1&&u.y<=tr.y2)).length;
-  if(myAlive===0||emCap>=2)endBattle(false);
-  else if(emAlive===0||myCap>=2)endBattle(true);
-  updateHUD();buildPairPanel();
 }
 
-function spara(shooter,targets,now){
-  const t=targets[Math.floor(Math.random()*targets.length)];
-  const dx=t.x-shooter.x,dy=t.y-shooter.y,d=Math.sqrt(dx*dx+dy*dy)||1;
-  const sp=shooter.tipo==='mortaio'?2.8:5.5;
-  const sr=shooter.tipo==='mortaio'?18:9;
-  const ox=(Math.random()-0.5)*sr/50,oy=(Math.random()-0.5)*sr/50;
-  bullets.push({x:shooter.x,y:shooter.y,vx:(dx/d+ox)*sp,vy:(dy/d+oy)*sp,
-    danno:shooter.danno,prec:shooter.prec,side:shooter.side,tipo:shooter.tipo,life:1400,dead:false});
-}
+function checkBattleEnd(){
+  const myAlive=myUnits.some(u=>u.alive);
+  const enemyAlive=enemyUnits.some(u=>u.alive);
 
-function drawAll(){
-  if(!bCtx)return;
-  const W=bCanvas.width,H=bCanvas.height;
-  bCtx.clearRect(0,0,W,H);
-  if(bImgLoaded&&bImg.complete&&bImg.naturalWidth>0){bCtx.drawImage(bImg,0,0,W,H);}
-  else{bCtx.fillStyle='#4a7a1a';bCtx.fillRect(0,0,W,H);}
-  bCtx.fillStyle='rgba(0,0,0,0.12)';bCtx.fillRect(0,0,W,H);
-  // Trincee mie
-  myTrenches.forEach((tr,i)=>{
-    bCtx.fillStyle='rgba(50,180,50,0.1)';bCtx.fillRect(tr.x1,tr.y1,tr.x2-tr.x1,tr.y2-tr.y1);
-    bCtx.strokeStyle='rgba(80,230,80,0.8)';bCtx.lineWidth=2.5;bCtx.strokeRect(tr.x1,tr.y1,tr.x2-tr.x1,tr.y2-tr.y1);
-    bCtx.font='bold 8px Rajdhani,sans-serif';bCtx.fillStyle='rgba(80,255,80,0.9)';bCtx.textAlign='left';
-    bCtx.fillText('TUA TRINCEA '+(i+1),tr.x1+3,tr.y1-3);
-  });
-  // Trincee nemiche
-  enemyTrenches.forEach((tr,i)=>{
-    bCtx.fillStyle='rgba(200,40,40,0.1)';bCtx.fillRect(tr.x1,tr.y1,tr.x2-tr.x1,tr.y2-tr.y1);
-    bCtx.strokeStyle='rgba(255,80,80,0.8)';bCtx.lineWidth=2.5;bCtx.strokeRect(tr.x1,tr.y1,tr.x2-tr.x1,tr.y2-tr.y1);
-    bCtx.font='bold 8px Rajdhani,sans-serif';bCtx.fillStyle='rgba(255,80,80,0.9)';bCtx.textAlign='left';
-    bCtx.fillText('TRINCEA NEMICA '+(i+1),tr.x1+3,tr.y2+10);
-  });
-  // Proiettili
-  bullets.forEach(b=>{
-    bCtx.beginPath();
-    if(b.tipo==='mortaio'){bCtx.arc(b.x,b.y,MORTAR_SZ/2,0,Math.PI*2);bCtx.fillStyle='#1a0a00';bCtx.fill();bCtx.strokeStyle='rgba(255,140,0,0.8)';bCtx.lineWidth=1.5;bCtx.stroke();}
-    else{bCtx.arc(b.x,b.y,BULLET_R,0,Math.PI*2);bCtx.fillStyle=b.side==='mine'?'rgba(255,255,255,0.92)':'rgba(255,60,60,0.92)';bCtx.fill();}
-  });
-  enemyUnits.forEach(u=>{if(u.alive)drawUnit(u);});
-  myUnits.forEach(u=>{if(u.alive)drawUnit(u);});
-}
+  if(!myAlive) endBattle(false);
+  if(!enemyAlive) endBattle(true);
 
-function drawUnit(u){
-  const isMine=u.side==='mine';
-  const stroke=getUnitStroke(u.card);
-  if(u.tipo==='mortaio'){
-    const s=MORTAR_SZ;
-    bCtx.fillStyle='#100800';bCtx.fillRect(u.x-s/2,u.y-s/2,s,s);
-    bCtx.strokeStyle=stroke.color;bCtx.lineWidth=stroke.width;bCtx.strokeRect(u.x-s/2,u.y-s/2,s,s);
-    bCtx.beginPath();bCtx.moveTo(u.x,u.y);bCtx.lineTo(u.x,u.y+(isMine?-12:12));bCtx.strokeStyle='#888';bCtx.lineWidth=3;bCtx.stroke();
-  } else {
-    bCtx.beginPath();bCtx.arc(u.x,u.y,UNIT_R,0,Math.PI*2);
-    bCtx.fillStyle=isMine?'rgba(255,255,255,0.95)':'rgba(210,30,30,0.95)';bCtx.fill();
-    bCtx.strokeStyle=stroke.color;bCtx.lineWidth=stroke.width;bCtx.stroke();
-    if(u.covering){bCtx.beginPath();bCtx.arc(u.x,u.y,UNIT_R+4,0,Math.PI*2);bCtx.strokeStyle='rgba(80,220,80,0.5)';bCtx.lineWidth=1.5;bCtx.stroke();}
-    // Iniziali (no immagine — performance)
-    bCtx.font="bold 7px 'Rajdhani',sans-serif";bCtx.textAlign='center';bCtx.textBaseline='middle';
-    bCtx.fillStyle=isMine?'#1a1a1a':'rgba(255,220,220,0.9)';
-    bCtx.fillText(u.initials,u.x,u.y);bCtx.textBaseline='alphabetic';
-  }
-  const bw=18,bh=3,bx=u.x-bw/2,by=u.y-UNIT_R-6;
-  bCtx.fillStyle='rgba(0,0,0,0.5)';bCtx.fillRect(bx,by,bw,bh);
-  const p=Math.max(0,u.hp/u.maxHp);
-  bCtx.fillStyle=p>0.5?'#44ff88':p>0.25?'#ffcc00':'#ff4444';
-  bCtx.fillRect(bx,by,bw*p,bh);
-}
+  const myInEnemy=enemyUnits.length && myUnits.filter(u=>u.alive&&tacticalZones.enemyTrenches.some(r=>pointInRect(u.x,u.y,r))).length;
+  const enemyInMine=myUnits.length && enemyUnits.filter(u=>u.alive&&tacticalZones.myTrenches.some(r=>pointInRect(u.x,u.y,r))).length;
 
-function updateHUD(){
-  document.getElementById('hud-mine').innerHTML=myUnits.map(u=>`
-    <div class="hud-unit-bar"><div class="hub-dot mine"></div><div class="hud-name">${u.initials}</div>
-    <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:${u.hp/u.maxHp>0.5?'#44ff88':u.hp/u.maxHp>0.25?'#ffcc00':'#ff4444'};"></div></div></div>`).join('');
-  document.getElementById('hud-enemy').innerHTML=enemyUnits.map(u=>`
-    <div class="hud-unit-bar right"><div class="hub-dot enemy"></div><div class="hud-name">${u.initials}</div>
-    <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:#ff4444;"></div></div></div>`).join('');
+  if(myInEnemy>=2) endBattle(true);
+  if(enemyInMine>=2) endBattle(false);
 }
 
 function endBattle(win){
-  gameOver=true;battleRunning=false;if(battleRaf)cancelAnimationFrame(battleRaf);
+  gameOver=true;
+  battleRunning=false;
+
+  if(battleRaf) cancelAnimationFrame(battleRaf);
+
   document.getElementById('br-title').textContent=win?'VITTORIA!':'SCONFITTA';
   document.getElementById('br-title').style.color=win?'#FFE033':'#ff5555';
   document.getElementById('br-sub').textContent=win?'Hai conquistato Valle Pungione':'Valle Pungione resta in mano nemica';
@@ -946,10 +1204,257 @@ function endBattle(win){
 }
 
 function closeBattaglia(){
-  battleRunning=false;gameOver=false;if(battleRaf)cancelAnimationFrame(battleRaf);
+  battleRunning=false;
+  gameOver=false;
+
+  if(battleRaf) cancelAnimationFrame(battleRaf);
+
   document.getElementById('battaglia-screen').classList.remove('show');
 }
 
+function drawAll(){
+  if(!bCtx) return;
+
+  const W=bCanvas.width,H=bCanvas.height;
+  bCtx.clearRect(0,0,W,H);
+
+  if(bImgLoaded&&bImg.complete&&bImg.naturalWidth>0){
+    bCtx.drawImage(bImg,0,0,W,H);
+  }else{
+    bCtx.fillStyle='#4d6f2a';
+    bCtx.fillRect(0,0,W,H);
+  }
+
+  bCtx.fillStyle='rgba(0,0,0,0.16)';
+  bCtx.fillRect(0,0,W,H);
+
+  drawZones();
+  drawFlags();
+  drawBullets();
+
+  enemyUnits.forEach(u=>{if(u.alive)drawUnit(u);});
+  myUnits.forEach(u=>{if(u.alive)drawUnit(u);});
+
+  if(selectedUnit){
+    bCtx.beginPath();
+    bCtx.arc(selectedUnit.x,selectedUnit.y,UNIT_R+8,0,Math.PI*2);
+    bCtx.strokeStyle='#FFE033';
+    bCtx.lineWidth=2;
+    bCtx.stroke();
+  }
+}
+
+function drawZones(){
+  tacticalZones.water.forEach(r=>{
+    bCtx.fillStyle='rgba(40,130,220,0.22)';
+    bCtx.fillRect(r.x1,r.y1,r.x2-r.x1,r.y2-r.y1);
+  });
+
+  tacticalZones.vegetation.forEach(r=>{
+    bCtx.setLineDash([6,5]);
+    bCtx.strokeStyle='rgba(80,255,80,0.8)';
+    bCtx.lineWidth=2;
+    bCtx.strokeRect(r.x1,r.y1,r.x2-r.x1,r.y2-r.y1);
+    bCtx.setLineDash([]);
+    bCtx.fillStyle='rgba(40,160,40,0.10)';
+    bCtx.fillRect(r.x1,r.y1,r.x2-r.x1,r.y2-r.y1);
+  });
+
+  tacticalZones.myTrenches.forEach((r,i)=>{
+    bCtx.strokeStyle='rgba(255,255,255,0.95)';
+    bCtx.lineWidth=2.5;
+    bCtx.strokeRect(r.x1,r.y1,r.x2-r.x1,r.y2-r.y1);
+    bCtx.fillStyle='rgba(255,255,255,0.08)';
+    bCtx.fillRect(r.x1,r.y1,r.x2-r.x1,r.y2-r.y1);
+    bCtx.font='bold 8px Rajdhani,sans-serif';
+    bCtx.fillStyle='#fff';
+    bCtx.fillText('TUA TRINCEA '+(i+1),r.x1+4,r.y1-4);
+  });
+
+  tacticalZones.enemyTrenches.forEach((r,i)=>{
+    bCtx.strokeStyle='rgba(255,60,60,0.95)';
+    bCtx.lineWidth=2.5;
+    bCtx.strokeRect(r.x1,r.y1,r.x2-r.x1,r.y2-r.y1);
+    bCtx.fillStyle='rgba(255,60,60,0.08)';
+    bCtx.fillRect(r.x1,r.y1,r.x2-r.x1,r.y2-r.y1);
+    bCtx.font='bold 8px Rajdhani,sans-serif';
+    bCtx.fillStyle='#ff6666';
+    bCtx.fillText('TRINCEA NEMICA '+(i+1),r.x1+4,r.y2+10);
+  });
+}
+
+function drawFlags(){
+  drawFlag(bCanvas.width*0.93,bCanvas.height*0.93,'#050505');
+  drawFlag(bCanvas.width*0.93,bCanvas.height*0.07,'#c00000');
+}
+
+function drawFlag(x,y,color){
+  bCtx.strokeStyle='#ddd';
+  bCtx.lineWidth=2;
+  bCtx.beginPath();
+  bCtx.moveTo(x,y);
+  bCtx.lineTo(x,y-28);
+  bCtx.stroke();
+
+  bCtx.fillStyle=color;
+  bCtx.beginPath();
+  bCtx.moveTo(x,y-28);
+  bCtx.lineTo(x+22,y-22);
+  bCtx.lineTo(x,y-16);
+  bCtx.closePath();
+  bCtx.fill();
+}
+
+function drawBullets(){
+  bullets.forEach(b=>{
+    bCtx.beginPath();
+
+    if(b.role==='mortarman'){
+      bCtx.arc(b.x,b.y,6,0,Math.PI*2);
+      bCtx.fillStyle='#1a0800';
+      bCtx.fill();
+      bCtx.strokeStyle='orange';
+      bCtx.lineWidth=1.5;
+      bCtx.stroke();
+    }else{
+      bCtx.arc(b.x,b.y,BULLET_R,0,Math.PI*2);
+      bCtx.fillStyle=b.side==='mine'?'#fff':'#ff3333';
+      bCtx.fill();
+    }
+  });
+}
+
+function drawUnit(u){
+  const isMine=u.side==='mine';
+  const stroke=getUnitStroke(u.card);
+
+  bCtx.save();
+  bCtx.translate(u.x,u.y);
+
+  if(u.role==='tanker'){
+    bCtx.fillStyle=isMine?'rgba(25,25,25,0.95)':'rgba(150,20,20,0.95)';
+    bCtx.fillRect(-13,-9,26,18);
+    bCtx.strokeStyle=stroke.color;
+    bCtx.lineWidth=stroke.width;
+    bCtx.strokeRect(-13,-9,26,18);
+
+    bCtx.strokeStyle=isMine?'#fff':'#ffaaaa';
+    bCtx.lineWidth=3;
+    bCtx.beginPath();
+    bCtx.moveTo(0,0);
+    bCtx.lineTo(0,isMine?-24:24);
+    bCtx.stroke();
+  }else{
+    bCtx.beginPath();
+    bCtx.arc(0,0,UNIT_R,0,Math.PI*2);
+    bCtx.fillStyle=isMine?'rgba(20,20,20,0.96)':'rgba(190,30,30,0.96)';
+    bCtx.fill();
+    bCtx.strokeStyle=stroke.color;
+    bCtx.lineWidth=stroke.width;
+    bCtx.stroke();
+
+    drawWeapon(u,isMine);
+  }
+
+  if(u.covering){
+    bCtx.beginPath();
+    bCtx.arc(0,0,UNIT_R+5,0,Math.PI*2);
+    bCtx.strokeStyle='rgba(80,255,80,0.65)';
+    bCtx.lineWidth=1.5;
+    bCtx.stroke();
+  }
+
+  drawRoleMark(u);
+
+  bCtx.restore();
+
+  drawHpBar(u);
+}
+
+function drawWeapon(u,isMine){
+  const dir=isMine?-1:1;
+
+  bCtx.strokeStyle=isMine?'#f0f0f0':'#ffd0d0';
+  bCtx.lineCap='round';
+
+  let len=18,w=2;
+
+  if(u.role==='machinegunner'){len=25;w=3;}
+  if(u.role==='marksman'){len=27;w=2;}
+  if(u.role==='sniper'){len=34;w=1.6;}
+  if(u.role==='mortarman'){len=16;w=4;}
+  if(u.role==='medic'){len=14;w=2;}
+
+  bCtx.lineWidth=w;
+  bCtx.beginPath();
+  bCtx.moveTo(0,0);
+  bCtx.lineTo(0,dir*len);
+  bCtx.stroke();
+
+  if(u.role==='sniper'){
+    bCtx.beginPath();
+    bCtx.arc(0,dir*(len+4),3,0,Math.PI*2);
+    bCtx.stroke();
+  }
+
+  if(u.role==='mortarman'){
+    bCtx.beginPath();
+    bCtx.moveTo(-5,dir*8);
+    bCtx.lineTo(5,dir*8);
+    bCtx.stroke();
+  }
+}
+
+function drawRoleMark(u){
+  bCtx.font='bold 8px Rajdhani,sans-serif';
+  bCtx.textAlign='center';
+  bCtx.textBaseline='middle';
+
+  let mark='F';
+
+  if(u.role==='machinegunner') mark='MG';
+  if(u.role==='marksman') mark='M';
+  if(u.role==='sniper') mark='S';
+  if(u.role==='mortarman') mark='MO';
+  if(u.role==='medic') mark='+';
+  if(u.role==='tanker') mark='T';
+
+  bCtx.fillStyle='#FFE033';
+  bCtx.fillText(mark,0,0);
+}
+
+function drawHpBar(u){
+  const bw=22,bh=3;
+  const bx=u.x-bw/2;
+  const by=u.y-UNIT_R-8;
+  const p=Math.max(0,u.hp/u.maxHp);
+
+  bCtx.fillStyle='rgba(0,0,0,0.6)';
+  bCtx.fillRect(bx,by,bw,bh);
+
+  bCtx.fillStyle=p>0.5?'#44ff88':p>0.25?'#ffcc00':'#ff4444';
+  bCtx.fillRect(bx,by,bw*p,bh);
+}
+
+function updateHUD(){
+  document.getElementById('hud-mine').innerHTML=myUnits.map(u=>`
+    <div class="hud-unit-bar">
+      <div class="hub-dot mine"></div>
+      <div class="hud-name">${u.card.nome.substring(0,6)}</div>
+      <div class="hud-hp-wrap">
+        <div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:${u.hp/u.maxHp>0.5?'#44ff88':u.hp/u.maxHp>0.25?'#ffcc00':'#ff4444'};"></div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('hud-enemy').innerHTML=enemyUnits.map(u=>`
+    <div class="hud-unit-bar right">
+      <div class="hub-dot enemy"></div>
+      <div class="hud-name">${u.card.nome.substring(0,6)}</div>
+      <div class="hud-hp-wrap">
+        <div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:#ff4444;"></div>
+      </div>
+    </div>`).join('');
+}
 /* ===== TABS / MAP ===== */
 const DOORS=[
   {id:"pal",x:200,y:210,locked:false,ico:"&#128170;",name:"PALESTRA",sub:"Allenamento",dsc:"Allenamento fisico.",quo:"Sei massiccio!",act:"train"},
