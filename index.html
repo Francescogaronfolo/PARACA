@@ -1,1264 +1,341 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>PARACA!</title>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#1a1a1a;
-  font-family:'Rajdhani',sans-serif;
-}
-
-@media(orientation:landscape){
-  html{
-    transform:rotate(-90deg);
-    transform-origin:left top;
-    width:100vh;
-    height:100vw;
-    position:fixed;
-    top:100%;
-    left:0;
-  }
-}
-
-@keyframes tp{
-  0%,100%{color:#FFE033;}
-  50%{color:#FFF799;}
-}
-
-@keyframes mIn{
-  from{opacity:0;transform:translateY(14px);}
-  to{opacity:1;transform:none;}
-}
-
-@keyframes goldshine{
-  0%,100%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-}
-
-@keyframes eccshine{
-  0%,100%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-}
-
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:'Rajdhani',sans-serif;}
+@media(orientation:landscape){html{transform:rotate(-90deg);transform-origin:left top;width:100vh;height:100vw;position:fixed;top:100%;left:0;}}
+@keyframes tp{0%,100%{color:#FFE033;}50%{color:#FFF799;}}
+@keyframes mIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes goldshine{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+@keyframes eccshine{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+@keyframes torrepulse{0%,100%{opacity:1;}50%{opacity:0.2;}}
 /* LOGIN */
-#screen-login{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-#bg-login{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  z-index:0;
-}
-
-#bg-login::after{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.4);
-}
-
-#login-title{
-  position:absolute;
-  left:0;
-  right:0;
-  top:8%;
-  text-align:center;
-  z-index:2;
-  pointer-events:none;
-}
-
-#login-title h1{
-  font-family:'Black Han Sans',sans-serif;
-  font-size:clamp(52px,14vw,110px);
-  color:#FFE033;
-  -webkit-text-stroke:2px #3d000a;
-  line-height:1;
-  animation:tp 4s ease-in-out infinite;
-}
-
-#popup{
-  position:relative;
-  z-index:2;
-  background:rgba(235,226,206,0.93);
-  border:2px solid rgba(123,16,32,0.4);
-  border-radius:10px;
-  padding:16px 20px 18px;
-  width:min(280px,80vw);
-  backdrop-filter:blur(12px);
-  box-shadow:0 8px 32px rgba(0,0,0,0.35);
-}
-
-.p-head{
-  text-align:center;
-  margin-bottom:10px;
-  padding-bottom:8px;
-  border-bottom:1px solid rgba(123,16,32,0.2);
-}
-
-.p-lbl{
-  font-size:8px;
-  letter-spacing:5px;
-  text-transform:uppercase;
-  color:rgba(123,16,32,0.5);
-}
-
-.p-rank{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:20px;
-  color:#7B1020;
-  letter-spacing:5px;
-}
-
+#screen-login{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;}
+#bg-login{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;}
+#bg-login::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.4);}
+#login-title{position:absolute;left:0;right:0;top:8%;text-align:center;z-index:2;pointer-events:none;}
+#login-title h1{font-family:'Black Han Sans',sans-serif;font-size:clamp(52px,14vw,110px);color:#FFE033;-webkit-text-stroke:2px #3d000a;line-height:1;animation:tp 4s ease-in-out infinite;}
+#popup{position:relative;z-index:2;background:rgba(235,226,206,0.93);border:2px solid rgba(123,16,32,0.4);border-radius:10px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
+#popup::before,#popup::after{content:'';position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
+#popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+#popup::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+.p-head{text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(123,16,32,0.2);}
+.p-lbl{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:rgba(123,16,32,0.5);}
+.p-rank{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#7B1020;letter-spacing:5px;}
 .frow{margin-bottom:8px;}
-
-.flbl{
-  font-size:8px;
-  letter-spacing:4px;
-  text-transform:uppercase;
-  color:rgba(80,30,30,0.55);
-  margin-bottom:3px;
-}
-
-.finp{
-  width:100%;
-  background:rgba(255,255,255,0.65);
-  border:1px solid rgba(123,16,32,0.28);
-  border-radius:3px;
-  padding:7px 10px;
-  color:#2a0a0a;
-  font-family:'Rajdhani',sans-serif;
-  font-size:15px;
-  font-weight:600;
-  letter-spacing:2px;
-  outline:none;
-}
-
-.finp:focus{
-  border-color:rgba(123,16,32,0.7);
-  background:rgba(255,255,255,0.9);
-}
-
-.finp::placeholder{
-  color:rgba(80,30,30,0.3);
-  font-weight:400;
-}
-
-#err-msg{
-  font-size:9px;
-  color:#7B1020;
-  text-align:center;
-  height:11px;
-  margin-top:3px;
-  opacity:0;
-  transition:opacity .3s;
-}
-
+.flbl{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:rgba(80,30,30,0.55);margin-bottom:3px;}
+.finp{width:100%;background:rgba(255,255,255,0.65);border:1px solid rgba(123,16,32,0.28);border-radius:3px;padding:7px 10px;color:#2a0a0a;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;letter-spacing:2px;outline:none;}
+.finp:focus{border-color:rgba(123,16,32,0.7);background:rgba(255,255,255,0.9);}
+.finp::placeholder{color:rgba(80,30,30,0.3);font-weight:400;}
+#err-msg{font-size:9px;color:#7B1020;text-align:center;height:11px;margin-top:3px;opacity:0;transition:opacity .3s;}
 #err-msg.show{opacity:1;}
-
-#btn-start{
-  width:100%;
-  margin-top:12px;
-  padding:11px;
-  background:#7B1020;
-  border:none;
-  border-radius:4px;
-  color:#fff;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:17px;
-  letter-spacing:6px;
-  cursor:pointer;
-}
-
-#btn-start:disabled{
-  background:rgba(140,120,110,0.4);
-  cursor:not-allowed;
-}
-
+#btn-start{width:100%;margin-top:12px;padding:11px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:6px;cursor:pointer;}
+#btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;}
 /* GAME */
-#screen-map{
-  position:fixed;
-  inset:0;
-  z-index:50;
-  display:none;
-  flex-direction:column;
-  background:#f5f5f0;
-}
-
+#screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f5f5f0;}
 #screen-map.show{display:flex;}
-
-#top-bar{
-  flex-shrink:0;
-  height:50px;
-  background:#7B1020;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  padding:0 12px;
-  z-index:300;
-}
-
-#top-bar-title{
-  font-family:'Black Han Sans',sans-serif;
-  font-size:30px;
-  color:#FFE033 !important;
-  -webkit-text-stroke:1px #3d000a;
-  letter-spacing:3px;
-  text-shadow:
-    2px 2px 0 #3d000a,
-    -1px -1px 0 #3d000a,
-    1px -1px 0 #3d000a,
-    -1px 1px 0 #3d000a;
-  animation:tp 4s ease-in-out infinite;
-}
-
-#top-bar-name{
-  position:absolute;
-  right:12px;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:11px;
-  color:rgba(255,255,255,0.7);
-  letter-spacing:3px;
-}
-
-#tab-content{
-  flex:1;
-  min-height:0;
-  overflow:hidden;
-  position:relative;
-}
-
-/* TABS */
-#tab-caserma,
-#tab-profilo,
-#tab-zaino,
-#tab-combattimento{
-  position:absolute;
-  inset:0;
-  display:none;
-  overflow-y:auto;
-}
-
-#tab-caserma.active,
-#tab-profilo.active,
-#tab-zaino.active,
-#tab-combattimento.active{
-  display:flex;
-}
-
-#tab-caserma{
-  flex-direction:column;
-  align-items:center;
-  background:linear-gradient(180deg,#e8a020,#c97a10);
-}
-
-#tab-profilo{
-  flex-direction:column;
-  background:linear-gradient(160deg,#e8a020,#c97a10);
-  padding:12px;
-}
-
-#tab-zaino{
-  flex-direction:column;
-  background:linear-gradient(160deg,#2e2e2e,#1a1a1a);
-  padding:12px;
-}
-
-#tab-combattimento{
-  flex-direction:column;
-  background:linear-gradient(160deg,#0a0a1a,#1a0a2e);
-}
-
+/* TOP BAR - PARACA giallo come login */
+#top-bar{flex-shrink:0;height:50px;background:#7B1020;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
+#top-bar-title{font-family:'Black Han Sans',sans-serif;font-size:28px;color:#FFE033;-webkit-text-stroke:2px #3d000a;letter-spacing:3px;text-shadow:2px 2px 0 #3d000a,-1px -1px 0 #3d000a,1px -1px 0 #3d000a,-1px 1px 0 #3d000a;paint-order:stroke fill;animation:tp 4s ease-in-out infinite;}
+#top-bar-name{position:absolute;right:12px;font-family:'Bebas Neue',sans-serif;font-size:11px;color:rgba(255,255,255,0.7);letter-spacing:3px;}
+#tab-content{flex:1;min-height:0;overflow:hidden;position:relative;}
 /* CASERMA */
-#gallery{
-  flex-shrink:0;
-  width:100%;
-  padding:8px 8px 4px;
-  display:flex;
-  gap:6px;
-  overflow-x:auto;
-}
-
-.gal-box{
-  flex-shrink:0;
-  width:68px;
-  height:68px;
-  background:rgba(255,255,255,0.88);
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:8px;
-  color:rgba(120,80,20,0.5);
-  letter-spacing:1px;
-  text-align:center;
-  font-weight:700;
-  overflow:hidden;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-}
-
-.gal-box img,
-.gal-box video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.cas-card{
-  width:calc(100% - 16px);
-  margin:0 8px 8px;
-  background:rgba(255,255,255,0.9);
-  border-radius:14px;
-  padding:14px 16px;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
-  box-shadow:0 2px 8px rgba(0,0,0,0.07);
-}
-
-.cas-card-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:18px;
-  color:#7B1020;
-  letter-spacing:3px;
-  line-height:1;
-}
-
-.cas-card-sub{
-  font-size:8px;
-  color:rgba(120,80,20,0.5);
-  letter-spacing:2px;
-  margin-top:2px;
-}
-
+#tab-caserma{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;background:linear-gradient(180deg,#e8a020,#c97a10);overflow-y:auto;}
+#tab-caserma.active{display:flex;}
+#gallery{flex-shrink:0;width:100%;padding:8px 8px 4px;display:flex;gap:6px;overflow-x:auto;}
+.gal-box{flex-shrink:0;width:68px;height:68px;background:rgba(255,255,255,0.88);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:8px;color:rgba(120,80,20,0.5);letter-spacing:1px;text-align:center;font-family:'Rajdhani',sans-serif;font-weight:700;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.gal-box img,.gal-box video{width:100%;height:100%;object-fit:cover;}
+.cas-card{width:calc(100% - 16px);margin:0 8px 8px;background:rgba(255,255,255,0.9);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.cas-card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#7B1020;letter-spacing:3px;line-height:1;}
+.cas-card-sub{font-size:8px;color:rgba(120,80,20,0.5);letter-spacing:2px;margin-top:2px;}
+.door{position:absolute;cursor:pointer;width:32px;height:32px;transform:translate(-50%,-50%);z-index:10;display:flex;align-items:center;justify-content:center;}
+.door-dot{width:9px;height:9px;border-radius:2px;background:#C9A84C;opacity:0.95;flex-shrink:0;}
+.door.locked .door-dot{background:#c0392b;}
+.door.torre .door-dot{background:rgba(255,80,80,0.9);border-radius:50%;border:2px solid #ff4444;box-shadow:0 0 10px #ff4444;animation:torrepulse 0.8s ease-in-out infinite;width:11px;height:11px;}
+.door-tip{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(10,8,5,0.92);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 6px;font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:700;color:#C9A84C;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
+.door:hover .door-tip,.door:active .door-tip{opacity:1;}
+.info-pill{flex:1;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:5px 8px;text-align:center;}
+.info-pill .lbl{font-size:7px;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase;display:block;}
+.info-pill .val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:2px;}
+.ext-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:10px 8px;text-align:center;cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.85);text-transform:uppercase;}
 /* PROFILO */
-.profilo-header{
-  background:rgba(255,255,255,0.92);
-  border-radius:14px;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:10px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.07);
-}
-
-.avatar-circle{
-  width:52px;
-  height:52px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.2);
-  border:2px solid rgba(255,255,255,0.4);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  flex-shrink:0;
-}
-
-.profilo-info .nome{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:20px;
-  color:#7B1020;
-  letter-spacing:2px;
-}
-
-.profilo-info .grado{
-  font-size:10px;
-  color:rgba(120,90,30,0.6);
-  letter-spacing:3px;
-  text-transform:uppercase;
-}
-
-.penta-card,
-.squadra-card{
-  background:rgba(255,255,255,0.92);
-  border-radius:14px;
-  padding:12px;
-  margin-bottom:10px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.07);
-}
-
-.penta-title{
-  font-size:8px;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:rgba(0,0,0,0.4);
-  margin-bottom:8px;
-}
-
-.squadra-header-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:10px;
-  cursor:pointer;
-}
-
-.squadra-nome-display{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:18px;
-  color:#7B1020;
-  letter-spacing:2px;
-}
-
-.squadra-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
-}
-
-.carta-pg{
-  background:rgba(255,255,255,0.92);
-  border:1px solid rgba(180,130,30,0.3);
-  border-radius:8px;
-  overflow:hidden;
-  cursor:pointer;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-.carta-pg.elite{
-  border:2px solid #b8b8b8;
-  background:linear-gradient(160deg,#f0f0f0,#e2e2e2);
-}
-
-.carta-pg.legio{
-  border:2px solid #c8a830;
-  background:linear-gradient(160deg,#fffbe8,#fff3c0,#fffbe8);
-  background-size:200% 200%;
-  animation:goldshine 2.8s ease-in-out infinite;
-  box-shadow:0 0 0 1px #e8c840,0 3px 16px rgba(220,180,40,0.4);
-}
-
-.carta-pg.ecce{
-  border:2px solid #c040e0;
-  background:linear-gradient(160deg,#fdf0ff,#f5d0ff,#fdf0ff);
-  background-size:200% 200%;
-  animation:eccshine 2.2s ease-in-out infinite;
-  box-shadow:0 0 0 1px #d060f0,0 3px 18px rgba(180,40,220,0.45);
-}
-
-.carta-img{
-  width:100%;
-  aspect-ratio:1;
-  background:#e8e0cc;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-}
-
-.carta-img img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.carta-nome{
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:1px;
-  color:rgba(80,50,10,0.8);
-  text-align:center;
-  padding:3px 2px;
-  text-transform:uppercase;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
+#tab-profilo{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#e8a020,#c97a10);overflow-y:auto;padding:12px;}
+#tab-profilo.active{display:flex;}
+.profilo-header{background:rgba(255,255,255,0.92);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.avatar-circle{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.profilo-info .nome{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#7B1020;letter-spacing:2px;}
+.profilo-info .grado{font-size:10px;color:rgba(120,90,30,0.6);letter-spacing:3px;text-transform:uppercase;}
+.penta-card{background:rgba(255,255,255,0.92);border-radius:14px;padding:12px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.penta-title{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:8px;}
+.squadra-card{background:rgba(255,255,255,0.92);border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.squadra-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;cursor:pointer;}
+.squadra-nome-display{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#7B1020;letter-spacing:2px;}
+.squadra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.carta-pg{background:rgba(255,255,255,0.92);border:1px solid rgba(180,130,30,0.3);border-radius:8px;overflow:hidden;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.carta-pg.elite{border:2px solid #b8b8b8;background:linear-gradient(160deg,#f0f0f0,#e2e2e2);}
+.carta-pg.legio{border:2px solid #c8a830;background:linear-gradient(160deg,#fffbe8,#fff3c0,#fffbe8);background-size:200% 200%;animation:goldshine 2.8s ease-in-out infinite;box-shadow:0 0 0 1px #e8c840,0 3px 16px rgba(220,180,40,0.4);}
+.carta-pg.ecce{border:2px solid #c040e0;background:linear-gradient(160deg,#fdf0ff,#f5d0ff,#fdf0ff);background-size:200% 200%;animation:eccshine 2.2s ease-in-out infinite;box-shadow:0 0 0 1px #d060f0,0 3px 18px rgba(180,40,220,0.45);}
+.carta-pg.legio .carta-nome{color:#6a4800;}
+.carta-pg.ecce .carta-nome{color:#6a0080;}
+.carta-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:26px;}
+.carta-nome{font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 /* ZAINO */
-#zaino-tabs{
-  display:flex;
-  gap:4px;
-  padding:0 0 10px;
-  flex-shrink:0;
-  overflow-x:auto;
-}
-
-.ztab{
-  flex-shrink:0;
-  padding:5px 10px;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.15);
-  background:rgba(255,255,255,0.08);
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:2px;
-  color:rgba(200,200,200,0.5);
-  text-transform:uppercase;
-  cursor:pointer;
-}
-
-.ztab.active{
-  background:rgba(255,255,255,0.2);
-  color:#fff;
-  border-color:rgba(255,255,255,0.35);
-}
-
-#zaino-search{
-  width:100%;
-  background:rgba(255,255,255,0.1);
-  border:1px solid rgba(255,255,255,0.18);
-  border-radius:6px;
-  padding:8px 12px;
-  color:#fff;
-  font-size:13px;
-  font-weight:600;
-  letter-spacing:1px;
-  outline:none;
-  flex-shrink:0;
-  margin-bottom:10px;
-}
-
-#zaino-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  overflow-y:auto;
-  padding-bottom:8px;
-}
-
-.zaino-card{
-  background:rgba(255,255,255,0.09);
-  border:1px solid rgba(255,255,255,0.14);
-  border-radius:8px;
-  overflow:hidden;
-  cursor:pointer;
-}
-
-.zaino-card-img{
-  width:100%;
-  aspect-ratio:1;
-  background:rgba(255,255,255,0.06);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-.zaino-card-nome{
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:1px;
-  color:rgba(200,200,200,0.7);
-  text-align:center;
-  padding:4px 3px;
-  text-transform:uppercase;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.zaino-card-cat{
-  font-size:7px;
-  color:rgba(150,150,150,0.45);
-  text-align:center;
-  padding-bottom:4px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
-
+#tab-zaino{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#2e2e2e,#1a1a1a);overflow-y:auto;padding:12px;}
+#tab-zaino.active{display:flex;}
+#zaino-tabs{display:flex;gap:4px;padding:0 0 10px;flex-shrink:0;overflow-x:auto;}
+.ztab{flex-shrink:0;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(200,200,200,0.5);text-transform:uppercase;cursor:pointer;}
+.ztab.active{background:rgba(255,255,255,0.2);color:#fff;border-color:rgba(255,255,255,0.35);}
+#zaino-search{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:6px;padding:8px 12px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;outline:none;flex-shrink:0;margin-bottom:10px;}
+#zaino-search::placeholder{color:rgba(255,255,255,0.3);}
+#zaino-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;overflow-y:auto;padding-bottom:8px;}
+.zaino-card{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.14);border-radius:8px;overflow:hidden;cursor:pointer;}
+.zaino-card-img{width:100%;aspect-ratio:1;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:28px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.zaino-card-nome{font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(200,200,200,0.7);text-align:center;padding:4px 3px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.zaino-card-cat{font-size:7px;color:rgba(150,150,150,0.45);text-align:center;padding-bottom:4px;letter-spacing:1px;text-transform:uppercase;}
 /* COMBATTIMENTO TAB */
-#sfidanti-header{
-  padding:16px 16px 8px;
-  flex-shrink:0;
-}
-
-#sfidanti-header .sh-title{
-  font-family:'Black Han Sans',sans-serif;
-  font-size:24px;
-  color:#FFE033;
-  -webkit-text-stroke:2px #111;
-  letter-spacing:3px;
-  animation:tp 4s ease-in-out infinite;
-}
-
-#sfidanti-header .sh-sub{
-  font-size:9px;
-  color:rgba(180,160,255,0.5);
-  letter-spacing:3px;
-  text-transform:uppercase;
-  margin-top:3px;
-}
-
-#sfidanti-list{
-  padding:0 12px 12px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.sfidante-card{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:14px;
-  padding:14px;
-  cursor:pointer;
-  position:relative;
-}
-
-.sfidante-card.selected{
-  border-color:rgba(255,80,80,0.6);
-  background:rgba(255,40,40,0.07);
-}
-
-.sf-lvl{
-  position:absolute;
-  top:12px;
-  right:12px;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:10px;
-  letter-spacing:2px;
-  padding:2px 8px;
-  border-radius:20px;
-}
-
-.sf-lvl.easy{
-  background:rgba(80,200,80,0.2);
-  color:#80ff80;
-  border:1px solid rgba(80,200,80,0.3);
-}
-
-.sf-lvl.med{
-  background:rgba(255,180,0,0.2);
-  color:#ffcc44;
-  border:1px solid rgba(255,180,0,0.3);
-}
-
-.sf-lvl.hard{
-  background:rgba(255,60,60,0.2);
-  color:#ff8080;
-  border:1px solid rgba(255,60,60,0.3);
-}
-
-.sf-top{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:10px;
-}
-
-.sf-avatar{
-  width:54px;
-  height:54px;
-  border-radius:10px;
-  background:rgba(255,255,255,0.08);
-  border:1.5px solid rgba(255,255,255,0.15);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:18px;
-  color:#C9A84C;
-  letter-spacing:1px;
-  flex-shrink:0;
-}
-
-.sf-nome{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:17px;
-  color:#fff;
-  letter-spacing:2px;
-}
-
-.sf-grado{
-  font-size:8px;
-  color:rgba(180,160,255,0.5);
-  letter-spacing:2px;
-  text-transform:uppercase;
-}
-
-.sf-mini-grid{
-  display:flex;
-  gap:4px;
-  flex-wrap:wrap;
-}
-
-.sf-mini-card{
-  width:30px;
-  height:30px;
-  border-radius:5px;
-  background:rgba(255,255,255,0.07);
-  border:1px solid rgba(255,255,255,0.1);
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:9px;
-  color:rgba(255,255,255,0.5);
-}
-
-.sf-mini-card img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.btn-sfida{
-  width:100%;
-  margin-top:10px;
-  padding:12px;
-  background:linear-gradient(135deg,#b0301f,#d94030);
-  border:none;
-  border-radius:8px;
-  color:#fff;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:16px;
-  letter-spacing:5px;
-  cursor:pointer;
-}
-
+#tab-combattimento{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#0a0a1a,#1a0a2e);overflow-y:auto;}
+#tab-combattimento.active{display:flex;}
+#sfidanti-header{padding:16px 16px 8px;flex-shrink:0;}
+#sfidanti-header .sh-title{font-family:'Black Han Sans',sans-serif;font-size:24px;color:#FFE033;-webkit-text-stroke:2px #111;letter-spacing:3px;animation:tp 4s ease-in-out infinite;}
+#sfidanti-header .sh-sub{font-size:9px;color:rgba(180,160,255,0.5);letter-spacing:3px;text-transform:uppercase;margin-top:3px;}
+#sfidanti-list{padding:0 12px 12px;display:flex;flex-direction:column;gap:10px;}
+.sfidante-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;cursor:pointer;position:relative;}
+.sfidante-card.selected{border-color:rgba(255,80,80,0.6);background:rgba(255,40,40,0.07);}
+.sf-lvl{position:absolute;top:12px;right:12px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;padding:2px 8px;border-radius:20px;}
+.sf-lvl.easy{background:rgba(80,200,80,0.2);color:#80ff80;border:1px solid rgba(80,200,80,0.3);}
+.sf-lvl.med{background:rgba(255,180,0,0.2);color:#ffcc44;border:1px solid rgba(255,180,0,0.3);}
+.sf-lvl.hard{background:rgba(255,60,60,0.2);color:#ff8080;border:1px solid rgba(255,60,60,0.3);}
+.sf-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.sf-avatar{width:54px;height:54px;border-radius:10px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:1px;flex-shrink:0;}
+.sf-nome{font-family:'Bebas Neue',sans-serif;font-size:17px;color:#fff;letter-spacing:2px;}
+.sf-grado{font-size:8px;color:rgba(180,160,255,0.5);letter-spacing:2px;text-transform:uppercase;}
+.sf-mini-grid{display:flex;gap:4px;flex-wrap:wrap;}
+.sf-mini-card{width:30px;height:30px;border-radius:5px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:9px;color:rgba(255,255,255,0.5);}
+.sf-mini-card img{width:100%;height:100%;object-fit:cover;}
+.btn-sfida{width:100%;margin-top:10px;padding:12px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:5px;cursor:pointer;}
+#future-modes{padding:0 12px 16px;}
+.future-card{background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.08);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.fc-title{font-family:'Bebas Neue',sans-serif;font-size:14px;color:rgba(255,255,255,0.25);letter-spacing:3px;}
+.fc-sub{font-size:8px;color:rgba(255,255,255,0.12);letter-spacing:2px;text-transform:uppercase;}
 /* TAB BAR */
-#tab-bar{
-  flex-shrink:0;
-  height:64px;
-  background:#fff;
-  border-top:1px solid rgba(0,0,0,0.07);
-  display:flex;
-  align-items:center;
-  justify-content:space-around;
-  padding:0 8px;
-  z-index:200;
-  gap:6px;
-}
-
-.tab-btn,
-.tab-center-new{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  cursor:pointer;
-  border:none;
-  background:none;
-  padding:0;
-}
-
-.tab-btn-inner{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  padding:7px 4px 6px;
-  border-radius:14px;
-  transition:background .15s;
-}
-
-.tab-btn.active .tab-btn-inner{
-  background:rgba(123,16,32,0.09);
-}
-
-.tab-btn .tab-svg{
-  width:20px;
-  height:20px;
-  stroke:rgba(120,90,30,0.3);
-  fill:none;
-  stroke-width:1.7;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  transition:stroke .15s;
-}
-
-.tab-btn.active .tab-svg{
-  stroke:#7B1020;
-}
-
-.tab-btn .tab-lbl{
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:rgba(120,90,30,0.3);
-}
-
-.tab-btn.active .tab-lbl{
-  color:#7B1020;
-}
-
-.tab-center-new .tab-btn-inner{
-  background:#7B1020;
-}
-
-.tab-center-new .tab-svg{
-  stroke:#fff;
-  fill:none;
-  stroke-width:1.7;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  width:20px;
-  height:20px;
-}
-
-.tab-center-new .tab-lbl{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:9px;
-  letter-spacing:3px;
-  color:#fff;
-}
-
+#tab-bar{flex-shrink:0;height:64px;background:#fff;border-top:1px solid rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:space-around;padding:0 8px;z-index:200;gap:6px;}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;cursor:pointer;border:none;background:none;padding:0;}
+.tab-btn-inner{width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 4px 6px;border-radius:14px;transition:background .15s;}
+.tab-btn.active .tab-btn-inner{background:rgba(123,16,32,0.09);}
+.tab-btn .tab-svg{width:20px;height:20px;stroke:rgba(120,90,30,0.3);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s;}
+.tab-btn.active .tab-svg{stroke:#7B1020;}
+.tab-btn .tab-lbl{font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.3);}
+.tab-btn.active .tab-lbl{color:#7B1020;}
+.tab-center-new{flex:1;display:flex;flex-direction:column;align-items:center;cursor:pointer;border:none;background:none;padding:0;}
+.tab-center-new .tab-btn-inner{background:#7B1020;border-radius:14px;padding:7px 4px 6px;width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.tab-center-new .tab-svg{stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:20px;height:20px;}
+.tab-center-new .tab-lbl{font-family:'Bebas Neue',sans-serif;font-size:9px;letter-spacing:3px;color:#fff;}
 /* BATTAGLIA */
-#battaglia-screen{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:800;
-  background:#000;
-  flex-direction:column;
-}
-
-#battaglia-screen.show{
-  display:flex;
-}
-
-#batt-header{
-  flex-shrink:0;
-  height:44px;
-  background:rgba(0,0,0,0.85);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 12px;
-  border-bottom:1px solid rgba(255,255,255,0.06);
-}
-
-#batt-map-name{
-  font-family:'Black Han Sans',sans-serif;
-  font-size:16px;
-  color:#FFE033;
-  -webkit-text-stroke:1px #3d000a;
-  letter-spacing:2px;
-  animation:tp 4s ease-in-out infinite;
-}
-
-#batt-vs-label{
-  font-size:8px;
-  color:rgba(255,255,255,0.35);
-  letter-spacing:2px;
-  font-family:'Bebas Neue',sans-serif;
-}
-
-#batt-canvas-wrap{
-  flex:1;
-  position:relative;
-  overflow:hidden;
-}
-
-#batt-canvas{
-  display:block;
-  width:100%;
-  height:100%;
-  touch-action:none;
-}
-
-#batt-hud{
-  position:absolute;
-  top:50%;
-  left:6px;
-  transform:translateY(-50%);
-  width:86px;
-  pointer-events:none;
-  z-index:5;
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-}
-
-.hud-unit-bar{
-  display:flex;
-  align-items:center;
-  gap:3px;
-  background:rgba(0,0,0,0.38);
-  border-radius:4px;
-  padding:2px 4px;
-}
-
-.hub-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  flex-shrink:0;
-}
-
+#battaglia-screen{display:none;position:fixed;inset:0;z-index:800;background:#000;flex-direction:column;}
+#battaglia-screen.show{display:flex;}
+#batt-header{flex-shrink:0;height:44px;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid rgba(255,255,255,0.06);}
+#batt-map-name{font-family:'Black Han Sans',sans-serif;font-size:16px;color:#FFE033;-webkit-text-stroke:1px #3d000a;letter-spacing:2px;animation:tp 4s ease-in-out infinite;}
+#batt-vs-label{font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:2px;font-family:'Bebas Neue',sans-serif;}
+#batt-canvas-wrap{flex:1;position:relative;overflow:hidden;}
+#batt-canvas{display:block;width:100%;height:100%;}
+#batt-hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:4px 5px;pointer-events:none;z-index:5;}
+.hud-side{display:flex;flex-direction:column;gap:2px;width:46%;}
+.hud-side.right{align-items:flex-end;}
+.hud-unit-bar{display:flex;align-items:center;gap:3px;background:rgba(0,0,0,0.55);border-radius:4px;padding:2px 4px;}
+.hud-unit-bar.right{flex-direction:row-reverse;}
+.hub-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .hub-dot.mine{background:#fff;}
 .hub-dot.enemy{background:#ff4444;}
-
-.hud-hp-wrap{
-  flex:1;
-  height:3px;
-  background:rgba(255,255,255,0.12);
-  border-radius:2px;
-  overflow:hidden;
-}
-
-.hud-hp-fill{
-  height:100%;
-  border-radius:2px;
-  transition:width .3s;
-}
-
-.hud-name{
-  font-size:7px;
-  font-weight:700;
-  color:rgba(255,255,255,0.65);
-  letter-spacing:.5px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  max-width:28px;
-}
-
-#batt-action-row{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  display:flex;
-  gap:6px;
-  padding:8px 10px;
-  z-index:11;
-  background:rgba(0,0,0,0.82);
-  border-top:1px solid rgba(255,255,255,0.06);
-}
-
-#batt-action-row button,
-#batt-tactic{
-  padding:9px;
-  border:none;
-  border-radius:8px;
-  color:#fff;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:12px;
-  letter-spacing:2px;
-  cursor:pointer;
-}
-
-#batt-tactic{
-  flex:2;
-  background:#222;
-  border:1px solid rgba(255,255,255,0.15);
-  outline:none;
-}
-
-#btn-move-mode{
-  flex:1;
-  background:linear-gradient(135deg,#1a4a9a,#2060cc);
-}
-
-#btn-fire{
-  flex:1;
-  background:linear-gradient(135deg,#b0301f,#d94030);
-}
-
-#batt-bottom{
-  flex-shrink:0;
-  background:rgba(0,0,0,0.82);
-  border-top:1px solid rgba(255,255,255,0.06);
-  padding:7px 10px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
-
-#batt-status{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:10px;
-  color:rgba(255,255,255,0.55);
-  letter-spacing:2px;
-  flex:1;
-  text-align:center;
-}
-
-#btn-avvia-batt{
-  padding:9px 18px;
-  background:linear-gradient(135deg,#b0301f,#d94030);
-  border:none;
-  border-radius:8px;
-  color:#fff;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:14px;
-  letter-spacing:4px;
-  cursor:pointer;
-}
-
-#btn-avvia-batt:disabled{
-  background:rgba(100,100,100,0.3);
-  color:rgba(255,255,255,0.3);
-}
-
-#batt-result-overlay{
-  display:none;
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.88);
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:14px;
-  z-index:20;
-}
-
-#batt-result-overlay.show{
-  display:flex;
-}
-
-#br-title{
-  font-family:'Black Han Sans',sans-serif;
-  font-size:52px;
-  -webkit-text-stroke:2px #3d000a;
-  animation:tp 4s ease-in-out infinite;
-}
-
-#br-sub{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:14px;
-  letter-spacing:4px;
-  color:rgba(255,255,255,0.45);
-}
-
-#br-btn{
-  padding:11px 30px;
-  background:#7B1020;
-  border:none;
-  border-radius:8px;
-  color:#fff;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:14px;
-  letter-spacing:4px;
-  cursor:pointer;
-}
-
+.hud-hp-wrap{flex:1;height:3px;background:rgba(255,255,255,0.12);border-radius:2px;overflow:hidden;}
+.hud-hp-fill{height:100%;border-radius:2px;transition:width .3s;}
+.hud-name{font-family:'Rajdhani',sans-serif;font-size:7px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55px;}
+/* Pannello coppie */
+#batt-pair-panel{position:absolute;bottom:110px;left:0;right:0;background:rgba(0,0,0,0.78);border-top:1px solid rgba(255,255,255,0.08);padding:8px 10px;z-index:10;display:none;}
+#batt-pair-panel.show{display:block;}
+#batt-pair-title{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:3px;margin-bottom:6px;text-align:center;}
+#batt-pair-grid{display:flex;gap:8px;justify-content:center;}
+.pair-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:68px;}
+.pair-btn.selected-pair{border-color:#FFE033;background:rgba(255,224,51,0.1);}
+.pair-btn.covering{border-color:rgba(100,200,100,0.5);background:rgba(50,180,50,0.08);}
+.pair-lbl{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(255,255,255,0.55);letter-spacing:2px;}
+.pair-dots{display:flex;gap:3px;}
+.pair-dot{width:8px;height:8px;border-radius:50%;}
+/* Azioni */
+#batt-action-row{position:absolute;bottom:0;left:0;right:0;display:none;gap:8px;padding:8px 10px;z-index:11;background:rgba(0,0,0,0.82);border-top:1px solid rgba(255,255,255,0.06);}
+#batt-action-row.show{display:flex;}
+#btn-avanza{flex:2;padding:10px;background:linear-gradient(135deg,#1a4a9a,#2060cc);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
+#btn-copertura{flex:2;padding:10px;background:linear-gradient(135deg,#1a7a1a,#28a028);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;cursor:pointer;}
+#btn-fire{flex:1;padding:10px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;cursor:pointer;}
+#batt-bottom{flex-shrink:0;background:rgba(0,0,0,0.82);border-top:1px solid rgba(255,255,255,0.06);padding:7px 10px;display:flex;gap:8px;align-items:center;}
+#batt-status{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:2px;flex:1;text-align:center;}
+#btn-avvia-batt{padding:9px 18px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
+#btn-avvia-batt:disabled{background:rgba(100,100,100,0.3);color:rgba(255,255,255,0.3);}
+#batt-result-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:20;}
+#batt-result-overlay.show{display:flex;}
+#br-title{font-family:'Black Han Sans',sans-serif;font-size:52px;-webkit-text-stroke:2px #3d000a;animation:tp 4s ease-in-out infinite;}
+#br-sub{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(255,255,255,0.45);}
+#br-btn{padding:11px 30px;background:#7B1020;border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
 /* MODALI */
-#modal,
-#stats-modal,
-#soldato-modal,
-#collezione-modal,
-#replace-modal,
-#mappa-modal,
-#gerarchia-modal,
-#gerarchia-card-modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:600;
-  background:rgba(0,0,0,0.72);
-  align-items:center;
-  justify-content:center;
-}
-
-#mbox,
-#stats-inner,
-#coll-sheet,
-.rm-box{
-  background:#fff;
-  border-radius:12px;
-  padding:18px 20px;
-  width:min(340px,92vw);
-  position:relative;
-  box-shadow:0 24px 80px rgba(0,0,0,0.25);
-  animation:mIn .18s ease;
-}
-
-#m-ico{
-  font-size:28px;
-  text-align:center;
-  margin-bottom:3px;
-}
-
-#m-tit{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:21px;
-  color:#7B1020;
-  letter-spacing:4px;
-  text-align:center;
-}
-
-#m-sub{
-  font-size:9px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:rgba(120,90,30,0.4);
-  text-align:center;
-  margin-bottom:8px;
-}
-
-#m-dsc{
-  font-size:13px;
-  color:#555;
-  line-height:1.5;
-  margin-bottom:8px;
-  text-align:center;
-}
-
-#m-quo{
-  font-size:12px;
-  color:#9B1020;
-  font-style:italic;
-  text-align:center;
-  padding:5px 9px;
-  border-left:3px solid #7B1020;
-  margin-bottom:12px;
-  background:rgba(123,16,32,0.05);
-}
-
-.mb{
-  width:100%;
-  padding:9px;
-  margin-bottom:5px;
-  border:none;
-  border-radius:4px;
-  cursor:pointer;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:14px;
-  letter-spacing:4px;
-}
-
+#modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.72);display:none;align-items:center;justify-content:center;}
+#modal.show{display:flex;}
+#mbox{background:#fff;border-radius:12px;padding:18px 20px;width:min(320px,88vw);position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.25);animation:mIn .18s ease;}
+#m-ico{font-size:28px;text-align:center;margin-bottom:3px;}
+#m-tit{font-family:'Bebas Neue',sans-serif;font-size:21px;color:#7B1020;letter-spacing:4px;text-align:center;}
+#m-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.4);text-align:center;margin-bottom:8px;}
+#m-dsc{font-size:13px;color:#555;line-height:1.5;margin-bottom:8px;text-align:center;}
+#m-quo{font-size:12px;color:#9B1020;font-style:italic;text-align:center;padding:5px 9px;border-left:3px solid #7B1020;margin-bottom:12px;background:rgba(123,16,32,0.05);}
+.mb{width:100%;padding:9px;margin-bottom:5px;border:none;border-radius:4px;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;}
 .mb-p{background:#7B1020;color:#fff;}
 .mb-s{background:#f0ece0;color:rgba(120,90,30,0.7);}
+#m-x{position:absolute;top:10px;right:12px;background:none;border:none;color:#bbb;font-size:18px;cursor:pointer;}
+#stats-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;}
+#stats-inner{background:#fff;border-radius:12px;padding:20px 24px;width:min(300px,88vw);position:relative;}
+#stats-inner h3{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#7B1020;letter-spacing:3px;text-align:center;margin-bottom:14px;}
+.stats-row{display:flex;justify-content:space-around;margin-top:12px;}
+.stat-item{text-align:center;}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#C9A84C;}
+.stat-lbl{font-size:8px;letter-spacing:2px;color:rgba(120,90,30,0.5);text-transform:uppercase;}
+#s-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#bbb;font-size:18px;cursor:pointer;}
+#soldato-modal,#collezione-modal{display:none;position:fixed;inset:0;z-index:650;background:rgba(0,0,0,0.78);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
+/* COLLEZIONE: pulsante giallo grosso al posto dello swipe */
+#coll-sheet{background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+#coll-close-btn{width:100%;height:38px;background:#FFE033;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;flex-shrink:0;border-radius:12px 12px 0 0;}
+#coll-close-btn .coll-bar{width:40px;height:5px;border-radius:3px;background:rgba(61,0,10,0.35);}
+#coll-close-btn .coll-label{font-family:'Bebas Neue',sans-serif;font-size:12px;color:rgba(61,0,10,0.55);letter-spacing:3px;}
+#replace-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.82);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
+#replace-modal .rm-box{background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;}
+#replace-modal .rm-head{background:#7B1020;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;}
+#replace-modal .rm-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;}
+#replace-modal .rm-sub{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;letter-spacing:1px;}
+#replace-modal .rm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;}
+.rm-card{border-radius:6px;overflow:hidden;cursor:pointer;border:1px solid rgba(180,130,30,0.3);background:#fff;}
+.rm-card.locked-card{opacity:0.45;cursor:not-allowed;}
+.rm-card .rm-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.rm-card .rm-name{font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#gerarchia-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.85);align-items:flex-start;justify-content:center;overflow-y:auto;padding:0;}
+#gerarchia-card-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;}
+#mappa-modal{display:none;position:fixed;inset:0;z-index:500;background:#000;flex-direction:column;}
+#toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:rgba(20,12,4,0.92);border-radius:4px;padding:8px 16px;color:#C9A84C;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;z-index:900;max-width:82vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
 
-#m-x,
-#s-close{
-  position:absolute;
-  top:10px;
-  right:12px;
-  background:none;
-  border:none;
-  color:#bbb;
-  font-size:18px;
-  cursor:pointer;
-}
+/* BATTAGLIA */
+#battaglia-screen{display:none;position:fixed;inset:0;z-index:800;background:#000;flex-direction:column;}
+#battaglia-screen.show{display:flex;}
+#batt-header{flex-shrink:0;height:40px;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid rgba(255,255,255,0.06);}
+#batt-map-name{font-family:‘Black Han Sans’,sans-serif;font-size:15px;color:#FFE033;-webkit-text-stroke:1px #3d000a;letter-spacing:2px;animation:tp 4s ease-in-out infinite;}
+#batt-vs-label{font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:2px;font-family:‘Bebas Neue’,sans-serif;}
+#batt-setup-bar{flex-shrink:0;background:rgba(0,0,0,0.85);padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.05);}
+#batt-setup-title{font-family:‘Bebas Neue’,sans-serif;font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:3px;text-align:center;margin-bottom:4px;}
+#batt-tactic-row{display:flex;gap:4px;justify-content:center;}
+.tac-btn{flex:1;max-width:72px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 2px;text-align:center;font-family:‘Bebas Neue’,sans-serif;font-size:8px;color:rgba(255,255,255,0.4);letter-spacing:1px;cursor:pointer;line-height:1.2;}
+.tac-btn.active{background:rgba(255,224,51,0.15);border-color:#FFE033;color:#FFE033;}
+#batt-canvas-wrap{flex:1;position:relative;overflow:hidden;}
+#batt-canvas{display:block;width:100%;height:100%;}
+#batt-hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:3px 4px;pointer-events:none;z-index:5;}
+.hud-side{display:flex;flex-direction:column;gap:1px;width:44%;}
+.hud-side.right{align-items:flex-end;}
+.hud-unit-bar{display:flex;align-items:center;gap:2px;background:rgba(0,0,0,0.5);border-radius:3px;padding:2px 3px;}
+.hud-unit-bar.right{flex-direction:row-reverse;}
+.hub-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.hub-dot.mine{background:#fff;}
+.hub-dot.enemy{background:#ff4444;}
+.hud-hp-wrap{flex:1;height:3px;background:rgba(255,255,255,0.12);border-radius:2px;overflow:hidden;}
+.hud-hp-fill{height:100%;border-radius:2px;}
+.hud-name{font-family:‘Rajdhani’,sans-serif;font-size:7px;font-weight:700;color:rgba(255,255,255,0.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:50px;}
+#batt-result-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:20;}
+#batt-result-overlay.show{display:flex;}
+#br-title{font-family:‘Black Han Sans’,sans-serif;font-size:52px;-webkit-text-stroke:2px #3d000a;animation:tp 4s ease-in-out infinite;}
+#br-sub{font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;color:rgba(255,255,255,0.45);}
+#br-btn{padding:11px 30px;background:#7B1020;border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
+#batt-bottom{flex-shrink:0;background:rgba(0,0,0,0.88);border-top:1px solid rgba(255,255,255,0.06);padding:6px 10px;display:flex;gap:8px;align-items:center;}
+#batt-status{font-family:‘Bebas Neue’,sans-serif;font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:2px;flex:1;text-align:center;}
+#btn-avvia-batt{padding:9px 18px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;flex-shrink:0;}
+#btn-avvia-batt:disabled{background:rgba(100,100,100,0.3);color:rgba(255,255,255,0.3);}
+#unit-popup{display:none;position:absolute;z-index:30;background:rgba(10,8,5,0.96);border:1px solid rgba(201,168,76,0.4);border-radius:8px;padding:10px 12px;width:160px;pointer-events:none;}
+#unit-popup.show{display:block;}
+#up-name{font-family:‘Bebas Neue’,sans-serif;font-size:13px;color:#FFE033;letter-spacing:1px;margin-bottom:3px;}
+#up-role{font-size:8px;color:rgba(200,180,100,0.7);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+#up-stats{font-size:9px;color:rgba(200,200,200,0.6);line-height:1.6;}
 
-#toast{
-  position:fixed;
-  bottom:72px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(20,12,4,0.92);
-  border-radius:4px;
-  padding:8px 16px;
-  color:#C9A84C;
-  font-size:12px;
-  font-weight:600;
-  letter-spacing:1px;
-  z-index:900;
-  max-width:82vw;
-  text-align:center;
-  opacity:0;
-  transition:opacity .4s;
-  pointer-events:none;
-}
+/* CARD BAR pre-battaglia */
+#batt-card-bar{position:absolute;bottom:0;left:0;right:0;height:88px;background:rgba(0,0,0,0.88);border-top:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:6px;padding:8px 10px;z-index:15;overflow-x:auto;}
+.deploy-card{flex-shrink:0;width:60px;height:68px;border-radius:8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4px;gap:2px;position:relative;overflow:hidden;border:1.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);transition:transform .15s;}
+.deploy-card.selected{border-color:#FFE033;background:rgba(255,224,51,0.15);transform:translateY(-4px);}
+.deploy-card.placed{opacity:0.38;pointer-events:none;}
+.deploy-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:6px;}
+.deploy-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,transparent 55%);}
+.deploy-card-name{position:relative;z-index:2;font-family:‘Bebas Neue’,sans-serif;font-size:7px;color:#fff;letter-spacing:1px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:56px;padding:0 2px;}
+.deploy-card-role{position:relative;z-index:2;font-size:6px;color:rgba(255,224,51,0.8);letter-spacing:1px;font-family:‘Rajdhani’,sans-serif;font-weight:700;}
+.dc-sel-ring{display:none;position:absolute;inset:-2px;border-radius:9px;border:2px solid #FFE033;pointer-events:none;}
+.deploy-card.selected .dc-sel-ring{display:block;}
+#batt-deploy-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.72);border:1px solid rgba(255,224,51,0.5);border-radius:8px;padding:8px 14px;font-family:‘Bebas Neue’,sans-serif;font-size:12px;color:#FFE033;letter-spacing:2px;pointer-events:none;z-index:14;display:none;}
+/* Override: durante setup nasconde panel vecchi */
+#batt-pair-panel,#batt-action-row{display:none!important;}
+
 </style>
 </head>
-
 <body>
-
+<!-- LOGIN -->
 <div id="screen-login">
   <div id="bg-login"></div>
   <div id="login-title"><h1>PARACA!</h1></div>
   <div id="popup">
-    <div class="p-head">
-      <div class="p-lbl">Grado</div>
-      <div class="p-rank">SOLDATO</div>
-    </div>
-    <div class="frow">
-      <div class="flbl">Nome</div>
-      <input class="finp" id="inp-nome" type="text" placeholder="Il tuo nome" maxlength="20" autocomplete="off" spellcheck="false">
-    </div>
-    <div class="frow">
-      <div class="flbl">Cognome</div>
-      <input class="finp" id="inp-cogn" type="text" placeholder="Il tuo cognome" maxlength="20" autocomplete="off" spellcheck="false">
-    </div>
+    <div class="p-head"><div class="p-lbl">Grado</div><div class="p-rank">SOLDATO</div></div>
+    <div class="frow"><div class="flbl">Nome</div><input class="finp" id="inp-nome" type="text" placeholder="Il tuo nome" maxlength="20" autocomplete="off" spellcheck="false"></div>
+    <div class="frow"><div class="flbl">Cognome</div><input class="finp" id="inp-cogn" type="text" placeholder="Il tuo cognome" maxlength="20" autocomplete="off" spellcheck="false"></div>
     <div id="err-msg">Inserisci nome e cognome</div>
     <button id="btn-start" disabled>INIZIA LA NAJA</button>
   </div>
 </div>
-
+<!-- GIOCO -->
 <div id="screen-map">
-  <div id="top-bar">
-    <div id="top-bar-title">PARACA!</div>
-    <div id="top-bar-name">SOLDATO</div>
-  </div>
-
+  <div id="top-bar"><div id="top-bar-title">PARACA!</div><div id="top-bar-name">SOLDATO</div></div>
   <div id="tab-content">
-
+    <!-- CASERMA -->
     <div id="tab-caserma">
       <div id="gallery">
-        <div class="gal-box" id="gal0" onclick="apriFoto(0)">
-          <span>FOTO<br>1</span>
-          <input type="file" id="file0" accept="image/*,video/*" style="display:none" onchange="caricaFoto(0,this)">
-        </div>
-        <div class="gal-box" id="gal1" onclick="apriFoto(1)">
-          <span>FOTO<br>2</span>
-          <input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)">
-        </div>
-        <div class="gal-box" id="gal2" onclick="apriFoto(2)">
-          <span>FOTO<br>3</span>
-          <input type="file" id="file2" accept="image/*,video/*" style="display:none" onchange="caricaFoto(2,this)">
-        </div>
-        <div class="gal-box" id="gal3" onclick="apriFoto(3)">
-          <span>FOTO<br>4</span>
-          <input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)">
-        </div>
-        <div class="gal-box" id="gal4" onclick="apriFoto(4)">
-          <span>FOTO<br>5</span>
-          <input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)">
-        </div>
+        <div class="gal-box" id="gal0" onclick="apriFoto(0)"><span>FOTO<br>1</span><input type="file" id="file0" accept="image/*,video/*" style="display:none" onchange="caricaFoto(0,this)"></div>
+        <div class="gal-box" id="gal1" onclick="apriFoto(1)"><span>FOTO<br>2</span><input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)"></div>
+        <div class="gal-box" id="gal2" onclick="apriFoto(2)"><span>FOTO<br>3</span><input type="file" id="file2" accept="image/*,video/*" style="display:none" onchange="caricaFoto(2,this)"></div>
+        <div class="gal-box" id="gal3" onclick="apriFoto(3)"><span>FOTO<br>4</span><input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)"></div>
+        <div class="gal-box" id="gal4" onclick="apriFoto(4)"><span>FOTO<br>5</span><input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)"></div>
       </div>
-
-      <div class="cas-card" onclick="openMappaModal()">
-        <span style="font-size:24px;">&#128506;</span>
-        <div>
-          <div class="cas-card-title">MAPPA</div>
-          <div class="cas-card-sub">Esplora la caserma</div>
-        </div>
-        <div style="margin-left:auto;font-size:18px;color:rgba(120,80,20,0.3);">&#8250;</div>
-      </div>
-
+      <!-- Row 1: Gerarchia + Mappa -->
       <div style="width:calc(100% - 16px);margin:0 8px 8px;display:flex;gap:8px;flex-shrink:0;">
-        <div onclick="openGerarchia()" style="flex:1;background:rgba(255,255,255,0.9);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.07);gap:5px;">
-          <div style="font-size:22px;">&#11088;</div>
+        <div onclick="openGerarchia()" style="flex:1;background:rgba(255,255,255,0.9);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 8px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.09);gap:5px;">
+          <div style="font-size:20px;">&#11088;</div>
           <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#7B1020;letter-spacing:3px;">GERARCHIA</div>
         </div>
-        <div onclick="switchTab('combattimento')" style="flex:1;background:linear-gradient(135deg,#150820,#280a38);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;cursor:pointer;box-shadow:0 2px 14px rgba(100,0,200,0.2);gap:5px;border:1px solid rgba(150,80,255,0.18);">
-          <div style="font-size:22px;">&#9876;&#65039;</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#C9A84C;letter-spacing:3px;">COMBATTIMENTO</div>
+        <div onclick="openMappaModal()" style="flex:1;background:rgba(255,255,255,0.9);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 8px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.09);gap:5px;">
+          <div style="font-size:20px;">&#128506;</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#7B1020;letter-spacing:3px;">MAPPA</div>
         </div>
       </div>
-
-      <div onclick="toast('Classifica — presto!')" style="width:calc(100% - 16px);margin:0 8px 12px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
-        <span style="font-size:24px;">&#127942;</span>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;">CLASSIFICA GENERALE</div>
-        <div style="margin-left:auto;font-size:18px;color:rgba(255,255,255,0.4);">&#8250;</div>
+      <!-- FIGHT button -->
+      <div onclick="switchTab('combattimento')" style="width:calc(100% - 16px);margin:0 8px 8px;flex-shrink:0;cursor:pointer;border-radius:16px;overflow:hidden;position:relative;background:#0a0008;box-shadow:0 4px 24px rgba(180,0,50,0.35),0 1px 0 rgba(255,255,255,0.05) inset;border:1px solid rgba(200,0,50,0.3);">
+        <!-- Background texture -->
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,0.012) 10px,rgba(255,255,255,0.012) 20px);"></div>
+        <!-- Red slash accent -->
+        <div style="position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 90px 90px 0;border-color:transparent rgba(180,0,30,0.35) transparent transparent;"></div>
+        <div style="position:relative;z-index:2;padding:22px 20px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+          <!-- FIGHT text with heavy military style -->
+          <div style="font-family:'Black Han Sans',sans-serif;font-size:clamp(42px,11vw,72px);color:#FFE033;-webkit-text-stroke:2px #3d000a;line-height:0.9;letter-spacing:4px;text-shadow:4px 4px 0 #3d000a,-1px -1px 0 #3d000a,0 0 30px rgba(255,180,0,0.3);animation:tp 4s ease-in-out infinite;">FIGHT</div>
+          <!-- Subtitle -->
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:11px;color:rgba(255,200,100,0.5);letter-spacing:6px;text-transform:uppercase;margin-top:2px;">&#9888;&#65039; ZONA DI GUERRA</div>
+          <!-- Decorative line -->
+          <div style="width:60px;height:2px;background:linear-gradient(90deg,rgba(255,60,60,0.8),transparent);margin-top:4px;"></div>
+        </div>
+        <!-- Right side soldier icon -->
+        <div style="position:absolute;right:16px;bottom:10px;font-size:34px;opacity:0.18;transform:scaleX(-1);">&#129686;</div>
+        <div style="position:absolute;right:16px;top:10px;width:8px;height:8px;border-radius:50%;background:#ff3030;box-shadow:0 0 8px #ff3030;animation:torrepulse 0.8s ease-in-out infinite;"></div>
       </div>
     </div>
-
+    <!-- PROFILO -->
     <div id="tab-profilo">
       <div class="profilo-header">
         <div class="avatar-circle">&#129686;</div>
@@ -1267,15 +344,14 @@ html,body{
           <div class="grado">Soldato Semplice &bull; Giorno <span id="p-giorno">1</span></div>
         </div>
       </div>
-
       <div class="penta-card" onclick="toggleStats()">
         <div class="penta-title">Statistiche &mdash; tocca per dettagli</div>
         <svg viewBox="0 0 120 116" width="100" height="84" style="display:block;margin:0 auto 4px;">
           <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>
           <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(0,0,0,0.1)" stroke="rgba(0,0,0,0.5)" stroke-width="1.5"/>
+          <circle cx="60" cy="6" r="3" fill="#333"/><circle cx="114" cy="44" r="3" fill="#333"/><circle cx="94" cy="106" r="3" fill="#333"/><circle cx="26" cy="106" r="3" fill="#333"/><circle cx="6" cy="44" r="3" fill="#333"/>
         </svg>
       </div>
-
       <div class="squadra-card">
         <div class="squadra-header-row" onclick="rinominaSquadra()">
           <div>
@@ -1292,7 +368,7 @@ html,body{
         </div>
       </div>
     </div>
-
+    <!-- ZAINO -->
     <div id="tab-zaino">
       <div style="display:flex;flex-direction:column;height:100%;padding:10px 10px 0;">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(200,200,200,0.6);letter-spacing:4px;margin-bottom:8px;flex-shrink:0;">ZAINO</div>
@@ -1308,26 +384,22 @@ html,body{
         <div id="zaino-grid"></div>
       </div>
     </div>
-
+    <!-- COMBATTIMENTO TAB -->
     <div id="tab-combattimento">
       <div id="sfidanti-header">
         <div class="sh-title">COMBATTIMENTO</div>
         <div class="sh-sub">Scegli il tuo avversario</div>
       </div>
       <div id="sfidanti-list"></div>
-      <div style="padding:0 12px 16px;">
-        <div style="background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.08);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <div id="future-modes">
+        <div class="future-card">
           <div style="font-size:22px;opacity:0.35;">&#127760;</div>
-          <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:rgba(255,255,255,0.25);letter-spacing:3px;">SFIDA ONLINE</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.12);letter-spacing:2px;text-transform:uppercase;">Prossimamente</div>
-          </div>
+          <div><div class="fc-title">SFIDA ONLINE</div><div class="fc-sub">Prossimamente</div></div>
         </div>
       </div>
     </div>
-
   </div>
-
+  <!-- TAB BAR -->
   <div id="tab-bar">
     <button class="tab-btn" id="tbtn-profilo" onclick="switchTab('profilo')">
       <div class="tab-btn-inner">
@@ -1335,14 +407,12 @@ html,body{
         <span class="tab-lbl">Profilo</span>
       </div>
     </button>
-
     <button class="tab-center-new" id="tbtn-caserma" onclick="switchTab('caserma')">
       <div class="tab-btn-inner">
         <svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="11" rx="2"/><path d="M3 10l9-7 9 7"/><rect x="9" y="14" width="6" height="7" rx="1"/></svg>
         <span class="tab-lbl">Caserma</span>
       </div>
     </button>
-
     <button class="tab-btn" id="tbtn-zaino" onclick="switchTab('zaino')">
       <div class="tab-btn-inner">
         <svg class="tab-svg" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 1 6 0"/><rect x="4" y="6" width="16" height="15" rx="3"/><path d="M4 11h16"/></svg>
@@ -1351,738 +421,761 @@ html,body{
     </button>
   </div>
 </div>
-
+<!-- BATTAGLIA -->
 <div id="battaglia-screen">
   <div id="batt-header">
-    <div>
-      <div id="batt-map-name">VALLE PUNGIONE</div>
-      <div id="batt-vs-label">VS &mdash;</div>
-    </div>
+    <div><div id="batt-map-name">VALLE PUNGIONE</div><div id="batt-vs-label">VS &mdash;</div></div>
     <button onclick="closeBattaglia()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:22px;cursor:pointer;">&#10005;</button>
   </div>
-
+  <div id="batt-setup-bar">
+    <div id="batt-setup-title">SCEGLI TATTICA</div>
+    <div id="batt-tactic-row">
+      <div class="tac-btn active" data-t="alt2" onclick="setTactic('alt2')">SBALZO<br>ALT 2</div>
+      <div class="tac-btn" data-t="succ2" onclick="setTactic('succ2')">SBALZO<br>SUCC 2</div>
+      <div class="tac-btn" data-t="alt3" onclick="setTactic('alt3')">3+3<br>ALTERN</div>
+      <div class="tac-btn" data-t="4p2c" onclick="setTactic('4p2c')">4 AVZ<br>2 COV</div>
+      <div class="tac-btn" data-t="2p4c" onclick="setTactic('2p4c')">2 AVZ<br>4 COV</div>
+    </div>
+  </div>
   <div id="batt-canvas-wrap">
     <canvas id="batt-canvas"></canvas>
-    <div id="batt-hud"></div>
-
-    <div id="batt-action-row">
-      <select id="batt-tactic" onchange="selectedTactic=this.value">
-        <option value="sbalzo_alternato">SBALZO ALTERNATO</option>
-        <option value="sbalzo_successivo">SBALZO SUCCESSIVO</option>
-        <option value="tre_avanzano">3 AVANZANO / 3 COPRONO</option>
-        <option value="quattro_avanzano">4 AVANZANO / 2 COPRONO</option>
-        <option value="due_avanzano">2 AVANZANO / 4 COPRONO</option>
-        <option value="coppia_copre">COPPIA AVANZA / COPPIA COPRE</option>
-      </select>
-      <button id="btn-move-mode" onclick="toggleMoveMode()">MUOVI</button>
-      <button id="btn-fire" onclick="manualFire()">FUOCO</button>
-    </div>
-
+    <div id="batt-hud"><div class="hud-side" id="hud-mine"></div><div class="hud-side right" id="hud-enemy"></div></div>
+    <div id="unit-popup"><div id="up-name"></div><div id="up-role"></div><div id="up-stats"></div></div>
+    <div id="batt-deploy-hint">TOCCA UN PUNTO SULLA MAPPA</div>
+    <!-- Card bar deployment -->
+    <div id="batt-card-bar"></div>
     <div id="batt-result-overlay">
       <div id="br-title">VITTORIA!</div>
       <div id="br-sub">Hai conquistato Valle Pungione</div>
       <button id="br-btn" onclick="closeBattaglia()">TORNA INDIETRO</button>
     </div>
   </div>
-
   <div id="batt-bottom">
-    <div id="batt-status">Schiera le truppe, scegli tattica e premi INIZIA</div>
-    <button id="btn-avvia-batt" onclick="startBattle()">INIZIA!</button>
+    <div id="batt-status">Posiziona truppe, scegli tattica</div>
+    <button id="btn-avvia-batt" onclick="startBattle()">COMBATTI!</button>
   </div>
 </div>
 
+<!-- MAPPA MODAL -->
+
 <div id="mappa-modal">
-  <div style="width:100%;height:100%;background:linear-gradient(180deg,#e8a020,#c97a10);display:flex;flex-direction:column;">
-    <div style="flex-shrink:0;height:46px;background:#7B1020;display:flex;align-items:center;justify-content:space-between;padding:0 12px;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">CASERMA</div>
-      <button onclick="closeMappaModal()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">&#10005;</button>
-    </div>
-    <div style="flex:1;overflow:auto;display:flex;justify-content:center;align-items:flex-start;padding:8px;">
+  <div style="flex-shrink:0;height:46px;background:#7B1020;display:flex;align-items:center;justify-content:space-between;padding:0 12px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">CASERMA</div>
+    <button onclick="closeMappaModal()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">&#10005;</button>
+  </div>
+  <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;background:linear-gradient(180deg,#e8a020,#c97a10);">
+    <div id="map-container" style="width:100%;flex-shrink:0;display:flex;justify-content:center;padding:4px 4px 0;">
       <div id="map-wrap" style="position:relative;display:inline-block;">
         <img id="map-img" src="C4F86551-3CA1-4073-8449-51785411EFAE.png" alt="caserma" style="display:block;width:100%;max-width:500px;">
       </div>
     </div>
-  </div>
-</div>
-
-<div id="modal">
-  <div id="mbox">
-    <button id="m-x">&#10005;</button>
-    <div id="m-ico"></div>
-    <div id="m-tit"></div>
-    <div id="m-sub"></div>
-    <div id="m-dsc"></div>
-    <div id="m-quo"></div>
-    <div id="m-act"></div>
-  </div>
-</div>
-
-<div id="stats-modal">
-  <div id="stats-inner">
-    <button id="s-close" onclick="toggleStats()">&#10005;</button>
-    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#7B1020;letter-spacing:3px;text-align:center;margin-bottom:14px;">STATISTICHE</h3>
-    <div id="stats-list"></div>
-  </div>
-</div>
-
-<div id="collezione-modal">
-  <div id="coll-sheet" style="padding:0;overflow:hidden;">
-    <button onclick="closeCollezione()" style="width:100%;height:58px;background:#FFE033;border:none;font-family:'Black Han Sans',sans-serif;font-size:18px;color:#3d000a;letter-spacing:3px;cursor:pointer;">CHIUDI ✕</button>
-    <div style="background:#7B1020;padding:10px 16px;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:3px;">COLLEZIONE TRUPPE</div>
+    <div style="width:100%;display:flex;gap:6px;padding:6px 8px;flex-shrink:0;">
+      <div class="info-pill"><span class="lbl">Giorno</span><span class="val" id="dv">1</span></div>
+      <div class="info-pill"><span class="lbl">Grado</span><span class="val">Soldato</span></div>
     </div>
-    <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
+    <div style="width:100%;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 8px 10px;flex-shrink:0;">
+      <div class="ext-btn" onclick="toast('Linea di comando — presto!')">Linea di Comando</div>
+      <div class="ext-btn" onclick="toast('Plotone — presto!')">Plotone</div>
+      <div class="ext-btn" onclick="toast('Missioni — presto!')">Missioni</div>
+    </div>
   </div>
 </div>
-
-<div id="soldato-modal">
-  <div id="stats-inner">
-    <button id="s-close" onclick="closeSoldato()">&#10005;</button>
-    <div id="soldato-view"></div>
-  </div>
-</div>
-
+<!-- GERARCHIA -->
 <div id="gerarchia-modal">
-  <div id="stats-inner">
-    <button id="s-close" onclick="closeGerarchia()">&#10005;</button>
-    <h3 style="font-family:'Bebas Neue',sans-serif;color:#7B1020;letter-spacing:3px;text-align:center;">GERARCHIA</h3>
-    <div id="gerarchia-piramide"></div>
+  <div style="background:#fff;width:100%;min-height:100%;position:relative;">
+    <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">GERARCHIA</div>
+      <button onclick="closeGerarchia()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">&#10005;</button>
+    </div>
+    <div style="display:flex;height:8px;"><div style="flex:1;background:#009246;"></div><div style="flex:1;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;"></div><div style="flex:1;background:#CE2B37;"></div></div>
+    <div id="gerarchia-piramide" style="padding:12px 10px 20px;display:flex;flex-direction:column;gap:6px;"></div>
   </div>
 </div>
-
+<div id="gerarchia-card-modal">
+  <div id="gc-box" style="background:#fff;border-radius:12px;width:min(340px,92vw);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);animation:mIn .2s ease;touch-action:pan-y;">
+    <div style="background:#7B1020;padding:8px;display:flex;justify-content:center;gap:6px;">
+      <div id="gc-dot-0" style="width:6px;height:6px;border-radius:50%;background:#C9A84C;"></div>
+      <div id="gc-dot-1" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);"></div>
+    </div>
+    <div id="gc-page-0">
+      <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+        <div id="gc-avatar" style="width:88px;height:88px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;overflow:hidden;">&#128100;</div>
+        <div>
+          <div id="gc-grado" style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:2px;"></div>
+          <div id="gc-nome" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:2px;line-height:1.1;"></div>
+        </div>
+      </div>
+      <div style="padding:14px 16px;">
+        <div id="gc-ruolo" style="font-size:11px;color:#7B1020;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;"></div>
+        <div id="gc-desc" style="font-size:13px;color:#555;line-height:1.5;"></div>
+      </div>
+      <div style="padding:0 16px 10px;text-align:right;"><span style="font-size:10px;color:rgba(120,90,30,0.4);letter-spacing:2px;">scorri &rsaquo; STORIA</span></div>
+    </div>
+    <div id="gc-page-1" style="display:none;">
+      <div style="background:#f8f4ec;padding:14px 16px;border-bottom:1px solid rgba(180,150,80,0.2);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:#7B1020;letter-spacing:3px;">STORIA</div>
+      </div>
+      <div style="padding:14px 16px;"><div id="gc-storia" style="font-size:13px;color:#444;line-height:1.7;font-style:italic;"></div></div>
+      <div style="padding:0 16px 14px;text-align:center;"><span style="font-size:10px;color:rgba(120,90,30,0.4);letter-spacing:2px;">scorri &rsaquo; per chiudere</span></div>
+    </div>
+  </div>
+</div>
+<div id="modal"><div id="mbox"><button id="m-x">&#10005;</button><div id="m-ico"></div><div id="m-tit"></div><div id="m-sub"></div><div id="m-dsc"></div><div id="m-quo"></div><div id="m-act"></div></div></div>
+<div id="stats-modal"><div id="stats-inner">
+  <button id="s-close" onclick="toggleStats()">&#10005;</button><h3>STATISTICHE</h3>
+  <svg viewBox="0 0 200 200" width="180" height="180" style="display:block;margin:0 auto 10px;">
+    <polygon points="100,10 181,68 152,165 48,165 19,68" fill="none" stroke="#eee" stroke-width="1"/>
+    <polygon points="100,37 158,79 137,151 63,151 42,79" fill="none" stroke="#eee" stroke-width="1"/>
+    <polygon points="100,64 135,90 122,137 78,137 65,90" fill="none" stroke="#eee" stroke-width="1"/>
+    <line x1="100" y1="10" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/><line x1="181" y1="68" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+    <line x1="152" y1="165" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/><line x1="48" y1="165" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+    <line x1="19" y1="68" x2="100" y2="100" stroke="#eee" stroke-width="0.5"/>
+    <polygon id="radar-area" points="100,10 181,68 152,165 48,165 19,68" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="2"/>
+    <text x="100" y="6" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">FORZA</text>
+    <text x="190" y="70" text-anchor="start" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">QI</text>
+    <text x="162" y="178" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">MOTIV</text>
+    <text x="38" y="178" text-anchor="middle" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">SPIRITO</text>
+    <text x="8" y="70" text-anchor="end" font-size="10" fill="#7B1020" font-family="Rajdhani,sans-serif" font-weight="700">DI</text>
+  </svg>
+  <div class="stats-row">
+    <div class="stat-item"><div class="stat-val" id="s-for">10</div><div class="stat-lbl">FORZA</div></div>
+    <div class="stat-item"><div class="stat-val" id="s-qi">10</div><div class="stat-lbl">QI</div></div>
+    <div class="stat-item"><div class="stat-val" id="s-mot">10</div><div class="stat-lbl">MOTIV</div></div>
+    <div class="stat-item"><div class="stat-val" id="s-spi">10</div><div class="stat-lbl">SPIRITO</div></div>
+    <div class="stat-item"><div class="stat-val" id="s-di">10</div><div class="stat-lbl">DI</div></div>
+  </div>
+</div></div>
+<!-- COLLEZIONE - chiusura con pulsante giallo -->
+<div id="collezione-modal"><div id="coll-sheet">
+  <button id="coll-close-btn" onclick="closeCollezione()">
+    <div class="coll-bar"></div><span class="coll-label">CHIUDI</span><div class="coll-bar"></div>
+  </button>
+  <div style="background:#7B1020;padding:10px 16px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:3px;">COLLEZIONE TRUPPE</div>
+  </div>
+  <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
+</div></div>
+<div id="soldato-modal">
+  <div style="background:#fff;border-radius:12px;width:min(340px,92vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:mIn .2s ease;">
+    <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;gap:12px;position:relative;">
+      <button onclick="closeSoldato()" style="position:absolute;top:8px;right:10px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;">&#10005;</button>
+      <div id="sm-avatar" style="width:64px;height:64px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;overflow:hidden;">&#128100;</div>
+      <div>
+        <div id="sm-ruolo" style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:2px;"></div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <div id="sm-nome" style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:2px;">SOLDATO</div>
+          <div id="sm-elite-badge" style="display:none;background:linear-gradient(135deg,#c0c0c0,#e0e0e0);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#111;">ELITE</div>
+          <div id="sm-legio-badge" style="display:none;background:linear-gradient(135deg,#d4a820,#f0cc50);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#5a3a00;animation:goldshine 2s ease-in-out infinite;">LEGIONARIO</div>
+          <div id="sm-ecce-badge" style="display:none;background:linear-gradient(135deg,#c040e0,#f060ff);border-radius:3px;padding:1px 6px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;color:#fff;animation:eccshine 2s ease-in-out infinite;">ECCEZIONALE</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+          <div style="font-size:9px;color:rgba(255,255,255,0.5);">LV</div>
+          <div id="sm-lv" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;">1</div>
+          <div style="flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden;"><div id="sm-xpbar" style="height:100%;background:#C9A84C;width:20%;border-radius:2px;"></div></div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:12px 14px;border-bottom:1px solid #f0ece0;">
+      <div style="font-size:8px;letter-spacing:3px;color:rgba(120,90,30,0.5);text-transform:uppercase;margin-bottom:8px;">Abilita e Statistiche</div>
+      <div id="sm-mosse" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"></div>
+    </div>
+    <div style="padding:12px 14px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg viewBox="0 0 120 116" width="90" height="87" style="flex-shrink:0;">
+          <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="#eee" stroke-width="1.5"/>
+          <polygon points="60,28 89,48 79,84 41,84 31,48" fill="none" stroke="#eee" stroke-width="1"/>
+          <polygon id="sm-radar-poly" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1.5"/>
+          <circle cx="60" cy="6" r="2.5" fill="#C9A84C"/><circle cx="114" cy="44" r="2.5" fill="#C9A84C"/><circle cx="94" cy="106" r="2.5" fill="#C9A84C"/><circle cx="26" cy="106" r="2.5" fill="#C9A84C"/><circle cx="6" cy="44" r="2.5" fill="#C9A84C"/>
+        </svg>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px;" id="sm-stats-list"></div>
+      </div>
+    </div>
+    <div style="padding:10px 14px 14px;">
+      <button id="sm-replace-btn" style="display:none;width:100%;padding:10px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;">SOSTITUISCI</button>
+    </div>
+  </div>
+</div>
+<div id="replace-modal"><div class="rm-box">
+  <div class="rm-head">
+    <div><div class="rm-title">SOSTITUISCI CARTA</div><div class="rm-sub" id="rm-slot-label"></div></div>
+    <button onclick="closeReplace()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer;">&#10005;</button>
+  </div>
+  <div class="rm-grid" id="rm-grid"></div>
+</div></div>
 <div id="toast"></div>
 
 <script>
-/* =====================
-   DATI BASE
-===================== */
+const MW=1183,MH=1330;
+const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo!","Non sei idoneo!","Ti devi muovere!","Sei massiccio!","Eccezzionale!","Serra piombo!","Jonny andiamo!","Weee naja!","Cagnaccio!","Vecchio!","Liberta per gli ultra!"];
+const player={nome:'',cognome:'',forza:10,spirito:10,di:10,motiv:10,qi:10,giorno:1};
+let scaleX=1,scaleY=1,currentTab='caserma';
 
-const MW=1183;
-const MH=1330;
-
-const FRASI=[
-  "Vai a terra!",
-  "Pompa!",
-  "Stai sul pezzo!",
-  "Non sei idoneo alla vita!",
-  "Ti devi muovere!",
-  "Sei massiccio!",
-  "Eccezionale!",
-  "Serra piombo!",
-  "Weee naja!",
-  "Cagnaccio!",
-  "Vecchio!"
-];
-
-const player={
-  nome:'',
-  cognome:'',
-  forza:10,
-  spirito:10,
-  di:10,
-  motiv:10,
-  qi:10,
-  giorno:1
-};
-
-let scaleX=1;
-let scaleY=1;
-let currentTab='caserma';
-
-const TROOP_STATS={
-  normale:{
-    hp:80,
-    vel:.55,
-    prec:.55,
-    danno:9,
-    cadenza:1500,
-    tipo:'fucile'
-  },
-  elite:{
-    hp:105,
-    vel:.62,
-    prec:.68,
-    danno:13,
-    cadenza:1300,
-    tipo:'fucile'
-  },
-  legionario:{
-    hp:135,
-    vel:.66,
-    prec:.78,
-    danno:17,
-    cadenza:1150,
-    tipo:'fucile'
-  },
-  eccezionale:{
-    hp:175,
-    vel:.75,
-    prec:.88,
-    danno:24,
-    cadenza:900,
-    tipo:'fucile'
-  },
-  mortaio:{
-    hp:85,
-    vel:.28,
-    prec:.45,
-    danno:42,
-    cadenza:3600,
-    tipo:'mortaio'
-  }
-};
-
-function getUnitStroke(card){
-  if(card.ecce) return {color:'#ff00ff',width:3.5};
-  if(card.legio) return {color:'#FFD700',width:3.5};
-  if(card.elite) return {color:'#bfc0c0',width:3};
-  return {color:'rgba(120,200,255,0.75)',width:2};
+/* ===== SUONI ===== */
+let audioCtx=null;
+function getACtx(){if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}return audioCtx;}
+function playShot(type){
+  const ctx=getACtx();if(!ctx)return;
+  try{
+    const buf=ctx.createBuffer(1,ctx.sampleRate*0.08,ctx.sampleRate);
+    const d=buf.getChannelData(0);
+    const decay=type==='sniper'?18:type==='mortaio'?7:32;
+    for(let i=0;i<d.length;i++){const t=i/ctx.sampleRate;d[i]=(Math.random()*2-1)*Math.exp(-t*decay)*0.5;}
+    const src=ctx.createBufferSource();src.buffer=buf;
+    const g=ctx.createGain();g.gain.value=type==='mortaio'?0.45:0.22;
+    src.connect(g);g.connect(ctx.destination);src.start();
+  }catch(e){}
 }
+
+/* ===== RUOLI ===== */
+const ROLE_DEF={
+  rifleman:     {label:'Fuciliere',    hp:80, vel:0.70,prec:0.55,danno:9, cad:1500,engR:0.28,wLen:18,wThick:2},
+  machinegunner:{label:'Mitragliere',  hp:90, vel:0.55,prec:0.45,danno:7, cad:700, engR:0.28,wLen:26,wThick:3.5},
+  marksman:     {label:'Tiratore scelto',hp:75,vel:0.55,prec:0.75,danno:16,cad:1800,engR:0.28,wLen:28,wThick:1.8},
+  sniper:       {label:'Sniper',       hp:65, vel:0.38,prec:0.88,danno:26,cad:2600,engR:0.40,wLen:36,wThick:1.5},
+  mortarman:    {label:'Mortaista',    hp:70, vel:0.30,prec:0.45,danno:42,cad:3600,engR:0.55,wLen:14,wThick:5},
+  medic:        {label:'Combat Medic', hp:75, vel:0.55,prec:0.45,danno:5, cad:1600,engR:0.28,wLen:14,wThick:2,healRate:0.04},
+  tanker:       {label:'Carrista',     hp:180,vel:0.25,prec:0.55,danno:32,cad:2600,engR:0.30,wLen:28,wThick:3},
+};
+
+function assignRole(card,idx){
+  if(card.tipoTruppa==='mortaio') return 'mortarman';
+  if(card.ecce) return idx%2===0?'sniper':'marksman';
+  if(card.legio) return idx%2===0?'marksman':'rifleman';
+  if(card.elite) return ['machinegunner','marksman','rifleman'][idx%3];
+  return ['rifleman','rifleman','machinegunner','marksman','medic','rifleman'][idx%6];
+}
+
+/* ===== DATI CARTE ===== */
+const squadraData=[
+  {nome:'LACAN',ruolo:'Soldato Semplice',lv:1,xp:15,forza:11,qi:10,motiv:9,spirito:11,di:10,tipoTruppa:'normale',mosse:[{nome:'Fuoco Naja',atk:8},{nome:'Orientamento Assente',atk:4},{nome:'Esaurimento',atk:6},{nome:'Sigaretta Fichetta',atk:3}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/195A7AB0-5F41-4D88-8908-44BE45EB2339.png'},
+  {nome:'SONNY THE PARATROOPER',ruolo:'Soldato Semplice',lv:1,xp:20,forza:10,qi:11,motiv:14,spirito:12,di:10,tipoTruppa:'normale',mosse:[{nome:'Piegamenti',atk:7},{nome:'Fuga dalla Valle',atk:5},{nome:'Sputo Lontano',atk:6},{nome:'Passo del Leopardo',atk:9}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5180A3B8-0E69-45CB-A7D0-DF56A79B1343.png'},
+  {nome:'CAVADDU',ruolo:'Soldato Semplice',lv:1,xp:10,forza:12,qi:9,motiv:11,spirito:10,di:11,tipoTruppa:'normale',mosse:[{nome:'Scarpone Pesante',atk:10},{nome:'Braccio di Ferro',atk:8},{nome:'Mossa Alcolica',atk:6},{nome:'Sigaro Pesante',atk:5}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5858ECB1-25D9-4EB5-927E-5ADC6BD28D26.png'},
+  {nome:'HUGLY DIGGER',ruolo:'Soldato Semplice',lv:1,xp:8,forza:14,qi:8,motiv:10,spirito:9,di:12,tipoTruppa:'normale',mosse:[{nome:'Scava Tasso',atk:7},{nome:'Schaffo del Paraca',atk:12},{nome:'Bomba a Mano',atk:15},{nome:'Puzzo di Morte',atk:8}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C7A82DCE-09D3-45B2-A9B8-E77B8AB64BB7.png'},
+  {nome:'KASKOMATOM',ruolo:'Soldato Semplice',lv:1,xp:12,forza:10,qi:12,motiv:11,spirito:10,di:13,tipoTruppa:'normale',mosse:[{nome:'Tappacessi',atk:6},{nome:'Sturacessi',atk:6},{nome:'Multiuso',atk:9},{nome:'Forza del Monte',atk:11}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D423AE7B-E843-4B09-9722-AE44A25E1A43.png'},
+  {nome:'FUNNYBOY',ruolo:'Soldato Semplice',lv:1,xp:18,forza:9,qi:10,motiv:13,spirito:13,di:9,tipoTruppa:'normale',mosse:[{nome:'Fascino',atk:5},{nome:'Fantasma',atk:8},{nome:'Lupo Grigio',atk:10},{nome:'Graffio del Gattino',atk:7}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E314AAA3-3066-4467-9FFB-AFC02998F90D.png'},
+];
+const eliteData=[
+  {nome:'SOLDATO MOSTRO GIU GIU',ruolo:'Elite',lv:3,xp:45,forza:17,qi:9,motiv:14,spirito:12,di:15,tipoTruppa:'elite',mosse:[{nome:'Schaffo del Paraca',atk:18},{nome:'Bomba a Mano',atk:22},{nome:'Puzzo di Morte',atk:14},{nome:'Fuoco Naja',atk:16}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/938AC1FB-D867-4415-9396-721C033C8380.png',elite:true},
+  {nome:'BAU BAU',ruolo:'Elite',lv:3,xp:60,forza:15,qi:13,motiv:11,spirito:14,di:16,tipoTruppa:'elite',mosse:[{nome:'Lupo Grigio',atk:16},{nome:'Fantasma',atk:14},{nome:'Passo del Leopardo',atk:18},{nome:'Scava Tasso',atk:12}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DF448FA1-2FE5-4D32-B19A-0E737B6AE2F2.png',elite:true},
+  {nome:'MENDEL',ruolo:'Elite',lv:3,xp:55,forza:18,qi:11,motiv:13,spirito:10,di:14,tipoTruppa:'mortaio',mosse:[{nome:'Forza del Monte',atk:30},{nome:'Braccio di Ferro',atk:25},{nome:'Scarpone Pesante',atk:20},{nome:'Mortaio Pesante',atk:50}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C15ADB13-D46F-40E9-816C-584DE83F0D8D.png',elite:true},
+  {nome:'GATTUSARDU',ruolo:'Elite',lv:3,xp:50,forza:14,qi:15,motiv:16,spirito:13,di:17,tipoTruppa:'elite',mosse:[{nome:'Graffio del Gattino',atk:15},{nome:'Fascino',atk:12},{nome:'Mossa Alcolica',atk:14},{nome:'Sigaro Pesante',atk:10}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/BE59E4A0-977C-4003-ABC1-876453330D32.png',elite:true},
+  {nome:'DOMINIK',ruolo:'Elite',lv:3,xp:48,forza:13,qi:14,motiv:16,spirito:12,di:13,tipoTruppa:'elite',mosse:[{nome:'Mossa Alcolica',atk:14},{nome:'Fascino',atk:12},{nome:'Fuga dalla Valle',atk:16},{nome:'Sputo Lontano',atk:10}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8B8145C7-F9DE-4DE0-BC58-2F81A74CA4CE.png',elite:true},
+  {nome:'MACHO DIGGER',ruolo:'Elite',lv:3,xp:52,forza:19,qi:10,motiv:12,spirito:11,di:15,tipoTruppa:'elite',mosse:[{nome:'Scava Tasso',atk:16},{nome:'Braccio di Ferro',atk:18},{nome:'Scarpone Pesante',atk:14},{nome:'Forza del Monte',atk:20}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C5A990F4-89E0-48E5-9C74-648C2391D095.png',elite:true},
+];
+const legioData=[
+  {nome:'FRANKIE BLUE',ruolo:'Legionario',lv:5,xp:80,forza:15,qi:17,motiv:14,spirito:16,di:18,tipoTruppa:'legionario',mosse:[{nome:'Fantasma',atk:22},{nome:'Passo del Leopardo',atk:24},{nome:'Orientamento Assente',atk:16},{nome:'Fuoco Naja',atk:20}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/82D42B3B-8AA0-4AB1-B4C3-0410AF76D752.png',legio:true},
+  {nome:'DECIO',ruolo:'Legionario',lv:5,xp:75,forza:17,qi:15,motiv:18,spirito:13,di:16,tipoTruppa:'legionario',mosse:[{nome:'Schaffo del Paraca',atk:24},{nome:'Bomba a Mano',atk:28},{nome:'Lupo Grigio',atk:20},{nome:'Forza del Monte',atk:22}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/7D62F215-1B50-40C9-B60B-E71D6B1D2E5E.png',legio:true},
+  {nome:'ARMANDO',ruolo:'Legionario',lv:5,xp:90,forza:16,qi:18,motiv:15,spirito:17,di:14,tipoTruppa:'legionario',mosse:[{nome:'Fantasma',atk:20},{nome:'Graffio del Gattino',atk:22},{nome:'Multiuso',atk:18},{nome:'Sturacessi',atk:16}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/1E90A1F2-E03F-4CCD-AA43-5A2E6268E21B.png',legio:true},
+  {nome:'DINAMITARO',ruolo:'Legionario',lv:5,xp:85,forza:18,qi:14,motiv:17,spirito:12,di:19,tipoTruppa:'mortaio',mosse:[{nome:'Bomba a Mano',atk:28},{nome:'Tappacessi',atk:18},{nome:'Scava Tasso',atk:20},{nome:'Mortaio Pesante',atk:55}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D4EB0AF0-9F22-4531-88C5-39A9DFE6F3DF.png',legio:true},
+  {nome:'FILUEFERRU',ruolo:'Legionario',lv:5,xp:88,forza:16,qi:13,motiv:19,spirito:17,di:15,tipoTruppa:'legionario',mosse:[{nome:'Fuoco Naja',atk:20},{nome:'Fuga dalla Valle',atk:22},{nome:'Fascino',atk:18},{nome:'Graffio del Gattino',atk:24}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/54926765-D9FF-4CE2-BFCA-BEA26D3A0DA1.png',legio:true},
+];
+const ecceData=[{nome:'GAAR',ruolo:'Eccezionale',lv:8,xp:99,forza:19,qi:19,motiv:20,spirito:18,di:20,tipoTruppa:'eccezionale',mosse:[{nome:'Fascino',atk:35},{nome:'Lupo Grigio',atk:30},{nome:'Schaffo del Paraca',atk:40},{nome:'Fuoco Naja',atk:28}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DA827B70-4C54-4CFC-B898-C7F675CAE15D.png',ecce:true}];
+const tutteCarte=[...squadraData,...eliteData,...legioData,...ecceData];
+
+const TROOP_STATS={normale:{hp:60,vel:0.5,prec:0.52,danno:8,cadenza:1800,tipo:'fucile'},elite:{hp:100,vel:0.6,prec:0.72,danno:14,cadenza:1400,tipo:'fucile'},legionario:{hp:140,vel:0.7,prec:0.82,danno:20,cadenza:1200,tipo:'fucile'},eccezionale:{hp:200,vel:0.8,prec:0.92,danno:28,cadenza:900,tipo:'fucile'},mortaio:{hp:80,vel:0.3,prec:0.42,danno:50,cadenza:3500,tipo:'mortaio'}};
 
 function getInitials(cards){
-  const count={};
-  cards.forEach(c=>{
-    const k=c.nome.replace(/\s+/g,'').substring(0,3).toUpperCase();
-    count[k]=(count[k]||0)+1;
-  });
-  const used={};
-  return cards.map(c=>{
-    const k=c.nome.replace(/\s+/g,'').substring(0,3).toUpperCase();
-    used[k]=(used[k]||0)+1;
-    return count[k]>1?k+'*':k;
-  });
+  const count={};cards.forEach(c=>{const k=c.nome.replace(/\s+/g,'').substring(0,3).toUpperCase();count[k]=(count[k]||0)+1;});
+  const used={};return cards.map(c=>{const k=c.nome.replace(/\s+/g,'').substring(0,3).toUpperCase();used[k]=(used[k]||0)+1;return count[k]>1?k+'*':k;});
 }
+function shuffle(a){return[...a].sort(()=>Math.random()-0.5);}
+function getRandCards(pool,n){return shuffle(pool).slice(0,Math.min(n,pool.length));}
 
-/* =====================
-   CARTE
-===================== */
-
-const squadraData=[
-  {
-    nome:'LACAN',
-    ruolo:'Soldato Semplice',
-    lv:1,
-    xp:15,
-    forza:11,
-    qi:10,
-    motiv:9,
-    spirito:11,
-    di:10,
-    tipoTruppa:'normale',
-    mosse:[{nome:'Fuoco Naja',atk:8}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/195A7AB0-5F41-4D88-8908-44BE45EB2339.png'
-  },
-  {
-    nome:'SONNY THE PARATROOPER',
-    ruolo:'Soldato Semplice',
-    lv:1,
-    xp:20,
-    forza:10,
-    qi:11,
-    motiv:14,
-    spirito:12,
-    di:10,
-    tipoTruppa:'normale',
-    mosse:[{nome:'Piegamenti',atk:7}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5180A3B8-0E69-45CB-A7D0-DF56A79B1343.png'
-  },
-  {
-    nome:'CAVADDU',
-    ruolo:'Soldato Semplice',
-    lv:1,
-    xp:10,
-    forza:12,
-    qi:9,
-    motiv:11,
-    spirito:10,
-    di:11,
-    tipoTruppa:'normale',
-    mosse:[{nome:'Scarpone Pesante',atk:10}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/5858ECB1-25D9-4EB5-927E-5ADC6BD28D26.png'
-  },
-  {
-    nome:'HUGLY DIGGER',
-    ruolo:'Soldato Semplice',
-    lv:1,
-    xp:8,
-    forza:14,
-    qi:8,
-    motiv:10,
-    spirito:9,
-    di:12,
-    tipoTruppa:'normale',
-    mosse:[{nome:'Scava Tasso',atk:7}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C7A82DCE-09D3-45B2-A9B8-E77B8AB64BB7.png'
-  },
-  {
-    nome:'KASKOMATOM',
-    ruolo:'Soldato Semplice',
-    lv:1,
-    xp:12,
-    forza:10,
-    qi:12,
-    motiv:11,
-    spirito:10,
-    di:13,
-    tipoTruppa:'normale',
-    mosse:[{nome:'Multiuso',atk:9}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D423AE7B-E843-4B09-9722-AE44A25E1A43.png'
-  },
-  {
-    nome:'FUNNYBOY',
-    ruolo:'Soldato Semplice',
-    lv:1,
-    xp:18,
-    forza:9,
-    qi:10,
-    motiv:13,
-    spirito:13,
-    di:9,
-    tipoTruppa:'normale',
-    mosse:[{nome:'Fascino',atk:5}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E314AAA3-3066-4467-9FFB-AFC02998F90D.png'
-  }
-];
-
-const eliteData=[
-  {
-    nome:'SOLDATO MOSTRO GIU GIU',
-    ruolo:'Elite',
-    lv:3,
-    xp:45,
-    forza:17,
-    qi:9,
-    motiv:14,
-    spirito:12,
-    di:15,
-    tipoTruppa:'elite',
-    mosse:[{nome:'Schiaffo',atk:18}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/938AC1FB-D867-4415-9396-721C033C8380.png',
-    elite:true
-  },
-  {
-    nome:'BAU BAU',
-    ruolo:'Elite',
-    lv:3,
-    xp:60,
-    forza:15,
-    qi:13,
-    motiv:11,
-    spirito:14,
-    di:16,
-    tipoTruppa:'elite',
-    mosse:[{nome:'Lupo',atk:16}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DF448FA1-2FE5-4D32-B19A-0E737B6AE2F2.png',
-    elite:true
-  },
-  {
-    nome:'MENDEL',
-    ruolo:'Elite',
-    lv:3,
-    xp:55,
-    forza:18,
-    qi:11,
-    motiv:13,
-    spirito:10,
-    di:14,
-    tipoTruppa:'mortaio',
-    mosse:[{nome:'Mortaio',atk:50}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C15ADB13-D46F-40E9-816C-584DE83F0D8D.png',
-    elite:true
-  },
-  {
-    nome:'GATTUSARDU',
-    ruolo:'Elite',
-    lv:3,
-    xp:50,
-    forza:14,
-    qi:15,
-    motiv:16,
-    spirito:13,
-    di:17,
-    tipoTruppa:'elite',
-    mosse:[{nome:'Graffio',atk:15}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/BE59E4A0-977C-4003-ABC1-876453330D32.png',
-    elite:true
-  },
-  {
-    nome:'DOMINIK',
-    ruolo:'Elite',
-    lv:3,
-    xp:48,
-    forza:13,
-    qi:14,
-    motiv:16,
-    spirito:12,
-    di:13,
-    tipoTruppa:'elite',
-    mosse:[{nome:'Fuga',atk:16}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8B8145C7-F9DE-4DE0-BC58-2F81A74CA4CE.png',
-    elite:true
-  },
-  {
-    nome:'MACHO DIGGER',
-    ruolo:'Elite',
-    lv:3,
-    xp:52,
-    forza:19,
-    qi:10,
-    motiv:12,
-    spirito:11,
-    di:15,
-    tipoTruppa:'elite',
-    mosse:[{nome:'Scava',atk:16}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C5A990F4-89E0-48E5-9C74-648C2391D095.png',
-    elite:true
-  }
-];
-
-const legioData=[
-  {
-    nome:'FRANKIE BLUE',
-    ruolo:'Legionario',
-    lv:5,
-    xp:80,
-    forza:15,
-    qi:17,
-    motiv:14,
-    spirito:16,
-    di:18,
-    tipoTruppa:'legionario',
-    mosse:[{nome:'Fantasma',atk:22}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/82D42B3B-8AA0-4AB1-B4C3-0410AF76D752.png',
-    legio:true
-  },
-  {
-    nome:'DECIO',
-    ruolo:'Legionario',
-    lv:5,
-    xp:75,
-    forza:17,
-    qi:15,
-    motiv:18,
-    spirito:13,
-    di:16,
-    tipoTruppa:'legionario',
-    mosse:[{nome:'Bomba',atk:28}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/7D62F215-1B50-40C9-B60B-E71D6B1D2E5E.png',
-    legio:true
-  },
-  {
-    nome:'DINAMITARO',
-    ruolo:'Legionario',
-    lv:5,
-    xp:85,
-    forza:18,
-    qi:14,
-    motiv:17,
-    spirito:12,
-    di:19,
-    tipoTruppa:'mortaio',
-    mosse:[{nome:'Mortaio',atk:55}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D4EB0AF0-9F22-4531-88C5-39A9DFE6F3DF.png',
-    legio:true
-  }
-];
-
-const ecceData=[
-  {
-    nome:'GAAR',
-    ruolo:'Eccezionale',
-    lv:8,
-    xp:99,
-    forza:19,
-    qi:19,
-    motiv:20,
-    spirito:18,
-    di:20,
-    tipoTruppa:'eccezionale',
-    mosse:[{nome:'Fuoco Naja',atk:28}],
-    img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DA827B70-4C54-4CFC-B898-C7F675CAE15D.png',
-    ecce:true
-  }
-];
-
-const tutteCarte=[
-  ...squadraData,
-  ...eliteData,
-  ...legioData,
-  ...ecceData
-];
-
-function preloadCardImages(){
-  tutteCarte.forEach(c=>{
-    if(c.img){
-      const img=new Image();
-      img.src=c.img;
-    }
-  });
-}
-preloadCardImages();
-
-/* =====================
-   SFIDANTI
-===================== */
-
+/* ===== SFIDANTI ===== */
 const SFIDANTI=[
-  {
-    id:0,
-    nome:'VFI GENERICO MEDIO',
-    grado:'Volontario in Ferma Iniziale',
-    lvl:'easy',
-    lvlLabel:'FACILE',
-    pool:[...squadraData]
-  },
-  {
-    id:1,
-    nome:'SERGENTE BRUCIAPELO',
-    grado:'Sergente',
-    lvl:'med',
-    lvlLabel:'MEDIO',
-    pool:[...squadraData,...eliteData]
-  },
-  {
-    id:2,
-    nome:'TENENTE COLOMBRELLO',
-    grado:'Tenente',
-    lvl:'hard',
-    lvlLabel:'DIFFICILE',
-    pool:[...tutteCarte]
-  }
+  {id:0,nome:'VFI GENERICO MEDIO',grado:'Volontario in Ferma Iniziale',lvl:'easy',lvlLabel:'FACILE',pool:[...squadraData]},
+  {id:1,nome:'SERGENTE BRUCIAPELO',grado:'Sergente',lvl:'med',lvlLabel:'MEDIO',pool:[...squadraData,...eliteData]},
+  {id:2,nome:'TENENTE COLOMBRELLO',grado:'Tenente',lvl:'hard',lvlLabel:'DIFFICILE',pool:[...tutteCarte]},
 ];
-
-let sfidanteSelezionato=null;
-let sfidanteCorrente=null;
-
-function shuffle(a){
-  return [...a].sort(()=>Math.random()-0.5);
-}
-
-function getRandCards(pool,n){
-  return shuffle(pool).slice(0,Math.min(n,pool.length));
-}
+const TACTICS=['alt2','succ2','alt3','4p2c','2p4c'];
+let sfidanteSelezionato=null,sfidanteCorrente=null;
 
 function buildSfidanti(){
-  const list=document.getElementById('sfidanti-list');
-  list.innerHTML='';
-
+  const list=document.getElementById('sfidanti-list');list.innerHTML='';
   SFIDANTI.forEach(sf=>{
     const prev=getRandCards(sf.pool,6);
-    const inits=getInitials(prev);
-    const mini=prev.map((c,i)=>`
-      <div class="sf-mini-card">
-        ${c.img?`<img src="${c.img}">`:inits[i]}
-      </div>
-    `).join('');
-
     const ni=sf.nome.split(' ').map(w=>w[0]).slice(0,2).join('');
-
-    const div=document.createElement('div');
-    div.className='sfidante-card';
-    div.id='sf-card-'+sf.id;
-
-    div.innerHTML=`
-      <div class="sf-lvl ${sf.lvl}">${sf.lvlLabel}</div>
-      <div class="sf-top">
-        <div class="sf-avatar">${ni}</div>
-        <div>
-          <div class="sf-nome">${sf.nome}</div>
-          <div class="sf-grado">${sf.grado}</div>
-        </div>
-      </div>
-      <div class="sf-mini-grid">${mini}</div>
-    `;
-
-    div.onclick=()=>selezionaSfidante(sf.id);
-    list.appendChild(div);
+    const mini=prev.map(c=>`<div class="sf-mini-card">${c.img?`<img src="${c.img}">`:'?'}</div>`).join('');
+    const div=document.createElement('div');div.className='sfidante-card';div.id='sf-card-'+sf.id;
+    div.innerHTML=`<div class="sf-lvl ${sf.lvl}">${sf.lvlLabel}</div>
+      <div class="sf-top"><div class="sf-avatar">${ni}</div>
+      <div><div class="sf-nome">${sf.nome}</div><div class="sf-grado">${sf.grado}</div></div></div>
+      <div class="sf-mini-grid">${mini}</div>`;
+    div.onclick=()=>selezionaSfidante(sf.id);list.appendChild(div);
   });
 }
-
 function selezionaSfidante(id){
   const was=sfidanteSelezionato===id;
-
-  document.querySelectorAll('.sfidante-card').forEach(c=>{
-    c.classList.remove('selected');
-    const b=c.querySelector('.btn-sfida');
-    if(b)b.remove();
-  });
-
-  if(was){
-    sfidanteSelezionato=null;
-    return;
-  }
-
+  document.querySelectorAll('.sfidante-card').forEach(c=>{c.classList.remove('selected');const b=c.querySelector('.btn-sfida');if(b)b.remove();});
+  if(was){sfidanteSelezionato=null;return;}
   sfidanteSelezionato=id;
-
-  const card=document.getElementById('sf-card-'+id);
-  card.classList.add('selected');
-
-  const btn=document.createElement('button');
-  btn.className='btn-sfida';
-  btn.textContent='SFIDA!';
-  btn.onclick=e=>{
-    e.stopPropagation();
-    apriBattaglia(id);
-  };
-
-  card.appendChild(btn);
+  document.getElementById('sf-card-'+id).classList.add('selected');
+  const btn=document.createElement('button');btn.className='btn-sfida';btn.textContent='SFIDA!';
+  btn.onclick=e=>{e.stopPropagation();apriBattaglia(id);};
+  document.getElementById('sf-card-'+id).appendChild(btn);
 }
 
-/* =====================
-   BATTAGLIA COMPLETA
-===================== */
 
-const BATTLE_MAP='https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/4DBE1F8A-7773-4D32-85E2-6689E24AC470.png';
+/* ===== BATTAGLIA ===== */
+const BMAP='https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/4DBE1F8A-7773-4D32-85E2-6689E24AC470.png';
+let bCanvas,bCtx,bImg=null,bImgLoaded=false;
+let myUnits=[],enemyUnits=[],bullets=[];
+let battleRunning=false,gameOver=false,battleRaf=null,lastTime=0;
+let selectedTactic='alt2',enemyTactic='alt2';
+let bPhase='setup'; // 'setup' | 'fighting'
+let selectedDeployCard=null; // index of selected card in bar
+let placedCount=0;
+let sfidanteCorrente=null,sfidanteSelezionato=null;
+let tacObjects=[],myTrenches=[],enemyTrenches=[];
 
-let bCanvas;
-let bCtx;
-let bImg;
-let bImgLoaded=false;
-
-let myUnits=[];
-let enemyUnits=[];
-let bullets=[];
-let battleCovers=[];
-
-let battleRunning=false;
-let gameOver=false;
-let battleRaf=null;
-let lastTime=0;
-
-let selectedUnit=null;
-let moveMode=false;
-
-let selectedTactic='sbalzo_alternato';
-let enemyTactic='sbalzo_alternato';
-
-const UNIT_R=10;
-const BULLET_R=2.5;
-
-const TACTICS=[
-  'sbalzo_alternato',
-  'sbalzo_successivo',
-  'tre_avanzano',
-  'quattro_avanzano',
-  'due_avanzano',
-  'coppia_copre'
+/* ===== TABS ===== */
+const DOORS=[
+  {id:"pal",x:200,y:210,locked:false,ico:"&#128170;",name:"PALESTRA",sub:"Allenamento",dsc:"Allenamento fisico.",quo:"Sei massiccio!",act:"train"},
+  {id:"spa",x:350,y:190,locked:false,ico:"&#127866;",name:"SPACCIO",sub:"Bar",dsc:"Zona ristoro.",quo:"Weee naja!",act:"bar"},
+  {id:"sup1",x:476,y:190,locked:false,ico:"&#9992;&#65039;",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Area supporto.",quo:"Serra piombo!"},
+  {id:"edif",x:610,y:190,locked:false,ico:"&#128679;",name:"EDIFICIO RIPARAZIONE",sub:"Lavori",dsc:"Riparazione.",quo:"Cagnaccio!"},
+  {id:"comp2",x:780,y:200,locked:false,ico:"&#129686;",name:"2a COMPAGNIA",sub:"Compagnia",dsc:"Seconda compagnia.",quo:"Muti!",act:"battle"},
+  {id:"inf",x:965,y:190,locked:false,ico:"&#127973;",name:"INFERMERIA",sub:"Sanita",dsc:"Infermeria.",quo:"Non sei idoneo!",act:"heal"},
+  {id:"men",x:148,y:388,locked:false,ico:"&#127869;&#65039;",name:"MENSA",sub:"Vitto",dsc:"Mensa.",quo:"Non farti mangiare il cazzo dalle mosche!",act:"eat"},
+  {id:"cin",x:133,y:525,locked:false,ico:"&#127916;",name:"CINEMA",sub:"Svago",dsc:"Cinema.",quo:"Liberta per gli ultra!"},
+  {id:"tem",x:541,y:395,locked:false,ico:"&#128541;",name:"TEMPIO",sub:"Addestramento",dsc:"Tempio.",quo:"Non sei idoneo!",act:"battle"},
+  {id:"piaz",x:777,y:530,locked:false,ico:"&#128169;",name:"PIAZZALE MITICO",sub:"Adunata",dsc:"Piazzale.",quo:"Ti devi muovere!"},
+  {id:"mus",x:990,y:368,locked:false,ico:"&#127963;&#65039;",name:"MUSEO AVIOTRUPPE",sub:"Museo",dsc:"Museo.",quo:"Eccezzionale!"},
+  {id:"uff",x:136,y:675,locked:false,ico:"&#128203;",name:"UFFICIO",sub:"Burocrazia",dsc:"Ufficio.",quo:"Stai a rapporto!"},
+  {id:"cmd",x:284,y:675,locked:false,ico:"&#11088;",name:"COMANDO",sub:"Comando",dsc:"Comando.",quo:"Signorsi!",act:"battle"},
+  {id:"log",x:442,y:675,locked:false,ico:"&#128230;",name:"LOGISTICA",sub:"Magazzino",dsc:"Logistica.",quo:"Stai sul pezzo!"},
+  {id:"comp1",x:702,y:687,locked:false,ico:"&#129686;",name:"1a COMPAGNIA",sub:"Compagnia",dsc:"Prima compagnia.",quo:"Forza!",act:"battle"},
+  {id:"sup2",x:840,y:687,locked:false,ico:"&#9992;&#65039;",name:"SUPPORTO AVIO 2",sub:"Supporto",dsc:"Supporto avio.",quo:"Serra piombo!"},
+  {id:"grd",x:980,y:687,locked:true,ico:"&#128274;",name:"GUARDIE",sub:"Accesso riservato",dsc:"Checkpoint.",quo:"Accesso negato"},
+  {id:"asso",x:185,y:860,locked:false,ico:"&#127941;",name:"ASSO",sub:"Leggenda",dsc:"Asso.",quo:"Ogni tre...",act:"battle"},
+  {id:"torre",x:355,y:740,locked:false,ico:"&#128509;",name:"TORRE DEL PARACA",sub:"Torre",dsc:"Torre.",quo:"IL TORNADO DI FUOCO",act:"battle"},
+  {id:"parch",x:576,y:726,locked:false,ico:"&#128663;",name:"PARCHEGGIO",sub:"Veicoli",dsc:"Parcheggio.",quo:"Vecchio!"},
+  {id:"arm",x:165,y:1005,locked:true,ico:"&#128299;",name:"ARMERIA",sub:"Accesso vietato",dsc:"Armeria.",quo:"Non sei presente!"},
+  {id:"dor",x:140,y:1160,locked:false,ico:"&#128716;",name:"DORMITORIO",sub:"Riposo",dsc:"Dormitorio.",quo:"Che giornata.",act:"sleep"},
+  {id:"torri",x:565,y:960,locked:false,ico:"&#128956;",name:"TORRI",sub:"Lancio",dsc:"Torri lancio.",quo:"Minchia non era legato",act:"train"},
+  {id:"borgo",x:760,y:960,locked:false,ico:"&#127968;",name:"BORGO BELLA NAJA",sub:"Addestrativo",dsc:"Borgo.",quo:"Cane cane cane!"},
 ];
 
-const ROLE_STATS={
-  rifleman:{
-    label:'Fuciliere',
-    hp:80,
-    vel:.55,
-    prec:.55,
-    danno:9,
-    cadenza:1500,
-    range:240,
-    burst:1
-  },
-  machinegunner:{
-    label:'Mitragliere',
-    hp:95,
-    vel:.40,
-    prec:.42,
-    danno:6,
-    cadenza:250,
-    range:250,
-    burst:4
-  },
-  marksman:{
-    label:'Tiratore scelto',
-    hp:76,
-    vel:.45,
-    prec:.75,
-    danno:16,
-    cadenza:1800,
-    range:320,
-    burst:1
-  },
-  sniper:{
-    label:'Sniper',
-    hp:66,
-    vel:.32,
-    prec:.88,
-    danno:27,
-    cadenza:2600,
-    range:390,
-    burst:1
-  },
-  mortarman:{
-    label:'Mortaista',
-    hp:75,
-    vel:.28,
-    prec:.45,
-    danno:42,
-    cadenza:3600,
-    range:370,
-    burst:1
-  },
-  medic:{
-    label:'Combat Medic',
-    hp:78,
-    vel:.50,
-    prec:.45,
-    danno:5,
-    cadenza:1600,
-    range:190,
-    heal:.035,
-    burst:1
-  },
-  tanker:{
-    label:'Carrista',
-    hp:185,
-    vel:.22,
-    prec:.55,
-    danno:34,
-    cadenza:2800,
-    range:310,
-    burst:1
+function switchTab(tab){
+  currentTab=tab;
+  ['caserma','profilo','zaino','combattimento'].forEach(t=>{
+    const el=document.getElementById('tab-'+t);
+    if(el)el.classList.toggle('active',t===tab);
+  });
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const btn=document.getElementById('tbtn-'+tab);if(btn)btn.classList.add('active');
+  if(tab==='caserma')buildMap();
+  if(tab==='profilo'){updateProfiloUI();buildSquadraGrid();}
+  if(tab==='zaino')renderZaino();
+  if(tab==='combattimento')buildSfidanti();
+}
+
+function buildMap(){
+  const wrap=document.getElementById('map-wrap');if(!wrap)return;
+  const mc=document.getElementById('map-container');if(!mc)return;
+  const img=document.getElementById('map-img');
+  const mw=Math.min(mc.clientWidth-8,500),mh=mw*(MH/MW);
+  img.style.width=mw+'px';img.style.height=mh+'px';
+  wrap.style.width=mw+'px';wrap.style.height=mh+'px';
+  scaleX=mw/MW;scaleY=mh/MH;
+  document.querySelectorAll('.door').forEach(e=>e.remove());
+  DOORS.forEach(d=>{
+    const el=document.createElement('div');
+    el.className='door'+(d.locked?' locked':'');
+    if(d.id==='torre')el.classList.add('torre');
+    el.style.left=(d.x*scaleX)+'px';el.style.top=(d.y*scaleY)+'px';
+    const dot=document.createElement('div');dot.className='door-dot';
+    const tip=document.createElement('div');tip.className='door-tip';tip.textContent=d.name;
+    el.appendChild(dot);el.appendChild(tip);
+    el.addEventListener('pointerdown',ev=>{ev.stopPropagation();handleDoor(d);});
+    wrap.appendChild(el);
+  });
+}
+function handleDoor(d){if(d.locked){toast('ACCESSO NEGATO');return;}openModal(d);}
+function openModal(d){
+  document.getElementById('m-ico').innerHTML=d.ico;
+  document.getElementById('m-tit').textContent=d.name;
+  document.getElementById('m-sub').textContent=d.sub;
+  document.getElementById('m-dsc').textContent=d.dsc;
+  document.getElementById('m-quo').textContent='"'+d.quo+'"';
+  const act=document.getElementById('m-act');act.innerHTML='';
+  if(d.act==='battle')addBtn(act,'COMBATTI',true,()=>{closeModal();switchTab('combattimento');});
+  if(d.act==='train')addBtn(act,'ALLENATI',true,()=>{closeModal();doTrain();});
+  if(d.act==='sleep')addBtn(act,'DORMI (+1 giorno)',true,()=>{closeModal();doSleep();});
+  if(d.act==='bar')addBtn(act,'ENTRA',true,()=>{closeModal();doBar();});
+  if(d.act==='eat')addBtn(act,'MANGIA',true,()=>{closeModal();doEat();});
+  if(d.act==='heal')addBtn(act,'RIPOSA',true,()=>{closeModal();doHeal();});
+  addBtn(act,'CHIUDI',false,closeModal);
+  document.getElementById('modal').classList.add('show');
+}
+function addBtn(par,txt,primary,fn){
+  const b=document.createElement('button');
+  b.className='mb '+(primary?'mb-p':'mb-s');
+  b.textContent=txt;b.onclick=fn;par.appendChild(b);
+}
+function closeModal(){document.getElementById('modal').classList.remove('show');}
+document.getElementById('m-x').onclick=closeModal;
+document.getElementById('modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modal'))closeModal();
+});
+function doTrain(){toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
+function doSleep(){
+  player.giorno++;
+  document.getElementById('dv').textContent=player.giorno;
+  document.getElementById('p-giorno').textContent=player.giorno;
+  toast('Hai dormito. Giorno '+player.giorno);
+}
+function doBar(){toast('"Weee naja!"');}
+function doEat(){toast('"Non farti mangiare il cazzo dalle mosche!"');}
+function doHeal(){toast('"Riposa soldato."');}
+
+/* ===== PROFILO ===== */
+function updateProfiloUI(){
+  document.getElementById('p-nome').textContent=(player.nome+' '+player.cognome).toUpperCase();
+  updateRadarMini();
+}
+function updateRadarMini(){
+  const cx=60,cy=58,maxR=52;
+  const stats=[player.forza,player.qi,player.motiv,player.spirito,player.di];
+  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
+  const pts=stats.map((v,i)=>{
+    const r=(v/99)*maxR;
+    return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];
+  });
+  const el=document.getElementById('radar-mini');
+  if(el)el.setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+}
+function toggleStats(){
+  const m=document.getElementById('stats-modal');
+  if(m.style.display==='none'||!m.style.display){updateRadarFull();m.style.display='flex';}
+  else m.style.display='none';
+}
+function updateRadarFull(){
+  const cx=100,cy=100,maxR=90;
+  const stats=[player.forza,player.qi,player.motiv,player.spirito,player.di];
+  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
+  const pts=stats.map((v,i)=>{
+    const r=(v/99)*maxR;
+    return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];
+  });
+  document.getElementById('radar-area').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+  ['for','qi','mot','spi','di'].forEach((id,i)=>document.getElementById('s-'+id).textContent=stats[i]);
+}
+document.getElementById('stats-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('stats-modal'))toggleStats();
+});
+
+/* ===== SQUADRA GRID ===== */
+function buildSquadraGrid(){
+  const grid=document.getElementById('squadra-grid');if(!grid)return;
+  grid.innerHTML='';
+  squadraData.forEach((s,i)=>{
+    const c=document.createElement('div');c.className='carta-pg';
+    c.onclick=()=>openSoldato(i);
+    const imgH=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`:'';
+    c.innerHTML=`<div class="carta-img">${imgH}</div>
+      <div style="padding:3px 4px;">
+        <div class="carta-nome">${s.nome}</div>
+        <div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div>
+      </div>`;
+    grid.appendChild(c);
+  });
+}
+function rinominaSquadra(){
+  const n=prompt('Nome della tua squadra:');
+  if(n&&n.trim())document.getElementById('squadra-nome').textContent=n.trim().toUpperCase();
+}
+
+/* ===== COLLEZIONE ===== */
+function openCollezione(){
+  const grid=document.getElementById('coll-grid');grid.innerHTML='';
+  tutteCarte.forEach((s,i)=>{
+    const c=document.createElement('div');
+    c.className='carta-pg'+(s.ecce?' ecce':s.elite?' elite':s.legio?' legio':'');
+    c.onclick=()=>openSoldatoFromTutte(i);
+    const badge=s.elite?`<div style="font-size:6px;color:#7a8fa0;text-align:center;padding-bottom:3px;text-transform:uppercase;letter-spacing:2px;">ELITE</div>`:
+      s.legio?`<div style="font-size:6px;color:#a07800;text-align:center;padding-bottom:3px;text-transform:uppercase;letter-spacing:2px;">LEGIONARIO</div>`:
+      s.ecce?`<div style="font-size:6px;color:#8a00aa;text-align:center;padding-bottom:3px;text-transform:uppercase;letter-spacing:2px;">ECCEZIONALE</div>`:'';
+    const imgH=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;" loading="lazy">`:'';
+    c.innerHTML=`<div class="carta-img">${imgH}</div>
+      <div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${badge}</div>`;
+    grid.appendChild(c);
+  });
+  document.getElementById('collezione-modal').style.display='flex';
+}
+function closeCollezione(){document.getElementById('collezione-modal').style.display='none';}
+document.getElementById('collezione-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('collezione-modal'))closeCollezione();
+});
+
+/* ===== SOLDATO MODAL ===== */
+function openSoldatoFromTutte(i){openSoldatoData(tutteCarte[i]);}
+function openSoldato(i){openSoldatoData(squadraData[i]);}
+function openSoldatoData(s){
+  if(!s)return;
+  document.getElementById('sm-nome').textContent=s.nome.toUpperCase();
+  document.getElementById('sm-ruolo').textContent=s.ruolo;
+  document.getElementById('sm-elite-badge').style.display=s.elite?'inline-block':'none';
+  document.getElementById('sm-legio-badge').style.display=s.legio?'inline-block':'none';
+  document.getElementById('sm-ecce-badge').style.display=s.ecce?'inline-block':'none';
+  document.getElementById('sm-lv').textContent=s.lv;
+  document.getElementById('sm-xpbar').style.width=s.xp+'%';
+  document.getElementById('sm-avatar').innerHTML=s.img?
+    `<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`:'&#128100;';
+  const st=TROOP_STATS[s.tipoTruppa]||TROOP_STATS.normale;
+  document.getElementById('sm-mosse').innerHTML=s.mosse.map(m=>`
+    <div style="background:#f0ece0;border:1px solid rgba(180,150,80,0.25);border-radius:6px;padding:6px 8px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;letter-spacing:1px;">${m.nome}</div>
+      <div style="font-size:9px;color:rgba(120,80,10,0.6);">ATK ${m.atk}</div>
+    </div>`).join('')+`
+    <div style="background:#e8f4e8;border:1px solid rgba(80,150,80,0.2);border-radius:6px;padding:6px 8px;grid-column:1/-1;margin-top:2px;">
+      <div style="font-size:8px;color:rgba(40,100,40,0.7);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;">Combattimento</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <span style="font-size:9px;color:#2a6a2a;"><b>HP</b> ${st.hp}</span>
+        <span style="font-size:9px;color:#2a6a2a;"><b>VEL</b> ${st.vel}</span>
+        <span style="font-size:9px;color:#2a6a2a;"><b>PREC</b> ${Math.round(st.prec*100)}%</span>
+        <span style="font-size:9px;color:#2a6a2a;"><b>DANNO</b> ${st.danno}</span>
+      </div>
+    </div>`;
+  const cx=60,cy=58,maxR=52,stats=[s.forza,s.qi,s.motiv,s.spirito,s.di];
+  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
+  const pts=stats.map((v,i)=>{
+    const r=(v/20)*maxR;
+    return[(cx+r*Math.cos(angles[i])).toFixed(1),(cy+r*Math.sin(angles[i])).toFixed(1)];
+  });
+  document.getElementById('sm-radar-poly').setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+  const labels=['FORZA','QI','MOTIV','SPIRITO','DI'];
+  document.getElementById('sm-stats-list').innerHTML=labels.map((l,i)=>`
+    <div style="display:flex;align-items:center;gap:6px;">
+      <div style="font-size:8px;color:rgba(120,90,30,0.5);width:36px;letter-spacing:1px;">${l}</div>
+      <div style="flex:1;height:5px;background:#f0ece0;border-radius:3px;overflow:hidden;">
+        <div style="height:100%;background:#C9A84C;width:${(stats[i]/20)*100}%;border-radius:3px;"></div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;width:16px;text-align:right;">${stats[i]}</div>
+    </div>`).join('');
+  const rb=document.getElementById('sm-replace-btn');
+  if(rb){
+    const si=squadraData.indexOf(s);
+    if(si>=0){rb.style.display='block';rb.onclick=()=>{closeSoldato();openReplace(si);};}
+    else rb.style.display='none';
   }
+  document.getElementById('soldato-modal').style.display='flex';
+}
+function closeSoldato(){document.getElementById('soldato-modal').style.display='none';}
+document.getElementById('soldato-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('soldato-modal'))closeSoldato();
+});
+
+/* ===== ZAINO ===== */
+const ZAINO_ITEMS=[
+  {nome:"Pistola Beretta M9",cat:"armi",ico:"&#128299;"},{nome:"Fucile AR70/90",cat:"armi",ico:"&#128299;"},
+  {nome:"Fucile di Precisione",cat:"armi",ico:"&#127919;"},{nome:"Granata a Mano",cat:"armi",ico:"&#128163;"},
+  {nome:"Granata Fumogena",cat:"armi",ico:"&#128168;"},{nome:"Baionetta",cat:"armi",ico:"&#128481;&#65039;"},
+  {nome:"Caricatore 5.56mm",cat:"munizionamento",ico:"&#128993;"},{nome:"Caricatore 9mm",cat:"munizionamento",ico:"&#128993;"},
+  {nome:"Fumogeno Colorato",cat:"munizionamento",ico:"&#128308;"},{nome:"Bengala",cat:"munizionamento",ico:"&#128262;"},
+  {nome:"Kit Pronto Soccorso",cat:"risorse",ico:"&#127973;"},{nome:"Razione K",cat:"risorse",ico:"&#129483;"},
+  {nome:"Borraccia Militare",cat:"risorse",ico:"&#128167;"},{nome:"Elmetto Ballistico",cat:"risorse",ico:"&#9937;"},
+  {nome:"Giubbotto Antiproiettile",cat:"risorse",ico:"&#129470;"},{nome:"Zaino ALICE 80L",cat:"risorse",ico:"&#127920;"},
+  {nome:"Visore Notturno",cat:"gadget",ico:"&#128065;&#65039;"},{nome:"Radio Ricetrasmittente",cat:"gadget",ico:"&#128251;"},
+  {nome:"Torcia Tattica",cat:"gadget",ico:"&#128294;"},{nome:"Bussola",cat:"gadget",ico:"&#129517;"},
+  {nome:"Drone Tascabile",cat:"gadget",ico:"&#128641;"},{nome:"Orologio Militare",cat:"gadget",ico:"&#8987;"},
+  {nome:"Mappa Topografica",cat:"mappe",ico:"&#128506;"},{nome:"Piano Operativo",cat:"mappe",ico:"&#128196;"},
+  {nome:"Rilevamento GPS",cat:"mappe",ico:"&#128225;"},{nome:"Codice Griglia NATO",cat:"mappe",ico:"&#128290;"},
+];
+let zainoCatAttiva="tutto",zainoRicerca="";
+function renderZaino(){
+  const grid=document.getElementById('zaino-grid');if(!grid)return;
+  const items=ZAINO_ITEMS.filter(it=>
+    (zainoCatAttiva==="tutto"||it.cat===zainoCatAttiva)&&
+    (!zainoRicerca||it.nome.toLowerCase().includes(zainoRicerca.toLowerCase()))
+  );
+  grid.innerHTML=items.map(it=>`
+    <div class="zaino-card">
+      <div class="zaino-card-img">${it.ico}</div>
+      <div class="zaino-card-nome">${it.nome}</div>
+      <div class="zaino-card-cat">${it.cat}</div>
+    </div>`).join('');
+}
+function setZainoCat(cat){
+  zainoCatAttiva=cat;
+  document.querySelectorAll('.ztab').forEach(t=>t.classList.toggle('active',t.dataset.cat===cat));
+  renderZaino();
+}
+
+/* ===== FOTO ===== */
+function apriFoto(i){document.getElementById('file'+i).click();}
+function caricaFoto(i,input){
+  if(!input.files||!input.files[0])return;
+  const file=input.files[0],url=URL.createObjectURL(file);
+  const box=document.getElementById('gal'+i);box.innerHTML='';
+  if(file.type.startsWith('video/')){
+    const v=document.createElement('video');v.src=url;
+    v.style.cssText='width:100%;height:100%;object-fit:cover;';
+    v.autoplay=v.muted=v.loop=v.playsInline=true;box.appendChild(v);
+  }else{
+    const img=document.createElement('img');img.src=url;
+    img.style.cssText='width:100%;height:100%;object-fit:cover;';box.appendChild(img);
+  }
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*,video/*';
+  inp.style.display='none';inp.id='file'+i;
+  inp.onchange=function(){caricaFoto(i,this);};box.appendChild(inp);
+}
+
+/* ===== REPLACE ===== */
+let replaceSlotIdx=-1;
+function openReplace(idx){
+  replaceSlotIdx=idx;
+  document.getElementById('rm-slot-label').textContent='Sostituisci: '+squadraData[idx].nome;
+  const grid=document.getElementById('rm-grid');grid.innerHTML='';
+  tutteCarte.forEach((s,i)=>{
+    const inSquad=squadraData.includes(s);
+    const c=document.createElement('div');c.className='rm-card'+(inSquad?' locked-card':'');
+    const imgH=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`:'';
+    c.innerHTML=`<div class="rm-img">${imgH}</div><div class="rm-name">${s.nome}</div>`;
+    if(!inSquad)c.onclick=()=>confirmReplace(s);
+    grid.appendChild(c);
+  });
+  document.getElementById('replace-modal').style.display='flex';
+}
+function confirmReplace(nc){
+  if(replaceSlotIdx<0)return;
+  squadraData[replaceSlotIdx]=nc;closeReplace();buildSquadraGrid();toast('Sostituito: '+nc.nome);
+}
+function closeReplace(){document.getElementById('replace-modal').style.display='none';replaceSlotIdx=-1;}
+document.getElementById('replace-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('replace-modal'))closeReplace();
+});
+
+/* ===== MAPPA MODAL ===== */
+function openMappaModal(){document.getElementById('mappa-modal').style.display='flex';setTimeout(buildMap,80);}
+function closeMappaModal(){document.getElementById('mappa-modal').style.display='none';}
+
+/* ===== GERARCHIA ===== */
+const GERARCHIA=[
+  {grado:'Presidente della Repubblica',nome:'Gen. Arturo Ferrante',ruolo:'Capo Supremo delle Forze Armate',desc:'Massima autorita istituzionale.',storia:'Nato nel 1948 a Napoli. Decorato tre volte.',ico:'&#127988;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/735DA794-892E-488B-98A4-AF76DBB85282.png'},
+  {grado:'Ministro della Difesa',nome:'On. Cristina Valenti',ruolo:'Ministro della Difesa',desc:'Responsabile politica delle Forze Armate.',storia:'Avvocata, ministra a 48 anni. Cita Sun Tzu.',ico:'&#9878;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DBD4324C-62B1-4AD4-B505-7701ABB513C1.png'},
+  {grado:"Generale di Corpo d'Armata",nome:'Gen. Marco Stelvio',ruolo:'Capo di Stato Maggiore della Difesa',desc:'Coordinamento strategico interforze.',storia:'I subalterni lo chiamano Il Granito.',ico:'&#11088;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C99AB79A-48BE-4B6A-8753-177B8AC73034.png'},
+  {grado:"Generale di Corpo d'Armata",nome:'Gen. Bruno Laghetti',ruolo:"Capo di Stato Maggiore dell'Esercito",desc:"Comando dell'Esercito Italiano.",storia:'Un esercito marcia sul ventre.',ico:'&#127894;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B8AFF5AC-11D8-447B-9DE5-EBBE1AE90AFD.png'},
+  {grado:'Generale di Divisione',nome:'Gen. Filippo Caruso',ruolo:'Comando Formazione e Dottrina',desc:"Responsabile dell'addestramento.",storia:'A 62 anni fa ancora 50 flessioni.',ico:'&#128203;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E732C86E-3E18-4CEA-A0A7-F2214E42829C.png'},
+  {grado:'Generale di Brigata',nome:'Gen. Sandro Mura',ruolo:'Comandante Scuola di Fanteria',desc:'Formazione dei soldati.',storia:'Cita Platone durante le marce.',ico:'&#127979;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/410D289C-FD18-4A80-B538-03D7DE29F191.png'},
+  {grado:'Colonnello',nome:'Col. Pietro Savino',ruolo:'Comandante di Reggimento',desc:'Comanda il reggimento.',storia:'Ha saltato oltre 600 volte.',ico:'&#129413;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8D04138C-985E-4FD5-98FC-1A90F93E191C.png'},
+  {grado:'Tenente Colonnello',nome:'Ten.Col. Andrea Beltrame',ruolo:'Comandante di Battaglione',desc:'Coordina le operazioni.',storia:"Il piano d'addestramento copiato da tre unita.",ico:'&#128202;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CCDF1299-997D-411E-A7E2-FC02C9CE0F0B.png'},
+  {grado:'Capitano',nome:'Cap. Lucia Ferretti',ruolo:'Comandante di Compagnia',desc:'Comanda la compagnia.',storia:'Prima donna al comando di una compagnia para.',ico:'&#9889;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B3B7F323-84B9-4BA8-B47A-FD08A8B09C4D.png'},
+  {grado:'Tenente',nome:'Ten. Giacomo Volta',ruolo:'Comandante di Plotone',desc:'Il tuo diretto superiore.',storia:"Ha 26 anni. In orientamento notturno nessuno lo batte.",ico:'&#128301;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/65112C3C-2917-48D6-A593-D169B8AB132E.png'},
+];
+function openGerarchia(){
+  const modal=document.getElementById('gerarchia-modal');
+  const pira=document.getElementById('gerarchia-piramide');pira.innerHTML='';
+  GERARCHIA.forEach((g,i)=>{
+    const w=100-(i*(60/(GERARCHIA.length-1)));
+    const div=document.createElement('div');
+    div.style.cssText=`width:${w}%;margin:0 auto;background:linear-gradient(135deg,#7B1020,#a01828);border-radius:6px;padding:8px 10px;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 6px rgba(0,0,0,0.2);`;
+    div.innerHTML=`<span style="font-size:16px;">${g.ico}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:11px;color:#C9A84C;letter-spacing:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${g.nome}</div>
+        <div style="font-size:8px;color:rgba(255,255,255,0.6);letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${g.grado}</div>
+      </div>`;
+    div.onclick=()=>openGerarchiaCard(i);pira.appendChild(div);
+  });
+  modal.style.display='flex';
+}
+function closeGerarchia(){document.getElementById('gerarchia-modal').style.display='none';}
+function openGerarchiaCard(idx){
+  const g=GERARCHIA[idx];
+  document.getElementById('gc-nome').textContent=g.nome;
+  document.getElementById('gc-grado').textContent=g.grado;
+  document.getElementById('gc-ruolo').textContent=g.ruolo;
+  document.getElementById('gc-desc').textContent=g.desc;
+  document.getElementById('gc-storia').textContent=g.storia;
+  document.getElementById('gc-avatar').innerHTML=g.img?
+    `<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`:'U';
+  gcPage(0);
+  const modal=document.getElementById('gerarchia-card-modal');modal.style.display='flex';
+  modal.onclick=e=>{if(e.target===modal)closeGerarchiaCard();};
+  const box=document.getElementById('gc-box');let sx=0;
+  box.ontouchstart=e=>{sx=e.touches[0].clientX;};
+  box.ontouchend=e=>{
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>40){
+      const cur=document.getElementById('gc-page-1').style.display==='none'?0:1;
+      if(dx<0&&cur===0)gcPage(1);
+      else if(dx>0&&cur===1)gcPage(0);
+      else if(dx>0&&cur===0)closeGerarchiaCard();
+    }
+  };
+}
+function closeGerarchiaCard(){document.getElementById('gerarchia-card-modal').style.display='none';}
+function gcPage(p){
+  document.getElementById('gc-page-0').style.display=p===0?'block':'none';
+  document.getElementById('gc-page-1').style.display=p===1?'block':'none';
+  document.getElementById('gc-dot-0').style.background=p===0?'#C9A84C':'rgba(255,255,255,0.3)';
+  document.getElementById('gc-dot-1').style.background=p===1?'#C9A84C':'rgba(255,255,255,0.3)';
+}
+
+/* ===== TOAST ===== */
+let tt=null;
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';
+  if(tt)clearTimeout(tt);tt=setTimeout(()=>t.style.opacity='0',2800);
+}
+
+/* ===== LOGIN ===== */
+const inN=document.getElementById('inp-nome'),inC=document.getElementById('inp-cogn'),bS=document.getElementById('btn-start');
+function chk(){bS.disabled=!(inN.value.trim()&&inC.value.trim());document.getElementById('err-msg').classList.remove('show');}
+inN.addEventListener('input',chk);inC.addEventListener('input',chk);
+inN.addEventListener('keydown',e=>{if(e.key==='Enter')inC.focus();});
+inC.addEventListener('keydown',e=>{if(e.key==='Enter'&&!bS.disabled)bS.click();});
+bS.addEventListener('click',()=>{
+  const n=inN.value.trim(),co=inC.value.trim();
+  if(!n||!co){document.getElementById('err-msg').classList.add('show');return;}
+  player.nome=n;player.cognome=co;
+  document.getElementById('top-bar-name').textContent='SOLDATO '+co.toUpperCase();
+  document.getElementById('screen-login').style.display='none';
+  document.getElementById('screen-map').classList.add('show');
+  switchTab('caserma');
+  setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+co+'"'),500);
+});
+document.getElementById('bg-login').style.backgroundImage="url('https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/9EC8D5AF-471D-4568-B1EC-6571335CA2EE.png')";
+
+
+/* ===== MOTORE BATTAGLIA ===== */
+
+const BMAP='https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/4DBE1F8A-7773-4D32-85E2-6689E24AC470.png';
+const ROLE_DEF={
+  rifleman:     {label:'Fuciliere',    hp:80, vel:0.70,prec:0.55,danno:9, cad:1500,engR:0.28,wLen:18,wThick:2},
+  machinegunner:{label:'Mitragliere',  hp:90, vel:0.55,prec:0.45,danno:7, cad:700, engR:0.28,wLen:26,wThick:3.5},
+  marksman:     {label:'Tiratore scelto',hp:75,vel:0.55,prec:0.75,danno:16,cad:1800,engR:0.28,wLen:28,wThick:1.8},
+  sniper:       {label:'Sniper',       hp:65, vel:0.38,prec:0.88,danno:26,cad:2600,engR:0.40,wLen:36,wThick:1.5},
+  mortarman:    {label:'Mortaista',    hp:70, vel:0.30,prec:0.45,danno:42,cad:3600,engR:0.55,wLen:14,wThick:5},
+  medic:        {label:'Combat Medic', hp:75, vel:0.55,prec:0.45,danno:5, cad:1600,engR:0.28,wLen:14,wThick:2,healRate:0.04},
+  tanker:       {label:'Carrista',     hp:180,vel:0.25,prec:0.55,danno:32,cad:2600,engR:0.30,wLen:28,wThick:3},
 };
+const TACTICS=['alt2','succ2','alt3','4p2c','2p4c'];
+const TROOP_STATS={normale:{hp:60,vel:0.5,prec:0.52,danno:8,cadenza:1800,tipo:'fucile'},elite:{hp:100,vel:0.6,prec:0.72,danno:14,cadenza:1400,tipo:'fucile'},legionario:{hp:140,vel:0.7,prec:0.82,danno:20,cadenza:1200,tipo:'fucile'},eccezionale:{hp:200,vel:0.8,prec:0.92,danno:28,cadenza:900,tipo:'fucile'},mortaio:{hp:80,vel:0.3,prec:0.42,danno:50,cadenza:3500,tipo:'mortaio'}};
 
-function assignRole(card,i){
-  if(card.tipoTruppa==='mortaio') return 'mortarman';
-  if(card.nome==='CAVADDU' || card.nome.includes('MOSTRO')) return 'tanker';
+let bCanvas,bCtx,bImg=null,bImgLoaded=false;
+let myUnits=[],enemyUnits=[],bullets=[];
+let battleRunning=false,gameOver=false,battleRaf=null,lastTime=0;
+let selectedTactic='alt2',enemyTactic='alt2';
+let dragUnit=null,popupUnit=null,bPhase='setup';
+let tacObjects=[],myTrenches=[],enemyTrenches=[];
+let sfidanteCorrente=null;
 
-  const roles=[
-    'rifleman',
-    'rifleman',
-    'machinegunner',
-    'marksman',
-    'medic',
-    'sniper'
-  ];
-
-  if(card.legio || card.ecce){
-    return i%2===0?'marksman':'sniper';
-  }
-
-  return roles[i%roles.length];
+function setTactic(t){
+  selectedTactic=t;
+  document.querySelectorAll('.tac-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===t));
 }
 
 function apriBattaglia(sfId){
   sfidanteCorrente=SFIDANTI[sfId];
   enemyTactic=TACTICS[Math.floor(Math.random()*TACTICS.length)];
-
   document.getElementById('batt-vs-label').textContent='VS '+sfidanteCorrente.nome;
   document.getElementById('batt-result-overlay').classList.remove('show');
   document.getElementById('btn-avvia-batt').disabled=false;
-  document.getElementById('batt-status').textContent='Schiera: tocca un soldato, poi tocca dove mandarlo';
-
-  gameOver=false;
-  battleRunning=false;
-  selectedUnit=null;
-  moveMode=true;
-  myUnits=[];
-  enemyUnits=[];
-  bullets=[];
-
-  if(battleRaf){
-    cancelAnimationFrame(battleRaf);
-    battleRaf=null;
-  }
-
+  document.getElementById('batt-status').textContent='Posiziona truppe nelle trincee, scegli tattica';
+  gameOver=false;battleRunning=false;dragUnit=null;popupUnit=null;bPhase='setup';
+  myUnits=[];enemyUnits=[];bullets=[];
+  if(battleRaf){cancelAnimationFrame(battleRaf);battleRaf=null;}
   document.getElementById('battaglia-screen').classList.add('show');
   initCanvas();
 }
@@ -2090,684 +1183,301 @@ function apriBattaglia(sfId){
 function initCanvas(){
   bCanvas=document.getElementById('batt-canvas');
   const wrap=document.getElementById('batt-canvas-wrap');
-
-  bCanvas.width=wrap.clientWidth;
-  bCanvas.height=wrap.clientHeight;
-
+  bCanvas.width=wrap.clientWidth;bCanvas.height=wrap.clientHeight;
   bCtx=bCanvas.getContext('2d');
-
-  buildCovers();
-
+  setupTrenches();setupTacObjects();
   if(!bImg){
-    bImg=new Image();
-    bImg.crossOrigin='anonymous';
-
-    bImg.onload=()=>{
-      bImgLoaded=true;
-      spawnUnits();
-      drawAll();
-    };
-
-    bImg.onerror=()=>{
-      bImgLoaded=false;
-      spawnUnits();
-      drawAll();
-    };
-
-    bImg.src=BATTLE_MAP;
-  }else{
-    spawnUnits();
-    drawAll();
-  }
-
-  bCanvas.onpointerdown=canvasDown;
+    bImg=new Image();bImg.crossOrigin='anonymous';
+    bImg.onload=()=>{bImgLoaded=true;spawnUnits();drawAll();};
+    bImg.onerror=()=>{bImgLoaded=false;spawnUnits();drawAll();};
+    bImg.src=BMAP;
+  }else{spawnUnits();drawAll();}
+  bCanvas.addEventListener('pointerdown',onPD);
+  bCanvas.addEventListener('pointermove',onPM);
+  bCanvas.addEventListener('pointerup',onPU);
 }
 
-function rx(v){
-  return bCanvas.width*v;
-}
-
-function ry(v){
-  return bCanvas.height*v;
-}
-
-function buildCovers(){
-  battleCovers=[
-    {
-      type:'trench',
-      side:'mine',
-      x:rx(.08),
-      y:ry(.80),
-      w:rx(.30),
-      h:ry(.06),
-      defense:.10
-    },
-    {
-      type:'trench',
-      side:'mine',
-      x:rx(.62),
-      y:ry(.77),
-      w:rx(.30),
-      h:ry(.06),
-      defense:.10
-    },
-    {
-      type:'trench',
-      side:'enemy',
-      x:rx(.08),
-      y:ry(.12),
-      w:rx(.30),
-      h:ry(.06),
-      defense:.10
-    },
-    {
-      type:'trench',
-      side:'enemy',
-      x:rx(.62),
-      y:ry(.15),
-      w:rx(.30),
-      h:ry(.06),
-      defense:.10
-    },
-    {
-      type:'rock',
-      x:rx(.27),
-      y:ry(.40),
-      r:18,
-      defense:.30
-    },
-    {
-      type:'rock',
-      x:rx(.73),
-      y:ry(.56),
-      r:20,
-      defense:.30
-    },
-    {
-      type:'wood',
-      x:rx(.42),
-      y:ry(.36),
-      r:26,
-      defense:.35
-    },
-    {
-      type:'wood',
-      x:rx(.58),
-      y:ry(.63),
-      r:25,
-      defense:.35
-    },
-    {
-      type:'crescent',
-      x:rx(.70),
-      y:ry(.38),
-      r:30,
-      defense:.25
-    },
-    {
-      type:'crescent',
-      x:rx(.32),
-      y:ry(.61),
-      r:28,
-      defense:.25
-    },
-    {
-      type:'bags',
-      x:rx(.45),
-      y:ry(.48),
-      r:30,
-      defense:.25
-    },
-    {
-      type:'bags',
-      x:rx(.57),
-      y:ry(.50),
-      r:30,
-      defense:.25
-    }
+function setupTrenches(){
+  const W=bCanvas.width,H=bCanvas.height;
+  myTrenches=[
+    {x1:W*0.37,y1:H*0.80,x2:W*0.61,y2:H*0.89},
+    {x1:W*0.65,y1:H*0.80,x2:W*0.97,y2:H*0.89},
+  ];
+  enemyTrenches=[
+    {x1:W*0.37,y1:H*0.10,x2:W*0.61,y2:H*0.19},
+    {x1:W*0.65,y1:H*0.10,x2:W*0.97,y2:H*0.19},
   ];
 }
 
-function coverCenter(c){
-  return {
-    x:c.x+(c.w?c.w/2:0),
-    y:c.y+(c.h?c.h/2:0)
-  };
+function setupTacObjects(){
+  const W=bCanvas.width,H=bCanvas.height;
+  tacObjects=[
+    {type:'sandbags',x:W*0.49,y:H*0.34,w:W*0.10,h:H*0.028,def:0.60},
+    {type:'sandbags',x:W*0.72,y:H*0.37,w:W*0.09,h:H*0.028,def:0.60},
+    {type:'sandbags',x:W*0.44,y:H*0.59,w:W*0.10,h:H*0.028,def:0.60},
+    {type:'sandbags',x:W*0.70,y:H*0.62,w:W*0.09,h:H*0.028,def:0.60},
+    {type:'rock',x:W*0.56,y:H*0.46,r:W*0.028,def:0.55},
+    {type:'rock',x:W*0.80,y:H*0.50,r:W*0.024,def:0.55},
+    {type:'bush',x:W*0.44,y:H*0.44,rx:W*0.038,ry:H*0.030,def:0.45},
+    {type:'bush',x:W*0.76,y:H*0.44,rx:W*0.032,ry:H*0.024,def:0.45},
+    {type:'bush',x:W*0.52,y:H*0.56,rx:W*0.035,ry:H*0.027,def:0.45},
+    {type:'crescent',x:W*0.63,y:H*0.51,r:W*0.030,def:0.50},
+    {type:'crescent',x:W*0.41,y:H*0.49,r:W*0.027,def:0.50},
+  ];
 }
 
-function pointInCover(x,y,c){
-  if(c.w){
-    return x>=c.x && x<=c.x+c.w && y>=c.y && y<=c.y+c.h;
-  }
-  return Math.hypot(x-c.x,y-c.y)<(c.r||24);
+function getObjCenter(o){
+  if(o._custom)return{x:o.x,y:o.y};
+  if(o.type==='sandbags')return{x:o.x+o.w/2,y:o.y+o.h/2};
+  return{x:o.x,y:o.y};
 }
 
-function getCoverAt(x,y){
-  return battleCovers.find(c=>pointInCover(x,y,c))||null;
-}
+function inRect(x,y,r){return x>=r.x1&&x<=r.x2&&y>=r.y1&&y<=r.y2;}
+function inTrench(x,y,trs){return trs.some(t=>inRect(x,y,t));}
 
 function getDefenseAt(x,y){
-  const c=getCoverAt(x,y);
-  return c?c.defense:1;
+  for(const t of[...myTrenches,...enemyTrenches])if(inRect(x,y,t))return 0.10;
+  for(const o of tacObjects){
+    if(o.type==='rock'||o.type==='crescent'){if(Math.hypot(x-o.x,y-o.y)<o.r+5)return 1-o.def;}
+    else if(o.type==='bush'){if(Math.pow((x-o.x)/o.rx,2)+Math.pow((y-o.y)/o.ry,2)<1.3)return 1-o.def;}
+    else if(o.type==='sandbags'){if(x>o.x-5&&x<o.x+o.w+5&&y>o.y-5&&y<o.y+o.h+5)return 1-o.def;}
+  }
+  return 1.0;
 }
 
-function getNearestCover(u){
-  let best=null;
-  let bd=1e9;
-
-  for(const c of battleCovers){
-    if(c.side && c.side!==u.side) continue;
-
-    const cc=coverCenter(c);
-    const d=Math.hypot(cc.x-u.x,cc.y-u.y);
-
-    if(d<bd){
-      bd=d;
-      best=c;
-    }
-  }
-
-  return best;
+function assignRole(card,idx){
+  if(card.tipoTruppa==='mortaio')return 'mortarman';
+  if(card.ecce)return idx%2===0?'sniper':'marksman';
+  if(card.legio)return idx%2===0?'marksman':'rifleman';
+  if(card.elite)return ['machinegunner','marksman','rifleman'][idx%3];
+  return ['rifleman','rifleman','machinegunner','marksman','medic','rifleman'][idx%6];
 }
 
 function spawnUnits(){
-  const mie=squadraData.slice(0,6);
-  const ene=getRandCards(sfidanteCorrente.pool,6);
-
-  myUnits=mie.map((card,i)=>makeUnit(card,i,'mine'));
-  enemyUnits=ene.map((card,i)=>makeUnit(card,i,'enemy'));
-
+  const mieCards=squadraData.slice(0,6);
+  const emCards=getRandCards(sfidanteCorrente.pool,6);
+  myUnits=mieCards.map((card,i)=>{
+    const role=assignRole(card,i);const st=ROLE_DEF[role];
+    const tr=myTrenches[i<3?0:1];
+    const x=tr.x1+((i%3)+0.5)*(tr.x2-tr.x1)/3;const y=(tr.y1+tr.y2)/2;
+    return{card,role,x,y,hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,
+      danno:st.danno,cad:st.cad,engR:st.engR,
+      side:'mine',alive:true,covering:false,moving:false,
+      lastShot:0,pair:['A','A','B','B','C','C'][i],
+      pairRole:i%2===0?'advance':'cover',targetObj:null,stepTimer:0};
+  });
+  enemyUnits=emCards.map((card,i)=>{
+    const role=assignRole(card,i);const st=ROLE_DEF[role];
+    const tr=enemyTrenches[i<3?0:1];
+    const x=tr.x1+((i%3)+0.5)*(tr.x2-tr.x1)/3;const y=(tr.y1+tr.y2)/2;
+    return{card,role,x,y,hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,
+      danno:st.danno,cad:st.cad,engR:st.engR,
+      side:'enemy',alive:true,covering:false,moving:false,
+      lastShot:0,pair:['A','A','B','B','C','C'][i],
+      pairRole:i%2===0?'advance':'cover',targetObj:null,stepTimer:0};
+  });
   updateHUD();
 }
 
-function makeUnit(card,i,side){
-  const role=assignRole(card,i);
-  const st=ROLE_STATS[role];
-  const tr=battleCovers.filter(c=>c.type==='trench'&&c.side===side)[i<3?0:1];
-
-  const x=tr.x+((i%3)+.5)*tr.w/3;
-  const y=tr.y+tr.h/2;
-
-  return {
-    card,
-    role,
-    x,
-    y,
-    targetX:x,
-    targetY:y,
-    hp:st.hp,
-    maxHp:st.hp,
-    vel:st.vel,
-    prec:st.prec,
-    danno:st.danno,
-    cadenza:st.cadenza,
-    range:st.range,
-    burst:st.burst||1,
-    side,
-    alive:true,
-    moving:false,
-    covering:false,
-    lastShot:0,
-    state:'deploy',
-    exposed:0,
-    cover:getCoverAt(x,y)
-  };
+function getCP(e){
+  const r=bCanvas.getBoundingClientRect();
+  return{x:(e.clientX-r.left)*(bCanvas.width/r.width),y:(e.clientY-r.top)*(bCanvas.height/r.height)};
+}
+function findMyUnit(x,y){
+  for(let i=myUnits.length-1;i>=0;i--){
+    const u=myUnits[i];if(!u.alive)continue;if(Math.hypot(u.x-x,u.y-y)<16)return u;
+  }return null;
 }
 
-function canvasDown(e){
-  const p=getCanvasPos(e);
-
-  const mine=findUnitAt(p.x,p.y,myUnits);
-
-  if(mine){
-    selectedUnit=mine;
-    moveMode=true;
-    showUnitCard(mine);
-    drawAll();
-    return;
+function onPD(e){
+  if(gameOver)return;
+  const p=getCP(e);
+  if(bPhase==='setup'){
+    const u=findMyUnit(p.x,p.y);
+    if(u){dragUnit=u;popupUnit=u;showUnitPopup(u,p);drawAll();}
+    else{popupUnit=null;hideUnitPopup();drawAll();}
   }
-
-  if(selectedUnit && moveMode){
-    if(canPlace(selectedUnit,p.x,p.y)){
-      selectedUnit.targetX=p.x;
-      selectedUnit.targetY=p.y;
-      selectedUnit.moving=true;
-
-      if(!battleRunning){
-        selectedUnit.x=p.x;
-        selectedUnit.y=p.y;
-        selectedUnit.cover=getCoverAt(p.x,p.y);
-        popupCover(p.x,p.y,selectedUnit.cover);
-        drawAll();
-      }
-    }
-    return;
-  }
-
-  selectedUnit=null;
-  hideUnitCard();
+}
+function onPM(e){
+  if(!dragUnit||bPhase!=='setup')return;
+  const p=getCP(e);
+  if(inTrench(p.x,p.y,myTrenches)){dragUnit.x=p.x;dragUnit.y=p.y;}
   drawAll();
 }
+function onPU(){dragUnit=null;}
 
-function getCanvasPos(e){
-  const r=bCanvas.getBoundingClientRect();
-
-  return {
-    x:(e.clientX-r.left)*(bCanvas.width/r.width),
-    y:(e.clientY-r.top)*(bCanvas.height/r.height)
-  };
+function showUnitPopup(u,p){
+  const popup=document.getElementById('unit-popup');
+  const st=ROLE_DEF[u.role];
+  document.getElementById('up-name').textContent=u.card.nome;
+  document.getElementById('up-role').textContent=st.label;
+  document.getElementById('up-stats').innerHTML=`HP ${Math.round(u.hp)} &nbsp; PREC ${Math.round(st.prec*100)}%<br>DANNO ${st.danno} &nbsp; COPPIA ${u.pair}`;
+  const W=bCanvas.clientWidth,H=bCanvas.clientHeight;
+  const px=p.x/bCanvas.width*W;const py=p.y/bCanvas.height*H;
+  popup.style.left=Math.min(px+14,W-170)+'px';
+  popup.style.top=Math.max(py-70,2)+'px';
+  popup.classList.add('show');
 }
-
-function canPlace(u,x,y){
-  if(u.side==='mine' && !battleRunning && y<bCanvas.height*.50) return false;
-  if(u.side==='enemy' && !battleRunning && y>bCanvas.height*.50) return false;
-  return true;
-}
-
-function findUnitAt(x,y,list){
-  for(let i=list.length-1;i>=0;i--){
-    const u=list[i];
-
-    if(u.alive && Math.hypot(u.x-x,u.y-y)<=18){
-      return u;
-    }
-  }
-  return null;
-}
-
-function showUnitCard(u){
-  document.getElementById('batt-status').textContent=
-    `${u.card.nome} — ${ROLE_STATS[u.role].label} — ${u.cover?'PROTEZIONE AUMENTATA':'APERTO'}`;
-}
-
-function hideUnitCard(){
-  document.getElementById('batt-status').textContent='Tocca un soldato, poi tocca il punto di movimento';
-}
-
-function popupCover(x,y,c){
-  if(c) toast('PROTEZIONE AUMENTATA');
-}
-
-function toggleMoveMode(){
-  moveMode=!moveMode;
-
-  document.getElementById('batt-status').textContent=
-    moveMode?'Modalità movimento: tocca soldato e punto':'Modalità movimento disattivata';
-}
+function hideUnitPopup(){document.getElementById('unit-popup').classList.remove('show');}
 
 function startBattle(){
-  battleRunning=true;
-  moveMode=true;
-
+  bPhase='fighting';hideUnitPopup();dragUnit=null;popupUnit=null;
   document.getElementById('btn-avvia-batt').disabled=true;
-
-  selectedTactic=document.getElementById('batt-tactic').value;
-
-  prepareTactic(myUnits,selectedTactic);
-  prepareTactic(enemyUnits,enemyTactic);
-
+  document.getElementById('batt-status').textContent='Combattimento in corso';
+  applyTactic(myUnits,selectedTactic);
+  applyTactic(enemyUnits,enemyTactic);
+  assignNextObjs(myUnits,'mine');
+  assignNextObjs(enemyUnits,'enemy');
+  battleRunning=true;
   lastTime=performance.now();
   battleRaf=requestAnimationFrame(gameLoop);
 }
 
-function prepareTactic(units,tactic){
-  units.forEach((u,i)=>{
-    u.covering=false;
-    u.moving=false;
-    u.state='search';
+function applyTactic(units,tactic){
+  const alive=units.filter(u=>u.alive);
+  const pMap={};alive.forEach(u=>{if(!pMap[u.pair])pMap[u.pair]=[];pMap[u.pair].push(u);});
+  Object.values(pMap).forEach(pair=>{pair.forEach((u,ui)=>{u.pairRole=ui===0?'advance':'cover';});});
+  if(tactic==='alt2'){
+    alive.forEach(u=>{u.moving=u.pair==='A'&&u.pairRole==='advance';u.covering=!u.moving;u.stepTimer=u.pair==='B'?2000:u.pair==='C'?4000:0;});
+  }else if(tactic==='succ2'){
+    alive.forEach(u=>{u.moving=u.pairRole==='advance';u.covering=!u.moving;u.stepTimer=['A','B','C'].indexOf(u.pair)*1200;});
+  }else if(tactic==='alt3'){
+    alive.forEach((u,i)=>{u.moving=i<3;u.covering=i>=3;});
+  }else if(tactic==='4p2c'){
+    alive.forEach((u,i)=>{u.moving=i<4;u.covering=i>=4;});
+  }else if(tactic==='2p4c'){
+    alive.forEach((u,i)=>{u.moving=i<2;u.covering=i>=2;});
+  }
+}
 
-    if(tactic==='sbalzo_alternato'){
-      u.moving=i<3;
-      u.covering=i>=3;
-    }
-
-    else if(tactic==='sbalzo_successivo'){
-      u.moving=i%2===0;
-      u.covering=i%2!==0;
-    }
-
-    else if(tactic==='tre_avanzano'){
-      u.moving=i<3;
-      u.covering=i>=3;
-    }
-
-    else if(tactic==='quattro_avanzano'){
-      u.moving=i<4;
-      u.covering=i>=4;
-    }
-
-    else if(tactic==='due_avanzano'){
-      u.moving=i<2;
-      u.covering=i>=2;
-    }
-
-    else if(tactic==='coppia_copre'){
-      u.moving=i<2;
-      u.covering=i>=2 && i<4;
+function assignNextObjs(units,side){
+  const dir=side==='mine'?-1:1;
+  units.filter(u=>u.alive&&u.moving).forEach(u=>{
+    const cands=tacObjects.filter(o=>{const c=getObjCenter(o);return dir===-1?c.y<u.y-20:c.y>u.y+20;})
+      .sort((a,b)=>Math.hypot(getObjCenter(a).x-u.x,getObjCenter(a).y-u.y)-Math.hypot(getObjCenter(b).x-u.x,getObjCenter(b).y-u.y));
+    if(cands.length){u.targetObj=cands[0];}
+    else{
+      const tr=side==='mine'?enemyTrenches[0]:myTrenches[0];
+      u.targetObj={_custom:true,x:tr.x1+(tr.x2-tr.x1)*(0.25+Math.random()*0.5),y:(tr.y1+tr.y2)/2};
     }
   });
 }
 
 function gameLoop(ts){
-  if(!battleRunning) return;
-
-  const dt=Math.min(ts-lastTime,50);
-  lastTime=ts;
-
-  updateBattle(dt);
-  drawAll();
-
-  if(!gameOver){
-    battleRaf=requestAnimationFrame(gameLoop);
-  }
+  if(!battleRunning)return;
+  const dt=Math.min(ts-lastTime,50);lastTime=ts;
+  updateBattle(dt);drawAll();
+  if(!gameOver)battleRaf=requestAnimationFrame(gameLoop);
 }
 
 function updateBattle(dt){
-  updateAI(myUnits,enemyUnits,dt);
-  updateAI(enemyUnits,myUnits,dt);
-
-  medicHeal(myUnits,dt);
-  medicHeal(enemyUnits,dt);
-
-  updateBullets(dt);
-  updateHUD();
-  checkBattleEnd();
-}
-
-function updateAI(units,enemies,dt){
-  units.forEach(u=>{
-    if(!u.alive) return;
-
-    moveStep(u,dt);
-
-    const target=findVisibleEnemy(u,enemies);
-
-    if(!target){
-      if(!u.moving){
-        const c=getNearestCover(u);
-
-        if(c){
-          const cc=coverCenter(c);
-          setTarget(u,cc.x,cc.y);
-        }
-      }
-      return;
-    }
-
-    const d=Math.hypot(target.x-u.x,target.y-u.y);
-
-    if(d<=u.range){
-      u.state='fire';
-      u.exposed+=dt;
-
-      tryShoot(u,target);
-
-      if(u.exposed>1200 && !u.moving){
-        const c=findTacticalCover(u,target);
-
-        if(c){
-          const cc=coverCenter(c);
-          setTarget(u,cc.x,cc.y);
-          u.exposed=0;
-        }
-      }
-    }
-
-    else if(!u.covering && !u.moving){
-      advanceToContact(u,target);
-    }
-  });
-}
-
-function findVisibleEnemy(u,enemies){
-  let best=null;
-  let bd=1e9;
-
-  enemies.forEach(e=>{
-    if(!e.alive) return;
-
-    const d=Math.hypot(e.x-u.x,e.y-u.y);
-    const vision=u.role==='sniper'?430:330;
-
-    if(d<vision && d<bd){
-      bd=d;
-      best=e;
-    }
-  });
-
-  return best;
-}
-
-function advanceToContact(u,target){
-  const c=findForwardCover(u,target);
-
-  if(c){
-    const cc=coverCenter(c);
-    setTarget(u,cc.x,cc.y);
-  }
-
-  else{
-    const dx=target.x-u.x;
-    const dy=target.y-u.y;
-    const d=Math.hypot(dx,dy)||1;
-
-    setTarget(
-      u,
-      u.x+dx/d*55,
-      u.y+dy/d*55
-    );
-  }
-}
-
-function findForwardCover(u,target){
-  let best=null;
-  let score=1e9;
-
-  for(const c of battleCovers){
-    if(c.side && c.side!==u.side) continue;
-
-    const cc=coverCenter(c);
-    const du=Math.hypot(cc.x-u.x,cc.y-u.y);
-    const dt=Math.hypot(cc.x-target.x,cc.y-target.y);
-    const cur=Math.hypot(u.x-target.x,u.y-target.y);
-
-    if(dt<cur+60){
-      const s=du+c.defense*100;
-
-      if(s<score){
-        score=s;
-        best=c;
-      }
-    }
-  }
-
-  return best;
-}
-
-function findTacticalCover(u,target){
-  let best=null;
-  let score=1e9;
-
-  for(const c of battleCovers){
-    if(c.side && c.side!==u.side) continue;
-
-    const cc=coverCenter(c);
-    const du=Math.hypot(cc.x-u.x,cc.y-u.y);
-    const de=Math.hypot(cc.x-target.x,cc.y-target.y);
-
-    const s=du-de*.15+c.defense*250;
-
-    if(s<score){
-      score=s;
-      best=c;
-    }
-  }
-
-  return best;
-}
-
-function setTarget(u,x,y){
-  u.targetX=Math.max(10,Math.min(bCanvas.width-10,x));
-  u.targetY=Math.max(10,Math.min(bCanvas.height-10,y));
-  u.moving=true;
-  u.covering=false;
-}
-
-function moveStep(u,dt){
-  if(!u.moving) return;
-
-  const dx=u.targetX-u.x;
-  const dy=u.targetY-u.y;
-  const d=Math.hypot(dx,dy);
-
-  if(d<3){
-    u.moving=false;
-    u.covering=!!getCoverAt(u.x,u.y);
-    u.cover=getCoverAt(u.x,u.y);
-    return;
-  }
-
-  const sp=u.vel*(dt/16)*1.2;
-
-  u.x+=dx/d*sp;
-  u.y+=dy/d*sp;
-
-  u.cover=getCoverAt(u.x,u.y);
-}
-
-function manualFire(){
-  const shooters=selectedUnit?[selectedUnit]:myUnits;
-
-  shooters.forEach(u=>{
-    if(!u.alive) return;
-
-    const t=findVisibleEnemy(u,enemyUnits);
-
-    if(t){
-      tryShoot(u,t,true);
-    }
-  });
-}
-
-function tryShoot(u,target,manual=false){
   const now=performance.now();
-
-  if(now-u.lastShot<u.cadenza && !manual) return;
-
-  u.lastShot=now;
-
-  const shots=u.role==='machinegunner'?u.burst:1;
-
-  for(let i=0;i<shots;i++){
-    setTimeout(()=>shoot(u,target),i*90);
-  }
-
-  playShot(u.role);
+  moveTactical(myUnits,dt);moveTactical(enemyUnits,dt);
+  checkEngagement(myUnits,enemyUnits,now);
+  checkEngagement(enemyUnits,myUnits,now);
+  updateBullets(dt);
+  healMedics(myUnits,dt);healMedics(enemyUnits,dt);
+  swapPairRoles(myUnits,'mine');swapPairRoles(enemyUnits,'enemy');
+  updateHUD();checkEnd();
 }
 
-function shoot(shooter,target){
-  if(!shooter.alive || !target.alive) return;
-
-  const dx=target.x-shooter.x;
-  const dy=target.y-shooter.y;
-  const d=Math.hypot(dx,dy)||1;
-
-  const speed=shooter.role==='mortarman'?3:
-              shooter.role==='tanker'?4.2:
-              6.5;
-
-  bullets.push({
-    x:shooter.x,
-    y:shooter.y,
-    vx:dx/d*speed,
-    vy:dy/d*speed,
-    side:shooter.side,
-    danno:shooter.danno,
-    prec:shooter.prec,
-    role:shooter.role,
-    life:1500,
-    dead:false
+function moveTactical(units,dt){
+  units.forEach(u=>{
+    if(!u.alive||!u.moving)return;
+    if(u.stepTimer>0){u.stepTimer-=dt;return;}
+    const tgt=u.targetObj?getObjCenter(u.targetObj):{x:u.x,y:u.y};
+    const dx=tgt.x-u.x,dy=tgt.y-u.y,dist=Math.hypot(dx,dy);
+    if(dist<5){u.moving=false;u.covering=true;return;}
+    const spd=u.vel*(dt/16);u.x+=dx/dist*spd;u.y+=dy/dist*spd;
   });
+}
+
+function swapPairRoles(units,side){
+  const pMap={};units.filter(u=>u.alive).forEach(u=>{if(!pMap[u.pair])pMap[u.pair]=[];pMap[u.pair].push(u);});
+  Object.values(pMap).forEach(pair=>{
+    if(pair.every(u=>u.covering&&!u.moving)){
+      pair.forEach(u=>{
+        u.pairRole=u.pairRole==='advance'?'cover':'advance';
+        u.covering=u.pairRole==='cover';u.moving=u.pairRole==='advance';
+        if(u.moving){
+          const dir=side==='mine'?-1:1;
+          const cands=tacObjects.filter(o=>{const c=getObjCenter(o);return dir===-1?c.y<u.y-15:c.y>u.y+15;})
+            .sort((a,b)=>Math.hypot(getObjCenter(a).x-u.x,getObjCenter(a).y-u.y)-Math.hypot(getObjCenter(b).x-u.x,getObjCenter(b).y-u.y));
+          if(cands.length){u.targetObj=cands[0];}
+          else{const tr=side==='mine'?enemyTrenches[0]:myTrenches[0];u.targetObj={_custom:true,x:tr.x1+(tr.x2-tr.x1)*(0.2+Math.random()*0.6),y:(tr.y1+tr.y2)/2};}
+        }
+      });
+    }
+  });
+}
+
+function checkEngagement(shooters,targets,now){
+  shooters.forEach(u=>{
+    if(!u.alive)return;if(now-u.lastShot<u.cad)return;
+    const engDist=u.engR*bCanvas.width;
+    const valid=targets.filter(t=>t.alive&&Math.hypot(t.x-u.x,t.y-u.y)<=engDist);
+    if(!valid.length)return;
+    const target=valid.reduce((a,b)=>Math.hypot(a.x-u.x,a.y-u.y)<Math.hypot(b.x-u.x,b.y-u.y)?a:b);
+    fireBullet(u,target);u.lastShot=now;
+    playShot(u.role==='sniper'?'sniper':u.role==='mortarman'?'mortaio':'rifle');
+  });
+}
+
+function fireBullet(shooter,target){
+  const dx=target.x-shooter.x,dy=target.y-shooter.y,d=Math.hypot(dx,dy)||1;
+  const sp=shooter.role==='mortarman'?3.5:shooter.role==='sniper'?8:6;
+  const spread=shooter.role==='sniper'?0.02:shooter.role==='mortarman'?0.06:0.05;
+  bullets.push({x:shooter.x,y:shooter.y,
+    vx:(dx/d+(Math.random()-0.5)*spread)*sp,vy:(dy/d+(Math.random()-0.5)*spread)*sp,
+    danno:shooter.danno,prec:shooter.prec,side:shooter.side,role:shooter.role,life:1600,dead:false});
 }
 
 function updateBullets(dt){
   bullets.forEach(b=>{
-    b.x+=b.vx*(dt/16);
-    b.y+=b.vy*(dt/16);
-    b.life-=dt;
-
-    if(b.life<=0){
-      b.dead=true;
-      return;
-    }
-
-    const targets=b.side==='mine'?enemyUnits:myUnits;
-
-    targets.forEach(t=>{
-      if(!t.alive) return;
-
-      const hr=(b.role==='mortarman'||b.role==='tanker')?18:UNIT_R+3;
-
+    b.x+=b.vx*(dt/16);b.y+=b.vy*(dt/16);b.life-=dt;
+    if(b.life<=0){b.dead=true;return;}
+    const tgts=b.side==='mine'?enemyUnits:myUnits;
+    tgts.forEach(t=>{
+      if(!t.alive)return;
+      const hr=b.role==='mortarman'?16:10;
       if(Math.hypot(t.x-b.x,t.y-b.y)<=hr){
         if(Math.random()<b.prec){
-          let damage=b.danno;
-          const def=getDefenseAt(t.x,t.y);
-
-          damage*=def;
-
-          if(t.covering) damage*=.70;
-
-          t.hp-=damage;
-
-          if(t.hp<=0){
-            t.hp=0;
-            t.alive=false;
-          }
-        }
-
-        b.dead=true;
+          t.hp-=b.danno*getDefenseAt(t.x,t.y);
+          if(t.hp>0)seekCover(t);
+          if(t.hp<=0){t.hp=0;t.alive=false;}
+        }b.dead=true;
       }
     });
   });
-
   bullets=bullets.filter(b=>!b.dead);
 }
 
-function medicHeal(units,dt){
+function seekCover(u){
+  const nearest=tacObjects.filter(o=>o!==u.targetObj)
+    .sort((a,b)=>Math.hypot(getObjCenter(a).x-u.x,getObjCenter(a).y-u.y)-Math.hypot(getObjCenter(b).x-u.x,getObjCenter(b).y-u.y));
+  if(nearest.length){u.targetObj=nearest[0];u.moving=true;u.covering=false;}
+}
+
+function healMedics(units,dt){
   units.forEach(m=>{
-    if(!m.alive || m.role!=='medic') return;
-
-    units.forEach(u=>{
-      if(!u.alive || u===m) return;
-
-      if(Math.hypot(u.x-m.x,u.y-m.y)<75){
-        u.hp=Math.min(
-          u.maxHp,
-          u.hp+(ROLE_STATS.medic.heal*dt)
-        );
-      }
-    });
+    if(!m.alive||m.role!=='medic')return;
+    units.filter(u=>u.alive&&u!==m&&Math.hypot(u.x-m.x,u.y-m.y)<70).forEach(u=>{
+      u.hp=Math.min(u.maxHp,u.hp+ROLE_DEF.medic.healRate*dt);});
   });
 }
 
-function checkBattleEnd(){
-  const ma=myUnits.some(u=>u.alive);
-  const ea=enemyUnits.some(u=>u.alive);
-
-  if(!ma) endBattle(false);
-  if(!ea) endBattle(true);
+function checkEnd(){
+  const myAlive=myUnits.filter(u=>u.alive).length;
+  const emAlive=enemyUnits.filter(u=>u.alive).length;
+  const myCap=myUnits.filter(u=>u.alive&&inTrench(u.x,u.y,enemyTrenches)).length;
+  const emCap=enemyUnits.filter(u=>u.alive&&inTrench(u.x,u.y,myTrenches)).length;
+  if(!myAlive||emCap>=2)endBattle(false);
+  else if(!emAlive||myCap>=2)endBattle(true);
 }
 
 function endBattle(win){
-  if(gameOver) return;
-
-  gameOver=true;
-  battleRunning=false;
-
-  if(battleRaf){
-    cancelAnimationFrame(battleRaf);
-  }
-
+  if(gameOver)return;gameOver=true;battleRunning=false;
+  if(battleRaf)cancelAnimationFrame(battleRaf);
   document.getElementById('br-title').textContent=win?'VITTORIA!':'SCONFITTA';
   document.getElementById('br-title').style.color=win?'#FFE033':'#ff5555';
   document.getElementById('br-sub').textContent=win?'Hai conquistato Valle Pungione':'Valle Pungione resta in mano nemica';
@@ -2775,1054 +1485,145 @@ function endBattle(win){
 }
 
 function closeBattaglia(){
-  battleRunning=false;
-  gameOver=false;
-
-  if(battleRaf){
-    cancelAnimationFrame(battleRaf);
-  }
-
+  battleRunning=false;gameOver=false;bPhase='setup';
+  if(battleRaf)cancelAnimationFrame(battleRaf);
+  if(bCanvas){bCanvas.removeEventListener('pointerdown',onPD);bCanvas.removeEventListener('pointermove',onPM);bCanvas.removeEventListener('pointerup',onPU);}
   document.getElementById('battaglia-screen').classList.remove('show');
 }
 
-/* =====================
-   DISEGNO BATTAGLIA
-===================== */
-
 function drawAll(){
-  if(!bCtx) return;
-
-  const W=bCanvas.width;
-  const H=bCanvas.height;
-
+  if(!bCtx)return;
+  const W=bCanvas.width,H=bCanvas.height;
   bCtx.clearRect(0,0,W,H);
-
-  if(bImgLoaded && bImg.complete && bImg.naturalWidth>0){
-    bCtx.drawImage(bImg,0,0,W,H);
-  }else{
-    bCtx.fillStyle='#4d7a37';
-    bCtx.fillRect(0,0,W,H);
-  }
-
-  bCtx.fillStyle='rgba(0,0,0,0.08)';
-  bCtx.fillRect(0,0,W,H);
-
-  drawCovers();
-  drawFlags();
-  drawBullets();
-
-  enemyUnits.forEach(u=>{
-    if(u.alive) drawUnit(u);
-  });
-
-  myUnits.forEach(u=>{
-    if(u.alive) drawUnit(u);
-  });
-
-  if(selectedUnit){
-    bCtx.beginPath();
-    bCtx.arc(selectedUnit.x,selectedUnit.y,UNIT_R+8,0,Math.PI*2);
-    bCtx.strokeStyle='#FFE033';
-    bCtx.lineWidth=2;
-    bCtx.stroke();
+  if(bImgLoaded&&bImg.complete&&bImg.naturalWidth>0){bCtx.drawImage(bImg,0,0,W,H);}
+  else{bCtx.fillStyle='#4a7a25';bCtx.fillRect(0,0,W,H);}
+  bCtx.fillStyle='rgba(0,0,0,0.10)';bCtx.fillRect(0,0,W,H);
+  drawTrenches();drawTacObjects();drawFlags();drawBullets();
+  enemyUnits.forEach(u=>{if(u.alive)drawUnit(u);});
+  myUnits.forEach(u=>{if(u.alive)drawUnit(u);});
+  if(bPhase==='setup'&&popupUnit&&popupUnit.alive){
+    bCtx.beginPath();bCtx.arc(popupUnit.x,popupUnit.y,16,0,Math.PI*2);
+    bCtx.strokeStyle='#FFE033';bCtx.lineWidth=2;bCtx.stroke();
   }
 }
 
-function drawCovers(){
-  battleCovers.forEach(c=>{
-    if(c.type==='trench'){
-      bCtx.fillStyle='#5b3a1f';
-      roundRect(c.x,c.y,c.w,c.h,6,true,false);
-
-      bCtx.fillStyle='#b28a5a';
-      roundRect(c.x+6,c.y+6,c.w-12,c.h-12,4,true,false);
-
-      bCtx.strokeStyle='rgba(50,25,10,0.45)';
-      bCtx.lineWidth=2;
-      bCtx.strokeRect(c.x+4,c.y+4,c.w-8,c.h-8);
-    }
-
-    else if(c.type==='rock'){
-      bCtx.fillStyle='#555';
-      bCtx.beginPath();
-      bCtx.arc(c.x,c.y,c.r,0,Math.PI*2);
-      bCtx.fill();
-
-      bCtx.fillStyle='rgba(255,255,255,0.18)';
-      bCtx.beginPath();
-      bCtx.arc(c.x-5,c.y-5,c.r*.35,0,Math.PI*2);
-      bCtx.fill();
-    }
-
-    else if(c.type==='wood'){
-      for(let i=0;i<8;i++){
-        bCtx.strokeStyle=['#4a2d12','#6b3f1b','#8a5a2b'][i%3];
-        bCtx.lineWidth=3;
-        bCtx.beginPath();
-        bCtx.moveTo(c.x-18+i*5,c.y-8+(i%2)*4);
-        bCtx.lineTo(c.x+12+i*2,c.y+9-(i%3)*3);
-        bCtx.stroke();
-      }
-    }
-
-    else if(c.type==='crescent'){
-      bCtx.strokeStyle='#3a332c';
-      bCtx.lineWidth=5;
-      bCtx.beginPath();
-      bCtx.arc(c.x,c.y,c.r,Math.PI*.15,Math.PI*1.15);
-      bCtx.stroke();
-    }
-
-    else if(c.type==='bags'){
-      for(let i=0;i<5;i++){
-        bCtx.fillStyle=i%2?'#b79668':'#d2b98d';
-        roundRect(c.x-18+i*9,c.y-3+(i%2)*2,12,7,3,true,false);
-      }
-    }
-  });
+function drawTrenches(){
+  const drawSet=(trs,labelPfx,strokeClr,fillClr)=>{
+    trs.forEach((t,i)=>{
+      const W=t.x2-t.x1,H=t.y2-t.y1;
+      bCtx.fillStyle=fillClr;bCtx.fillRect(t.x1,t.y1,W,H);
+      bCtx.strokeStyle='rgba(120,85,45,0.35)';bCtx.lineWidth=1;
+      for(let y=t.y1+5;y<t.y2-2;y+=5){bCtx.beginPath();bCtx.moveTo(t.x1+2,y);bCtx.lineTo(t.x2-2,y);bCtx.stroke();}
+      bCtx.strokeStyle=strokeClr;bCtx.lineWidth=2.5;bCtx.strokeRect(t.x1,t.y1,W,H);
+      bCtx.font='bold 8px Rajdhani,sans-serif';bCtx.textAlign='left';
+      bCtx.fillStyle=strokeClr==='#8B4513'?'rgba(255,230,150,0.9)':'rgba(255,100,100,0.9)';
+      bCtx.fillText(labelPfx+(i+1),t.x1+3,t.y1-3);
+    });
+  };
+  drawSet(myTrenches,'TRINCEA ','#8B4513','rgba(195,160,105,0.52)');
+  drawSet(enemyTrenches,'NEMICA ','rgba(220,60,60,0.9)','rgba(180,80,80,0.22)');
 }
 
-function roundRect(x,y,w,h,r,fill,stroke){
-  bCtx.beginPath();
-  bCtx.moveTo(x+r,y);
-  bCtx.arcTo(x+w,y,x+w,y+h,r);
-  bCtx.arcTo(x+w,y+h,x,y+h,r);
-  bCtx.arcTo(x,y+h,x,y,r);
-  bCtx.arcTo(x,y,x+w,y,r);
-
-  if(fill) bCtx.fill();
-  if(stroke) bCtx.stroke();
+function drawTacObjects(){
+  tacObjects.forEach(o=>{
+    bCtx.save();
+    if(o.type==='sandbags'){
+      const nb=Math.max(1,Math.round(o.w/10));
+      for(let i=0;i<nb;i++){
+        bCtx.fillStyle='rgba(205,180,120,0.88)';bCtx.fillRect(o.x+i*10,o.y,9,o.h);
+        bCtx.strokeStyle='rgba(145,115,65,0.7)';bCtx.lineWidth=0.8;bCtx.strokeRect(o.x+i*10,o.y,9,o.h);
+      }
+    }else if(o.type==='rock'){
+      bCtx.beginPath();bCtx.arc(o.x,o.y,o.r,0,Math.PI*2);
+      bCtx.fillStyle='rgba(128,118,108,0.88)';bCtx.fill();
+      bCtx.strokeStyle='rgba(95,85,75,0.7)';bCtx.lineWidth=1.5;bCtx.stroke();
+    }else if(o.type==='bush'){
+      bCtx.beginPath();bCtx.ellipse(o.x,o.y,o.rx,o.ry,0,0,Math.PI*2);
+      bCtx.fillStyle='rgba(48,108,38,0.78)';bCtx.fill();
+      bCtx.strokeStyle='rgba(28,78,18,0.6)';bCtx.lineWidth=1.5;bCtx.stroke();
+      bCtx.strokeStyle='rgba(28,68,18,0.5)';bCtx.lineWidth=1;
+      for(let a=0;a<5;a++){const ang=a*Math.PI*2/5;bCtx.beginPath();bCtx.moveTo(o.x,o.y);bCtx.lineTo(o.x+Math.cos(ang)*o.rx*0.7,o.y+Math.sin(ang)*o.ry*0.7);bCtx.stroke();}
+    }else if(o.type==='crescent'){
+      bCtx.beginPath();bCtx.arc(o.x,o.y,o.r,Math.PI*1.1,Math.PI*1.9);
+      bCtx.lineWidth=o.r*0.55;bCtx.strokeStyle='rgba(168,138,88,0.82)';bCtx.lineCap='round';bCtx.stroke();
+    }
+    bCtx.restore();
+  });
 }
 
 function drawFlags(){
-  drawFlag(bCanvas.width*.94,bCanvas.height*.94,'#050505');
-  drawFlag(bCanvas.width*.94,bCanvas.height*.08,'#c00000');
+  const W=bCanvas.width,H=bCanvas.height;
+  drawFlag(W*0.96,H*0.94,'#111');
+  drawFlag(W*0.96,H*0.06,'#cc0000');
 }
-
 function drawFlag(x,y,color){
-  bCtx.strokeStyle='#ddd';
-  bCtx.lineWidth=2;
-
-  bCtx.beginPath();
-  bCtx.moveTo(x,y);
-  bCtx.lineTo(x,y-28);
-  bCtx.stroke();
-
-  bCtx.fillStyle=color;
-  bCtx.beginPath();
-  bCtx.moveTo(x,y-28);
-  bCtx.lineTo(x+22,y-22);
-  bCtx.lineTo(x,y-16);
-  bCtx.closePath();
-  bCtx.fill();
+  const t=performance.now()/600;
+  bCtx.strokeStyle='rgba(210,210,210,0.7)';bCtx.lineWidth=1.5;
+  bCtx.beginPath();bCtx.moveTo(x,y);bCtx.lineTo(x,y-22);bCtx.stroke();
+  bCtx.fillStyle=color;bCtx.beginPath();
+  bCtx.moveTo(x,y-22);
+  bCtx.bezierCurveTo(x+8,y-22+Math.sin(t)*2,x+17,y-18+Math.sin(t+0.5)*2,x+18,y-17);
+  bCtx.bezierCurveTo(x+17,y-14+Math.sin(t+0.5)*2,x+8,y-12+Math.sin(t)*2,x,y-13);
+  bCtx.closePath();bCtx.fill();
 }
 
 function drawBullets(){
   bullets.forEach(b=>{
     bCtx.beginPath();
-
-    if(b.role==='mortarman' || b.role==='tanker'){
-      bCtx.arc(b.x,b.y,6,0,Math.PI*2);
-      bCtx.fillStyle='#1a0800';
-      bCtx.fill();
-      bCtx.strokeStyle='orange';
-      bCtx.lineWidth=1.5;
-      bCtx.stroke();
-    }
-
-    else{
-      bCtx.arc(b.x,b.y,BULLET_R,0,Math.PI*2);
-      bCtx.fillStyle=b.side==='mine'?'#fff':'#ff3333';
-      bCtx.fill();
-    }
+    if(b.role==='mortarman'){bCtx.arc(b.x,b.y,5,0,Math.PI*2);bCtx.fillStyle='#1a0a00';bCtx.fill();bCtx.strokeStyle='rgba(255,120,0,0.8)';bCtx.lineWidth=1.5;bCtx.stroke();}
+    else{bCtx.arc(b.x,b.y,2.5,0,Math.PI*2);bCtx.fillStyle=b.side==='mine'?'rgba(255,255,255,0.9)':'rgba(255,50,50,0.9)';bCtx.fill();}
   });
 }
 
 function drawUnit(u){
   const isMine=u.side==='mine';
-  const stroke=getUnitStroke(u.card);
-
-  bCtx.save();
-  bCtx.translate(u.x,u.y);
-
-  if(u.role==='tanker'){
-    bCtx.fillStyle=isMine?'rgba(25,25,25,0.95)':'rgba(150,20,20,0.95)';
-    bCtx.fillRect(-14,-9,28,18);
-
-    bCtx.strokeStyle=stroke.color;
-    bCtx.lineWidth=stroke.width;
-    bCtx.strokeRect(-14,-9,28,18);
-
-    bCtx.strokeStyle=isMine?'#fff':'#ffaaaa';
-    bCtx.lineWidth=3;
-    bCtx.beginPath();
-    bCtx.moveTo(0,0);
-    bCtx.lineTo(0,isMine?-26:26);
-    bCtx.stroke();
-  }
-
-  else{
-    bCtx.beginPath();
-    bCtx.arc(0,0,UNIT_R,0,Math.PI*2);
-    bCtx.fillStyle=isMine?'rgba(20,20,20,0.96)':'rgba(190,30,30,0.96)';
-    bCtx.fill();
-
-    bCtx.strokeStyle=stroke.color;
-    bCtx.lineWidth=stroke.width;
-    bCtx.stroke();
-
-    drawWeapon(u,isMine);
-  }
-
-  if(u.covering){
-    bCtx.beginPath();
-    bCtx.arc(0,0,UNIT_R+5,0,Math.PI*2);
-    bCtx.strokeStyle='rgba(80,255,80,0.65)';
-    bCtx.lineWidth=1.5;
-    bCtx.stroke();
-  }
-
-  drawRoleMark(u);
-
-  bCtx.restore();
-
-  drawHpBar(u);
-}
-
-function drawWeapon(u,isMine){
+  const hpR=Math.max(0,u.hp/u.maxHp);
+  bCtx.save();bCtx.translate(u.x,u.y);
+  bCtx.globalAlpha=0.35+hpR*0.65;
   const dir=isMine?-1:1;
-
-  bCtx.strokeStyle=isMine?'#f0f0f0':'#ffd0d0';
-  bCtx.lineCap='round';
-
-  let len=18;
-  let w=2;
-
-  if(u.role==='machinegunner'){
-    len=25;
-    w=3;
+  const R=9;
+  if(u.role==='tanker'){
+    bCtx.fillStyle=isMine?'rgba(25,25,25,0.95)':'rgba(170,20,20,0.95)';
+    bCtx.fillRect(-13,-9,26,18);
+    bCtx.strokeStyle=isMine?'rgba(200,200,200,0.7)':'rgba(255,140,140,0.7)';bCtx.lineWidth=1.5;bCtx.strokeRect(-13,-9,26,18);
+    bCtx.fillStyle=isMine?'rgba(40,40,40,0.95)':'rgba(200,40,40,0.95)';
+    bCtx.beginPath();bCtx.arc(0,0,6,0,Math.PI*2);bCtx.fill();
+    bCtx.strokeStyle=isMine?'#e0e0e0':'#ffb0b0';bCtx.lineWidth=3;
+    bCtx.beginPath();bCtx.moveTo(0,0);bCtx.lineTo(0,dir*24);bCtx.stroke();
+  }else{
+    bCtx.beginPath();bCtx.arc(0,0,R,0,Math.PI*2);
+    bCtx.fillStyle=isMine?'rgba(20,20,20,0.95)':'rgba(180,20,20,0.95)';bCtx.fill();
+    bCtx.strokeStyle=isMine?'rgba(210,210,210,0.65)':'rgba(255,130,130,0.65)';bCtx.lineWidth=1.5;bCtx.stroke();
+    const st=ROLE_DEF[u.role];
+    bCtx.strokeStyle=isMine?'#ddd':'#ffb0b0';bCtx.lineCap='round';bCtx.lineWidth=st.wThick;
+    bCtx.beginPath();bCtx.moveTo(0,0);bCtx.lineTo(0,dir*st.wLen);bCtx.stroke();
+    if(u.role==='sniper'){bCtx.beginPath();bCtx.arc(0,dir*(st.wLen+4),2.5,0,Math.PI*2);bCtx.stroke();}
+    if(u.role==='mortarman'){bCtx.beginPath();bCtx.moveTo(-5,dir*9);bCtx.lineTo(5,dir*9);bCtx.stroke();}
+    if(u.role==='machinegunner'){bCtx.beginPath();bCtx.moveTo(-3,dir*14);bCtx.lineTo(3,dir*14);bCtx.stroke();}
+    if(u.role==='medic'){
+      bCtx.strokeStyle='#ff4444';bCtx.lineWidth=2;
+      bCtx.beginPath();bCtx.moveTo(-4,dir*(R+4));bCtx.lineTo(4,dir*(R+4));bCtx.stroke();
+      bCtx.beginPath();bCtx.moveTo(0,dir*R);bCtx.lineTo(0,dir*(R+8));bCtx.stroke();
+    }
   }
-
-  if(u.role==='marksman'){
-    len=27;
-    w=2;
-  }
-
-  if(u.role==='sniper'){
-    len=34;
-    w=1.6;
-  }
-
-  if(u.role==='mortarman'){
-    len=16;
-    w=4;
-  }
-
-  if(u.role==='medic'){
-    len=14;
-    w=2;
-  }
-
-  bCtx.lineWidth=w;
-  bCtx.beginPath();
-  bCtx.moveTo(0,0);
-  bCtx.lineTo(0,dir*len);
-  bCtx.stroke();
-
-  if(u.role==='sniper'){
-    bCtx.beginPath();
-    bCtx.arc(0,dir*(len+4),3,0,Math.PI*2);
-    bCtx.stroke();
-  }
-
-  if(u.role==='mortarman'){
-    bCtx.beginPath();
-    bCtx.moveTo(-5,dir*8);
-    bCtx.lineTo(5,dir*8);
-    bCtx.stroke();
-  }
-}
-
-function drawRoleMark(u){
-  bCtx.font='bold 8px Rajdhani,sans-serif';
-  bCtx.textAlign='center';
-  bCtx.textBaseline='middle';
-
-  let mark='F';
-
-  if(u.role==='machinegunner') mark='MG';
-  if(u.role==='marksman') mark='M';
-  if(u.role==='sniper') mark='S';
-  if(u.role==='mortarman') mark='MO';
-  if(u.role==='medic') mark='+';
-  if(u.role==='tanker') mark='T';
-
+  bCtx.font='bold 7px Rajdhani,sans-serif';bCtx.textAlign='center';bCtx.textBaseline='middle';
   bCtx.fillStyle='#FFE033';
-  bCtx.fillText(mark,0,0);
-}
-
-function drawHpBar(u){
-  const bw=22;
-  const bh=3;
-  const bx=u.x-bw/2;
-  const by=u.y-UNIT_R-8;
-  const p=Math.max(0,u.hp/u.maxHp);
-
-  bCtx.fillStyle='rgba(0,0,0,0.6)';
-  bCtx.fillRect(bx,by,bw,bh);
-
-  bCtx.fillStyle=p>.5?'#44ff88':p>.25?'#ffcc00':'#ff4444';
-  bCtx.fillRect(bx,by,bw*p,bh);
+  const marks={rifleman:'F',machinegunner:'MG',marksman:'M',sniper:'S',mortarman:'MO',medic:'+',tanker:'T'};
+  bCtx.fillText(marks[u.role]||'F',0,0);
+  bCtx.restore();
 }
 
 function updateHUD(){
-  const rows=[...myUnits,...enemyUnits].map(u=>`
-    <div class="hud-unit-bar">
-      <div class="hub-dot ${u.side==='mine'?'mine':'enemy'}"></div>
-      <div class="hud-name">${u.card.nome.substring(0,3)}</div>
-      <div class="hud-hp-wrap">
-        <div class="hud-hp-fill" style="width:${Math.max(0,u.hp/u.maxHp*100)}%;background:${u.side==='mine'?(u.hp/u.maxHp>.5?'#44ff88':u.hp/u.maxHp>.25?'#ffcc00':'#ff4444'):'#ff4444'}"></div>
-      </div>
-    </div>
-  `).join('');
-
-  document.getElementById('batt-hud').innerHTML=rows;
+  document.getElementById('hud-mine').innerHTML=myUnits.map(u=>`
+    <div class="hud-unit-bar"><div class="hub-dot mine"></div>
+    <div class="hud-name">${u.card.nome.split(' ')[0].substring(0,7)}</div>
+    <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:${u.hp/u.maxHp>0.5?'#44ff88':u.hp/u.maxHp>0.25?'#ffcc00':'#ff4444'};"></div></div></div>`).join('');
+  document.getElementById('hud-enemy').innerHTML=enemyUnits.map(u=>`
+    <div class="hud-unit-bar right"><div class="hub-dot enemy"></div>
+    <div class="hud-name">${u.card.nome.split(' ')[0].substring(0,7)}</div>
+    <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:#ff4444;"></div></div></div>`).join('');
 }
 
-let audioCtx=null;
-
-function playShot(role){
-  try{
-    audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
-
-    const osc=audioCtx.createOscillator();
-    const gain=audioCtx.createGain();
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-
-    osc.frequency.value=
-      role==='machinegunner'?110:
-      role==='sniper'?80:
-      role==='mortarman'||role==='tanker'?55:
-      140;
-
-    gain.gain.setValueAtTime(.045,audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.08);
-
-    osc.start();
-    osc.stop(audioCtx.currentTime+.09);
-  }catch(e){}
-}
-
-/* =====================
-   MAPPA CASERMA
-===================== */
-
-const DOORS=[
-  {
-    id:"pal",
-    x:200,
-    y:210,
-    locked:false,
-    ico:"&#128170;",
-    name:"PALESTRA",
-    sub:"Allenamento",
-    dsc:"Allenamento fisico.",
-    quo:"Sei massiccio!",
-    act:"train"
-  },
-  {
-    id:"spa",
-    x:350,
-    y:190,
-    locked:false,
-    ico:"&#127866;",
-    name:"SPACCIO",
-    sub:"Bar",
-    dsc:"Zona ristoro.",
-    quo:"Weee naja!",
-    act:"bar"
-  },
-  {
-    id:"comp2",
-    x:780,
-    y:200,
-    locked:false,
-    ico:"&#129686;",
-    name:"2a COMPAGNIA",
-    sub:"Compagnia",
-    dsc:"Seconda compagnia.",
-    quo:"Muti!",
-    act:"battle"
-  },
-  {
-    id:"inf",
-    x:965,
-    y:190,
-    locked:false,
-    ico:"&#127973;",
-    name:"INFERMERIA",
-    sub:"Sanità",
-    dsc:"Infermeria.",
-    quo:"Non sei idoneo alla vita!",
-    act:"heal"
-  },
-  {
-    id:"men",
-    x:148,
-    y:388,
-    locked:false,
-    ico:"&#127869;&#65039;",
-    name:"MENSA",
-    sub:"Vitto",
-    dsc:"Mensa.",
-    quo:"Non farti mangiare il cazzo dalle mosche!",
-    act:"eat"
-  },
-  {
-    id:"tem",
-    x:541,
-    y:395,
-    locked:false,
-    ico:"&#128541;",
-    name:"TEMPIO",
-    sub:"Addestramento",
-    dsc:"Tempio.",
-    quo:"Non sei idoneo!",
-    act:"battle"
-  },
-  {
-    id:"cmd",
-    x:284,
-    y:675,
-    locked:false,
-    ico:"&#11088;",
-    name:"COMANDO",
-    sub:"Comando",
-    dsc:"Comando.",
-    quo:"Signorsi!",
-    act:"battle"
-  },
-  {
-    id:"comp1",
-    x:702,
-    y:687,
-    locked:false,
-    ico:"&#129686;",
-    name:"1a COMPAGNIA",
-    sub:"Compagnia",
-    dsc:"Prima compagnia.",
-    quo:"Forza!",
-    act:"battle"
-  },
-  {
-    id:"grd",
-    x:980,
-    y:687,
-    locked:true,
-    ico:"&#128274;",
-    name:"GUARDIE",
-    sub:"Accesso riservato",
-    dsc:"Checkpoint.",
-    quo:"Accesso negato"
-  },
-  {
-    id:"torre",
-    x:355,
-    y:740,
-    locked:false,
-    ico:"&#128509;",
-    name:"TORRE DEL PARACA",
-    sub:"Torre",
-    dsc:"Torre del Paraca.",
-    quo:"IL TORNADO DI FUOCO",
-    act:"battle"
-  },
-  {
-    id:"dor",
-    x:140,
-    y:1160,
-    locked:false,
-    ico:"&#128716;",
-    name:"DORMITORIO",
-    sub:"Riposo",
-    dsc:"Dormitorio.",
-    quo:"Che giornata.",
-    act:"sleep"
-  }
-];
-
-function switchTab(tab){
-  currentTab=tab;
-
-  ['caserma','profilo','zaino','combattimento'].forEach(t=>{
-    const el=document.getElementById('tab-'+t);
-
-    if(el){
-      el.classList.toggle('active',t===tab);
-    }
-  });
-
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-
-  const btn=document.getElementById('tbtn-'+tab);
-
-  if(btn){
-    btn.classList.add('active');
-  }
-
-  if(tab==='caserma') buildMap();
-  if(tab==='profilo'){
-    updateProfiloUI();
-    buildSquadraGrid();
-  }
-  if(tab==='zaino') renderZaino();
-  if(tab==='combattimento') buildSfidanti();
-}
-
-function buildMap(){
-  const wrap=document.getElementById('map-wrap');
-  if(!wrap) return;
-
-  const img=document.getElementById('map-img');
-
-  const mw=Math.min(window.innerWidth-16,500);
-  const mh=mw*(MH/MW);
-
-  img.style.width=mw+'px';
-  img.style.height=mh+'px';
-
-  wrap.style.width=mw+'px';
-  wrap.style.height=mh+'px';
-
-  scaleX=mw/MW;
-  scaleY=mh/MH;
-
-  document.querySelectorAll('.door').forEach(e=>e.remove());
-
-  DOORS.forEach(d=>{
-    const el=document.createElement('div');
-
-    el.className='door'+(d.locked?' locked':'');
-
-    el.style.cssText=`
-      position:absolute;
-      left:${d.x*scaleX}px;
-      top:${d.y*scaleY}px;
-      width:26px;
-      height:26px;
-      transform:translate(-50%,-50%);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-    `;
-
-    el.innerHTML=`
-      <div style="
-        width:9px;
-        height:9px;
-        border-radius:${d.id==='torre'?'50%':'2px'};
-        background:${d.locked?'#c0392b':'#C9A84C'};
-      "></div>
-    `;
-
-    el.onclick=e=>{
-      e.stopPropagation();
-      handleDoor(d);
-    };
-
-    wrap.appendChild(el);
-  });
-}
-
-function handleDoor(d){
-  if(d.locked){
-    toast('ACCESSO NEGATO');
-    return;
-  }
-
-  openModal(d);
-}
-
-function openModal(d){
-  document.getElementById('m-ico').innerHTML=d.ico;
-  document.getElementById('m-tit').textContent=d.name;
-  document.getElementById('m-sub').textContent=d.sub;
-  document.getElementById('m-dsc').textContent=d.dsc;
-  document.getElementById('m-quo').textContent='"'+d.quo+'"';
-
-  const act=document.getElementById('m-act');
-  act.innerHTML='';
-
-  if(d.act==='battle'){
-    addBtn(act,'COMBATTI',true,()=>{
-      closeModal();
-      switchTab('combattimento');
-    });
-  }
-
-  if(d.act==='train'){
-    addBtn(act,'ALLENATI',true,()=>{
-      closeModal();
-      doTrain();
-    });
-  }
-
-  if(d.act==='sleep'){
-    addBtn(act,'DORMI (+1 giorno)',true,()=>{
-      closeModal();
-      doSleep();
-    });
-  }
-
-  if(d.act==='bar'){
-    addBtn(act,'ENTRA',true,()=>{
-      closeModal();
-      doBar();
-    });
-  }
-
-  if(d.act==='eat'){
-    addBtn(act,'MANGIA',true,()=>{
-      closeModal();
-      doEat();
-    });
-  }
-
-  if(d.act==='heal'){
-    addBtn(act,'RIPOSA',true,()=>{
-      closeModal();
-      doHeal();
-    });
-  }
-
-  addBtn(act,'CHIUDI',false,closeModal);
-
-  document.getElementById('modal').style.display='flex';
-}
-
-function addBtn(par,txt,primary,fn){
-  const b=document.createElement('button');
-  b.className='mb '+(primary?'mb-p':'mb-s');
-  b.textContent=txt;
-  b.onclick=fn;
-  par.appendChild(b);
-}
-
-function closeModal(){
-  document.getElementById('modal').style.display='none';
-}
-
-document.getElementById('m-x').onclick=closeModal;
-
-document.getElementById('modal').onclick=e=>{
-  if(e.target===document.getElementById('modal')){
-    closeModal();
-  }
-};
-
-function doTrain(){
-  toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');
-}
-
-function doSleep(){
-  player.giorno++;
-  document.getElementById('p-giorno').textContent=player.giorno;
-  toast('Hai dormito. Giorno '+player.giorno);
-}
-
-function doBar(){
-  toast('"Weee naja!"');
-}
-
-function doEat(){
-  toast('"Non farti mangiare il cazzo dalle mosche!"');
-}
-
-function doHeal(){
-  toast('"Riposa soldato."');
-}
-
-/* =====================
-   PROFILO
-===================== */
-
-function updateProfiloUI(){
-  document.getElementById('p-nome').textContent=(player.nome+' '+player.cognome).toUpperCase();
-  updateRadarMini();
-}
-
-function updateRadarMini(){
-  const cx=60;
-  const cy=58;
-  const maxR=52;
-
-  const stats=[
-    player.forza,
-    player.qi,
-    player.motiv,
-    player.spirito,
-    player.di
-  ];
-
-  const angles=[-90,-18,54,126,198].map(a=>a*Math.PI/180);
-
-  const pts=stats.map((v,i)=>{
-    const r=v/99*maxR;
-    return [
-      (cx+r*Math.cos(angles[i])).toFixed(1),
-      (cy+r*Math.sin(angles[i])).toFixed(1)
-    ];
-  });
-
-  const el=document.getElementById('radar-mini');
-
-  if(el){
-    el.setAttribute('points',pts.map(p=>p.join(',')).join(' '));
-  }
-}
-
-function toggleStats(){
-  const m=document.getElementById('stats-modal');
-
-  if(m.style.display==='flex'){
-    m.style.display='none';
-  }
-
-  else{
-    document.getElementById('stats-list').innerHTML=`
-      FORZA ${player.forza}<br>
-      QI ${player.qi}<br>
-      MOTIV ${player.motiv}<br>
-      SPIRITO ${player.spirito}<br>
-      DI ${player.di}
-    `;
-
-    m.style.display='flex';
-  }
-}
-
-document.getElementById('stats-modal').onclick=e=>{
-  if(e.target===document.getElementById('stats-modal')){
-    toggleStats();
-  }
-};
-
-function buildSquadraGrid(){
-  const grid=document.getElementById('squadra-grid');
-  grid.innerHTML='';
-
-  const inits=getInitials(squadraData);
-
-  squadraData.forEach((s,i)=>{
-    const c=document.createElement('div');
-    c.className='carta-pg';
-
-    c.onclick=()=>openSoldato(i);
-
-    c.innerHTML=`
-      <div class="carta-img">
-        ${s.img?`<img src="${s.img}" loading="lazy">`:`<span style="font-family:'Bebas Neue',sans-serif;font-size:20px">${inits[i]}</span>`}
-      </div>
-      <div>
-        <div class="carta-nome">${s.nome}</div>
-        <div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px">${s.ruolo}</div>
-      </div>
-    `;
-
-    grid.appendChild(c);
-  });
-}
-
-function openCollezione(){
-  const grid=document.getElementById('coll-grid');
-  grid.innerHTML='';
-
-  tutteCarte.forEach((s,i)=>{
-    const c=document.createElement('div');
-
-    c.className='carta-pg'+(s.ecce?' ecce':s.elite?' elite':s.legio?' legio':'');
-
-    c.onclick=()=>openSoldatoData(s);
-
-    c.innerHTML=`
-      <div class="carta-img">
-        ${s.img?`<img src="${s.img}" loading="lazy">`:''}
-      </div>
-      <div class="carta-nome">${s.nome}</div>
-    `;
-
-    grid.appendChild(c);
-  });
-
-  document.getElementById('collezione-modal').style.display='flex';
-}
-
-function closeCollezione(){
-  document.getElementById('collezione-modal').style.display='none';
-}
-
-document.getElementById('collezione-modal').onclick=e=>{
-  if(e.target===document.getElementById('collezione-modal')){
-    closeCollezione();
-  }
-};
-
-function openSoldato(i){
-  openSoldatoData(squadraData[i]);
-}
-
-function openSoldatoData(s){
-  document.getElementById('soldato-view').innerHTML=`
-    <div style="text-align:center">
-      ${s.img?`<img src="${s.img}" style="width:90px;height:90px;object-fit:cover;border-radius:10px">`:''}
-      <h2 style="font-family:'Bebas Neue',sans-serif;color:#7B1020;letter-spacing:2px">${s.nome}</h2>
-      <p>${s.ruolo} - LV ${s.lv}</p>
-      <p>FORZA ${s.forza} | QI ${s.qi} | DI ${s.di}</p>
-    </div>
-  `;
-
-  document.getElementById('soldato-modal').style.display='flex';
-}
-
-function closeSoldato(){
-  document.getElementById('soldato-modal').style.display='none';
-}
-
-document.getElementById('soldato-modal').onclick=e=>{
-  if(e.target===document.getElementById('soldato-modal')){
-    closeSoldato();
-  }
-};
-
-function rinominaSquadra(){
-  const n=prompt('Nome della tua squadra:');
-
-  if(n && n.trim()){
-    document.getElementById('squadra-nome').textContent=n.trim().toUpperCase();
-  }
-}
-
-/* =====================
-   ZAINO
-===================== */
-
-const ZAINO_ITEMS=[
-  {
-    nome:"Pistola Beretta M9",
-    cat:"armi",
-    ico:"&#128299;"
-  },
-  {
-    nome:"Fucile AR70/90",
-    cat:"armi",
-    ico:"&#128299;"
-  },
-  {
-    nome:"Granata",
-    cat:"armi",
-    ico:"&#128163;"
-  },
-  {
-    nome:"Caricatore 5.56mm",
-    cat:"munizionamento",
-    ico:"&#128993;"
-  },
-  {
-    nome:"Kit Pronto Soccorso",
-    cat:"risorse",
-    ico:"&#127973;"
-  },
-  {
-    nome:"Razione K",
-    cat:"risorse",
-    ico:"&#129483;"
-  },
-  {
-    nome:"Visore Notturno",
-    cat:"gadget",
-    ico:"&#128065;&#65039;"
-  },
-  {
-    nome:"Bussola",
-    cat:"gadget",
-    ico:"&#129517;"
-  },
-  {
-    nome:"Mappa Topografica",
-    cat:"mappe",
-    ico:"&#128506;"
-  }
-];
-
-let zainoCatAttiva="tutto";
-let zainoRicerca="";
-
-function renderZaino(){
-  const grid=document.getElementById('zaino-grid');
-
-  const items=ZAINO_ITEMS.filter(it=>
-    (zainoCatAttiva==="tutto" || it.cat===zainoCatAttiva) &&
-    (!zainoRicerca || it.nome.toLowerCase().includes(zainoRicerca.toLowerCase()))
-  );
-
-  grid.innerHTML=items.map(it=>`
-    <div class="zaino-card">
-      <div class="zaino-card-img">${it.ico}</div>
-      <div class="zaino-card-nome">${it.nome}</div>
-      <div class="zaino-card-cat">${it.cat}</div>
-    </div>
-  `).join('');
-}
-
-function setZainoCat(cat){
-  zainoCatAttiva=cat;
-
-  document.querySelectorAll('.ztab').forEach(t=>
-    t.classList.toggle('active',t.dataset.cat===cat)
-  );
-
-  renderZaino();
-}
-
-/* =====================
-   FOTO
-===================== */
-
-function apriFoto(i){
-  document.getElementById('file'+i).click();
-}
-
-function caricaFoto(i,input){
-  if(!input.files || !input.files[0]) return;
-
-  const file=input.files[0];
-  const url=URL.createObjectURL(file);
-  const box=document.getElementById('gal'+i);
-
-  box.innerHTML='';
-
-  if(file.type.startsWith('video/')){
-    const v=document.createElement('video');
-    v.src=url;
-    v.style.cssText='width:100%;height:100%;object-fit:cover';
-    v.autoplay=true;
-    v.muted=true;
-    v.loop=true;
-    v.playsInline=true;
-    box.appendChild(v);
-  }
-
-  else{
-    const img=document.createElement('img');
-    img.src=url;
-    img.style.cssText='width:100%;height:100%;object-fit:cover';
-    box.appendChild(img);
-  }
-}
-
-/* =====================
-   MODALI VARIE
-===================== */
-
-function openMappaModal(){
-  document.getElementById('mappa-modal').style.display='flex';
-  setTimeout(buildMap,80);
-}
-
-function closeMappaModal(){
-  document.getElementById('mappa-modal').style.display='none';
-}
-
-function openGerarchia(){
-  const p=document.getElementById('gerarchia-piramide');
-
-  p.innerHTML=[
-    'Presidente',
-    'Ministro Difesa',
-    'Capo SMD',
-    'Capo SME',
-    'Comandante Compagnia',
-    'Comandante Plotone'
-  ].map(x=>`
-    <div style="padding:8px;margin:5px;background:#7B1020;color:#C9A84C;border-radius:6px;font-family:'Bebas Neue',sans-serif;letter-spacing:2px">
-      ${x}
-    </div>
-  `).join('');
-
-  document.getElementById('gerarchia-modal').style.display='flex';
-}
-
-function closeGerarchia(){
-  document.getElementById('gerarchia-modal').style.display='none';
-}
-
-/* =====================
-   TOAST
-===================== */
-
-let tt=null;
-
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.opacity='1';
-
-  if(tt) clearTimeout(tt);
-
-  tt=setTimeout(()=>t.style.opacity='0',2400);
-}
-
-/* =====================
-   LOGIN
-===================== */
-
-const inN=document.getElementById('inp-nome');
-const inC=document.getElementById('inp-cogn');
-const bS=document.getElementById('btn-start');
-
-function chk(){
-  bS.disabled=!(inN.value.trim() && inC.value.trim());
-  document.getElementById('err-msg').classList.remove('show');
-}
-
-inN.addEventListener('input',chk);
-inC.addEventListener('input',chk);
-
-inN.addEventListener('keydown',e=>{
-  if(e.key==='Enter') inC.focus();
-});
-
-inC.addEventListener('keydown',e=>{
-  if(e.key==='Enter' && !bS.disabled) bS.click();
-});
-
-bS.addEventListener('click',()=>{
-  const n=inN.value.trim();
-  const c=inC.value.trim();
-
-  if(!n || !c){
-    document.getElementById('err-msg').classList.add('show');
-    return;
-  }
-
-  player.nome=n;
-  player.cognome=c;
-
-  document.getElementById('top-bar-name').textContent='SOLDATO '+c.toUpperCase();
-
-  document.getElementById('screen-login').style.display='none';
-  document.getElementById('screen-map').classList.add('show');
-
-  switchTab('caserma');
-
-  setTimeout(()=>toast('"Weee naja! Benvenuto Soldato '+c+'"'),500);
-});
-
-document.getElementById('bg-login').style.backgroundImage=
-  "url('https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/9EC8D5AF-471D-4568-B1EC-6571335CA2EE.png')";
 </script>
 
 </body>
