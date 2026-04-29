@@ -42,7 +42,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 #screen-map.show{display:flex;}
 /* TOP BAR - PARACA giallo come login */
 #top-bar{flex-shrink:0;height:50px;background:#7B1020;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
-#top-bar-title{font-family:'Black Han Sans',sans-serif;font-size:28px;color:#FFE033;-webkit-text-stroke:2px #3d000a;letter-spacing:3px;text-shadow:2px 2px 0 #3d000a,-1px -1px 0 #3d000a,1px -1px 0 #3d000a,-1px 1px 0 #3d000a;paint-order:stroke fill;animation:tp 4s ease-in-out infinite;}
+#top-bar-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:30px;
+  color:#FFE033 !important;
+  -webkit-text-stroke:1px #3d000a;
+  letter-spacing:3px;
+  text-shadow:
+    2px 2px 0 #3d000a,
+    -1px -1px 0 #3d000a,
+    1px -1px 0 #3d000a,
+    -1px 1px 0 #3d000a;
+  animation:tp 4s ease-in-out infinite;
+}
 #top-bar-name{position:absolute;right:12px;font-family:'Bebas Neue',sans-serif;font-size:11px;color:rgba(255,255,255,0.7);letter-spacing:3px;}
 #tab-content{flex:1;min-height:0;overflow:hidden;position:relative;}
 /* CASERMA */
@@ -590,7 +602,15 @@ const legioData=[
 ];
 const ecceData=[{nome:'GAAR',ruolo:'Eccezionale',lv:8,xp:99,forza:19,qi:19,motiv:20,spirito:18,di:20,tipoTruppa:'eccezionale',mosse:[{nome:'Fascino',atk:35},{nome:'Lupo Grigio',atk:30},{nome:'Schaffo del Paraca',atk:40},{nome:'Fuoco Naja',atk:28}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DA827B70-4C54-4CFC-B898-C7F675CAE15D.png',ecce:true}];
 const tutteCarte=[...squadraData,...eliteData,...legioData,...ecceData];
+function preloadCardImages(){
+  tutteCarte.forEach(c=>{
+    if(!c.img) return;
+    const img=new Image();
+    img.src=c.img;
+  });
+}
 
+preloadCardImages();
 const SFIDANTI=[
   {id:0,nome:'VFI GENERICO MEDIO',grado:'Volontario in Ferma Iniziale',lvl:'easy',lvlLabel:'FACILE',pool:[...squadraData]},
   {id:1,nome:'SERGENTE BRUCIAPELO',grado:'Sergente',lvl:'med',lvlLabel:'MEDIO',pool:[...squadraData,...eliteData]},
