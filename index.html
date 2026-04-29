@@ -1072,6 +1072,8 @@ function gameLoop(ts){
   lastTime=ts;
 
   updateBattle(dt);
+  myUnits.forEach(u => updateUnit(u, enemyUnits));
+enemyUnits.forEach(u => updateUnit(u, myUnits));
   drawAll();
 
   if(!gameOver) battleRaf=requestAnimationFrame(gameLoop);
@@ -1494,6 +1496,39 @@ function updateHUD(){
         <div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:#ff4444;"></div>
       </div>
     </div>`).join('');
+}
+  function updateUnit(unit, enemies){
+  if(unit.hp <= 0) return;
+
+  // trova nemico più vicino
+  let target = null;
+  let dist = 9999;
+
+  enemies.forEach(e=>{
+    if(e.hp <= 0) return;
+    let d = Math.hypot(e.x - unit.x, e.y - unit.y);
+    if(d < dist){
+      dist = d;
+      target = e;
+    }
+  });
+
+  if(!target) return;
+
+  // se vicino → spara
+  if(dist < 150){
+    shoot(unit, target);
+
+    // dopo sparo → cerca copertura
+    let cover = getNearestCover(unit);
+    if(cover){
+      moveTowards(unit, cover.x, cover.y, 1.5);
+    }
+
+  } else {
+    // se lontano → avanza
+    moveTowards(unit, target.x, target.y, 1);
+  }
 }
 /* ===== TABS / MAP ===== */
 const DOORS=[
