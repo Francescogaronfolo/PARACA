@@ -15,70 +15,67 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 @keyframes goldshine{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
 @keyframes eccshine{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
 @keyframes torrepulse{0%,100%{opacity:1;}50%{opacity:0.2;}}
-
 /* LOGIN */
 #screen-login{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;}
 #bg-login{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;}
-#bg-login::after{content:’’;position:absolute;inset:0;background:rgba(0,0,0,0.4);}
+#bg-login::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.4);}
 #login-title{position:absolute;left:0;right:0;top:8%;text-align:center;z-index:2;pointer-events:none;}
-#login-title h1{font-family:‘Black Han Sans’,sans-serif;font-size:clamp(52px,14vw,110px);color:#FFE033;-webkit-text-stroke:2px #3d000a;line-height:1;animation:tp 4s ease-in-out infinite;}
+#login-title h1{font-family:'Black Han Sans',sans-serif;font-size:clamp(52px,14vw,110px);color:#FFE033;-webkit-text-stroke:2px #3d000a;line-height:1;animation:tp 4s ease-in-out infinite;}
 #popup{position:relative;z-index:2;background:rgba(235,226,206,0.93);border:2px solid rgba(123,16,32,0.4);border-radius:10px;padding:16px 20px 18px;width:min(280px,80vw);backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.35);}
-#popup::before,#popup::after{content:’’;position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
+#popup::before,#popup::after{content:'';position:absolute;width:10px;height:10px;border-color:rgba(123,16,32,0.6);border-style:solid;}
 #popup::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
 #popup::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
 .p-head{text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(123,16,32,0.2);}
 .p-lbl{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:rgba(123,16,32,0.5);}
-.p-rank{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:5px;}
+.p-rank{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#7B1020;letter-spacing:5px;}
 .frow{margin-bottom:8px;}
 .flbl{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:rgba(80,30,30,0.55);margin-bottom:3px;}
-.finp{width:100%;background:rgba(255,255,255,0.65);border:1px solid rgba(123,16,32,0.28);border-radius:3px;padding:7px 10px;color:#2a0a0a;font-family:‘Rajdhani’,sans-serif;font-size:15px;font-weight:600;letter-spacing:2px;outline:none;}
+.finp{width:100%;background:rgba(255,255,255,0.65);border:1px solid rgba(123,16,32,0.28);border-radius:3px;padding:7px 10px;color:#2a0a0a;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;letter-spacing:2px;outline:none;}
 .finp:focus{border-color:rgba(123,16,32,0.7);background:rgba(255,255,255,0.9);}
 .finp::placeholder{color:rgba(80,30,30,0.3);font-weight:400;}
 #err-msg{font-size:9px;color:#7B1020;text-align:center;height:11px;margin-top:3px;opacity:0;transition:opacity .3s;}
 #err-msg.show{opacity:1;}
-#btn-start{width:100%;margin-top:12px;padding:11px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:17px;letter-spacing:6px;cursor:pointer;}
+#btn-start{width:100%;margin-top:12px;padding:11px;background:#7B1020;border:none;border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:6px;cursor:pointer;}
 #btn-start:disabled{background:rgba(140,120,110,0.4);cursor:not-allowed;}
-
 /* GAME */
 #screen-map{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f5f5f0;}
 #screen-map.show{display:flex;}
+/* TOP BAR - PARACA giallo come login */
 #top-bar{flex-shrink:0;height:50px;background:#7B1020;display:flex;align-items:center;justify-content:center;position:relative;padding:0 12px;z-index:300;}
-#top-bar-title{font-family:‘Black Han Sans’,sans-serif;font-size:28px;color:#FFE033;-webkit-text-stroke:3px #111;letter-spacing:3px;text-shadow:2px 2px 0 #111,-2px -2px 0 #111,2px -2px 0 #111,-2px 2px 0 #111,3px 3px 0 rgba(0,0,0,0.4);animation:tp 4s ease-in-out infinite;}
-#top-bar-name{position:absolute;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:11px;color:rgba(255,255,255,0.7);letter-spacing:3px;}
+#top-bar-title{font-family:'Black Han Sans',sans-serif;font-size:28px;color:#FFE033;-webkit-text-stroke:2px #3d000a;letter-spacing:3px;text-shadow:2px 2px 0 #3d000a,-1px -1px 0 #3d000a,1px -1px 0 #3d000a,-1px 1px 0 #3d000a;paint-order:stroke fill;animation:tp 4s ease-in-out infinite;}
+#top-bar-name{position:absolute;right:12px;font-family:'Bebas Neue',sans-serif;font-size:11px;color:rgba(255,255,255,0.7);letter-spacing:3px;}
 #tab-content{flex:1;min-height:0;overflow:hidden;position:relative;}
-
 /* CASERMA */
 #tab-caserma{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;background:linear-gradient(180deg,#e8a020,#c97a10);overflow-y:auto;}
 #tab-caserma.active{display:flex;}
 #gallery{flex-shrink:0;width:100%;padding:8px 8px 4px;display:flex;gap:6px;overflow-x:auto;}
-.gal-box{flex-shrink:0;width:68px;height:68px;background:rgba(255,255,255,0.88);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:8px;color:rgba(120,80,20,0.5);letter-spacing:1px;text-align:center;font-family:‘Rajdhani’,sans-serif;font-weight:700;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.gal-box{flex-shrink:0;width:68px;height:68px;background:rgba(255,255,255,0.88);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:8px;color:rgba(120,80,20,0.5);letter-spacing:1px;text-align:center;font-family:'Rajdhani',sans-serif;font-weight:700;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
 .gal-box img,.gal-box video{width:100%;height:100%;object-fit:cover;}
 .cas-card{width:calc(100% - 16px);margin:0 8px 8px;background:rgba(255,255,255,0.9);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
-.cas-card-title{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#7B1020;letter-spacing:3px;line-height:1;}
+.cas-card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#7B1020;letter-spacing:3px;line-height:1;}
 .cas-card-sub{font-size:8px;color:rgba(120,80,20,0.5);letter-spacing:2px;margin-top:2px;}
 .door{position:absolute;cursor:pointer;width:32px;height:32px;transform:translate(-50%,-50%);z-index:10;display:flex;align-items:center;justify-content:center;}
 .door-dot{width:9px;height:9px;border-radius:2px;background:#C9A84C;opacity:0.95;flex-shrink:0;}
 .door.locked .door-dot{background:#c0392b;}
 .door.torre .door-dot{background:rgba(255,80,80,0.9);border-radius:50%;border:2px solid #ff4444;box-shadow:0 0 10px #ff4444;animation:torrepulse 0.8s ease-in-out infinite;width:11px;height:11px;}
-.door-tip{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(10,8,5,0.92);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 6px;font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;color:#C9A84C;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
+.door-tip{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(10,8,5,0.92);border:1px solid rgba(201,168,76,0.4);border-radius:2px;padding:2px 6px;font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:700;color:#C9A84C;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;}
 .door:hover .door-tip,.door:active .door-tip{opacity:1;}
 .info-pill{flex:1;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:5px 8px;text-align:center;}
 .info-pill .lbl{font-size:7px;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase;display:block;}
-.info-pill .val{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#fff;letter-spacing:2px;}
-.ext-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:10px 8px;text-align:center;cursor:pointer;font-family:‘Rajdhani’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.85);text-transform:uppercase;}
-
+.info-pill .val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:2px;}
+.ext-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:10px 8px;text-align:center;cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.85);text-transform:uppercase;}
 /* PROFILO */
 #tab-profilo{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#e8a020,#c97a10);overflow-y:auto;padding:12px;}
 #tab-profilo.active{display:flex;}
 .profilo-header{background:rgba(255,255,255,0.92);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
 .avatar-circle{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.profilo-info .nome{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:2px;}
+.profilo-info .nome{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#7B1020;letter-spacing:2px;}
 .profilo-info .grado{font-size:10px;color:rgba(120,90,30,0.6);letter-spacing:3px;text-transform:uppercase;}
 .penta-card{background:rgba(255,255,255,0.92);border-radius:14px;padding:12px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
 .penta-title{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:8px;}
 .squadra-card{background:rgba(255,255,255,0.92);border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
 .squadra-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;cursor:pointer;}
-.squadra-nome-display{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#7B1020;letter-spacing:2px;}
+.squadra-nome-display{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#7B1020;letter-spacing:2px;}
 .squadra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
 .carta-pg{background:rgba(255,255,255,0.92);border:1px solid rgba(180,130,30,0.3);border-radius:8px;overflow:hidden;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
 .carta-pg.elite{border:2px solid #b8b8b8;background:linear-gradient(160deg,#f0f0f0,#e2e2e2);}
@@ -87,73 +84,67 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 .carta-pg.legio .carta-nome{color:#6a4800;}
 .carta-pg.ecce .carta-nome{color:#6a0080;}
 .carta-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:26px;}
-.carta-nome{font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
+.carta-nome{font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 /* ZAINO */
 #tab-zaino{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#2e2e2e,#1a1a1a);overflow-y:auto;padding:12px;}
 #tab-zaino.active{display:flex;}
 #zaino-tabs{display:flex;gap:4px;padding:0 0 10px;flex-shrink:0;overflow-x:auto;}
-.ztab{flex-shrink:0;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);font-family:‘Rajdhani’,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(200,200,200,0.5);text-transform:uppercase;cursor:pointer;}
+.ztab{flex-shrink:0;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(200,200,200,0.5);text-transform:uppercase;cursor:pointer;}
 .ztab.active{background:rgba(255,255,255,0.2);color:#fff;border-color:rgba(255,255,255,0.35);}
-#zaino-search{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:6px;padding:8px 12px;color:#fff;font-family:‘Rajdhani’,sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;outline:none;flex-shrink:0;margin-bottom:10px;}
+#zaino-search{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:6px;padding:8px 12px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;outline:none;flex-shrink:0;margin-bottom:10px;}
 #zaino-search::placeholder{color:rgba(255,255,255,0.3);}
 #zaino-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;overflow-y:auto;padding-bottom:8px;}
 .zaino-card{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.14);border-radius:8px;overflow:hidden;cursor:pointer;}
 .zaino-card-img{width:100%;aspect-ratio:1;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:28px;border-bottom:1px solid rgba(255,255,255,0.08);}
-.zaino-card-nome{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(200,200,200,0.7);text-align:center;padding:4px 3px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.zaino-card-nome{font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(200,200,200,0.7);text-align:center;padding:4px 3px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .zaino-card-cat{font-size:7px;color:rgba(150,150,150,0.45);text-align:center;padding-bottom:4px;letter-spacing:1px;text-transform:uppercase;}
-
 /* COMBATTIMENTO TAB */
 #tab-combattimento{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(160deg,#0a0a1a,#1a0a2e);overflow-y:auto;}
 #tab-combattimento.active{display:flex;}
 #sfidanti-header{padding:16px 16px 8px;flex-shrink:0;}
-#sfidanti-header .sh-title{font-family:‘Black Han Sans’,sans-serif;font-size:24px;color:#FFE033;-webkit-text-stroke:2px #111;letter-spacing:3px;text-shadow:2px 2px 0 #111,3px 3px 0 rgba(0,0,0,0.4);animation:tp 4s ease-in-out infinite;}
+#sfidanti-header .sh-title{font-family:'Black Han Sans',sans-serif;font-size:24px;color:#FFE033;-webkit-text-stroke:2px #111;letter-spacing:3px;animation:tp 4s ease-in-out infinite;}
 #sfidanti-header .sh-sub{font-size:9px;color:rgba(180,160,255,0.5);letter-spacing:3px;text-transform:uppercase;margin-top:3px;}
 #sfidanti-list{padding:0 12px 12px;display:flex;flex-direction:column;gap:10px;}
-.sfidante-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;cursor:pointer;position:relative;overflow:hidden;}
+.sfidante-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;cursor:pointer;position:relative;}
 .sfidante-card.selected{border-color:rgba(255,80,80,0.6);background:rgba(255,40,40,0.07);}
-.sf-lvl{position:absolute;top:12px;right:12px;font-family:‘Bebas Neue’,sans-serif;font-size:10px;letter-spacing:2px;padding:2px 8px;border-radius:20px;}
+.sf-lvl{position:absolute;top:12px;right:12px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;padding:2px 8px;border-radius:20px;}
 .sf-lvl.easy{background:rgba(80,200,80,0.2);color:#80ff80;border:1px solid rgba(80,200,80,0.3);}
 .sf-lvl.med{background:rgba(255,180,0,0.2);color:#ffcc44;border:1px solid rgba(255,180,0,0.3);}
 .sf-lvl.hard{background:rgba(255,60,60,0.2);color:#ff8080;border:1px solid rgba(255,60,60,0.3);}
 .sf-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.sf-avatar{width:54px;height:54px;border-radius:10px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;font-family:‘Bebas Neue’,sans-serif;color:#C9A84C;letter-spacing:1px;}
-.sf-nome{font-family:‘Bebas Neue’,sans-serif;font-size:17px;color:#fff;letter-spacing:2px;}
+.sf-avatar{width:54px;height:54px;border-radius:10px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:1px;flex-shrink:0;}
+.sf-nome{font-family:'Bebas Neue',sans-serif;font-size:17px;color:#fff;letter-spacing:2px;}
 .sf-grado{font-size:8px;color:rgba(180,160,255,0.5);letter-spacing:2px;text-transform:uppercase;}
 .sf-mini-grid{display:flex;gap:4px;flex-wrap:wrap;}
-.sf-mini-card{width:30px;height:30px;border-radius:5px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.sf-mini-card{width:30px;height:30px;border-radius:5px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:9px;color:rgba(255,255,255,0.5);}
 .sf-mini-card img{width:100%;height:100%;object-fit:cover;}
-.btn-sfida{width:100%;margin-top:10px;padding:12px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:16px;letter-spacing:5px;cursor:pointer;}
+.btn-sfida{width:100%;margin-top:10px;padding:12px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:5px;cursor:pointer;}
 #future-modes{padding:0 12px 16px;}
 .future-card{background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.08);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-.fc-ico{font-size:22px;opacity:0.35;}
-.fc-title{font-family:‘Bebas Neue’,sans-serif;font-size:14px;color:rgba(255,255,255,0.25);letter-spacing:3px;}
+.fc-title{font-family:'Bebas Neue',sans-serif;font-size:14px;color:rgba(255,255,255,0.25);letter-spacing:3px;}
 .fc-sub{font-size:8px;color:rgba(255,255,255,0.12);letter-spacing:2px;text-transform:uppercase;}
-
 /* TAB BAR */
 #tab-bar{flex-shrink:0;height:64px;background:#fff;border-top:1px solid rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:space-around;padding:0 8px;z-index:200;gap:6px;}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;cursor:pointer;border:none;background:none;padding:0;}
 .tab-btn-inner{width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 4px 6px;border-radius:14px;transition:background .15s;}
 .tab-btn.active .tab-btn-inner{background:rgba(123,16,32,0.09);}
-.tab-btn .tab-ico-wrap{width:26px;height:26px;display:flex;align-items:center;justify-content:center;}
 .tab-btn .tab-svg{width:20px;height:20px;stroke:rgba(120,90,30,0.3);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s;}
 .tab-btn.active .tab-svg{stroke:#7B1020;}
-.tab-btn .tab-lbl{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.3);transition:color .15s;}
+.tab-btn .tab-lbl{font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.3);}
 .tab-btn.active .tab-lbl{color:#7B1020;}
 .tab-center-new{flex:1;display:flex;flex-direction:column;align-items:center;cursor:pointer;border:none;background:none;padding:0;}
 .tab-center-new .tab-btn-inner{background:#7B1020;border-radius:14px;padding:7px 4px 6px;width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;}
 .tab-center-new .tab-svg{stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:20px;height:20px;}
-.tab-center-new .tab-lbl{font-family:‘Bebas Neue’,sans-serif;font-size:9px;letter-spacing:3px;color:#fff;}
-
+.tab-center-new .tab-lbl{font-family:'Bebas Neue',sans-serif;font-size:9px;letter-spacing:3px;color:#fff;}
 /* BATTAGLIA */
 #battaglia-screen{display:none;position:fixed;inset:0;z-index:800;background:#000;flex-direction:column;}
 #battaglia-screen.show{display:flex;}
 #batt-header{flex-shrink:0;height:44px;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid rgba(255,255,255,0.06);}
-#batt-map-name{font-family:‘Black Han Sans’,sans-serif;font-size:16px;color:#FFE033;-webkit-text-stroke:1px #111;letter-spacing:2px;animation:tp 4s ease-in-out infinite;}
-#batt-vs-label{font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:2px;font-family:‘Bebas Neue’,sans-serif;}
+#batt-map-name{font-family:'Black Han Sans',sans-serif;font-size:16px;color:#FFE033;-webkit-text-stroke:1px #3d000a;letter-spacing:2px;animation:tp 4s ease-in-out infinite;}
+#batt-vs-label{font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:2px;font-family:'Bebas Neue',sans-serif;}
 #batt-canvas-wrap{flex:1;position:relative;overflow:hidden;}
 #batt-canvas{display:block;width:100%;height:100%;}
-#batt-hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:5px 6px;pointer-events:none;z-index:5;}
+#batt-hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:4px 5px;pointer-events:none;z-index:5;}
 .hud-side{display:flex;flex-direction:column;gap:2px;width:46%;}
 .hud-side.right{align-items:flex-end;}
 .hud-unit-bar{display:flex;align-items:center;gap:3px;background:rgba(0,0,0,0.55);border-radius:4px;padding:2px 4px;}
@@ -163,63 +154,78 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 .hub-dot.enemy{background:#ff4444;}
 .hud-hp-wrap{flex:1;height:3px;background:rgba(255,255,255,0.12);border-radius:2px;overflow:hidden;}
 .hud-hp-fill{height:100%;border-radius:2px;transition:width .3s;}
-.hud-name{font-family:‘Rajdhani’,sans-serif;font-size:7px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55px;}
-#batt-bottom{flex-shrink:0;background:rgba(0,0,0,0.82);border-top:1px solid rgba(255,255,255,0.06);padding:8px 10px;display:flex;flex-direction:column;gap:6px;}
-#batt-status{font-family:‘Bebas Neue’,sans-serif;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:3px;text-align:center;}
-#btn-avvia-batt{width:100%;padding:11px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:15px;letter-spacing:4px;cursor:pointer;}
+.hud-name{font-family:'Rajdhani',sans-serif;font-size:7px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55px;}
+/* Pannello coppie */
+#batt-pair-panel{position:absolute;bottom:110px;left:0;right:0;background:rgba(0,0,0,0.78);border-top:1px solid rgba(255,255,255,0.08);padding:8px 10px;z-index:10;display:none;}
+#batt-pair-panel.show{display:block;}
+#batt-pair-title{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:3px;margin-bottom:6px;text-align:center;}
+#batt-pair-grid{display:flex;gap:8px;justify-content:center;}
+.pair-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:68px;}
+.pair-btn.selected-pair{border-color:#FFE033;background:rgba(255,224,51,0.1);}
+.pair-btn.covering{border-color:rgba(100,200,100,0.5);background:rgba(50,180,50,0.08);}
+.pair-lbl{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(255,255,255,0.55);letter-spacing:2px;}
+.pair-dots{display:flex;gap:3px;}
+.pair-dot{width:8px;height:8px;border-radius:50%;}
+/* Azioni */
+#batt-action-row{position:absolute;bottom:0;left:0;right:0;display:none;gap:8px;padding:8px 10px;z-index:11;background:rgba(0,0,0,0.82);border-top:1px solid rgba(255,255,255,0.06);}
+#batt-action-row.show{display:flex;}
+#btn-avanza{flex:2;padding:10px;background:linear-gradient(135deg,#1a4a9a,#2060cc);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
+#btn-copertura{flex:2;padding:10px;background:linear-gradient(135deg,#1a7a1a,#28a028);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;cursor:pointer;}
+#btn-fire{flex:1;padding:10px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;cursor:pointer;}
+#batt-bottom{flex-shrink:0;background:rgba(0,0,0,0.82);border-top:1px solid rgba(255,255,255,0.06);padding:7px 10px;display:flex;gap:8px;align-items:center;}
+#batt-status{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:2px;flex:1;text-align:center;}
+#btn-avvia-batt{padding:9px 18px;background:linear-gradient(135deg,#b0301f,#d94030);border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
 #btn-avvia-batt:disabled{background:rgba(100,100,100,0.3);color:rgba(255,255,255,0.3);}
 #batt-result-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:20;}
 #batt-result-overlay.show{display:flex;}
-#br-title{font-family:‘Black Han Sans’,sans-serif;font-size:52px;-webkit-text-stroke:2px #111;animation:tp 4s ease-in-out infinite;}
-#br-sub{font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;color:rgba(255,255,255,0.45);}
-#br-btn{padding:11px 30px;background:#7B1020;border:none;border-radius:8px;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
-
+#br-title{font-family:'Black Han Sans',sans-serif;font-size:52px;-webkit-text-stroke:2px #3d000a;animation:tp 4s ease-in-out infinite;}
+#br-sub{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(255,255,255,0.45);}
+#br-btn{padding:11px 30px;background:#7B1020;border:none;border-radius:8px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;cursor:pointer;}
 /* MODALI */
 #modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.72);display:none;align-items:center;justify-content:center;}
 #modal.show{display:flex;}
 #mbox{background:#fff;border-radius:12px;padding:18px 20px;width:min(320px,88vw);position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.25);animation:mIn .18s ease;}
 #m-ico{font-size:28px;text-align:center;margin-bottom:3px;}
-#m-tit{font-family:‘Bebas Neue’,sans-serif;font-size:21px;color:#7B1020;letter-spacing:4px;text-align:center;}
+#m-tit{font-family:'Bebas Neue',sans-serif;font-size:21px;color:#7B1020;letter-spacing:4px;text-align:center;}
 #m-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(120,90,30,0.4);text-align:center;margin-bottom:8px;}
 #m-dsc{font-size:13px;color:#555;line-height:1.5;margin-bottom:8px;text-align:center;}
 #m-quo{font-size:12px;color:#9B1020;font-style:italic;text-align:center;padding:5px 9px;border-left:3px solid #7B1020;margin-bottom:12px;background:rgba(123,16,32,0.05);}
-.mb{width:100%;padding:9px;margin-bottom:5px;border:none;border-radius:4px;cursor:pointer;font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:4px;}
+.mb{width:100%;padding:9px;margin-bottom:5px;border:none;border-radius:4px;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;}
 .mb-p{background:#7B1020;color:#fff;}
 .mb-s{background:#f0ece0;color:rgba(120,90,30,0.7);}
 #m-x{position:absolute;top:10px;right:12px;background:none;border:none;color:#bbb;font-size:18px;cursor:pointer;}
 #stats-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;}
 #stats-inner{background:#fff;border-radius:12px;padding:20px 24px;width:min(300px,88vw);position:relative;}
-#stats-inner h3{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#7B1020;letter-spacing:3px;text-align:center;margin-bottom:14px;}
+#stats-inner h3{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#7B1020;letter-spacing:3px;text-align:center;margin-bottom:14px;}
 .stats-row{display:flex;justify-content:space-around;margin-top:12px;}
 .stat-item{text-align:center;}
-.stat-val{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#C9A84C;}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#C9A84C;}
 .stat-lbl{font-size:8px;letter-spacing:2px;color:rgba(120,90,30,0.5);text-transform:uppercase;}
 #s-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#bbb;font-size:18px;cursor:pointer;}
 #soldato-modal,#collezione-modal{display:none;position:fixed;inset:0;z-index:650;background:rgba(0,0,0,0.78);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
+/* COLLEZIONE: pulsante giallo grosso al posto dello swipe */
 #coll-sheet{background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);}
-#coll-handle{height:28px;background:#7B1020;display:flex;align-items:center;justify-content:center;cursor:grab;}
-#coll-handle-bar{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,0.35);}
+#coll-close-btn{width:100%;height:38px;background:#FFE033;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;flex-shrink:0;border-radius:12px 12px 0 0;}
+#coll-close-btn .coll-bar{width:40px;height:5px;border-radius:3px;background:rgba(61,0,10,0.35);}
+#coll-close-btn .coll-label{font-family:'Bebas Neue',sans-serif;font-size:12px;color:rgba(61,0,10,0.55);letter-spacing:3px;}
 #replace-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.82);align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px 0;}
 #replace-modal .rm-box{background:#fff;border-radius:12px;width:min(380px,95vw);margin:auto;overflow:hidden;}
 #replace-modal .rm-head{background:#7B1020;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;}
-#replace-modal .rm-title{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:#fff;letter-spacing:3px;}
+#replace-modal .rm-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;}
 #replace-modal .rm-sub{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;letter-spacing:1px;}
 #replace-modal .rm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;}
 .rm-card{border-radius:6px;overflow:hidden;cursor:pointer;border:1px solid rgba(180,130,30,0.3);background:#fff;}
 .rm-card.locked-card{opacity:0.45;cursor:not-allowed;}
 .rm-card .rm-img{width:100%;aspect-ratio:1;background:#e8e0cc;display:flex;align-items:center;justify-content:center;font-size:22px;}
-.rm-card .rm-name{font-family:‘Rajdhani’,sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rm-card .rm-name{font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(80,50,10,0.8);text-align:center;padding:3px 2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 #gerarchia-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.85);align-items:flex-start;justify-content:center;overflow-y:auto;padding:0;}
 #gerarchia-card-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;}
 #mappa-modal{display:none;position:fixed;inset:0;z-index:500;background:#000;flex-direction:column;}
-#toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:rgba(20,12,4,0.92);border-radius:4px;padding:8px 16px;color:#C9A84C;font-family:‘Rajdhani’,sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;z-index:900;max-width:82vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
+#toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:rgba(20,12,4,0.92);border-radius:4px;padding:8px 16px;color:#C9A84C;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;z-index:900;max-width:82vw;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;}
 </style>
-
 </head>
 <body>
-
 <!-- LOGIN -->
-
 <div id="screen-login">
   <div id="bg-login"></div>
   <div id="login-title"><h1>PARACA!</h1></div>
@@ -231,156 +237,143 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
     <button id="btn-start" disabled>INIZIA LA NAJA</button>
   </div>
 </div>
-
 <!-- GIOCO -->
-
 <div id="screen-map">
-  <div id="top-bar">
-    <div id="top-bar-title">PARACA!</div>
-    <div id="top-bar-name">SOLDATO</div>
-  </div>
+  <div id="top-bar"><div id="top-bar-title">PARACA!</div><div id="top-bar-name">SOLDATO</div></div>
   <div id="tab-content">
-
-```
-<!-- CASERMA -->
-<div id="tab-caserma">
-  <div id="gallery">
-    <div class="gal-box" id="gal0" onclick="apriFoto(0)"><span>FOTO<br>1</span><input type="file" id="file0" accept="image/*,video/*" style="display:none" onchange="caricaFoto(0,this)"></div>
-    <div class="gal-box" id="gal1" onclick="apriFoto(1)"><span>FOTO<br>2</span><input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)"></div>
-    <div class="gal-box" id="gal2" onclick="apriFoto(2)"><span>FOTO<br>3</span><input type="file" id="file2" accept="image/*,video/*" style="display:none" onchange="caricaFoto(2,this)"></div>
-    <div class="gal-box" id="gal3" onclick="apriFoto(3)"><span>FOTO<br>4</span><input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)"></div>
-    <div class="gal-box" id="gal4" onclick="apriFoto(4)"><span>FOTO<br>5</span><input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)"></div>
-  </div>
-  <div class="cas-card" onclick="openMappaModal()">
-    <span style="font-size:24px;">&#128506;</span>
-    <div><div class="cas-card-title">MAPPA</div><div class="cas-card-sub">Esplora la caserma</div></div>
-    <div style="margin-left:auto;font-size:18px;color:rgba(120,80,20,0.3);">&#8250;</div>
-  </div>
-  <div style="width:calc(100% - 16px);margin:0 8px 8px;display:flex;gap:8px;flex-shrink:0;">
-    <div onclick="openGerarchia()" style="flex:1;background:rgba(255,255,255,0.9);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.07);gap:5px;">
-      <div style="font-size:22px;">&#11088;</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#7B1020;letter-spacing:3px;text-align:center;">GERARCHIA</div>
-    </div>
-    <div onclick="switchTab('combattimento')" style="flex:1;background:linear-gradient(135deg,#150820,#280a38);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;cursor:pointer;box-shadow:0 2px 14px rgba(100,0,200,0.2);gap:5px;border:1px solid rgba(150,80,255,0.18);">
-      <div style="font-size:22px;">&#9876;&#65039;</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#C9A84C;letter-spacing:3px;text-align:center;">COMBATTIMENTO</div>
-    </div>
-  </div>
-  <div onclick="toast('Classifica generale — presto!')" style="width:calc(100% - 16px);margin:0 8px 12px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
-    <span style="font-size:24px;">&#127942;</span>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;">CLASSIFICA GENERALE</div>
-    <div style="margin-left:auto;font-size:18px;color:rgba(255,255,255,0.4);">&#8250;</div>
-  </div>
-</div>
-
-<!-- PROFILO -->
-<div id="tab-profilo">
-  <div class="profilo-header">
-    <div class="avatar-circle">&#129686;</div>
-    <div class="profilo-info">
-      <div class="nome" id="p-nome">SOLDATO</div>
-      <div class="grado">Soldato Semplice &bull; Giorno <span id="p-giorno">1</span></div>
-    </div>
-  </div>
-  <div class="penta-card" onclick="toggleStats()">
-    <div class="penta-title">Statistiche &mdash; tocca per dettagli</div>
-    <svg viewBox="0 0 120 116" width="100" height="84" style="display:block;margin:0 auto 4px;">
-      <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>
-      <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(0,0,0,0.1)" stroke="rgba(0,0,0,0.5)" stroke-width="1.5"/>
-      <circle cx="60" cy="6" r="3" fill="#333"/><circle cx="114" cy="44" r="3" fill="#333"/><circle cx="94" cy="106" r="3" fill="#333"/><circle cx="26" cy="106" r="3" fill="#333"/><circle cx="6" cy="44" r="3" fill="#333"/>
-    </svg>
-  </div>
-  <div class="squadra-card">
-    <div class="squadra-header-row" onclick="rinominaSquadra()">
-      <div>
-        <div style="font-size:7px;letter-spacing:3px;color:rgba(120,90,30,0.45);text-transform:uppercase;">Squadra</div>
-        <div class="squadra-nome-display" id="squadra-nome">SCEGLI NOME</div>
+    <!-- CASERMA -->
+    <div id="tab-caserma">
+      <div id="gallery">
+        <div class="gal-box" id="gal0" onclick="apriFoto(0)"><span>FOTO<br>1</span><input type="file" id="file0" accept="image/*,video/*" style="display:none" onchange="caricaFoto(0,this)"></div>
+        <div class="gal-box" id="gal1" onclick="apriFoto(1)"><span>FOTO<br>2</span><input type="file" id="file1" accept="image/*,video/*" style="display:none" onchange="caricaFoto(1,this)"></div>
+        <div class="gal-box" id="gal2" onclick="apriFoto(2)"><span>FOTO<br>3</span><input type="file" id="file2" accept="image/*,video/*" style="display:none" onchange="caricaFoto(2,this)"></div>
+        <div class="gal-box" id="gal3" onclick="apriFoto(3)"><span>FOTO<br>4</span><input type="file" id="file3" accept="image/*,video/*" style="display:none" onchange="caricaFoto(3,this)"></div>
+        <div class="gal-box" id="gal4" onclick="apriFoto(4)"><span>FOTO<br>5</span><input type="file" id="file4" accept="image/*,video/*" style="display:none" onchange="caricaFoto(4,this)"></div>
       </div>
-      <div style="font-size:16px;">&#9999;&#65039;</div>
-    </div>
-    <div class="squadra-grid" id="squadra-grid"></div>
-    <div onclick="openCollezione()" style="margin:10px 0 0;border-radius:8px;overflow:hidden;cursor:pointer;">
-      <div style="background:rgba(0,0,0,0.08);height:50px;display:flex;align-items:center;justify-content:center;border-radius:8px;">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(80,40,10,0.6);">TUTTE LE TRUPPE</span>
+      <div class="cas-card" onclick="openMappaModal()">
+        <span style="font-size:24px;">&#128506;</span>
+        <div><div class="cas-card-title">MAPPA</div><div class="cas-card-sub">Esplora la caserma</div></div>
+        <div style="margin-left:auto;font-size:18px;color:rgba(120,80,20,0.3);">&#8250;</div>
+      </div>
+      <div style="width:calc(100% - 16px);margin:0 8px 8px;display:flex;gap:8px;flex-shrink:0;">
+        <div onclick="openGerarchia()" style="flex:1;background:rgba(255,255,255,0.9);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.07);gap:5px;">
+          <div style="font-size:22px;">&#11088;</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#7B1020;letter-spacing:3px;">GERARCHIA</div>
+        </div>
+        <div onclick="switchTab('combattimento')" style="flex:1;background:linear-gradient(135deg,#150820,#280a38);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;cursor:pointer;box-shadow:0 2px 14px rgba(100,0,200,0.2);gap:5px;border:1px solid rgba(150,80,255,0.18);">
+          <div style="font-size:22px;">&#9876;&#65039;</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#C9A84C;letter-spacing:3px;">COMBATTIMENTO</div>
+        </div>
+      </div>
+      <div onclick="toast('Classifica — presto!')" style="width:calc(100% - 16px);margin:0 8px 12px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-size:24px;">&#127942;</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:3px;">CLASSIFICA GENERALE</div>
+        <div style="margin-left:auto;font-size:18px;color:rgba(255,255,255,0.4);">&#8250;</div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ZAINO -->
-<div id="tab-zaino">
-  <div style="display:flex;flex-direction:column;height:100%;padding:10px 10px 0;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(200,200,200,0.6);letter-spacing:4px;margin-bottom:8px;flex-shrink:0;">ZAINO</div>
-    <input id="zaino-search" type="text" placeholder="Cerca equipaggiamento..." oninput="zainoRicerca=this.value;renderZaino()">
-    <div id="zaino-tabs">
-      <div class="ztab active" data-cat="tutto" onclick="setZainoCat('tutto')">Tutto</div>
-      <div class="ztab" data-cat="armi" onclick="setZainoCat('armi')">Armi</div>
-      <div class="ztab" data-cat="munizionamento" onclick="setZainoCat('munizionamento')">Munizioni</div>
-      <div class="ztab" data-cat="risorse" onclick="setZainoCat('risorse')">Risorse</div>
-      <div class="ztab" data-cat="gadget" onclick="setZainoCat('gadget')">Gadget</div>
-      <div class="ztab" data-cat="mappe" onclick="setZainoCat('mappe')">Mappe</div>
+    <!-- PROFILO -->
+    <div id="tab-profilo">
+      <div class="profilo-header">
+        <div class="avatar-circle">&#129686;</div>
+        <div class="profilo-info">
+          <div class="nome" id="p-nome">SOLDATO</div>
+          <div class="grado">Soldato Semplice &bull; Giorno <span id="p-giorno">1</span></div>
+        </div>
+      </div>
+      <div class="penta-card" onclick="toggleStats()">
+        <div class="penta-title">Statistiche &mdash; tocca per dettagli</div>
+        <svg viewBox="0 0 120 116" width="100" height="84" style="display:block;margin:0 auto 4px;">
+          <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>
+          <polygon id="radar-mini" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(0,0,0,0.1)" stroke="rgba(0,0,0,0.5)" stroke-width="1.5"/>
+          <circle cx="60" cy="6" r="3" fill="#333"/><circle cx="114" cy="44" r="3" fill="#333"/><circle cx="94" cy="106" r="3" fill="#333"/><circle cx="26" cy="106" r="3" fill="#333"/><circle cx="6" cy="44" r="3" fill="#333"/>
+        </svg>
+      </div>
+      <div class="squadra-card">
+        <div class="squadra-header-row" onclick="rinominaSquadra()">
+          <div>
+            <div style="font-size:7px;letter-spacing:3px;color:rgba(120,90,30,0.45);text-transform:uppercase;">Squadra</div>
+            <div class="squadra-nome-display" id="squadra-nome">SCEGLI NOME</div>
+          </div>
+          <div style="font-size:16px;">&#9999;&#65039;</div>
+        </div>
+        <div class="squadra-grid" id="squadra-grid"></div>
+        <div onclick="openCollezione()" style="margin:10px 0 0;border-radius:8px;overflow:hidden;cursor:pointer;">
+          <div style="background:rgba(0,0,0,0.08);height:50px;display:flex;align-items:center;justify-content:center;border-radius:8px;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(80,40,10,0.6);">TUTTE LE TRUPPE</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="zaino-grid"></div>
-  </div>
-</div>
-
-<!-- COMBATTIMENTO -->
-<div id="tab-combattimento">
-  <div id="sfidanti-header">
-    <div class="sh-title">COMBATTIMENTO</div>
-    <div class="sh-sub">Scegli il tuo avversario</div>
-  </div>
-  <div id="sfidanti-list"></div>
-  <div id="future-modes">
-    <div class="future-card">
-      <div class="fc-ico">&#127760;</div>
-      <div><div class="fc-title">SFIDA ONLINE</div><div class="fc-sub">Prossimamente</div></div>
+    <!-- ZAINO -->
+    <div id="tab-zaino">
+      <div style="display:flex;flex-direction:column;height:100%;padding:10px 10px 0;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(200,200,200,0.6);letter-spacing:4px;margin-bottom:8px;flex-shrink:0;">ZAINO</div>
+        <input id="zaino-search" type="text" placeholder="Cerca equipaggiamento..." oninput="zainoRicerca=this.value;renderZaino()">
+        <div id="zaino-tabs">
+          <div class="ztab active" data-cat="tutto" onclick="setZainoCat('tutto')">Tutto</div>
+          <div class="ztab" data-cat="armi" onclick="setZainoCat('armi')">Armi</div>
+          <div class="ztab" data-cat="munizionamento" onclick="setZainoCat('munizionamento')">Munizioni</div>
+          <div class="ztab" data-cat="risorse" onclick="setZainoCat('risorse')">Risorse</div>
+          <div class="ztab" data-cat="gadget" onclick="setZainoCat('gadget')">Gadget</div>
+          <div class="ztab" data-cat="mappe" onclick="setZainoCat('mappe')">Mappe</div>
+        </div>
+        <div id="zaino-grid"></div>
+      </div>
+    </div>
+    <!-- COMBATTIMENTO TAB -->
+    <div id="tab-combattimento">
+      <div id="sfidanti-header">
+        <div class="sh-title">COMBATTIMENTO</div>
+        <div class="sh-sub">Scegli il tuo avversario</div>
+      </div>
+      <div id="sfidanti-list"></div>
+      <div id="future-modes">
+        <div class="future-card">
+          <div style="font-size:22px;opacity:0.35;">&#127760;</div>
+          <div><div class="fc-title">SFIDA ONLINE</div><div class="fc-sub">Prossimamente</div></div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-```
-
-  </div>
-
   <!-- TAB BAR -->
-
   <div id="tab-bar">
     <button class="tab-btn" id="tbtn-profilo" onclick="switchTab('profilo')">
       <div class="tab-btn-inner">
-        <div class="tab-ico-wrap"><svg class="tab-svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <svg class="tab-svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         <span class="tab-lbl">Profilo</span>
       </div>
     </button>
     <button class="tab-center-new" id="tbtn-caserma" onclick="switchTab('caserma')">
       <div class="tab-btn-inner">
-        <div class="tab-ico-wrap"><svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="11" rx="2"/><path d="M3 10l9-7 9 7"/><rect x="9" y="14" width="6" height="7" rx="1"/></svg></div>
+        <svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="11" rx="2"/><path d="M3 10l9-7 9 7"/><rect x="9" y="14" width="6" height="7" rx="1"/></svg>
         <span class="tab-lbl">Caserma</span>
       </div>
     </button>
     <button class="tab-btn" id="tbtn-zaino" onclick="switchTab('zaino')">
       <div class="tab-btn-inner">
-        <div class="tab-ico-wrap"><svg class="tab-svg" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 1 6 0"/><rect x="4" y="6" width="16" height="15" rx="3"/><path d="M4 11h16"/></svg></div>
+        <svg class="tab-svg" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 1 6 0"/><rect x="4" y="6" width="16" height="15" rx="3"/><path d="M4 11h16"/></svg>
         <span class="tab-lbl">Zaino</span>
       </div>
     </button>
   </div>
 </div>
-
 <!-- BATTAGLIA -->
-
 <div id="battaglia-screen">
   <div id="batt-header">
-    <div>
-      <div id="batt-map-name">VALLE PUNGIONE</div>
-      <div id="batt-vs-label">VS —</div>
-    </div>
+    <div><div id="batt-map-name">VALLE PUNGIONE</div><div id="batt-vs-label">VS &mdash;</div></div>
     <button onclick="closeBattaglia()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:22px;cursor:pointer;">&#10005;</button>
   </div>
   <div id="batt-canvas-wrap">
     <canvas id="batt-canvas"></canvas>
-    <div id="batt-hud">
-      <div class="hud-side" id="hud-mine"></div>
-      <div class="hud-side right" id="hud-enemy"></div>
+    <div id="batt-hud"><div class="hud-side" id="hud-mine"></div><div class="hud-side right" id="hud-enemy"></div></div>
+    <div id="batt-pair-panel">
+      <div id="batt-pair-title">SELEZIONA COPPIA</div>
+      <div id="batt-pair-grid"></div>
+    </div>
+    <div id="batt-action-row">
+      <button id="btn-avanza" onclick="eseguiAvanza()">AVANZA</button>
+      <button id="btn-copertura" onclick="eseguiCopertura()">COPERTURA</button>
+      <button id="btn-fire" onclick="eseguiFire()">FUOCO</button>
     </div>
     <div id="batt-result-overlay">
       <div id="br-title">VITTORIA!</div>
@@ -389,13 +382,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
     </div>
   </div>
   <div id="batt-bottom">
-    <div id="batt-status">Premi COMBATTI per iniziare</div>
-    <button id="btn-avvia-batt" onclick="startBattle()">COMBATTI!</button>
+    <div id="batt-status">Seleziona coppia e azione</div>
+    <button id="btn-avvia-batt" onclick="startBattle()">INIZIA!</button>
   </div>
 </div>
-
 <!-- MAPPA MODAL -->
-
 <div id="mappa-modal">
   <div style="flex-shrink:0;height:46px;background:#7B1020;display:flex;align-items:center;justify-content:space-between;padding:0 12px;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">CASERMA</div>
@@ -418,20 +409,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
     </div>
   </div>
 </div>
-
 <!-- GERARCHIA -->
-
 <div id="gerarchia-modal">
   <div style="background:#fff;width:100%;min-height:100%;position:relative;">
     <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#C9A84C;letter-spacing:3px;">GERARCHIA</div>
       <button onclick="closeGerarchia()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;">&#10005;</button>
     </div>
-    <div style="display:flex;height:8px;">
-      <div style="flex:1;background:#009246;"></div>
-      <div style="flex:1;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;"></div>
-      <div style="flex:1;background:#CE2B37;"></div>
-    </div>
+    <div style="display:flex;height:8px;"><div style="flex:1;background:#009246;"></div><div style="flex:1;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;"></div><div style="flex:1;background:#CE2B37;"></div></div>
     <div id="gerarchia-piramide" style="padding:12px 10px 20px;display:flex;flex-direction:column;gap:6px;"></div>
   </div>
 </div>
@@ -464,16 +449,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
     </div>
   </div>
 </div>
-
-<div id="modal"><div id="mbox">
-  <button id="m-x">&#10005;</button>
-  <div id="m-ico"></div><div id="m-tit"></div><div id="m-sub"></div>
-  <div id="m-dsc"></div><div id="m-quo"></div><div id="m-act"></div>
-</div></div>
-
+<div id="modal"><div id="mbox"><button id="m-x">&#10005;</button><div id="m-ico"></div><div id="m-tit"></div><div id="m-sub"></div><div id="m-dsc"></div><div id="m-quo"></div><div id="m-act"></div></div></div>
 <div id="stats-modal"><div id="stats-inner">
-  <button id="s-close" onclick="toggleStats()">&#10005;</button>
-  <h3>STATISTICHE</h3>
+  <button id="s-close" onclick="toggleStats()">&#10005;</button><h3>STATISTICHE</h3>
   <svg viewBox="0 0 200 200" width="180" height="180" style="display:block;margin:0 auto 10px;">
     <polygon points="100,10 181,68 152,165 48,165 19,68" fill="none" stroke="#eee" stroke-width="1"/>
     <polygon points="100,37 158,79 137,151 63,151 42,79" fill="none" stroke="#eee" stroke-width="1"/>
@@ -496,15 +474,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
     <div class="stat-item"><div class="stat-val" id="s-di">10</div><div class="stat-lbl">DI</div></div>
   </div>
 </div></div>
-
+<!-- COLLEZIONE - chiusura con pulsante giallo -->
 <div id="collezione-modal"><div id="coll-sheet">
-  <div id="coll-handle"><div id="coll-handle-bar"></div></div>
+  <button id="coll-close-btn" onclick="closeCollezione()">
+    <div class="coll-bar"></div><span class="coll-label">CHIUDI</span><div class="coll-bar"></div>
+  </button>
   <div style="background:#7B1020;padding:10px 16px;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:3px;">COLLEZIONE TRUPPE</div>
   </div>
   <div id="coll-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f8f4ec;"></div>
 </div></div>
-
 <div id="soldato-modal">
   <div style="background:#fff;border-radius:12px;width:min(340px,92vw);margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:mIn .2s ease;">
     <div style="background:#7B1020;padding:14px 16px;display:flex;align-items:center;gap:12px;position:relative;">
@@ -531,7 +510,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
     </div>
     <div style="padding:12px 14px;">
       <div style="display:flex;align-items:center;gap:12px;">
-        <svg id="sm-radar" viewBox="0 0 120 116" width="90" height="87" style="flex-shrink:0;">
+        <svg viewBox="0 0 120 116" width="90" height="87" style="flex-shrink:0;">
           <polygon points="60,6 114,44 94,106 26,106 6,44" fill="none" stroke="#eee" stroke-width="1.5"/>
           <polygon points="60,28 89,48 79,84 41,84 31,48" fill="none" stroke="#eee" stroke-width="1"/>
           <polygon id="sm-radar-poly" points="60,6 114,44 94,106 26,106 6,44" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1.5"/>
@@ -545,7 +524,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
     </div>
   </div>
 </div>
-
 <div id="replace-modal"><div class="rm-box">
   <div class="rm-head">
     <div><div class="rm-title">SOSTITUISCI CARTA</div><div class="rm-sub" id="rm-slot-label"></div></div>
@@ -553,7 +531,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
   </div>
   <div class="rm-grid" id="rm-grid"></div>
 </div></div>
-
 <div id="toast"></div>
 
 <script>
@@ -563,12 +540,30 @@ const player={nome:'',cognome:'',forza:10,spirito:10,di:10,motiv:10,qi:10,giorno
 let scaleX=1,scaleY=1,currentTab='caserma';
 
 const TROOP_STATS={
-  normale:    {hp:60,  vel:0.5, prec:0.52, danno:8,  cadenza:1800, tipo:'fucile'},
-  elite:      {hp:100, vel:0.6, prec:0.72, danno:14, cadenza:1400, tipo:'fucile'},
-  legionario: {hp:140, vel:0.7, prec:0.82, danno:20, cadenza:1200, tipo:'fucile'},
-  eccezionale:{hp:200, vel:0.8, prec:0.92, danno:28, cadenza:900,  tipo:'fucile'},
-  mortaio:    {hp:80,  vel:0.3, prec:0.42, danno:50, cadenza:3500, tipo:'mortaio'}
+  normale:    {hp:60, vel:0.5,prec:0.52,danno:8, cadenza:1800,tipo:'fucile'},
+  elite:      {hp:100,vel:0.6,prec:0.72,danno:14,cadenza:1400,tipo:'fucile'},
+  legionario: {hp:140,vel:0.7,prec:0.82,danno:20,cadenza:1200,tipo:'fucile'},
+  eccezionale:{hp:200,vel:0.8,prec:0.92,danno:28,cadenza:900, tipo:'fucile'},
+  mortaio:    {hp:80, vel:0.3,prec:0.42,danno:50,cadenza:3500,tipo:'mortaio'}
 };
+
+function getUnitStroke(card){
+  if(card.ecce)  return{color:'#d060f0',width:3};
+  if(card.legio) return{color:'#c8a830',width:3};
+  if(card.elite) return{color:'#aaaaaa',width:2.5};
+  return{color:'rgba(120,200,255,0.6)',width:1.8};
+}
+
+function getInitials(cards){
+  const count={};
+  cards.forEach(c=>{const k=c.nome.replace(/\s+/g,'').substring(0,3).toUpperCase();count[k]=(count[k]||0)+1;});
+  const used={};
+  return cards.map(c=>{
+    const k=c.nome.replace(/\s+/g,'').substring(0,3).toUpperCase();
+    used[k]=(used[k]||0)+1;
+    return count[k]>1?k+'*':k;
+  });
+}
 
 const squadraData=[
   {nome:'LACAN',ruolo:'Soldato Semplice',lv:1,xp:15,forza:11,qi:10,motiv:9,spirito:11,di:10,tipoTruppa:'normale',mosse:[{nome:'Fuoco Naja',atk:8},{nome:'Orientamento Assente',atk:4},{nome:'Esaurimento',atk:6},{nome:'Sigaretta Fichetta',atk:3}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/195A7AB0-5F41-4D88-8908-44BE45EB2339.png'},
@@ -586,7 +581,6 @@ const eliteData=[
   {nome:'DOMINIK',ruolo:'Elite',lv:3,xp:48,forza:13,qi:14,motiv:16,spirito:12,di:13,tipoTruppa:'elite',mosse:[{nome:'Mossa Alcolica',atk:14},{nome:'Fascino',atk:12},{nome:'Fuga dalla Valle',atk:16},{nome:'Sputo Lontano',atk:10}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8B8145C7-F9DE-4DE0-BC58-2F81A74CA4CE.png',elite:true},
   {nome:'MACHO DIGGER',ruolo:'Elite',lv:3,xp:52,forza:19,qi:10,motiv:12,spirito:11,di:15,tipoTruppa:'elite',mosse:[{nome:'Scava Tasso',atk:16},{nome:'Braccio di Ferro',atk:18},{nome:'Scarpone Pesante',atk:14},{nome:'Forza del Monte',atk:20}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C5A990F4-89E0-48E5-9C74-648C2391D095.png',elite:true},
 ];
-const tutteCarte=[...squadraData,...eliteData];
 const legioData=[
   {nome:'FRANKIE BLUE',ruolo:'Legionario',lv:5,xp:80,forza:15,qi:17,motiv:14,spirito:16,di:18,tipoTruppa:'legionario',mosse:[{nome:'Fantasma',atk:22},{nome:'Passo del Leopardo',atk:24},{nome:'Orientamento Assente',atk:16},{nome:'Fuoco Naja',atk:20}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/82D42B3B-8AA0-4AB1-B4C3-0410AF76D752.png',legio:true},
   {nome:'DECIO',ruolo:'Legionario',lv:5,xp:75,forza:17,qi:15,motiv:18,spirito:13,di:16,tipoTruppa:'legionario',mosse:[{nome:'Schaffo del Paraca',atk:24},{nome:'Bomba a Mano',atk:28},{nome:'Lupo Grigio',atk:20},{nome:'Forza del Monte',atk:22}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/7D62F215-1B50-40C9-B60B-E71D6B1D2E5E.png',legio:true},
@@ -594,11 +588,9 @@ const legioData=[
   {nome:'DINAMITARO',ruolo:'Legionario',lv:5,xp:85,forza:18,qi:14,motiv:17,spirito:12,di:19,tipoTruppa:'mortaio',mosse:[{nome:'Bomba a Mano',atk:28},{nome:'Tappacessi',atk:18},{nome:'Scava Tasso',atk:20},{nome:'Mortaio Pesante',atk:55}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/D4EB0AF0-9F22-4531-88C5-39A9DFE6F3DF.png',legio:true},
   {nome:'FILUEFERRU',ruolo:'Legionario',lv:5,xp:88,forza:16,qi:13,motiv:19,spirito:17,di:15,tipoTruppa:'legionario',mosse:[{nome:'Fuoco Naja',atk:20},{nome:'Fuga dalla Valle',atk:22},{nome:'Fascino',atk:18},{nome:'Graffio del Gattino',atk:24}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/54926765-D9FF-4CE2-BFCA-BEA26D3A0DA1.png',legio:true},
 ];
-tutteCarte.push(...legioData);
 const ecceData=[{nome:'GAAR',ruolo:'Eccezionale',lv:8,xp:99,forza:19,qi:19,motiv:20,spirito:18,di:20,tipoTruppa:'eccezionale',mosse:[{nome:'Fascino',atk:35},{nome:'Lupo Grigio',atk:30},{nome:'Schaffo del Paraca',atk:40},{nome:'Fuoco Naja',atk:28}],img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DA827B70-4C54-4CFC-B898-C7F675CAE15D.png',ecce:true}];
-tutteCarte.push(...ecceData);
+const tutteCarte=[...squadraData,...eliteData,...legioData,...ecceData];
 
-// ===== SFIDANTI =====
 const SFIDANTI=[
   {id:0,nome:'VFI GENERICO MEDIO',grado:'Volontario in Ferma Iniziale',lvl:'easy',lvlLabel:'FACILE',pool:[...squadraData]},
   {id:1,nome:'SERGENTE BRUCIAPELO',grado:'Sergente',lvl:'med',lvlLabel:'MEDIO',pool:[...squadraData,...eliteData]},
@@ -612,21 +604,17 @@ function buildSfidanti(){
   const list=document.getElementById('sfidanti-list');list.innerHTML='';
   SFIDANTI.forEach(sf=>{
     const prev=getRandCards(sf.pool,6);
-    const mini=prev.map(c=>`<div class="sf-mini-card">${c.img?`<img src="${c.img}">`:'S'}</div>`).join('');
+    const inits=getInitials(prev);
+    const mini=prev.map((c,i)=>`<div class="sf-mini-card">${c.img?`<img src="${c.img}">`:`${inits[i]}`}</div>`).join('');
+    const ni=sf.nome.split(' ').map(w=>w[0]).slice(0,2).join('');
     const div=document.createElement('div');div.className='sfidante-card';div.id='sf-card-'+sf.id;
-    // Iniziali nome come avatar senza emoji
-    const initials=sf.nome.split(' ').map(w=>w[0]).slice(0,2).join('');
     div.innerHTML=`<div class="sf-lvl ${sf.lvl}">${sf.lvlLabel}</div>
-      <div class="sf-top">
-        <div class="sf-avatar">${initials}</div>
-        <div><div class="sf-nome">${sf.nome}</div><div class="sf-grado">${sf.grado}</div></div>
-      </div>
+      <div class="sf-top"><div class="sf-avatar">${ni}</div>
+      <div><div class="sf-nome">${sf.nome}</div><div class="sf-grado">${sf.grado}</div></div></div>
       <div class="sf-mini-grid">${mini}</div>`;
-    div.onclick=()=>selezionaSfidante(sf.id);
-    list.appendChild(div);
+    div.onclick=()=>selezionaSfidante(sf.id);list.appendChild(div);
   });
 }
-
 function selezionaSfidante(id){
   const was=sfidanteSelezionato===id;
   document.querySelectorAll('.sfidante-card').forEach(c=>{c.classList.remove('selected');const b=c.querySelector('.btn-sfida');if(b)b.remove();});
@@ -638,23 +626,27 @@ function selezionaSfidante(id){
   document.getElementById('sf-card-'+id).appendChild(btn);
 }
 
-// ===== BATTAGLIA CANVAS =====
+/* ===== BATTAGLIA ===== */
 const BATTLE_MAP='https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CAFD0DBB-DC82-4F36-A214-F4E497AB5DB2.png';
 const UNIT_R=9,BULLET_R=2.5,MORTAR_SZ=14;
+const WATER_X_RATIO=0.38; // zona acqua: x < 38% larghezza = vietata
 let bCanvas,bCtx,bImg,bImgLoaded=false;
 let myUnits=[],enemyUnits=[],bullets=[];
-let myTrenchY,enemyTrenchY; // y centrali delle trincee
-let myTrenchTop,myTrenchBot,enemyTrenchTop,enemyTrenchBot;
 let battleRunning=false,gameOver=false,battleRaf=null,lastTime=0;
+let pairs=[],selectedPairIdx=-1;
+// Trincee (2 per lato): definite in initCanvas
+let myTrenches=[],enemyTrenches=[];
 
 function apriBattaglia(sfId){
   sfidanteCorrente=SFIDANTI[sfId];
   document.getElementById('batt-vs-label').textContent='VS '+sfidanteCorrente.nome;
   document.getElementById('batt-result-overlay').classList.remove('show');
   document.getElementById('btn-avvia-batt').disabled=false;
-  document.getElementById('batt-status').textContent='Premi COMBATTI per iniziare';
-  gameOver=false;battleRunning=false;myUnits=[];enemyUnits=[];bullets=[];
+  document.getElementById('batt-status').textContent='Seleziona coppia poi AVANZA o FUOCO';
+  gameOver=false;battleRunning=false;myUnits=[];enemyUnits=[];bullets=[];pairs=[];selectedPairIdx=-1;
   if(battleRaf){cancelAnimationFrame(battleRaf);battleRaf=null;}
+  document.getElementById('batt-pair-panel').classList.remove('show');
+  document.getElementById('batt-action-row').classList.remove('show');
   document.getElementById('battaglia-screen').classList.add('show');
   initCanvas();
 }
@@ -662,243 +654,253 @@ function apriBattaglia(sfId){
 function initCanvas(){
   bCanvas=document.getElementById('batt-canvas');
   const wrap=document.getElementById('batt-canvas-wrap');
-  bCanvas.width=wrap.clientWidth;
-  bCanvas.height=wrap.clientHeight;
+  bCanvas.width=wrap.clientWidth;bCanvas.height=wrap.clientHeight;
   bCtx=bCanvas.getContext('2d');
-  const H=bCanvas.height,W=bCanvas.width;
-  // Trincee: in basso mia, in alto nemica
-  // Basate sulla mappa: trincea in alto ~10-22%, in basso ~78-90%
-  myTrenchTop=H*0.79;myTrenchBot=H*0.91;
-  enemyTrenchTop=H*0.09;enemyTrenchBot=H*0.21;
-  myTrenchY=(myTrenchTop+myTrenchBot)/2;
-  enemyTrenchY=(enemyTrenchTop+enemyTrenchBot)/2;
-
+  const W=bCanvas.width,H=bCanvas.height;
+  // 2 trincee mie (in basso): una centro-destra, una destra
+  myTrenches=[
+    {x1:W*0.40,y1:H*0.80,x2:W*0.70,y2:H*0.91},
+    {x1:W*0.72,y1:H*0.80,x2:W*0.98,y2:H*0.91},
+  ];
+  // 2 trincee nemiche (in alto): una centro, una centro-destra
+  enemyTrenches=[
+    {x1:W*0.40,y1:H*0.09,x2:W*0.70,y2:H*0.20},
+    {x1:W*0.72,y1:H*0.09,x2:W*0.98,y2:H*0.20},
+  ];
   if(!bImg){
     bImg=new Image();bImg.crossOrigin='anonymous';
-    bImg.onload=()=>{bImgLoaded=true;drawStatic();};
-    bImg.onerror=()=>{bImgLoaded=false;drawStatic();};
+    bImg.onload=()=>{bImgLoaded=true;spawnUnits();drawAll();};
+    bImg.onerror=()=>{bImgLoaded=false;spawnUnits();drawAll();};
     bImg.src=BATTLE_MAP;
-  } else {
-    drawStatic();
-  }
-}
-
-function drawStatic(){
-  if(!bCtx)return;
-  const W=bCanvas.width,H=bCanvas.height;
-  bCtx.clearRect(0,0,W,H);
-  if(bImgLoaded&&bImg.complete&&bImg.naturalWidth>0){
-    bCtx.drawImage(bImg,0,0,W,H);
-  } else {
-    // Fallback campo verde
-    bCtx.fillStyle='#4a7a1a';bCtx.fillRect(0,0,W,H);
-    // Sentiero centrale
-    bCtx.fillStyle='#c8a850';bCtx.fillRect(W*0.3,0,W*0.18,H);
-  }
-  // Overlay leggero per leggibilita
-  bCtx.fillStyle='rgba(0,0,0,0.15)';bCtx.fillRect(0,0,W,H);
-  // Fasce trincea
-  bCtx.fillStyle='rgba(60,35,5,0.4)';
-  bCtx.fillRect(0,myTrenchTop,W,myTrenchBot-myTrenchTop);
-  bCtx.fillRect(0,enemyTrenchTop,W,enemyTrenchBot-enemyTrenchTop);
-  // Bordo trincea
-  bCtx.strokeStyle='rgba(200,160,60,0.65)';bCtx.lineWidth=2;
-  bCtx.strokeRect(1,myTrenchTop,W-2,myTrenchBot-myTrenchTop);
-  bCtx.strokeRect(1,enemyTrenchTop,W-2,enemyTrenchBot-enemyTrenchTop);
-  // Label
-  bCtx.font='bold 9px Rajdhani,sans-serif';bCtx.textAlign='left';
-  bCtx.fillStyle='rgba(255,220,80,0.85)';bCtx.fillText('TUA TRINCEA',6,myTrenchTop-3);
-  bCtx.fillStyle='rgba(255,80,80,0.85)';bCtx.fillText('TRINCEA NEMICA',6,enemyTrenchBot+11);
+  } else {spawnUnits();drawAll();}
 }
 
 function spawnUnits(){
   const W=bCanvas.width;
-  const mieCard=squadraData.slice(0,6);
-  const nemCard=getRandCards(sfidanteCorrente.pool,6);
-  const spacing=W/7;
+  const mieCards=squadraData.slice(0,6);
+  const emCards=getRandCards(sfidanteCorrente.pool,6);
+  const myInits=getInitials(mieCards);
+  const emInits=getInitials(emCards);
+  // Miei: 3 nella trincea 0, 3 nella trincea 1
+  myUnits=mieCards.map((card,i)=>{
+    const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
+    const tr=myTrenches[i<3?0:1];
+    const x=tr.x1+((i%3)+0.5)*(tr.x2-tr.x1)/3;
+    const y=(tr.y1+tr.y2)/2;
+    return{card,x,y,startX:x,startY:y,hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,danno:st.danno,
+      cadenza:st.cadenza,tipo:st.tipo,lastShot:0,side:'mine',alive:true,
+      initials:myInits[i],covering:false,trenchIdx:i<3?0:1,inTrench:true,moving:false};
+  });
+  enemyUnits=emCards.map((card,i)=>{
+    const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
+    const tr=enemyTrenches[i<3?0:1];
+    const x=tr.x1+((i%3)+0.5)*(tr.x2-tr.x1)/3;
+    const y=(tr.y1+tr.y2)/2;
+    return{card,x,y,hp:st.hp,maxHp:st.hp,vel:st.vel,prec:st.prec,danno:st.danno,
+      cadenza:st.cadenza,tipo:st.tipo,lastShot:0,side:'enemy',alive:true,
+      initials:emInits[i],covering:false,trenchIdx:i<3?0:1};
+  });
+  // 3 coppie mie
+  pairs=[
+    {units:[myUnits[0],myUnits[1]],label:'COPPIA A',covering:false},
+    {units:[myUnits[2],myUnits[3]],label:'COPPIA B',covering:false},
+    {units:[myUnits[4],myUnits[5]],label:'COPPIA C',covering:false},
+  ];
+  updateHUD();buildPairPanel();
+  document.getElementById('batt-pair-panel').classList.add('show');
+  document.getElementById('batt-action-row').classList.add('show');
+}
 
-  myUnits=mieCard.map((card,i)=>{
-    const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
-    const img=new Image();img.crossOrigin='anonymous';if(card.img)img.src=card.img;
-    return{card,x:spacing*(i+1),y:myTrenchY,hp:st.hp,maxHp:st.hp,
-      vel:st.vel,prec:st.prec,danno:st.danno,cadenza:st.cadenza,tipo:st.tipo,
-      lastShot:0,side:'mine',alive:true,mortarDeployed:false,imgEl:img};
+function buildPairPanel(){
+  const grid=document.getElementById('batt-pair-grid');grid.innerHTML='';
+  pairs.forEach((p,i)=>{
+    const alive=p.units.filter(u=>u.alive);if(!alive.length)return;
+    const btn=document.createElement('div');
+    btn.className='pair-btn'+(selectedPairIdx===i?' selected-pair':'')+(p.covering?' covering':'');
+    const dots=p.units.map(u=>`<div class="pair-dot" style="background:${u.alive?'rgba(255,255,255,0.85)':'rgba(255,255,255,0.2)'};"></div>`).join('');
+    const st=p.covering?'<span style="font-size:8px;color:#80ff80;">COPERTURA</span>':'<span style="font-size:8px;color:rgba(255,255,255,0.25);">IN ATTESA</span>';
+    btn.innerHTML=`<div class="pair-dots">${dots}</div><div class="pair-lbl">${p.label}</div>${st}`;
+    btn.onclick=()=>{selectedPairIdx=i;buildPairPanel();document.getElementById('batt-status').textContent=p.label+' selezionata';};
+    grid.appendChild(btn);
   });
-  enemyUnits=nemCard.map((card,i)=>{
-    const st=TROOP_STATS[card.tipoTruppa]||TROOP_STATS.normale;
-    const img=new Image();img.crossOrigin='anonymous';if(card.img)img.src=card.img;
-    return{card,x:spacing*(i+1),y:enemyTrenchY,hp:st.hp,maxHp:st.hp,
-      vel:st.vel,prec:st.prec,danno:st.danno,cadenza:st.cadenza,tipo:st.tipo,
-      lastShot:0,side:'enemy',alive:true,mortarDeployed:false,imgEl:img};
+}
+
+function clampToWaterBoundary(x){
+  return Math.max(bCanvas.width*WATER_X_RATIO+UNIT_R,x);
+}
+
+function eseguiAvanza(){
+  if(selectedPairIdx<0){toast('Seleziona una coppia prima');return;}
+  const p=pairs[selectedPairIdx];
+  const alive=p.units.filter(u=>u.alive);if(!alive.length)return;
+  const mover=alive[0];
+  const cover=alive[1];
+  // Trincea nemica target: stessa colonna
+  const tTr=enemyTrenches[mover.trenchIdx];
+  // Calcola posizione target dentro la trincea nemica
+  const tx=mover.x; // mantieni x approssimativa
+  const ty=(tTr.y1+tTr.y2)/2;
+  // Sbalzo: avanza del 35% della distanza rimanente
+  const dy=ty-mover.y,dx=tx-mover.x;
+  const newX=clampToWaterBoundary(mover.x+dx*0.35);
+  const newY=mover.y+dy*0.35;
+  // Non superare la trincea nemica y
+  mover.x=newX;mover.y=Math.max(tTr.y2,newY);
+  // Se arrivato alla trincea nemica, fermati dentro
+  if(newY<=tTr.y2+4){mover.y=ty;mover.inTrench=true;}
+  if(cover){cover.covering=true;p.covering=false;}
+  document.getElementById('batt-status').textContent=p.label+': '+mover.initials+' avanza';
+  if(!battleRunning){battleRunning=true;lastTime=performance.now();battleRaf=requestAnimationFrame(gameLoop);}
+  buildPairPanel();drawAll();
+}
+
+function eseguiCopertura(){
+  if(selectedPairIdx<0){toast('Seleziona una coppia prima');return;}
+  const p=pairs[selectedPairIdx];
+  p.covering=true;p.units.forEach(u=>{if(u.alive)u.covering=true;});
+  document.getElementById('batt-status').textContent=p.label+': copertura attiva';
+  if(!battleRunning){battleRunning=true;lastTime=performance.now();battleRaf=requestAnimationFrame(gameLoop);}
+  buildPairPanel();drawAll();
+}
+
+function eseguiFire(){
+  if(selectedPairIdx<0){toast('Seleziona una coppia prima');return;}
+  const now=performance.now();
+  pairs[selectedPairIdx].units.forEach(u=>{
+    if(!u.alive)return;
+    const t=enemyUnits.filter(e=>e.alive);
+    if(t.length){spara(u,t,now);u.lastShot=now;}
   });
-  updateHUD();
+  if(!battleRunning){battleRunning=true;lastTime=performance.now();battleRaf=requestAnimationFrame(gameLoop);}
+  drawAll();
 }
 
 function startBattle(){
-  if(battleRunning)return;
   document.getElementById('btn-avvia-batt').disabled=true;
-  document.getElementById('batt-status').textContent='Valle Pungione — In corso';
-  spawnUnits();
-  battleRunning=true;lastTime=performance.now();
-  battleRaf=requestAnimationFrame(gameLoop);
+  if(!battleRunning){battleRunning=true;lastTime=performance.now();battleRaf=requestAnimationFrame(gameLoop);}
 }
 
 function gameLoop(ts){
   if(!battleRunning)return;
   const dt=Math.min(ts-lastTime,50);lastTime=ts;
-  update(dt);draw();
+  updateAuto(dt);drawAll();
   if(!gameOver)battleRaf=requestAnimationFrame(gameLoop);
 }
 
-function getFrontEnemy(unit){
-  // Restituisce il nemico piu vicino nella direzione di marcia
-  const targets=unit.side==='mine'?enemyUnits:myUnits;
-  const alive=targets.filter(t=>t.alive);
-  if(!alive.length)return null;
-  // Il piu vicino in Y
-  return alive.reduce((a,b)=>{
-    const da=Math.abs(unit.y-a.y),db=Math.abs(unit.y-b.y);return da<db?a:b;
-  });
-}
-
-function update(dt){
+function updateAuto(dt){
   const now=performance.now();
-  const H=bCanvas.height;
-  const MORTAR_LINE_MINE=H*0.55;    // miei mortai si fermano qui
-  const MORTAR_LINE_ENEMY=H*0.45;   // nemici mortai si fermano qui
-
-  [...myUnits,...enemyUnits].forEach(u=>{
+  const W=bCanvas.width;
+  // Nemici avanzano automaticamente verso trincee mie
+  enemyUnits.forEach((u,i)=>{
     if(!u.alive)return;
-    const isMine=u.side==='mine';
-    const targets=isMine?enemyUnits:myUnits;
-    const aliveTargets=targets.filter(t=>t.alive);
-
-    // Trova il nemico piu vicino in y
-    const closest=aliveTargets.length?aliveTargets.reduce((a,b)=>
-      Math.abs(u.y-(isMine?a.y:a.y))<Math.abs(u.y-(isMine?b.y:b.y))?a:b
-    ):null;
-
-    // Logica movimento: bloccarsi se c'e un nemico vivo davanti abbastanza vicino
-    const STOP_DIST=80; // px di distanza a cui si fermano e sparano
-    let blocked=false;
-    if(closest){
-      const dy=closest.y-u.y;
-      // "Davanti" = nella direzione di marcia
-      const inFront=isMine?(dy<0):(dy>0);
-      if(inFront&&Math.abs(dy)<STOP_DIST)blocked=true;
+    const tTr=myTrenches[u.trenchIdx];
+    const tx=u.x,ty=(tTr.y1+tTr.y2)/2;
+    const dy=ty-u.y,dist=Math.abs(dy);
+    const nearMine=myUnits.filter(m=>m.alive).some(m=>Math.hypot(u.x-m.x,u.y-m.y)<65);
+    if(!nearMine&&dist>4){
+      const newX=clampToWaterBoundary(u.x);u.x=newX;
+      u.y+=Math.sign(dy)*u.vel*(dt/16);
     }
-
-    // Movimento mortaio
-    if(u.tipo==='mortaio'&&!u.mortarDeployed){
-      const line=isMine?MORTAR_LINE_MINE:MORTAR_LINE_ENEMY;
-      const arrived=isMine?(u.y<=line):(u.y>=line);
-      if(!arrived&&!blocked){u.y+=isMine?-u.vel*(dt/16):u.vel*(dt/16);}
-      else{u.mortarDeployed=true;}
-    } else if(!u.mortarDeployed&&!blocked){
-      // Avanza verso la trincea nemica
-      const targetY=isMine?enemyTrenchY:myTrenchY;
-      const dy=targetY-u.y;
-      if(Math.abs(dy)>2)u.y+=Math.sign(dy)*u.vel*(dt/16);
-    }
-
-    // Sparo
-    if(now-u.lastShot>u.cadenza&&aliveTargets.length){
-      spara(u,aliveTargets,now);u.lastShot=now;
+    if(now-u.lastShot>u.cadenza){
+      const tgts=myUnits.filter(m=>m.alive);
+      if(tgts.length){spara(u,tgts,now);u.lastShot=now;}
     }
   });
-
-  // Aggiorna proiettili
+  // Auto-fuoco miei in copertura
+  pairs.forEach(p=>{
+    if(!p.covering)return;
+    p.units.forEach(u=>{
+      if(!u.alive)return;
+      if(now-u.lastShot>u.cadenza){
+        const tgts=enemyUnits.filter(e=>e.alive);
+        if(tgts.length){spara(u,tgts,now);u.lastShot=now;}
+      }
+    });
+  });
+  // Proiettili
   bullets.forEach(b=>{
     b.x+=b.vx*(dt/16);b.y+=b.vy*(dt/16);b.life-=dt;
     if(b.life<=0){b.dead=true;return;}
     const tgts=b.side==='mine'?enemyUnits:myUnits;
     tgts.forEach(t=>{
       if(!t.alive)return;
-      const dx=t.x-b.x,dy=t.y-b.y,dist=Math.sqrt(dx*dx+dy*dy);
-      const hr=b.tipo==='mortaio'?MORTAR_SZ+UNIT_R:BULLET_R+UNIT_R;
-      if(dist<hr){
-        if(Math.random()<b.prec){t.hp-=b.danno;if(t.hp<=0)t.alive=false;}
-        b.dead=true;
-      }
+      const dx=t.x-b.x,dy=t.y-b.y;
+      const hr=b.tipo==='mortaio'?MORTAR_SZ/2+UNIT_R:BULLET_R+UNIT_R;
+      if(dx*dx+dy*dy<hr*hr){if(Math.random()<b.prec){t.hp-=b.danno;if(t.hp<=0)t.alive=false;}b.dead=true;}
     });
   });
   bullets=bullets.filter(b=>!b.dead);
-
-  // Controllo fine partita
+  // Check fine
   const myAlive=myUnits.filter(u=>u.alive).length;
   const emAlive=enemyUnits.filter(u=>u.alive).length;
-  // Conquista: unita arrivate nella trincea avversaria
-  const myCaptured=myUnits.filter(u=>u.alive&&u.y<=enemyTrenchBot+4).length;
-  const emCaptured=enemyUnits.filter(u=>u.alive&&u.y>=myTrenchTop-4).length;
-  if(myAlive===0||emCaptured>=2)endBattle(false);
-  else if(emAlive===0||myCaptured>=2)endBattle(true);
-
-  updateHUD();
+  // Vittoria mia: 2+ unita mie nella trincea nemica
+  let myCap=myUnits.filter(u=>u.alive&&enemyTrenches.some(tr=>u.x>=tr.x1&&u.x<=tr.x2&&u.y>=tr.y1&&u.y<=tr.y2)).length;
+  // Sconfitta: 2+ nemici nella trincea mia
+  let emCap=enemyUnits.filter(u=>u.alive&&myTrenches.some(tr=>u.x>=tr.x1&&u.x<=tr.x2&&u.y>=tr.y1&&u.y<=tr.y2)).length;
+  if(myAlive===0||emCap>=2)endBattle(false);
+  else if(emAlive===0||myCap>=2)endBattle(true);
+  updateHUD();buildPairPanel();
 }
 
 function spara(shooter,targets,now){
-  const target=targets[Math.floor(Math.random()*targets.length)];
-  const dx=target.x-shooter.x,dy=target.y-shooter.y,dist=Math.sqrt(dx*dx+dy*dy)||1;
-  const speed=shooter.tipo==='mortaio'?2.8:5.5;
-  const spread=shooter.tipo==='mortaio'?18:9;
-  const ox=(Math.random()-0.5)*spread/50,oy=(Math.random()-0.5)*spread/50;
-  bullets.push({
-    x:shooter.x,y:shooter.y,
-    vx:(dx/dist+ox)*speed,vy:(dy/dist+oy)*speed,
-    danno:shooter.danno,prec:shooter.prec,
-    side:shooter.side,tipo:shooter.tipo,
-    life:shooter.tipo==='mortaio'?2200:1300,dead:false
-  });
+  const t=targets[Math.floor(Math.random()*targets.length)];
+  const dx=t.x-shooter.x,dy=t.y-shooter.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+  const sp=shooter.tipo==='mortaio'?2.8:5.5;
+  const sr=shooter.tipo==='mortaio'?18:9;
+  const ox=(Math.random()-0.5)*sr/50,oy=(Math.random()-0.5)*sr/50;
+  bullets.push({x:shooter.x,y:shooter.y,vx:(dx/d+ox)*sp,vy:(dy/d+oy)*sp,
+    danno:shooter.danno,prec:shooter.prec,side:shooter.side,tipo:shooter.tipo,life:1400,dead:false});
 }
 
-function draw(){
-  drawStatic();
+function drawAll(){
+  if(!bCtx)return;
+  const W=bCanvas.width,H=bCanvas.height;
+  bCtx.clearRect(0,0,W,H);
+  if(bImgLoaded&&bImg.complete&&bImg.naturalWidth>0){bCtx.drawImage(bImg,0,0,W,H);}
+  else{bCtx.fillStyle='#4a7a1a';bCtx.fillRect(0,0,W,H);}
+  bCtx.fillStyle='rgba(0,0,0,0.12)';bCtx.fillRect(0,0,W,H);
+  // Trincee mie
+  myTrenches.forEach((tr,i)=>{
+    bCtx.fillStyle='rgba(50,180,50,0.1)';bCtx.fillRect(tr.x1,tr.y1,tr.x2-tr.x1,tr.y2-tr.y1);
+    bCtx.strokeStyle='rgba(80,230,80,0.8)';bCtx.lineWidth=2.5;bCtx.strokeRect(tr.x1,tr.y1,tr.x2-tr.x1,tr.y2-tr.y1);
+    bCtx.font='bold 8px Rajdhani,sans-serif';bCtx.fillStyle='rgba(80,255,80,0.9)';bCtx.textAlign='left';
+    bCtx.fillText('TUA TRINCEA '+(i+1),tr.x1+3,tr.y1-3);
+  });
+  // Trincee nemiche
+  enemyTrenches.forEach((tr,i)=>{
+    bCtx.fillStyle='rgba(200,40,40,0.1)';bCtx.fillRect(tr.x1,tr.y1,tr.x2-tr.x1,tr.y2-tr.y1);
+    bCtx.strokeStyle='rgba(255,80,80,0.8)';bCtx.lineWidth=2.5;bCtx.strokeRect(tr.x1,tr.y1,tr.x2-tr.x1,tr.y2-tr.y1);
+    bCtx.font='bold 8px Rajdhani,sans-serif';bCtx.fillStyle='rgba(255,80,80,0.9)';bCtx.textAlign='left';
+    bCtx.fillText('TRINCEA NEMICA '+(i+1),tr.x1+3,tr.y2+10);
+  });
   // Proiettili
   bullets.forEach(b=>{
     bCtx.beginPath();
-    if(b.tipo==='mortaio'){
-      bCtx.arc(b.x,b.y,MORTAR_SZ/2,0,Math.PI*2);
-      bCtx.fillStyle='#1a0a00';bCtx.fill();
-      bCtx.strokeStyle='rgba(255,140,0,0.8)';bCtx.lineWidth=1.5;bCtx.stroke();
-    } else {
-      bCtx.arc(b.x,b.y,BULLET_R,0,Math.PI*2);
-      bCtx.fillStyle=b.side==='mine'?'rgba(255,255,255,0.92)':'rgba(255,60,60,0.92)';
-      bCtx.fill();
-    }
+    if(b.tipo==='mortaio'){bCtx.arc(b.x,b.y,MORTAR_SZ/2,0,Math.PI*2);bCtx.fillStyle='#1a0a00';bCtx.fill();bCtx.strokeStyle='rgba(255,140,0,0.8)';bCtx.lineWidth=1.5;bCtx.stroke();}
+    else{bCtx.arc(b.x,b.y,BULLET_R,0,Math.PI*2);bCtx.fillStyle=b.side==='mine'?'rgba(255,255,255,0.92)':'rgba(255,60,60,0.92)';bCtx.fill();}
   });
-  // Unita
   enemyUnits.forEach(u=>{if(u.alive)drawUnit(u);});
   myUnits.forEach(u=>{if(u.alive)drawUnit(u);});
 }
 
 function drawUnit(u){
   const isMine=u.side==='mine';
-  if(u.tipo==='mortaio'&&u.mortarDeployed){
-    // Quadrato mortaio scuro
+  const stroke=getUnitStroke(u.card);
+  if(u.tipo==='mortaio'){
     const s=MORTAR_SZ;
-    bCtx.fillStyle='#100800';
-    bCtx.fillRect(u.x-s/2,u.y-s/2,s,s);
-    bCtx.strokeStyle=isMine?'rgba(200,200,200,0.8)':'rgba(255,80,80,0.8)';
-    bCtx.lineWidth=2;bCtx.strokeRect(u.x-s/2,u.y-s/2,s,s);
-    // Canna
-    bCtx.beginPath();bCtx.moveTo(u.x,u.y);
-    bCtx.lineTo(u.x,u.y+(isMine?-13:13));
-    bCtx.strokeStyle='#666';bCtx.lineWidth=3;bCtx.stroke();
+    bCtx.fillStyle='#100800';bCtx.fillRect(u.x-s/2,u.y-s/2,s,s);
+    bCtx.strokeStyle=stroke.color;bCtx.lineWidth=stroke.width;bCtx.strokeRect(u.x-s/2,u.y-s/2,s,s);
+    bCtx.beginPath();bCtx.moveTo(u.x,u.y);bCtx.lineTo(u.x,u.y+(isMine?-12:12));bCtx.strokeStyle='#888';bCtx.lineWidth=3;bCtx.stroke();
   } else {
-    // Cerchio
     bCtx.beginPath();bCtx.arc(u.x,u.y,UNIT_R,0,Math.PI*2);
-    bCtx.fillStyle=isMine?'rgba(255,255,255,0.95)':'rgba(210,30,30,0.95)';
-    bCtx.fill();
-    bCtx.strokeStyle=isMine?'rgba(120,200,255,0.7)':'rgba(255,120,120,0.6)';
-    bCtx.lineWidth=1.8;bCtx.stroke();
-    // Immagine dentro cerchio
-    if(u.imgEl&&u.imgEl.complete&&u.imgEl.naturalWidth>0){
-      bCtx.save();bCtx.beginPath();bCtx.arc(u.x,u.y,UNIT_R-1.5,0,Math.PI*2);bCtx.clip();
-      bCtx.drawImage(u.imgEl,u.x-UNIT_R+1.5,u.y-UNIT_R+1.5,(UNIT_R-1.5)*2,(UNIT_R-1.5)*2);
-      bCtx.restore();
-    }
+    bCtx.fillStyle=isMine?'rgba(255,255,255,0.95)':'rgba(210,30,30,0.95)';bCtx.fill();
+    bCtx.strokeStyle=stroke.color;bCtx.lineWidth=stroke.width;bCtx.stroke();
+    if(u.covering){bCtx.beginPath();bCtx.arc(u.x,u.y,UNIT_R+4,0,Math.PI*2);bCtx.strokeStyle='rgba(80,220,80,0.5)';bCtx.lineWidth=1.5;bCtx.stroke();}
+    // Iniziali (no immagine — performance)
+    bCtx.font="bold 7px 'Rajdhani',sans-serif";bCtx.textAlign='center';bCtx.textBaseline='middle';
+    bCtx.fillStyle=isMine?'#1a1a1a':'rgba(255,220,220,0.9)';
+    bCtx.fillText(u.initials,u.x,u.y);bCtx.textBaseline='alphabetic';
   }
-  // Barra HP
   const bw=18,bh=3,bx=u.x-bw/2,by=u.y-UNIT_R-6;
   bCtx.fillStyle='rgba(0,0,0,0.5)';bCtx.fillRect(bx,by,bw,bh);
   const p=Math.max(0,u.hp/u.maxHp);
@@ -908,22 +910,15 @@ function drawUnit(u){
 
 function updateHUD(){
   document.getElementById('hud-mine').innerHTML=myUnits.map(u=>`
-    <div class="hud-unit-bar">
-      <div class="hub-dot mine"></div>
-      <div class="hud-name">${u.card.nome.split(' ')[0]}</div>
-      <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:${u.hp/u.maxHp>0.5?'#44ff88':u.hp/u.maxHp>0.25?'#ffcc00':'#ff4444'};"></div></div>
-    </div>`).join('');
+    <div class="hud-unit-bar"><div class="hub-dot mine"></div><div class="hud-name">${u.initials}</div>
+    <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:${u.hp/u.maxHp>0.5?'#44ff88':u.hp/u.maxHp>0.25?'#ffcc00':'#ff4444'};"></div></div></div>`).join('');
   document.getElementById('hud-enemy').innerHTML=enemyUnits.map(u=>`
-    <div class="hud-unit-bar right">
-      <div class="hub-dot enemy"></div>
-      <div class="hud-name">${u.card.nome.split(' ')[0]}</div>
-      <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:#ff4444;"></div></div>
-    </div>`).join('');
+    <div class="hud-unit-bar right"><div class="hub-dot enemy"></div><div class="hud-name">${u.initials}</div>
+    <div class="hud-hp-wrap"><div class="hud-hp-fill" style="width:${Math.max(0,(u.hp/u.maxHp)*100)}%;background:#ff4444;"></div></div></div>`).join('');
 }
 
 function endBattle(win){
-  gameOver=true;battleRunning=false;
-  if(battleRaf)cancelAnimationFrame(battleRaf);
+  gameOver=true;battleRunning=false;if(battleRaf)cancelAnimationFrame(battleRaf);
   document.getElementById('br-title').textContent=win?'VITTORIA!':'SCONFITTA';
   document.getElementById('br-title').style.color=win?'#FFE033':'#ff5555';
   document.getElementById('br-sub').textContent=win?'Hai conquistato Valle Pungione':'Valle Pungione resta in mano nemica';
@@ -931,17 +926,16 @@ function endBattle(win){
 }
 
 function closeBattaglia(){
-  battleRunning=false;gameOver=false;
-  if(battleRaf)cancelAnimationFrame(battleRaf);
+  battleRunning=false;gameOver=false;if(battleRaf)cancelAnimationFrame(battleRaf);
   document.getElementById('battaglia-screen').classList.remove('show');
 }
 
-// ===== TAB =====
+/* ===== TABS / MAP ===== */
 const DOORS=[
   {id:"pal",x:200,y:210,locked:false,ico:"&#128170;",name:"PALESTRA",sub:"Allenamento",dsc:"Allenamento fisico.",quo:"Sei massiccio!",act:"train"},
-  {id:"spa",x:350,y:190,locked:false,ico:"&#127866;",name:"SPACCIO",sub:"Bar / ristoro",dsc:"Zona ristoro.",quo:"Weee naja!",act:"bar"},
-  {id:"sup1",x:476,y:190,locked:false,ico:"&#9992;&#65039;",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Area supporto avio.",quo:"Serra piombo!"},
-  {id:"edif",x:610,y:190,locked:false,ico:"&#128679;",name:"EDIFICIO DI RIPARAZIONE",sub:"Lavori",dsc:"Edificio in riparazione.",quo:"Cagnaccio!"},
+  {id:"spa",x:350,y:190,locked:false,ico:"&#127866;",name:"SPACCIO",sub:"Bar",dsc:"Zona ristoro.",quo:"Weee naja!",act:"bar"},
+  {id:"sup1",x:476,y:190,locked:false,ico:"&#9992;&#65039;",name:"SUPPORTO AVIO",sub:"Supporto",dsc:"Area supporto.",quo:"Serra piombo!"},
+  {id:"edif",x:610,y:190,locked:false,ico:"&#128679;",name:"EDIFICIO DI RIPARAZIONE",sub:"Lavori",dsc:"Riparazione.",quo:"Cagnaccio!"},
   {id:"comp2",x:780,y:200,locked:false,ico:"&#129686;",name:"2a COMPAGNIA",sub:"Compagnia",dsc:"Seconda compagnia.",quo:"Muti!",act:"battle"},
   {id:"inf",x:965,y:190,locked:false,ico:"&#127973;",name:"INFERMERIA",sub:"Sanita",dsc:"Infermeria.",quo:"Non sei idoneo alla vita!",act:"heal"},
   {id:"men",x:148,y:388,locked:false,ico:"&#127869;&#65039;",name:"MENSA",sub:"Vitto",dsc:"Mensa.",quo:"Non farti mangiare il cazzo dalle mosche!",act:"eat"},
@@ -961,7 +955,7 @@ const DOORS=[
   {id:"arm",x:165,y:1005,locked:true,ico:"&#128299;",name:"ARMERIA",sub:"Accesso vietato",dsc:"Armeria.",quo:"Non sei presente a te stesso!"},
   {id:"dor",x:140,y:1160,locked:false,ico:"&#128716;",name:"DORMITORIO",sub:"Riposo",dsc:"Dormitorio.",quo:"Che giornata.",act:"sleep"},
   {id:"torri",x:565,y:960,locked:false,ico:"&#128956;",name:"TORRI",sub:"Lancio",dsc:"Torri di lancio.",quo:"Minchia non era legato",act:"train"},
-  {id:"borgo",x:760,y:960,locked:false,ico:"&#127968;",name:"BORGO BELLA NAJA",sub:"Area addestrativa",dsc:"Borgo Bella Naja.",quo:"Cane cane cane!"},
+  {id:"borgo",x:760,y:960,locked:false,ico:"&#127968;",name:"BORGO BELLA NAJA",sub:"Addestrativo",dsc:"Borgo.",quo:"Cane cane cane!"},
 ];
 
 function switchTab(tab){
@@ -980,8 +974,7 @@ function buildMap(){
   const mc=document.getElementById('map-container');if(!mc)return;
   const img=document.getElementById('map-img');
   const mw=Math.min(mc.clientWidth-8,500),mh=mw*(MH/MW);
-  img.style.width=mw+'px';img.style.height=mh+'px';
-  wrap.style.width=mw+'px';wrap.style.height=mh+'px';
+  img.style.width=mw+'px';img.style.height=mh+'px';wrap.style.width=mw+'px';wrap.style.height=mh+'px';
   scaleX=mw/MW;scaleY=mh/MH;
   document.querySelectorAll('.door').forEach(e=>e.remove());
   DOORS.forEach(d=>{
@@ -1014,12 +1007,11 @@ function addBtn(par,txt,primary,fn){const b=document.createElement('button');b.c
 function closeModal(){document.getElementById('modal').classList.remove('show');}
 document.getElementById('m-x').onclick=closeModal;
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
-
 function doTrain(){toast('"'+FRASI[Math.floor(Math.random()*FRASI.length)]+'"');}
 function doSleep(){player.giorno++;document.getElementById('dv').textContent=player.giorno;document.getElementById('p-giorno').textContent=player.giorno;toast('Hai dormito. Giorno '+player.giorno);}
-function doBar(){toast('"Weee naja! Cin cin soldato!"');}
+function doBar(){toast('"Weee naja!"');}
 function doEat(){toast('"Non farti mangiare il cazzo dalle mosche!"');}
-function doHeal(){toast('"Riposa soldato. Domani si soffre di piu."');}
+function doHeal(){toast('"Riposa soldato."');}
 
 function updateProfiloUI(){document.getElementById('p-nome').textContent=(player.nome+' '+player.cognome).toUpperCase();updateRadarMini();}
 function updateRadarMini(){
@@ -1040,37 +1032,28 @@ document.getElementById('stats-modal').addEventListener('click',e=>{if(e.target=
 
 function buildSquadraGrid(){
   const grid=document.getElementById('squadra-grid');if(!grid)return;grid.innerHTML='';
+  const inits=getInitials(squadraData);
   squadraData.forEach((s,i)=>{
     const c=document.createElement('div');c.className='carta-pg';c.onclick=()=>openSoldato(i);
-    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'S'}</div><div style="padding:3px 4px;"><div class="carta-nome">${s.nome}</div><div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div></div>`;
+    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`:`<span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(80,50,10,0.4);">${inits[i]}</span>`}</div><div style="padding:3px 4px;"><div class="carta-nome">${s.nome}</div><div style="font-size:7px;color:rgba(120,90,30,0.45);letter-spacing:1px;text-align:center;text-transform:uppercase;padding-bottom:2px;">${s.ruolo}</div></div>`;
     grid.appendChild(c);
   });
 }
+
 function openCollezione(){
   const grid=document.getElementById('coll-grid');grid.innerHTML='';
+  const inits=getInitials(tutteCarte);
   tutteCarte.forEach((s,i)=>{
     const c=document.createElement('div');c.className='carta-pg'+(s.ecce?' ecce':s.elite?' elite':s.legio?' legio':'');c.onclick=()=>openSoldatoFromTutte(i);
-    const badge=s.elite?`<div style="font-size:6px;letter-spacing:2px;color:#7a8fa0;text-align:center;padding-bottom:3px;text-transform:uppercase;">ELITE</div>`:s.legio?`<div style="font-size:6px;letter-spacing:2px;color:#a07800;text-align:center;padding-bottom:3px;text-transform:uppercase;">LEGIONARIO</div>`:s.ecce?`<div style="font-size:6px;letter-spacing:2px;color:#8a00aa;text-align:center;padding-bottom:3px;text-transform:uppercase;">ECCEZIONALE</div>`:'';
-    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;">`:'S'}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${badge}</div>`;
+    const badge=s.elite?`<div style="font-size:6px;color:#7a8fa0;text-align:center;padding-bottom:3px;text-transform:uppercase;letter-spacing:2px;">ELITE</div>`:s.legio?`<div style="font-size:6px;color:#a07800;text-align:center;padding-bottom:3px;text-transform:uppercase;letter-spacing:2px;">LEGIONARIO</div>`:s.ecce?`<div style="font-size:6px;color:#8a00aa;text-align:center;padding-bottom:3px;text-transform:uppercase;letter-spacing:2px;">ECCEZIONALE</div>`:'';
+    c.innerHTML=`<div class="carta-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;border-radius:6px 6px 0 0;" loading="lazy">`:`<span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(80,50,10,0.4);">${inits[i]}</span>`}</div><div style="padding:3px 4px;"><div class="carta-nome" style="font-size:9px;">${s.nome}</div>${badge}</div>`;
     grid.appendChild(c);
   });
   document.getElementById('collezione-modal').style.display='flex';
-  document.getElementById('coll-sheet').style.transform='translateY(0)';
-  document.getElementById('coll-sheet').style.transition='';
-  initCollSwipe();
 }
 function closeCollezione(){document.getElementById('collezione-modal').style.display='none';}
-function initCollSwipe(){
-  const sheet=document.getElementById('coll-sheet'),modal=document.getElementById('collezione-modal'),handle=document.getElementById('coll-handle');
-  let startY=0,dragging=false;
-  function onS(e){startY=e.touches[0].clientY;dragging=true;sheet.style.transition='none';}
-  function onM(e){if(!dragging)return;const y=e.touches[0].clientY-startY;if(y>0){sheet.style.transform=`translateY(${y}px)`;if(e.cancelable)e.preventDefault();}}
-  function onE(e){if(!dragging)return;dragging=false;const y=e.changedTouches[0].clientY-startY;sheet.style.transition='transform 0.25s ease';if(y>150){sheet.style.transform='translateY(100%)';setTimeout(()=>{modal.style.display='none';sheet.style.transform='translateY(0)';sheet.style.transition='';},250);}else sheet.style.transform='translateY(0)';}
-  handle.removeEventListener('touchstart',handle._s||null);handle.removeEventListener('touchmove',handle._m||null);handle.removeEventListener('touchend',handle._e||null);
-  handle._s=onS;handle._m=onM;handle._e=onE;
-  handle.addEventListener('touchstart',onS,{passive:true});handle.addEventListener('touchmove',onM,{passive:false});handle.addEventListener('touchend',onE,{passive:true});
-  modal.onclick=e=>{if(e.target===modal)closeCollezione();};
-}
+document.getElementById('collezione-modal').addEventListener('click',e=>{if(e.target===document.getElementById('collezione-modal'))closeCollezione();});
+
 function openSoldatoFromTutte(i){openSoldatoData(tutteCarte[i]);}
 function openSoldato(i){openSoldatoData(squadraData[i]);}
 function openSoldatoData(s){
@@ -1082,15 +1065,15 @@ function openSoldatoData(s){
   document.getElementById('sm-ecce-badge').style.display=s.ecce?'inline-block':'none';
   document.getElementById('sm-lv').textContent=s.lv;
   document.getElementById('sm-xpbar').style.width=s.xp+'%';
-  document.getElementById('sm-avatar').innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'S';
+  document.getElementById('sm-avatar').innerHTML=s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`:'&#128100;';
   const st=TROOP_STATS[s.tipoTruppa]||TROOP_STATS.normale;
   document.getElementById('sm-mosse').innerHTML=s.mosse.map(m=>`
     <div style="background:#f0ece0;border:1px solid rgba(180,150,80,0.25);border-radius:6px;padding:6px 8px;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;color:#7B1020;letter-spacing:1px;">${m.nome}</div>
-      <div style="font-size:9px;color:rgba(120,80,10,0.6);letter-spacing:1px;">ATK ${m.atk}</div>
+      <div style="font-size:9px;color:rgba(120,80,10,0.6);">ATK ${m.atk}</div>
     </div>`).join('')+`
     <div style="background:#e8f4e8;border:1px solid rgba(80,150,80,0.2);border-radius:6px;padding:6px 8px;grid-column:1/-1;margin-top:2px;">
-      <div style="font-size:8px;color:rgba(40,100,40,0.7);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;">Statistiche Combattimento</div>
+      <div style="font-size:8px;color:rgba(40,100,40,0.7);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;">Combattimento</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <span style="font-size:9px;color:#2a6a2a;"><b>HP</b> ${st.hp}</span>
         <span style="font-size:9px;color:#2a6a2a;"><b>VEL</b> ${st.vel}</span>
@@ -1142,9 +1125,10 @@ function openReplace(idx){
   replaceSlotIdx=idx;
   document.getElementById('rm-slot-label').textContent='Sostituisci: '+squadraData[idx].nome;
   const grid=document.getElementById('rm-grid');grid.innerHTML='';
-  tutteCarte.forEach(s=>{
+  const inits=getInitials(tutteCarte);
+  tutteCarte.forEach((s,i)=>{
     const inSquad=squadraData.includes(s),c=document.createElement('div');c.className='rm-card'+(inSquad?' locked-card':'');
-    c.innerHTML=`<div class="rm-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;">`:'S'}</div><div class="rm-name">${s.nome}</div>`;
+    c.innerHTML=`<div class="rm-img">${s.img?`<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`:`<span style="font-family:'Bebas Neue',sans-serif;font-size:16px;">${inits[i]}</span>`}</div><div class="rm-name">${s.nome}</div>`;
     if(!inSquad)c.onclick=()=>confirmReplace(s);grid.appendChild(c);
   });
   document.getElementById('replace-modal').style.display='flex';
@@ -1157,16 +1141,16 @@ function openMappaModal(){document.getElementById('mappa-modal').style.display='
 function closeMappaModal(){document.getElementById('mappa-modal').style.display='none';}
 
 const GERARCHIA=[
-  {grado:'Presidente della Repubblica',nome:'Gen. Arturo Ferrante',ruolo:'Capo Supremo delle Forze Armate',desc:'Massima autorita istituzionale.',storia:'Nato nel 1948 a Napoli, ha dedicato 40 anni al servizio dello Stato.',ico:'&#127988;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/735DA794-892E-488B-98A4-AF76DBB85282.png'},
-  {grado:'Ministro della Difesa',nome:'On. Cristina Valenti',ruolo:'Ministro della Difesa',desc:'Responsabile politica delle Forze Armate.',storia:'Avvocata, ministra a 48 anni. Nei discorsi cita Sun Tzu. Nessuno sa se lo abbia letto.',ico:'&#9878;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DBD4324C-62B1-4AD4-B505-7701ABB513C1.png'},
-  {grado:"Generale di Corpo d'Armata",nome:'Gen. Marco Stelvio',ruolo:'Capo di Stato Maggiore della Difesa',desc:'Coordinamento strategico interforze.',storia:'Ha servito in tre teatri operativi. I subalterni lo chiamano Il Granito.',ico:'&#11088;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C99AB79A-48BE-4B6A-8753-177B8AC73034.png'},
-  {grado:"Generale di Corpo d'Armata",nome:'Gen. Bruno Laghetti',ruolo:"Capo di Stato Maggiore dell'Esercito",desc:"Comando dell'Esercito Italiano.",storia:'Ossessionato dalla logistica. Un esercito marcia sul ventre.',ico:'&#127894;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B8AFF5AC-11D8-447B-9DE5-EBBE1AE90AFD.png'},
-  {grado:'Generale di Divisione',nome:'Gen. Filippo Caruso',ruolo:'Comando Formazione e Dottrina',desc:"Responsabile dell'addestramento.",storia:'A 62 anni fa ancora 50 flessioni ogni mattina.',ico:'&#128203;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E732C86E-3E18-4CEA-A0A7-F2214E42829C.png'},
-  {grado:'Generale di Brigata',nome:'Gen. Sandro Mura',ruolo:'Comandante Scuola di Fanteria',desc:'Formazione dei soldati.',storia:'Laureato in filosofia. Cita Platone durante le marce.',ico:'&#127979;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/410D289C-FD18-4A80-B538-03D7DE29F191.png'},
-  {grado:'Colonnello',nome:'Col. Pietro Savino',ruolo:'Comandante di Reggimento',desc:'Comanda il reggimento paracadutisti.',storia:'Ha saltato oltre 600 volte. Avevo piu paura della firma del congedo che del vuoto.',ico:'&#129413;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8D04138C-985E-4FD5-98FC-1A90F93E191C.png'},
-  {grado:'Tenente Colonnello',nome:'Ten.Col. Andrea Beltrame',ruolo:'Comandante di Battaglione',desc:'Coordina le operazioni del battaglione.',storia:"Metodico al punto di essere ossessivo. Il suo piano d'addestramento e stato copiato da tre unita.",ico:'&#128202;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CCDF1299-997D-411E-A7E2-FC02C9CE0F0B.png'},
-  {grado:'Capitano',nome:'Cap. Lucia Ferretti',ruolo:'Comandante di Compagnia',desc:'Comanda la compagnia operativa.',storia:'Prima donna al comando di una compagnia para. Ha archiviate tutte le battute.',ico:'&#9889;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B3B7F323-84B9-4BA8-B47A-FD08A8B09C4D.png'},
-  {grado:'Tenente',nome:'Ten. Giacomo Volta',ruolo:'Comandante di Plotone',desc:'Il tuo diretto superiore.',storia:"Ha 26 anni. Ma in orientamento notturno nessuno lo batte.",ico:'&#128301;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/65112C3C-2917-48D6-A593-D169B8AB132E.png'},
+  {grado:'Presidente della Repubblica',nome:'Gen. Arturo Ferrante',ruolo:'Capo Supremo delle Forze Armate',desc:'Massima autorita istituzionale.',storia:'Nato nel 1948 a Napoli. Decorato tre volte.',ico:'&#127988;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/735DA794-892E-488B-98A4-AF76DBB85282.png'},
+  {grado:'Ministro della Difesa',nome:'On. Cristina Valenti',ruolo:'Ministro della Difesa',desc:'Responsabile politica delle Forze Armate.',storia:'Avvocata, ministra a 48 anni. Cita Sun Tzu. Nessuno sa se lo abbia letto.',ico:'&#9878;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/DBD4324C-62B1-4AD4-B505-7701ABB513C1.png'},
+  {grado:"Generale di Corpo d'Armata",nome:'Gen. Marco Stelvio',ruolo:'Capo di Stato Maggiore della Difesa',desc:'Coordinamento strategico interforze.',storia:'I subalterni lo chiamano Il Granito.',ico:'&#11088;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/C99AB79A-48BE-4B6A-8753-177B8AC73034.png'},
+  {grado:"Generale di Corpo d'Armata",nome:'Gen. Bruno Laghetti',ruolo:"Capo di Stato Maggiore dell'Esercito",desc:"Comando dell'Esercito Italiano.",storia:'Un esercito marcia sul ventre.',ico:'&#127894;&#65039;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B8AFF5AC-11D8-447B-9DE5-EBBE1AE90AFD.png'},
+  {grado:'Generale di Divisione',nome:'Gen. Filippo Caruso',ruolo:'Comando Formazione e Dottrina',desc:"Responsabile dell'addestramento.",storia:'A 62 anni fa ancora 50 flessioni.',ico:'&#128203;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/E732C86E-3E18-4CEA-A0A7-F2214E42829C.png'},
+  {grado:'Generale di Brigata',nome:'Gen. Sandro Mura',ruolo:'Comandante Scuola di Fanteria',desc:'Formazione dei soldati.',storia:'Cita Platone durante le marce.',ico:'&#127979;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/410D289C-FD18-4A80-B538-03D7DE29F191.png'},
+  {grado:'Colonnello',nome:'Col. Pietro Savino',ruolo:'Comandante di Reggimento',desc:'Comanda il reggimento.',storia:'Ha saltato oltre 600 volte.',ico:'&#129413;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/8D04138C-985E-4FD5-98FC-1A90F93E191C.png'},
+  {grado:'Tenente Colonnello',nome:'Ten.Col. Andrea Beltrame',ruolo:'Comandante di Battaglione',desc:'Coordina le operazioni.',storia:"Il suo piano d'addestramento e stato copiato da tre unita.",ico:'&#128202;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/CCDF1299-997D-411E-A7E2-FC02C9CE0F0B.png'},
+  {grado:'Capitano',nome:'Cap. Lucia Ferretti',ruolo:'Comandante di Compagnia',desc:'Comanda la compagnia.',storia:'Prima donna al comando di una compagnia para.',ico:'&#9889;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/B3B7F323-84B9-4BA8-B47A-FD08A8B09C4D.png'},
+  {grado:'Tenente',nome:'Ten. Giacomo Volta',ruolo:'Comandante di Plotone',desc:'Il tuo diretto superiore.',storia:"Ha 26 anni. In orientamento notturno nessuno lo batte.",ico:'&#128301;',img:'https://raw.githubusercontent.com/Francescogaronfolo/PARACA/main/65112C3C-2917-48D6-A593-D169B8AB132E.png'},
 ];
 function openGerarchia(){
   const modal=document.getElementById('gerarchia-modal'),pira=document.getElementById('gerarchia-piramide');pira.innerHTML='';
@@ -1185,7 +1169,7 @@ function openGerarchiaCard(idx){
   document.getElementById('gc-nome').textContent=g.nome;document.getElementById('gc-grado').textContent=g.grado;
   document.getElementById('gc-ruolo').textContent=g.ruolo;document.getElementById('gc-desc').textContent=g.desc;
   document.getElementById('gc-storia').textContent=g.storia;
-  document.getElementById('gc-avatar').innerHTML=g.img?`<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;">`:'U';
+  document.getElementById('gc-avatar').innerHTML=g.img?`<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`:'U';
   gcPage(0);
   const modal=document.getElementById('gerarchia-card-modal');modal.style.display='flex';
   modal.onclick=e=>{if(e.target===modal)closeGerarchiaCard();};
