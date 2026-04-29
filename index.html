@@ -549,6 +549,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:
 const MW=1183,MH=1330;
 const FRASI=["Vai a terra!","Pompa! Pompa cazzo!","Stai sul pezzo della merda!","Non sei idoneo alla vita!","Ti devi muovere!","Sei massiccio cazzo!","Eccezzionale!","Serra piombo!","Jonny andiamo!","Weee naja!","Cagnaccio!","Vecchio!","Liberta per gli ultra!"];
 const player={nome:'',cognome:'',forza:10,spirito:10,di:10,motiv:10,qi:10,giorno:1};
+  /* ===== COVER SYSTEM ===== */
+const covers = [
+  {type:'trench', x:80, y:650, w:220, h:50, defense:0.1},
+  {type:'trench', x:480, y:650, w:220, h:50, defense:0.1},
+
+  {type:'trench', x:80, y:80, w:220, h:50, defense:0.1},
+  {type:'trench', x:480, y:80, w:220, h:50, defense:0.1},
+
+  {type:'rock', x:250, y:350, r:20, defense:0.3},
+  {type:'rock', x:550, y:400, r:22, defense:0.3},
+
+  {type:'wood', x:350, y:300, r:25, defense:0.35},
+
+  {type:'crescent', x:600, y:300, r:30, defense:0.25},
+
+  {type:'bags', x:200, y:450, r:28, defense:0.25}
+]
 let scaleX=1,scaleY=1,currentTab='caserma';
 
 const TROOP_STATS={
@@ -728,7 +745,30 @@ function apriBattaglia(sfId){
 
   initCanvas();
 }
+/* ===== COVER SYSTEM ===== */
 
+const covers = [
+  // TRINCEE BASSE (tua squadra)
+  {type:'trench', x:80, y:650, w:220, h:50, defense:0.1},
+  {type:'trench', x:480, y:650, w:220, h:50, defense:0.1},
+
+  // TRINCEE ALTE (nemico)
+  {type:'trench', x:80, y:80, w:220, h:50, defense:0.1},
+  {type:'trench', x:480, y:80, w:220, h:50, defense:0.1},
+
+  // MASSI
+  {type:'rock', x:250, y:350, r:20, defense:0.3},
+  {type:'rock', x:550, y:400, r:22, defense:0.3},
+
+  // LEGNAME
+  {type:'wood', x:350, y:300, r:25, defense:0.35},
+
+  // MEZZALUNA
+  {type:'crescent', x:600, y:300, r:30, defense:0.25},
+
+  // SACCHI
+  {type:'bags', x:200, y:450, r:28, defense:0.25}
+];
 function initCanvas(){
   bCanvas=document.getElementById('batt-canvas');
   const wrap=document.getElementById('batt-canvas-wrap');
@@ -1228,7 +1268,7 @@ function drawAll(){
   bCtx.fillStyle='rgba(0,0,0,0.16)';
   bCtx.fillRect(0,0,W,H);
 
-  drawZones();
+  drawCovers(bCtx);
   drawFlags();
   drawBullets();
 
